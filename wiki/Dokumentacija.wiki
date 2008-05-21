@@ -1,2 +1,18 @@
 =Dokumentacija - xSoko=
 _verzija 0.01_
+----
+*Opis*
+
+Predelava klasičnega sokobana z nekaj dodatki.
+
+
+*Cilj sokobana*
+
+Kocke so nameščene po stopnji. Cilj igre je, da jih igralec potisne v zanj namenjen prostor. Kocko lahko igralec pomika gor, dol, levo desno.
+
+*Dodatni elementi*
+ * teleport
+ * bomba, s katero laho razbije „leseno“ povrsino
+ * polje, čez katerega se lahko premakneš samo 1x
+ * enosmerno polje
+ * mehanizem mostu
