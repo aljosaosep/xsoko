@@ -15,8 +15,8 @@ Predelava klasičnega sokobana z nekaj dodatki.
 *2. Cilj sokobana*
 
 Kocke so nameščene po stopnji. Cilj igre je, da jih igralec potisne v zanj namenjen prostor. Kocko lahko igralec pomika gor, dol, levo desno.
-Vec informacij o sokobanu: http://en.wikipedia.org/wiki/Sokoban
-Primer sokobana(za windows): http://www.geocities.com/ygp_bg/sokoban.html
+Vec informacij o sokobanu: http://en.wikipedia.org/wiki/Sokoban ,
+primer sokobana(za windows): http://www.geocities.com/ygp_bg/sokoban.html
 
 *3. Dodatni elementi*
  * teleport
