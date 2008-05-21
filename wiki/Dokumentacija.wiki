@@ -22,3 +22,4 @@ Kocke so nameščene po stopnji. Cilj igre je, da jih igralec potisne v zanj nam
  * polje, čez katerega se lahko premakneš samo 1x
  * enosmerno polje
  * mehanizem mostu
+ * [ideja od dominika] kocke, ki se jih lahko potisne samo v eno smer(da/ne?)
