@@ -18,7 +18,7 @@ Zaenkrat pa tole:
 
 *Knjižnjice*
  * OpenGL za grafični pogon
- * GLFW kot platform-independent vmesnik za OpenGL, input* in timer
+ * GLFW kot platform-independent vmesnik za OpenGL, input in timer
  * OpenAL za zvok (ma kdo boljše ideje? jaz openal nekaj malega poznam in se mi zdi kul)
  * še kaj? jernej rabiš ti kakšno knjižnjico za paketke?
 
