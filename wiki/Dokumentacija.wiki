@@ -6,6 +6,10 @@ _verzija 0.01_
  # Opis
  # Cilj sokobana
  # Dodatni elementi
+ # Gameplay
+ # Igralno polje
+ # Iterakcija človek-igra
+ # Level editor (urejevalnik stopenj)
 ----
 *0. Časovni okvir*
 
@@ -19,10 +23,9 @@ Predelava klasičnega sokobana z nekaj dodatki.
 *2. Cilj sokobana*
 
 Kocke so nameščene po stopnji. Cilj igre je, da jih igralec potisne v zanj namenjen prostor. Kocko lahko igralec pomika gor, dol, levo desno.
-Vec informacij o sokobanu: http://en.wikipedia.org/wiki/Sokoban ,
-primer sokobana(za windows): http://www.geocities.com/ygp_bg/sokoban.html
+Vec informacij o sokobanu na [http://en.wikipedia.org/wiki/Sokoban wikipediji]; [http://www.geocities.com/ygp_bg/sokoban.html primer] sokobana (za windows)
 
-*3. Dodatni elementi*
+*3. Dodatni elementi (inovativni dodatki)*
  * teleport
  * bomba, s katero laho razbije „leseno“ povrsino
  * polje, čez katerega se lahko premakneš samo 1x
@@ -30,18 +33,25 @@ primer sokobana(za windows): http://www.geocities.com/ygp_bg/sokoban.html
  * mehanizem mostu
  * (ideja od dominika) kocke, ki se jih lahko potisne samo v eno smer(da/ne?)
 
+*4. Gameplay*
 
-*4. Interakcija človek-igra*
+_manjka_
+
+*5. Igralno polje*
+
+Igralno polje je sestavljeno iz dvodimenzionalne matrike velikosti m×n (predlog za dejansko velikost?). Osnovni element, ki sestavljajo matriko se naj imenujeje 'kocka'.
+Kocka je prazen element (ne vsebuje ničesar nad sabo, niti tla). Na kocke potem projeciramo osnovne gradnike sokobana: tla, zid, škatla (to zadevo poriva sem in tja naš sokoban), ciljno polje (sem pa jo je potrebno zrivat), igralec (sokoban) + ostali naši inovativni dodatki. 'tla' je poseben osnovni gradnik, saj ima lahko na sebi sledeče gradnike: igralec, kocka.
+
+*6. Interakcija človek-igra*
 
 Uporabnik klikne na ikono 'xSoko'. Zažene se igra v celozaslonki način. Ko se zadeva uspešno naloži se ponudi igralcu osnovni menu.
 
-Menu
  * _Nova igra_: zažene se glavna zanka igre (1. level) in uporabnik začne opravjat svojo nalogo (igranje). Ob predčasnem izhodu iz igre (ESC) se igralcu ponudi shranjevanje igre (save game)
  * _Naloži igro_: uporabniku se ponudi možnost nalaganja shranjene igre
  * _Nastavitve_: ločljivost, barva igralca, tema tekstur
  * _Highscore_: lestvica najboljših
  * _Izhod_: konec igre
 
-*5. Level editor (urejevalnik stopenj)*
+*7. Level editor (urejevalnik stopenj)*
 
 Eden izmed (pomebnih) sestavnih delov projekta je tudi level editor. Končnemu uporabniku omogoča izdelavo svojih stopenj, ki jih kasneje lahko uvozi v igro. Gre za preprosto aplikacijo v kateri ima na voljo vse grafične gradnike (zid, stena, kocka, igralec,...) in jih lahko poljubno razporedi po mreži (velikost mreže ima maksimum, minimum).
