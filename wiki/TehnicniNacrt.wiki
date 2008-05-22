@@ -9,6 +9,7 @@ Pa še to: jaz sem zato, da podobno kot zootfly, imamo nekakšen bolj 'open-poli
 = Details =
 
 Kot prvo naj omenim, da bo ta dokument doživel velik update v ponedeljek ali torek, čez vikend se bom mogu posvetit jobu, ker mi je šefe naložil neko delo z katerim se mu zelo mudi :D
+
 Zaenkrat pa tole:
 *Uporabljeni jeziki:*
   * C++ za engine
