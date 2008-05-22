@@ -1,0 +1,30 @@
+#summary Tehnični načrt xpaca
+
+= Introduction =
+Tole je dokument, ki se nanaša na tehnični vidik igre oz. pogona; vsebuje imena uporabljenih knjižnjic, orodij in same bolj detajlne opise posameznih delov igre. Naj ne gre preveč v podrobnosti, vsaka sekcija mora biti opisana tako, da vsi razumejo(če pa kdo kej ne razume, naj napiše komentar spodaj!!!!)
+
+Pa še to: jaz sem zato, da podobno kot zootfly, imamo nekakšen bolj 'open-policy', torej da kar kdo napiše so, dokler ni splošno sprejeto, zgolj predlogi. Če komu kaj ni kul, naj napiše, pa se prediskutirajo alternative.
+
+
+= Details =
+
+Kot prvo naj omenim, da bo ta dokument doživel velik update v ponedeljek ali torek, čez vikend se bom mogu posvetit jobu, ker mi je šefe naložil neko delo z katerim se mu zelo mudi :D
+Zaenkrat pa tole:
+*Uporabljeni jeziki:*
+  * C++ za engine
+  * Java za level editor
+
+*Knjižnjice*
+ * OpenGL za grafični pogon
+ * GLFW kot platform-independent vmesnik za OpenGL, input* in timer
+ * OpenAL za zvok (ma kdo boljše ideje? jaz openal nekaj malega poznam in se mi zdi kul)
+ * še kaj? jernej rabiš ti kakšno knjižnjico za paketke?
+
+*Orodja*
+ * zaenkrat se zdi dobra ideja IDE NetBeans (je free, tak da zdownloadajte in sprobajte), tako za javo kot C++
+
+
+Dodatne info:
+*input* - vhodne naprave(miška, tipkovnica, ...)
+*NetBeans IDE*, direktni link za C++ IDE(obstaja tudi za javo) - http://download.netbeans.org/netbeans/6.1/final/start.html?bundles/netbeans-6.1-cpp-linux.sh&platform=linux&lang=en&option=cpp
+ 
