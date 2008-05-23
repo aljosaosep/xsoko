@@ -20,7 +20,7 @@ Zaenkrat pa tole:
  * OpenGL za grafični pogon
  * GLFW kot platform-independent vmesnik za OpenGL, input in timer
  * OpenAL za zvok (ma kdo boljše ideje? jaz openal nekaj malega poznam in se mi zdi kul)
- * še kaj? jernej rabiš ti kakšno knjižnjico za paketke?
+ * še kaj? jernej(skrabec) rabiš ti kakšno knjižnjico za paketke? ce ja, dopisi!
 
 *Orodja*
  * zaenkrat se zdi dobra ideja IDE NetBeans (je free, tak da zdownloadajte in sprobajte), tako za javo kot C++
