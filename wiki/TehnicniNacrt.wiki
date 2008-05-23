@@ -60,3 +60,9 @@ Zanka ki teče, dokler se igra izvaja; prekine se le na uporabnikovo željo ali 
 V osnovi se zanka izvaja tako, da čaka na spremembe na vhodnih napravah(tipkovnici) in kliče metodo za izris scene. 
 Zaenkrat je delno implementirana.
  
+*processInput()*
+
+ * bo dodana kmalu v game.h razred
+ * bo implementirana na podlagi GLFW funkcij za hendlanje inputa
+ * glfwGetKey()
+ * mislil sem se nekaj napisat, pa moram zle it, se dopolne takoj ko naslednjic priden za racunalnik
