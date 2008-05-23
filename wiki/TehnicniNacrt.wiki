@@ -50,6 +50,13 @@ _Nanaša se na game.h objekt_
 
 *initGame()*
 
+Metoda še ni spisana, najprej bo klicala metodo za inicializacijo rendererja, potem se pa nastavijo še dodatni parametri, specifični igri oz. nastavijo začetne vrednosti.
+Če gre tu kaj narobe, se izpiše sporočilo o napaki in igra prekine.
+
 
 *mainLoop()*
+
+Zanka ki teče, dokler se igra izvaja; prekine se le na uporabnikovo željo ali ob dogodku gameOver. 
+V osnovi se zanka izvaja tako, da čaka na spremembe na vhodnih napravah(tipkovnici) in kliče metodo za izris scene. 
+Zaenkrat je delno implementirana.
  
