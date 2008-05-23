@@ -44,5 +44,12 @@ Zaenkrat pa tole:
  * http://www.spacesimulator.net/tutorials.html
  * http://nehe.gamedev.net/
 
- = 3. Glavne procedure =
+= 3. Glavne procedure =
+
+_Nanaša se na game.h objekt_
+
+*initGame()*
+
+
+*mainLoop()*
  
