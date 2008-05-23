@@ -59,6 +59,7 @@ Metoda še ni spisana, najprej bo klicala metodo za inicializacijo rendererja, p
 Zanka ki teče, dokler se igra izvaja; prekine se le na uporabnikovo željo ali ob dogodku gameOver. 
 V osnovi se zanka izvaja tako, da čaka na spremembe na vhodnih napravah(tipkovnici) in kliče metodo za izris scene. 
 Zaenkrat je delno implementirana.
+
  
 *processInput()*
 
