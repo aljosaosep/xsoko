@@ -1,12 +1,18 @@
 #summary Tehnični načrt xpaca
 
-= Uvod =
+----
+= Vsebina =
+ # Uvod
+ # Orodja, knjižnjice
+----
+
+= 1. Uvod =
 Tole je dokument, ki se nanaša na tehnični vidik igre oz. pogona; vsebuje imena uporabljenih knjižnjic, orodij in same bolj detajlne opise posameznih delov igre. Naj ne gre preveč v podrobnosti, vsaka sekcija mora biti opisana tako, da vsi razumejo(če pa kdo kej ne razume, naj napiše komentar spodaj!!!!)
 
 Pa še to: jaz sem zato, da podobno kot zootfly, imamo nekakšen bolj 'open-policy', torej da kar kdo napiše so, dokler ni splošno sprejeto, zgolj predlogi. Če komu kaj ni kul, naj napiše, pa se prediskutirajo alternative.
 
 
-= Orodja, knjižnjice =
+= 2. Orodja, knjižnjice =
 
 Kot prvo naj omenim, da bo ta dokument doživel velik update v ponedeljek ali torek, čez vikend se bom mogu posvetit jobu, ker mi je šefe naložil neko delo z katerim se mu zelo mudi :D
 
