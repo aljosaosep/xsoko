@@ -28,5 +28,12 @@ Zaenkrat pa tole:
 *Dodatne info:*
  * input - vhodne naprave(miška, tipkovnica, ...)
  * NetBeans IDE: http://download.netbeans.org/netbeans/6.1/final/start.html?bundles/netbeans-6.1-cpp-linux.sh&platform=linux&lang=en&option=cpp
- p
+ 
+
+*Nekaj povezav za OpenGL*
+ * http://www.ultimategameprogramming.com/
+ * http://zavie.free.fr/opengl/index.html.en
+ * http://www.3dgamedesign.org/opengl3.htm
+ * http://www.spacesimulator.net/tutorials.html
+ * http://nehe.gamedev.net/
  
