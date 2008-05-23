@@ -10,6 +10,7 @@ _verzija 0.01_
  # Igralno polje
  # Iterakcija človek-igra
  # Level editor (urejevalnik stopenj)
+ # Cilji za verzijo 0.5
 ----
 *0. Časovni okvir*
 
@@ -55,3 +56,12 @@ Uporabnik klikne na ikono 'xSoko'. Zažene se igra v celozaslonki način. Ko se 
 *7. Level editor (urejevalnik stopenj)*
 
 Eden izmed (pomebnih) sestavnih delov projekta je tudi level editor. Končnemu uporabniku omogoča izdelavo svojih stopenj, ki jih kasneje lahko uvozi v igro. Gre za preprosto aplikacijo v kateri ima na voljo vse grafične gradnike (zid, stena, kocka, igralec,...) in jih lahko poljubno razporedi po mreži (velikost mreže ima maksimum, minimum).
+
+
+*8. Cilji za verzijo 0.5*
+ * zidovi (vse kar paše k njim, se pravi da se ne prehaja skozi njih)
+ * možicelj (premikanje, porivanje)
+ * kocke (premikanje v eno smer kadar jih poriva možicelj)
+ * cilji (vse kocke morajo priti v "štalco" nakar se izpiše "super, opravil si level 1...ti si car!")
+ * 1 delujoč level! (oziroma vec, ker bo potrebno veliko testiranja)
+ * osnovni level editor, ni nujno koncni 
