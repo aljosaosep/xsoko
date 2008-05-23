@@ -25,8 +25,8 @@ Zaenkrat pa tole:
 *Orodja*
  * zaenkrat se zdi dobra ideja IDE NetBeans (je free, tak da zdownloadajte in sprobajte), tako za javo kot C++
 
-
 *Dodatne info:*
  * input - vhodne naprave(miška, tipkovnica, ...)
- * NetBeans IDE, direktni link za C++ IDE(obstaja tudi za javo) - http://download.netbeans.org/netbeans/6.1/final/start.html?bundles/netbeans-6.1-cpp-linux.sh&platform=linux&lang=en&option=cpp
+ * NetBeans IDE: http://download.netbeans.org/netbeans/6.1/final/start.html?bundles/netbeans-6.1-cpp-linux.sh&platform=linux&lang=en&option=cpp
+ p
  
