@@ -4,6 +4,7 @@
 = Vsebina =
  # Uvod
  # Orodja, knjižnjice
+ # Glavne procedure
 ----
 
 = 1. Uvod =
@@ -42,4 +43,6 @@ Zaenkrat pa tole:
  * http://www.3dgamedesign.org/opengl3.htm
  * http://www.spacesimulator.net/tutorials.html
  * http://nehe.gamedev.net/
+
+ = 3. Glavne procedure =
  
