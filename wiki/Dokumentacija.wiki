@@ -58,7 +58,7 @@ Uporabnik klikne na ikono 'xSoko'. Zažene se igra v celozaslonki način. Ko se 
 Eden izmed (pomebnih) sestavnih delov projekta je tudi level editor. Končnemu uporabniku omogoča izdelavo svojih stopenj, ki jih kasneje lahko uvozi v igro. Gre za preprosto aplikacijo v kateri ima na voljo vse grafične gradnike (zid, stena, kocka, igralec,...) in jih lahko poljubno razporedi po mreži (velikost mreže ima maksimum, minimum).
 
 
-*8. Cilji za verzijo 0.5*
+*8. Cilji za verzijo 0.5* (predlagajte, do kdaj naj bi bila verzija 0.5 fertik!)
  * zidovi (vse kar paše k njim, se pravi da se ne prehaja skozi njih)
  * možicelj (premikanje, porivanje)
  * kocke (premikanje v eno smer kadar jih poriva možicelj)
