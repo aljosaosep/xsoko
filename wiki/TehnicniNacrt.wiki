@@ -37,12 +37,19 @@ Zaenkrat pa tole:
  * NetBeans IDE: http://download.netbeans.org/netbeans/6.1/final/start.html?bundles/netbeans-6.1-cpp-linux.sh&platform=linux&lang=en&option=cpp
  
 
+
 *Nekaj povezav za OpenGL*
  * http://www.ultimategameprogramming.com/
  * http://zavie.free.fr/opengl/index.html.en
  * http://www.3dgamedesign.org/opengl3.htm
  * http://www.spacesimulator.net/tutorials.html
  * http://nehe.gamedev.net/
+
+
+*GLFW referenca in user guide(zelo uporabno!;))*
+ * http://glfw.sourceforge.net/GLFWUsersGuide26.pdf
+ * http://glfw.sourceforge.net/GLFWReference26.pdf
+
 
 = 3. Glavne procedure =
 
@@ -71,5 +78,3 @@ Zgledalo bo takole:
 Funkcija preveri, ce je bil pritisnjen kateri od gumbov gor, dol, levo desno. PReveri se s klicom funkcije glfwGetKey(), ki se ji poda kot parameter tipka, za katero cekiramo - ce funkcija vrne 1(GLFW_PRESS), pomeni, da je bila tipka pritisnjena.
 
 Vrne pa vrednost, ki pove, za katero smer se procesira premik - lahko je to nek integer, ali pa enumeracija(enum smer {gor, dol, levo, desno};).
-
-
