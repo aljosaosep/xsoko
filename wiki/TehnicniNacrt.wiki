@@ -78,3 +78,4 @@ Zgledalo bo takole:
 Funkcija preveri, ce je bil pritisnjen kateri od gumbov gor, dol, levo desno. PReveri se s klicom funkcije glfwGetKey(), ki se ji poda kot parameter tipka, za katero cekiramo - ce funkcija vrne 1(GLFW_PRESS), pomeni, da je bila tipka pritisnjena.
 
 Vrne pa vrednost, ki pove, za katero smer se procesira premik - lahko je to nek integer, ali pa enumeracija(enum smer {gor, dol, levo, desno};).
+Ali pa informacijo, da se ni zgodilo nic in da se naj stvari meljejo naprej.
