@@ -36,7 +36,9 @@ Vec informacij o sokobanu na [http://en.wikipedia.org/wiki/Sokoban wikipediji]; 
 
 *4. Gameplay*
 
-_manjka_
+Imamo igralca, ki ga lahko z pomocjo smernih tipk na tipkovnici pomikamo gor, dol, levo, desno. Igralec lahko premika kocke; premakne jih lahko kamorkoli, kjer je prazno mesto. Kocko premakne tako, da se postavi na eno od sosednjih kock in se premakne v smer, kamor hoce kocko premaknit.
+Igralec lahko gre tudi skozi teleport(lahko gre kocka tudi cez teleport? imo naj ne). Lahko raztreli dolocene(specificne) blocne elemente, ce ima bombo. Bombo pa lahko ali pobere ali pa mu je katera dodeljena na zacetku stopnje.
+Ce je kocka, ki jo igralec premika ob bombi, ali naj razstreli tudi kocko(in sledi gameover?)
 
 *5. Igralno polje*
 
