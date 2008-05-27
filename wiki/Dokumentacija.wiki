@@ -40,6 +40,11 @@ Imamo igralca, ki ga lahko z pomocjo smernih tipk na tipkovnici pomikamo gor, do
 Igralec lahko gre tudi skozi teleport(lahko gre kocka tudi cez teleport? imo naj ne). Lahko raztreli dolocene(specificne) blocne elemente, ce ima bombo. Bombo pa lahko ali pobere ali pa mu je katera dodeljena na zacetku stopnje.
 Ce je kocka, ki jo igralec premika ob bombi, ali naj razstreli tudi kocko(in sledi gameover?)
 
+Cilj igralca je, da "obrne" vse stopnje, pri cemer lahko trenutno stanje shrani. Vprasanje, ki se poraja je, ali funkcija "shrani" shrani igro do stopnje, v katerem je bil v trenutnku, ko je igro shranjeval, ta stopnja pa se "resetira", ali se shrani tudi stanje v stopnji in tako "load" vrze igralca tocno na tocko, kjer je koncal, preden je shranil(komentirajte).
+Igralec drzi tudi nek "highscore" oz. tocke, ki jih je nabral do trenutne stopnje; ta higscore je pa odvisen od casa, ki ga igralec porabi za stopnjo in od stevila potez.
+
+Ko igralec obrne kampanijski del, lahko tudi naredi/zdownloada kak drug level in se ubada z njim. Highscore je v tem primeru vezan le na to stopnjo, medtem ko se pri kampaniji sesteva.
+
 *5. Igralno polje*
 
 Igralno polje je sestavljeno iz dvodimenzionalne matrike velikosti m×n (predlog za dejansko velikost?). Osnovni element, ki sestavljajo matriko se naj imenujeje 'kocka'.
