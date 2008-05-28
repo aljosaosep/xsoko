@@ -1,0 +1,493 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="45">
+  <logicalFolder name="root" displayName="root" projectFiles="true">
+    <logicalFolder name="HeaderFiles"
+                   displayName="Header Files"
+                   projectFiles="true">
+      <itemPath>src/CommonStructures.h</itemPath>
+      <itemPath>src/entities.h</itemPath>
+      <itemPath>src/filemanager.h</itemPath>
+      <itemPath>src/game.h</itemPath>
+      <itemPath>src/io.h</itemPath>
+      <itemPath>src/level.h</itemPath>
+      <itemPath>src/levelbox.h</itemPath>
+      <itemPath>src/maingameclasses.h</itemPath>
+      <itemPath>src/messages.h</itemPath>
+      <itemPath>src/object.h</itemPath>
+      <itemPath>src/PLevelBox.h</itemPath>
+      <itemPath>src/renderer.h</itemPath>
+      <itemPath>src/stdint.h</itemPath>
+      <itemPath>src/vector.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="ResourceFiles"
+                   displayName="Resource Files"
+                   projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="SourceFiles"
+                   displayName="Source Files"
+                   projectFiles="true">
+      <itemPath>src/CommonStructures.cpp</itemPath>
+      <itemPath>src/filemanagment.cpp</itemPath>
+      <itemPath>src/game-funcinit.cpp</itemPath>
+      <itemPath>src/game-funcrender.cpp</itemPath>
+      <itemPath>src/game.cpp</itemPath>
+      <itemPath>src/io.cpp</itemPath>
+      <itemPath>src/level.cpp</itemPath>
+      <itemPath>src/levelbox.cpp</itemPath>
+      <itemPath>src/main.cpp</itemPath>
+      <itemPath>src/object.cpp</itemPath>
+      <itemPath>src/openglfunc.cpp</itemPath>
+      <itemPath>src/player.cpp</itemPath>
+      <itemPath>src/renderer-core.cpp</itemPath>
+      <itemPath>src/renderer-texture.cpp</itemPath>
+      <itemPath>src/vector.cpp</itemPath>
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <sourceEncoding>UTF-8</sourceEncoding>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Windows_Debug" type="1">
+      <toolsSet>
+        <compilerSet>Cygwin|Cygwin</compilerSet>
+        <platform>3</platform>
+      </toolsSet>
+      <compileType>
+        <ccCompilerTool>
+          <warningLevel>2</warningLevel>
+        </ccCompilerTool>
+        <linkerTool>
+          <linkerLibItems>
+            <linkerLibLibItem>glfw</linkerLibLibItem>
+            <linkerLibLibItem>opengl32</linkerLibLibItem>
+            <linkerLibLibItem>glu32</linkerLibLibItem>
+          </linkerLibItems>
+        </linkerTool>
+      </compileType>
+      <item path="src/CommonStructures.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/CommonStructures.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/PLevelBox.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/entities.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/filemanager.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/filemanagment.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/game-funcinit.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/game-funcrender.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/game.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/game.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/io.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/io.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/level.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/level.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/levelbox.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/levelbox.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/main.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/maingameclasses.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/messages.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/object.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/object.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/openglfunc.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/player.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/renderer-core.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/renderer-texture.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/renderer.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/stdint.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/vector.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/vector.h">
+        <itemTool>3</itemTool>
+      </item>
+    </conf>
+    <conf name="Windows_Release" type="1">
+      <toolsSet>
+        <compilerSet>Cygwin|Cygwin</compilerSet>
+        <platform>3</platform>
+      </toolsSet>
+      <compileType>
+        <cCompilerTool>
+          <developmentMode>5</developmentMode>
+        </cCompilerTool>
+        <ccCompilerTool>
+          <developmentMode>5</developmentMode>
+        </ccCompilerTool>
+        <fortranCompilerTool>
+          <developmentMode>5</developmentMode>
+        </fortranCompilerTool>
+        <linkerTool>
+          <linkerLibItems>
+            <linkerLibLibItem>glfw</linkerLibLibItem>
+            <linkerLibLibItem>opengl32</linkerLibLibItem>
+            <linkerLibLibItem>glu32</linkerLibLibItem>
+          </linkerLibItems>
+        </linkerTool>
+      </compileType>
+      <item path="src/CommonStructures.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/CommonStructures.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/PLevelBox.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/entities.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/filemanager.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/filemanagment.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/game-funcinit.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/game-funcrender.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/game.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/game.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/io.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/io.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/level.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/level.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/levelbox.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/levelbox.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/main.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/maingameclasses.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/messages.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/object.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/object.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/openglfunc.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/player.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/renderer-core.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/renderer-texture.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/renderer.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/stdint.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/vector.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/vector.h">
+        <itemTool>3</itemTool>
+      </item>
+    </conf>
+    <conf name="Linux_Debug" type="1">
+      <toolsSet>
+        <compilerSet>Cygwin|Cygwin</compilerSet>
+        <platform>3</platform>
+      </toolsSet>
+      <compileType>
+        <ccCompilerTool>
+          <warningLevel>2</warningLevel>
+        </ccCompilerTool>
+        <linkerTool>
+          <linkerLibItems>
+            <linkerLibLibItem>glfw</linkerLibLibItem>
+            <linkerLibLibItem>GL</linkerLibLibItem>
+            <linkerLibLibItem>GLU</linkerLibLibItem>
+            <linkerLibLibItem>Xxf86vm</linkerLibLibItem>
+            <linkerLibLibItem>m</linkerLibLibItem>
+            <linkerLibLibItem>Xrndr</linkerLibLibItem>
+          </linkerLibItems>
+        </linkerTool>
+      </compileType>
+      <item path="src/CommonStructures.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/CommonStructures.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/PLevelBox.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/entities.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/filemanager.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/filemanagment.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/game-funcinit.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/game-funcrender.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/game.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/game.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/io.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/io.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/level.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/level.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/levelbox.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/levelbox.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/main.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/maingameclasses.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/messages.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/object.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/object.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/openglfunc.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/player.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/renderer-core.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/renderer-texture.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/renderer.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/stdint.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/vector.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/vector.h">
+        <itemTool>3</itemTool>
+      </item>
+    </conf>
+    <conf name="Linux_Release" type="1">
+      <toolsSet>
+        <compilerSet>Cygwin|Cygwin</compilerSet>
+        <platform>3</platform>
+      </toolsSet>
+      <compileType>
+        <cCompilerTool>
+          <developmentMode>5</developmentMode>
+        </cCompilerTool>
+        <ccCompilerTool>
+          <developmentMode>5</developmentMode>
+        </ccCompilerTool>
+        <fortranCompilerTool>
+          <developmentMode>5</developmentMode>
+        </fortranCompilerTool>
+        <linkerTool>
+          <linkerLibItems>
+            <linkerLibLibItem>glfw</linkerLibLibItem>
+            <linkerLibLibItem>GL</linkerLibLibItem>
+            <linkerLibLibItem>GLU</linkerLibLibItem>
+            <linkerLibLibItem>Xxf86vm</linkerLibLibItem>
+            <linkerLibLibItem>m</linkerLibLibItem>
+            <linkerLibLibItem>Xrndr</linkerLibLibItem>
+          </linkerLibItems>
+        </linkerTool>
+      </compileType>
+      <item path="src/CommonStructures.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/CommonStructures.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/PLevelBox.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/entities.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/filemanager.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/filemanagment.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/game-funcinit.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/game-funcrender.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/game.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/game.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/io.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/io.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/level.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/level.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/levelbox.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/levelbox.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/main.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/maingameclasses.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/messages.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/object.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/object.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/openglfunc.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/player.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/renderer-core.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/renderer-texture.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/renderer.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/stdint.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/vector.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/vector.h">
+        <itemTool>3</itemTool>
+      </item>
+    </conf>
+  </confs>
+</configurationDescriptor>
