@@ -57,28 +57,28 @@ namespace PacGame
 				  int score;   // not sure that will stay...
 
 				  uint8_t bombs;
-				  uint8_t keys;
+				//  uint8_t keys; // not needed anymore
 
 			  public:
 				  // constructors
 				  PPlayer();
-				  PPlayer(uint8_t _bombs, uint8_t _keys);
+				//  PPlayer(uint8_t _bombs, uint8_t _keys); // fix; remove keys from here
 
 				  // setters
 			//	  void setScore(uint8_t _score);
 				  void setBombs(uint8_t _bombs);
-				  void setKeys(uint8_t _keys);
+			//	  void setKeys(uint8_t _keys);
 
 				  // getters
 
 				  int getScore();
 				  unsigned short getBombs();
-				  unsigned short getKeys();
+			//	  unsigned short getKeys();
 
 				  // increase +1
 				  void incScore();
 				  void incBombs();
-				  void incKeys();
+			//	  void incKeys();
 
 				  // to override
 				  void draw();

@@ -1,6 +1,14 @@
 /*
-  codename: Pac-Game
-  Aljosa Osep 2007
+ * Codename: xSoko
+ * File: level.h
+ *
+ * Summary:
+ * Includes level class implementation, abstratct grid element imp., and
+ * several others level struct classes implementation
+ *
+ * Author: Aljosa Osep 2008
+ * Changes:
+ * Aljosa 2008
 */
 #include <iostream>
 #include "level.h"
@@ -10,7 +18,7 @@ using namespace std;
 using namespace PacGame::GameClasses;
 
 // globals
-PMessages g_msg;
+//PMessages g_msg;  // globals are bad
 
 namespace PacGame
 {
@@ -21,7 +29,7 @@ namespace PacGame
 			   PLevelBox methods
 			   *****************************************/
 			  // constructors
-			  PLevelBox::PLevelBox() {}
+		/*	  PLevelBox::PLevelBox() {}
 
 			  PLevelBox::PLevelBox(PBoxInfo inf)
 			  {
@@ -103,7 +111,7 @@ namespace PacGame
 				  cout<<"| Meta: "<<(int)info.fieldMeta<<"  |"<<endl;
 				  cout<<"------------"<<endl;
 			  }
-
+*/
 
 			  /*****************************************
 			   PLevel methods
@@ -112,7 +120,7 @@ namespace PacGame
 		//	  	PLevelBox structureData[LEVEL_WIDTH][LEVEL_HEIGHT];
 
 			  // setters
-			  void PLevel::setField(PLevelBox _box, unsigned short i, unsigned short j)
+		/*	  void PLevel::setField(PLevelBox _box, unsigned short i, unsigned short j)
 			  {
 				  if((i<LEVEL_HEIGHT-1)&&(j<LEVEL_WIDTH-1))
 					  structureData[i][j] = _box;
@@ -218,7 +226,7 @@ namespace PacGame
 					  cout<<endl;
 				  }
 				  cout<<"========================"<<endl<<endl;
-			  }
+			  }*/
 
 			  // ===== OBJECT FUNCTIONS TO OVERRIDE =====//
 			  void PLevel::draw()
@@ -226,21 +234,21 @@ namespace PacGame
 				  // TODO
 			  }
 
-              bool PLevel::initialize()  // temporary random initialization (!!!!!!!!!!!!!!!)
+                          bool PLevel::initialize()  // temporary random initialization (!!!!!!!!!!!!!!!)
 			  {
 				  // TODO
-				  for(int i=0; i<LEVEL_WIDTH; i++)
+				/*  for(int i=0; i<LEVEL_WIDTH; i++)
 				  {
 					  for(int j=0; j<LEVEL_HEIGHT; j++)
 					  {
 						  structureData[i][j].setType(1);
 					  }
 					  cout<<endl;
-				  }
+				  }*/
 				  return true;
 			  }
 
-              void PLevel::print() 
+                          void PLevel::print() 
 			  {
 
 			  }
