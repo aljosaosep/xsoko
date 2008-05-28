@@ -1,12 +1,18 @@
-/*
-  codename: Pac-Game
-  Aljosa Osep 2007
-*/
+/* 
+ * Codename: xSoko
+ * File: game.h
+ *
+ * Summary:
+ * Includes game core class definition
+ *
+ * Author: Aljosa Osep 2007
+ * Changes:
+ * Aljosa May 28 2008
+ */
 
 #ifndef __GAME_H
 #define __GAME_H
 
-//#include "../include/GL/glfw.h"
 #include <GL/glfw.h>
 #include <stdio.h>
 #include "renderer.h"
@@ -18,19 +24,18 @@ namespace PacGame
 {
           namespace GameClasses
           {
-                /**********************************************************
-               * PGame
-			   *
-               * Represents a whole window and game main functions
-			   * --------------------------------------------------------
-               * Aljosa 2007
-               * ********************************************************/
+                            /**********************************************************
+                           * PGame
+                           *
+                           * Represents a whole window and game main functions
+                           * --------------------------------------------------------
+                           * Aljosa 2007
+                           * ********************************************************/
 			  class PGame
 			  {
 			  private:
 				  int windowWidth, windowHeight;
 				  string windowTitle;
-				  const char *altWindowTitle; 
                                   
 			  public:
 				  // variables

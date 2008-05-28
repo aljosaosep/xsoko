@@ -1,7 +1,16 @@
-/*
-  codename: Pac-Game
-  Aljosa Osep 2007
-*/
+/* 
+ * Codename: xSoko
+ * File: game.cpp
+ *
+ * Summary:
+ * Includes game core implementation
+ *
+ * Author: Aljosa Osep 2007
+ * Changes:
+ * Aljosa May 28 2008
+ */
+
+
 #include "game.h"
 
 
@@ -14,7 +23,6 @@ namespace PacGame
 			  PGame::PGame() 
 			  {
 				  windowTitle = "defaultGame - PacEngine";
-				  altWindowTitle = windowTitle.c_str();
 			  }
 
 			  PGame::PGame(int _width, int _height, string _title) 
@@ -22,9 +30,6 @@ namespace PacGame
 				  windowWidth = _width;
 				  windowHeight = _height;
 				  windowTitle = _title;
-				  altWindowTitle = windowTitle.c_str();
-				  // hehe !
-//				  strcpy(_title, windowTitle);  // PICKU MATER U PUFUKANIH WINISH ITAK _NIC_ NE DELA, CELO STRCPY!!!!
 			  }
 
 			  // destructor
@@ -38,7 +43,7 @@ namespace PacGame
 			  {
 				  msg.infoMessage("Entering main loop...");
 				    // the time of the previous frame
-				  double old_time = glfwGetTime();
+//				  double old_time = glfwGetTime();   // ne brisat! se bo nucal!
 				  // this just loops as long as the program runs
 				  while(1)
 				  {
@@ -67,7 +72,6 @@ namespace PacGame
 			  void PGame::setWindowTitle(string _title)
 			  {
 				  windowTitle = _title;
-//				  strcpy(windowTitle, _title);
 			  }
 
 			  void PGame::terminateGLFW()
