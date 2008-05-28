@@ -3,6 +3,47 @@
 = Uvod =
 
 Kot prvo, naj poudarim open policiy, o kerem je nekaj že napisano v tehničnem dokumentu. 
-Kar jaz sem napišem, so predvsem predlogi, ne kaki ukazi!
+Kar jaz sem napišem, so predvsem predlogi, ne kaki ukazi! 
+Wiki lahko vsak spreminja po mili volji!
+
+=== 1. naloga(za vse) ===
+
+Preberi TehnicniDokument
+
+
+=== 2. naloga(za vse) ===
+
+Preberi StilProgramiranja in se dokument nauci na pamet!
+(en del te povedi ni misljen resno)
+
+=== 3. naloga(za vse) ===
+
+Cimvec trenutne kode se naj komentira(velja predvsem zame:D) in uredi po postavkah v StilProgramiranja. Jaz sem ze delal na tem in se bom.
+
+=== Skrabec ===
+
+Ok, mislim, da sva midva ze zmenjena:
+
+1. unzipper
+
+2. level editor
+
+
+=== Halozan ===
+
+Kokr smo ze zmenen, messages.h prvo, sej ves kaj.
+
+
+
+=== Aljosa ===
+
+Jaz delam trenutno na prestrukturiranju osnovnih razredov in komentiranju kode. Je ze in progress.
+
+
+
+=== Ostali ===
+
+Se malo pocakajte :D
+ 
 
 
