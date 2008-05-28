@@ -34,7 +34,7 @@ namespace PacGame
                                   
 			  public:
 				  // variables
-				//  PMessages msg;
+				  PMessages msg;
 				  PacGame::RenderMaschine::PRenderer renderer;
 
 				  // prototypes

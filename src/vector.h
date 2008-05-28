@@ -1,6 +1,8 @@
 /*
-  codename: Pac-Game
-  Aljosa Osep 2007
+ * codename: xSoko
+ *
+ * Author: Aljosa Osep 2007
+ * Modified:
 */
 
 #ifndef __VECTOR_2D_H
@@ -16,12 +18,11 @@ namespace PacGame
 {
           namespace GameClasses
           {
-			  /**********************************************************
+               /**********************************************************
                * PVector
-			   *
-               * Every object should be represented by vector
-			   * --------------------------------------------------------
-               * Aljosa 2007
+               * TODO: more summary
+               * --------------------------------------------------------
+               * Aljosa 2007 - 2008
                * ********************************************************/
 			  class PVector2D
 			  {

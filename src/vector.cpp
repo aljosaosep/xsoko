@@ -1,6 +1,11 @@
 /*
-  codename: Pac-Game
-  Aljosa Osep 2007
+ * codename: xSoko
+ *
+ * Summary:
+ * todo
+ *
+ * Author: Aljosa Osep 2007
+ * Modified:
 */
 #include "vector.h"
 
@@ -102,13 +107,10 @@ namespace PacGame
 			  PVector2D PVector2D::operator = (const PVector2D _vector)
 			  {
 			      //PVector2D _tmpvec;
-
 				  this->x = _vector.x;
 				  this->y = _vector.y;
 
 				  return *this;
-				  //return _tmpvec;
-
 			  }
           }
 }

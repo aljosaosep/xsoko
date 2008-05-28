@@ -1,7 +1,11 @@
 /*
-  codename: Pac-Game
-  Aljosa Osep 2007
+ * codename: Pac-Game
+ *
+ * Author: Aljosa Osep 2007
+ * Modified:
+ * 
 */
+
 #include <iostream>
 #include "object.h"
 
@@ -14,13 +18,13 @@ namespace PacGame
 			  // constructors
 			  PObject::PObject() 
 			  {
-				  root = NULL; // initiates linked list
+                              root = NULL; // initiates linked list
 			  }  
 
 			  PObject::PObject(float x, float y)
 			  {
-				  root = NULL;			 // initiates linked list
-			      setCoordinates(x, y);  // set vector coordinates	
+                              root = NULL;			 // initiates linked list
+			      position.setCoordinates(x, y);  // set vector coordinates	
 			  }
 
 			  /*PObject::PObject(float x, float y, float i, float j)
@@ -36,7 +40,7 @@ namespace PacGame
 				  releaseList();   // at destrution of class, release it's children from memory 
 			  }
 
-			  void PObject::setIndex(unsigned i, unsigned j) // index setter
+			/*  void PObject::setIndex(unsigned i, unsigned j) // index setter
 			  {
 				  this->i = i;
 				  this->j = j;
@@ -66,15 +70,14 @@ namespace PacGame
 			  {
 				  i = this->i;
 				  j = this->j;
-			  }
+			  }*/
 
 			  void PObject::print()
 			  {
 				  cout<<"=========== OBJECT INFO =============="<<endl;
-				  cout<<"x: "<<this->x<<endl;
-				  cout<<"y: "<<this->y<<endl;
-				  cout<<"i: "<<this->i<<endl;
-				  cout<<"j: "<<this->j<<endl;
+				//  cout<<"x: "<<this->position.g<<endl;
+				//  cout<<"y: "<<this->position.y<<endl;
+                                  this->position.printCoordinates();
 				  cout<<"======================================"<<endl;
 			  }
 

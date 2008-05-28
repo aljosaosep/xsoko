@@ -1,6 +1,14 @@
 /*
-  codename: Pac-Game
-  Aljosa Osep 2007
+ * Codename: xSoko
+ * File: level.h
+ *
+ * Summary:
+ * Includes level class definition, abstratct grid element def., and
+ * several others level struct classes definitions
+ *
+ * Author: Aljosa Osep 2008
+ * Changes:
+ * Aljosa 2008
 */
 
 #ifndef __LEVEL_H
@@ -16,14 +24,18 @@ namespace PacGame
 
           namespace GameClasses
           {
-			  /**********************************************************
+              // Aljosa:
+              // levelBox is obsolete
+              // here comes definitions of classes for level structs
+              // e.g. Teleport, Wall, Floor, Cube, ...
+              /**********************************************************
                * PLevelBox
-			   *
+               *
                * Represents a single level struct
-			   * --------------------------------------------------------
+               * --------------------------------------------------------
                * Aljosa 2007
                * ********************************************************/
-			  class PLevelBox : public PObject
+		/*	  class PLevelBox : public PObject
 			  {
 			  private:
 				 // uint8_t fieldType;   // uint8_t: 0-255, more than enough ;)
@@ -56,36 +68,38 @@ namespace PacGame
 				  void draw();
 				  bool initialize();
 				  void print();
-			  };
+			  };*/
 
-			   /**********************************************************
+               /**********************************************************
                * PLevel
-			   *
+               *
                * Represents a whole level
-			   * --------------------------------------------------------
+               * --------------------------------------------------------
                * Aljosa 2007
                * ********************************************************/
 			  class PLevel : public PObject
 			  {
 			  private:
-				  PLevelBox structureData[LEVEL_HEIGHT][LEVEL_WIDTH];
+			//	  PLevelBox structureData[LEVEL_HEIGHT][LEVEL_WIDTH]; // obsolete
 
 			  public:
 				  // print
-				  void printLevelByType();
+				  void printLevelByType(); // todo: rename and implement
 				  void printLevelByMeta();
 
 				  // setters
-				  void setField(PLevelBox _box, unsigned short i, unsigned short j);
+                                  // todo: rename, change, implement
+				/*  void setField(PLevelBox _box, unsigned short i, unsigned short j);
 				  void setFieldInfo(PBoxInfo _info, unsigned short i, unsigned short j);
 				  void setFieldType(uint8_t _type, unsigned short i, unsigned short j);
-				  void setFieldMeta(uint8_t _meta, unsigned short i, unsigned short j);
+				  void setFieldMeta(uint8_t _meta, unsigned short i, unsigned short j);*/
 
 				  // getters
-				  PLevelBox getField(unsigned short i, unsigned short j);
+                                  // todo: rename, change, implement
+				/*  PLevelBox getField(unsigned short i, unsigned short j);
 				  PBoxInfo getFieldInfo(unsigned short i, unsigned short j);
 				  unsigned short getFieldType(unsigned short i, unsigned short j);
-				  unsigned short getFieldMeta( unsigned short i, unsigned short j);
+				  unsigned short getFieldMeta( unsigned short i, unsigned short j);*/
 
 				  // virtual functions to override
 				  void draw();
