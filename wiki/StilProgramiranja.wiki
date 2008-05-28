@@ -1,0 +1,58 @@
+#summary (OBVEZNO preberi!!!!!!!111oneone)
+
+= Stil kode =
+
+*Tole je obvezno za vsakega da prebere(ne to pa ni predlog, to pa je res skoraj obvezno!)*
+
+Pri takem projektu je treba vzdrzevati neko konsistentno obliko kode, to pomeni, vsi delamo iste zamike, dajemo podobne headre datotekam in podobno. 
+V stari kodi je prislo do nekih razsuvanj v obliki kode(VS -> netbeans), kar naj vsak popravi pri dokumentu, ki se ga loti popravljat!
+Naj bodo zamiki lepo postimani!
+
+Mogoce prvo pravilo:
+Komentiraje! Vse! No, skoraj vse ;) oz. cimvec! 
+To pravilo je n-krat prekrseno v trenutni kodi - to je trenutno ena izmed mojih prioritet, da se to popravi.
+
+Stari header datotek izgleda takole:
+
+{{{
+/*
+  codename: Pac-Game
+  Aljosa Osep 2007
+*/
+}}}
+
+po novem naj izgledajo takole:
+(kjer pod avtorja osebek vstavi svoje, ne moje ime :D)
+Razen v klase, ki jih je nekdo drug naredil(npr. jaz :D), napisite svoja imena pod sekcijo 'changes', pa po moznosti datum zraven. Da se ve, kdo je spreminajl!
+
+{{{
+/*
+ * Codename: xSoko
+ * File: level.h
+ *
+ * Summary:
+ * Includes level class implementation, abstratct grid element imp., and
+ * several others level struct classes implementation
+ *
+ * Author: Aljosa Osep 2008
+ * Changes:
+ * Aljosa 2008
+*/
+}}}
+
+
+Opis razreda naj izgleda nekako takole:
+{{{
+                /**********************************************************
+               * PGame
+               *
+               * Represents a whole window and game main functions
+               * --------------------------------------------------------
+               * Aljosa 2007
+               * ********************************************************/
+}}}
+
+Tam ko pise Aljosa 2007 - kdorkoli spreminja razred, naj se podpise! Da se ve, koga bomo obesli, ko kaj nebo delalo :D
+
+Zaenkrat tole, pride pa se nekaj pravil. 
+Pa dajte svoje predloge pa komentarje na tole! Ce ne bote, bom predpostavljal, da se vsi strinjate s temi pravili :D
