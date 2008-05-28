@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
     if(!pacgame.initGame())
     {
       //  cout<<"Initialization failed. Kill yourself :D"<<endl; // fix
-        PStatus.initMessage("game", false);
+      //  PStatus.initMessage("game", false);
         return -1;
     }
 

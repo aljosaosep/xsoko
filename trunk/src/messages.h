@@ -61,7 +61,7 @@ namespace PacGame
 						}
                     };
                     
-                    PMessages PStatus;
+              //      PMessages PStatus;
           }
 }
 
