@@ -18,7 +18,7 @@ namespace PacGame
 {
           namespace GameClasses
           {
-			  /**********************************************************
+                /**********************************************************
                * PGame
 			   *
                * Represents a whole window and game main functions
@@ -34,7 +34,7 @@ namespace PacGame
                                   
 			  public:
 				  // variables
-				  PMessages msg;
+				//  PMessages msg;
 				  PacGame::RenderMaschine::PRenderer renderer;
 
 				  // prototypes
