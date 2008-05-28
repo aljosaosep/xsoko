@@ -39,11 +39,11 @@ Kokr smo ze zmenen, messages.h prvo, sej ves kaj.
 
 Jaz delam trenutno na prestrukturiranju osnovnih razredov in komentiranju kode. Je ze in progress.
 
+Trenutni status, kar se tice "odpravljanja" warningov - le se 2 sta ostala - in bota konec storila takoj, ko bo knjiznjica messages.h popravljena.
+
 
 
 === Ostali ===
 
 Se malo pocakajte :D
  
-
-
