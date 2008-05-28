@@ -13,26 +13,26 @@ namespace PacGame
 			  // other
 			  bool PGame::initGame()
 			  {
-				  msg.mainTitleMessage();
+//				  msg.mainTitleMessage();
 
 				  if (!glfwInit())  // is GLFW initialization successful?
 				  {
-					msg.errorMessage("OpenGL/glfw initialization failed."); // in case, it is not
+//					msg.errorMessage("OpenGL/glfw initialization failed."); // in case, it is not
 					terminateGLFW(); // terminate glfw and return false
 					return false;
 				  }
 
-				  msg.initMessage("GLFW", true); // prints out that initialization was success
+//				  msg.initMessage("GLFW", true); // prints out that initialization was success
 
 					// 800 x 600, 16 bit color, no depth, alpha or stencil buffers, windowed
 				  if (!glfwOpenWindow(windowWidth, windowHeight, 5, 6, 5, 0, 0, 0, GLFW_WINDOW)) // attemps to open window
 				  {
-					msg.errorMessage("OpenGL window creation failed.");  // failed
+//					msg.errorMessage("OpenGL window creation failed.");  // failed
 					terminateGLFW();
 					return false;
 				  }
 
-				  msg.initMessage("OpenGL window", true);  // prints out success
+//				  msg.initMessage("OpenGL window", true);  // prints out success
 
 				  glfwSetWindowTitle(altWindowTitle); // temporary
  
@@ -51,7 +51,7 @@ namespace PacGame
                                       return false;
 
 
-				  msg.initMessage("Game", true);
+//				  msg.initMessage("Game", true);
 				  return true;
 			  }
 
