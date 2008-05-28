@@ -45,7 +45,7 @@ namespace PacGame
 
 			  PTexture::~PTexture()
 			  {
-				  free(texture.imageData);
+				//  free(texture.imageData);
 				  msg.infoMessage("Texture released from memory.");
 			  } 
 

@@ -14,13 +14,6 @@ namespace PacGame
 {
           namespace GameClasses
           {
-                    /**********************************************************
-                    * PMessages
-					*
-                    * For writing states into console
-					* --------------------------------------------------------
-                    * Aljosa 2007
-                    * ********************************************************/
                     class PMessages
                     {
 					public:
@@ -61,13 +54,14 @@ namespace PacGame
 						void mainTitleMessage()
 						{
 							cout<<"======================================"<<endl;
-							cout<<"==        CODENAME: PACGAME         =="<<endl;
+							cout<<"==        CODENAME: xSoko           =="<<endl;
 							cout<<"==          Console output          =="<<endl;
-							cout<<"==         (c) Aljosa 2007          =="<<endl;
 							cout<<"======================================"<<endl;
 							cout<<endl;
 						}
                     };
+                    
+                    PMessages PStatus;
           }
 }
 

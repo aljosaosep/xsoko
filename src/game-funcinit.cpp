@@ -46,8 +46,10 @@ namespace PacGame
 				  // OpenGL specific
 				  glEnable(GL_TEXTURE_2D);
 				 // PTextureImage texture;
-				  PacGame::RenderMaschine::PTexture textura("data/test.tga");
-				  textura.makeTgaTexture(true);
+				  RenderMaschine::PTexture textura("data/test.tga");
+				  if(!textura.makeTgaTexture(true))
+                                      return false;
+
 
 				  msg.initMessage("Game", true);
 				  return true;

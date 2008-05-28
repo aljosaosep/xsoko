@@ -1,6 +1,7 @@
 /*
   codename: Pac-Game
   Aljosa Osep 2007
+ *
 */
 #include "renderer.h"
 

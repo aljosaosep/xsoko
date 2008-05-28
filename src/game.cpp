@@ -36,7 +36,7 @@ namespace PacGame
 			  // other
 			  void PGame::mainLoop()
 			  {
-				  msg.infoMessage("Entering main loop...");
+			//	  status.infoMessage("Entering main loop...");
 				    // the time of the previous frame
 				  double old_time = glfwGetTime();
 				  // this just loops as long as the program runs
@@ -57,7 +57,7 @@ namespace PacGame
 	
 				  }
 			  }
-
+                          
 			  void PGame::setWindow(int _width, int _height)
 			  {
 				  windowWidth = _width;
@@ -72,7 +72,7 @@ namespace PacGame
 
 			  void PGame::terminateGLFW()
 			  {
-				  msg.infoMessage("Termination, destroying glfw...");
+			//	  PStatus.infoMessage("Termination, destroying glfw...");
 				  glfwTerminate();
 			  }
           }

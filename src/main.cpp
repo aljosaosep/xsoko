@@ -6,20 +6,29 @@
 #include <cstdlib>
 #include "game.h"
 #include "entities.h"
+#include "messages.h"
 
 // using namespace std;
 using namespace PacGame::GameClasses;
 
 int main(int argc, char *argv[])
 {
+  //  PMessages status;
+    
     PGame pacgame;
     pacgame.setWindow(640, 480);
 
-    pacgame.initGame();
+    if(!pacgame.initGame())
+    {
+      //  cout<<"Initialization failed. Kill yourself :D"<<endl; // fix
+        PStatus.initMessage("game", false);
+        return -1;
+    }
 
     pacgame.mainLoop();
 
     PacGame::RenderMaschine::PRenderer renderer;
+    //renderer.
 
     /*
     PVector2D prvi(3.2, 3.2);
