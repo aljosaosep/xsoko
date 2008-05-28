@@ -4,8 +4,6 @@
 */
 #include "game.h"
 
-
-
 namespace PacGame
 {
           namespace GameClasses
@@ -34,7 +32,7 @@ namespace PacGame
 
 				  msg.initMessage("OpenGL window", true);  // prints out success
 
-				  glfwSetWindowTitle(altWindowTitle); // temporary
+				  glfwSetWindowTitle(this->windowTitle.c_str()); // temporary
  
 			      // set the projection matrix to a normal frustum with a max depth of 50
 				  glMatrixMode(GL_PROJECTION);
