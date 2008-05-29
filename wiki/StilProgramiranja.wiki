@@ -55,4 +55,4 @@ Opis razreda naj izgleda nekako takole:
 Tam ko pise Aljosa 2007 - kdorkoli spreminja razred, naj se podpise! Da se ve, koga bomo obesli, ko kaj nebo delalo :D
 
 Zaenkrat tole, pride pa se nekaj pravil. 
-Pa dajte svoje predloge pa komentarje na tole! Ce ne bote, bom predpostavljal, da se vsi strinjate s temi pravili :D
+Pa dajte svoje predloge pa komentarje na tole! Ce ne bote, bom predpostavljal, da se vsi strinjate s temi pravili.
