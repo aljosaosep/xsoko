@@ -10,10 +10,7 @@
  * Aljosa May 28 2008
  */
 
-
 #include "game.h"
-
-
 
 namespace PacGame
 {
