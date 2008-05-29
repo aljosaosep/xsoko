@@ -22,46 +22,46 @@
 
 namespace PacGame
 {
-          namespace GameClasses
+      namespace GameClasses
+      {
+            /**********************************************************
+           * PGame
+           *
+           * Represents a whole window and game main functions
+           * --------------------------------------------------------
+           * Aljosa 2007
+           * ********************************************************/
+          class PGame
           {
-                            /**********************************************************
-                           * PGame
-                           *
-                           * Represents a whole window and game main functions
-                           * --------------------------------------------------------
-                           * Aljosa 2007
-                           * ********************************************************/
-			  class PGame
-			  {
-			  private:
-				  int windowWidth, windowHeight;
-				  string windowTitle;
-                                  
-			  public:
-				  // variables
-				  PMessages msg;
-				  PacGame::RenderMaschine::PRenderer renderer;
+          private:
+                  int windowWidth, windowHeight;
+                  string windowTitle;
 
-				  // prototypes
-				  // constructors
-				  PGame();
-				  PGame(int _width, int _height, string _title);
+          public:
+                  // variables
+                  PMessages msg;
+                  PacGame::RenderMaschine::PRenderer renderer;
 
-				  // destructor
-				  ~PGame();
+                  // prototypes
+                  // constructors
+                  PGame();
+                  PGame(int _width, int _height, string _title);
 
-				  // other
-				  bool initGame();
-				  void mainLoop();
-				  void renderGame();
-				  void terminateGLFW();
+                  // destructor
+                  ~PGame();
 
-				  // setters
-				  void setWindow(int _width, int _height);
-				  void setWindowTitle(string _title);
+                  // other
+                  bool initGame();
+                  void mainLoop();
+                  void renderGame();
+                  void terminateGLFW();
 
-			  };
-          }
+                  // setters
+                  void setWindow(int _width, int _height);
+                  void setWindowTitle(string _title);
+
+          };
+      }
 }
 
 #endif
