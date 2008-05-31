@@ -14,7 +14,7 @@ _verzija 0.01_
 ----
 *0. Časovni okvir*
 
-Projekt brez časovnega roka je nedokonačan projekt, zato je naš cilj izdat končno verzijo igre do *1.9.2008 00:00* (komentirajte)
+Projekt brez časovnega roka je nedokonačan projekt, zato je naš cilj izdat končno verzijo igre do *1.10.2008 00:00* (komentirajte)
 
 *1. Opis*
 
@@ -36,14 +36,14 @@ Vec informacij o sokobanu na [http://en.wikipedia.org/wiki/Sokoban wikipediji]; 
 
 *4. Gameplay*
 
-Imamo igralca, ki ga lahko z pomocjo smernih tipk na tipkovnici pomikamo gor, dol, levo, desno. Igralec lahko premika kocke; premakne jih lahko kamorkoli, kjer je prazno mesto. Kocko premakne tako, da se postavi na eno od sosednjih kock in se premakne v smer, kamor hoce kocko premaknit.
-Igralec lahko gre tudi skozi teleport(lahko gre kocka tudi cez teleport? imo naj ne). Lahko raztreli dolocene(specificne) blocne elemente, ce ima bombo. Bombo pa lahko ali pobere ali pa mu je katera dodeljena na zacetku stopnje.
-Ce je kocka, ki jo igralec premika ob bombi, ali naj razstreli tudi kocko(in sledi gameover?)
+Imamo igralca, ki ga lahko z pomočjo smernih tipk na tipkovnici pomikamo gor, dol, levo, desno. Igralec lahko premika kocke; premakne jih lahko kamorkoli, kjer je prazno mesto. Kocko premakne tako, da se postavi na eno od sosednjih kock in se premakne v smer, kamor hoče kocko premaknit.
+Igralec lahko gre tudi skozi teleport (kocka ne sme skozi teleport). Lahko razstreli določene (specifične) bločne elemente (*katere elemente imamo tukaj v mislih?*), če ima bombo. Bombo pa lahko ali pobere ali pa mu je katera dodeljena na začetku stopnje.
+Če je kocka, ki jo igralec premika ob bombi, ali naj razstreli tudi kocko(in sledi gameover?)
 
-Cilj igralca je, da "obrne" vse stopnje, pri cemer lahko trenutno stanje shrani. Vprasanje, ki se poraja je, ali funkcija "shrani" shrani igro do stopnje, v katerem je bil v trenutnku, ko je igro shranjeval, ta stopnja pa se "resetira", ali se shrani tudi stanje v stopnji in tako "load" vrze igralca tocno na tocko, kjer je koncal, preden je shranil(komentirajte).
-Igralec drzi tudi nek "highscore" oz. tocke, ki jih je nabral do trenutne stopnje; ta higscore je pa odvisen od casa, ki ga igralec porabi za stopnjo in od stevila potez.
+Cilj igralca je, da "obrne" vse stopnje, pri čemer lahko trenutno stanje shrani. Vprašanje, ki se poraja je, ali funkcija "shrani" shrani igro do stopnje, v katerem je bil v trenutnku, ko je igro shranjeval, ta stopnja pa se "resetira", ali se shrani tudi stanje v stopnji in tako "load" vrze igralca tocno na tocko, kjer je koncal, preden je shranil(komentirajte).
+Igralec drzi tudi nek "highscore" oz. tocke, ki jih je nabral do trenutne stopnje; ta higscore je pa odvisen od časa, ki ga igralec porabi za stopnjo in od števila potez.
 
-Ko igralec obrne kampanijski del, lahko tudi naredi/zdownloada kak drug level in se ubada z njim. Highscore je v tem primeru vezan le na to stopnjo, medtem ko se pri kampaniji sesteva.
+Ko igralec obrne kampanijski del, lahko tudi naredi/zdownloada kak drug level in se ubada z njim. Highscore je v tem primeru vezan le na to stopnjo, medtem ko se pri kampaniji sešteva.
 
 *5. Igralno polje*
 
@@ -70,5 +70,10 @@ Eden izmed (pomebnih) sestavnih delov projekta je tudi level editor. Končnemu u
  * možicelj (premikanje, porivanje)
  * kocke (premikanje v eno smer kadar jih poriva možicelj)
  * cilji (vse kocke morajo priti v "štalco" nakar se izpiše "super, opravil si level 1...ti si car!")
- * 1 delujoč level! (oziroma vec, ker bo potrebno veliko testiranja)
- * osnovni level editor, ni nujno koncni 
+ * 1. delujoč level! (oziroma vec, ker bo potrebno veliko testiranja)
+ * osnovni level editor, ni nujno koncni
+
+*9. Sprejeti inovativni dodatki in njihova namembnost*
+
+Ideja našega projekta je inovativno razširiti klasični sokoban. In kot smo hitro ugotovili je potrebno o naših inovacijah razmišljati že zelo zgodaj, drugače lahko kasneje pride do (velikih) težav pri implementaciji.
+ * _teleport_: teleportira (preslika, prestavi) igralca iz enega začetnega mesta (začetna luknja) proti končnemu mestu za teleport. *Vprašanje: uporabimo 2-hole-teleport (enostavno uporabimo samo dve 'luknji') ali kaj bolj kompleksnega?*
