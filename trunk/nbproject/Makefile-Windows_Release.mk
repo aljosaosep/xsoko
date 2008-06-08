@@ -12,16 +12,16 @@ MKDIR=mkdir
 CP=cp
 CCADMIN=CCadmin
 RANLIB=ranlib
-CC=gcc.exe
-CCC=g++.exe
-CXX=g++.exe
+CC=gcc
+CCC=g++
+CXX=g++
 FC=
 
 # Include project Makefile
 include Makefile
 
 # Object Directory
-OBJECTDIR=build/Windows_Release/Cygwin-Windows
+OBJECTDIR=build/Windows_Release/GNU-Windows
 
 # Object Files
 OBJECTFILES= \
@@ -55,11 +55,11 @@ FFLAGS=
 LDLIBSOPTIONS=-lglfw -lopengl32 -lglu32
 
 # Build Targets
-.build-conf: ${BUILD_SUBPROJECTS} dist/Windows_Release/Cygwin-Windows/xsoko.exe
+.build-conf: ${BUILD_SUBPROJECTS} dist/Windows_Release/GNU-Windows/xsoko.exe
 
-dist/Windows_Release/Cygwin-Windows/xsoko.exe: ${OBJECTFILES}
-	${MKDIR} -p dist/Windows_Release/Cygwin-Windows
-	${LINK.cc} -o dist/Windows_Release/Cygwin-Windows/xsoko ${OBJECTFILES} ${LDLIBSOPTIONS} 
+dist/Windows_Release/GNU-Windows/xsoko.exe: ${OBJECTFILES}
+	${MKDIR} -p dist/Windows_Release/GNU-Windows
+	${LINK.cc} -o dist/Windows_Release/GNU-Windows/xsoko ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
 ${OBJECTDIR}/src/player.o: src/player.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
@@ -127,11 +127,7 @@ ${OBJECTDIR}/src/levelbox.o: src/levelbox.cpp
 # Clean Targets
 .clean-conf:
 	${RM} -r build/Windows_Release
-	${RM} dist/Windows_Release/Cygwin-Windows/xsoko.exe
+	${RM} dist/Windows_Release/GNU-Windows/xsoko.exe
 
 # Subprojects
 .clean-subprojects:
-
-# Enable dependency checking
-.KEEP_STATE:
-.KEEP_STATE_FILE:.make.state.${CONF}

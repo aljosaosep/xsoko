@@ -24,94 +24,55 @@ namespace PacGame
 {
           namespace GameClasses
           {
-
 			  /*****************************************
 			   PLevelBox methods
-			   *****************************************/
-			  // constructors
-		/*	  PLevelBox::PLevelBox() {}
-
-			  PLevelBox::PLevelBox(PBoxInfo inf)
+			   *****************************************/			  
+                          void PLevelObject::setIndex(unsigned i, unsigned j) // index setter
 			  {
-				  info = inf;
+				  this->i = i;
+				  this->j = j;
 			  }
 
-			  PLevelBox::PLevelBox(float x, float y, uint8_t type, uint8_t meta)
+			  void PLevelObject::setI(unsigned i)  // i index setter
 			  {
-				  setCoordinates(x, y);
-				  setInfo(type, meta);
+				  this->i = i;
 			  }
 
-			  // setters
-			  void PLevelBox::setType(uint8_t type)
+			  void PLevelObject::setJ(unsigned j)  // j index setter
 			  {
-				  info.fieldType = type;
+				  this->j = j;
 			  }
 
-			  void PLevelBox::setMeta(uint8_t meta)
+			  unsigned PLevelObject::getI()  // i index getter
 			  {
-				  info.fieldMeta = meta;
+				  return this->i;
 			  }
 
-			  void PLevelBox::setInfo(PBoxInfo inf)
+			  unsigned PLevelObject::getJ()  // j index getter
 			  {
-				  info = inf;
+				  return this->j;
 			  }
 
-			  void PLevelBox::setInfo(uint8_t type, uint8_t meta)
+			  void PLevelObject::getIndex(unsigned &i, unsigned &j)  // both index getter
 			  {
-				  	info.fieldType = type;
-					info.fieldMeta = meta;
-			  }
-
-			  // getters
-			  void PLevelBox::getInfo(uint8_t &type, uint8_t &meta)
-			  {
-				  type = info.fieldType;
-				  meta = info.fieldMeta;
-			  }
-
-			  PBoxInfo PLevelBox::getInfo()
-			  {
-				  return info;
-			  }
-
-			  int PLevelBox::getType()
-			  {
-				  return (int)info.fieldType;
-			  }
-
-			  int PLevelBox::getMeta()
-			  {
-				  return (int)info.fieldMeta;
+				  i = this->i;
+				  j = this->j;
 			  }
 
 
-			  // ===== OBJECT FUNCTIONS TO OVERRIDE =====//
-			  void PLevelBox::draw()
-			  {
-				  // TODO
-			  }
-
-              bool PLevelBox::initialize()
-			  {
-				  // TODO
-				  return true;
-			  }
-
-              void PLevelBox::print()
+                  /*        void PLevelBox::print()
 			  {
 				 // cout<<"\nInfo:\n Type:"<<(int)info.fieldType<<" Meta:"<<(int)info.fieldMeta<<endl;
 				  cout<<"------------"<<endl;
 				  cout<<"| Position:|"<<endl;
-				  cout<<"| x: "<<getCoordX()<<"   |"<<endl;
-				  cout<<"| y: "<<getCoordY()<<"   |"<<endl;
+				  cout<<"| x: "<<positon.getCoordX()<<"   |"<<endl;
+				  cout<<"| y: "<<position.getCoordY()<<"   |"<<endl;
 				  cout<<"|----------|"<<endl;
-				  cout<<"| Type: "<<(int)info.fieldType<<"  |"<<endl;
-				  cout<<"| Meta: "<<(int)info.fieldMeta<<"  |"<<endl;
+				  //cout<<"| Type: "<<(int)info.fieldType<<"  |"<<endl;
+				  //cout<<"| Meta: "<<(int)info.fieldMeta<<"  |"<<endl;
 				  cout<<"------------"<<endl;
-			  }
-*/
+			  }*/
+
 
 			  /*****************************************
 			   PLevel methods

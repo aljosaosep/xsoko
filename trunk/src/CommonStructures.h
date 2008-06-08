@@ -6,11 +6,10 @@
 #ifndef __COMMON_STRUCTURES_H
 #define __COMMON_STRUCTURES_H
 
-#include "../include/GL/glfw.h"
+#include <GL/glfw.h>
 #include "stdint.h"
 
-#define LEVEL_WIDTH 5
-#define LEVEL_HEIGHT 5
+
 
 
 namespace PacGame
@@ -52,11 +51,11 @@ namespace PacGame
 					* --------------------------------------------------------
                     * Aljosa 2007
                     * ********************************************************/
-                    struct PPosition2D
+                 /*   struct PPosition2D
                     {
                             float x;
                             float y;
-                    }; 
+                    }; */
 
 					/**********************************************************
                     * PBoxInfo
@@ -65,11 +64,12 @@ namespace PacGame
 					* --------------------------------------------------------
                     * Aljosa 2007
                     * ********************************************************/
-					struct PBoxInfo
+                    // obsolete
+					/*struct PBoxInfo
 					{
 							uint8_t fieldType; // type of field(wall, floor, ...)  // uint8_t: 0-255, more than enough ;)
 							uint8_t fieldMeta; // type of object on field
-					};
+					};*/
 
 					/**********************************************************
                     * PTextureImage
