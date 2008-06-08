@@ -55,6 +55,9 @@ namespace PacGame
                       RenderMaschine::PTexture textura("data/test.tga");
                       if(!textura.makeTgaTexture(true))
                           return false;
+                      
+                     // glBindTexture(GL_TEXTURE_2D, textura.getTexId());
+                      
 
                       msg.initMessage("Game", true);
                       return true;

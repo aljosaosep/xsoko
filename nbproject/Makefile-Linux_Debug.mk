@@ -12,16 +12,16 @@ MKDIR=mkdir
 CP=cp
 CCADMIN=CCadmin
 RANLIB=ranlib
-CC=gcc.exe
-CCC=g++.exe
-CXX=g++.exe
+CC=gcc
+CCC=g++
+CXX=g++
 FC=
 
 # Include project Makefile
 include Makefile
 
 # Object Directory
-OBJECTDIR=build/Linux_Debug/Cygwin-Windows
+OBJECTDIR=build/Linux_Debug/GNU-Linux-x86
 
 # Object Files
 OBJECTFILES= \
@@ -52,14 +52,14 @@ CXXFLAGS=
 FFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-lglfw -lGL -lGLU -lXxf86vm -lm -lXrndr
+LDLIBSOPTIONS=-lglfw -lGL -lGLU -lXxf86vm -lm -lXrandr -lglfw
 
 # Build Targets
-.build-conf: ${BUILD_SUBPROJECTS} dist/Linux_Debug/Cygwin-Windows/xsoko.exe
+.build-conf: ${BUILD_SUBPROJECTS} dist/Linux_Debug/GNU-Linux-x86/xsoko
 
-dist/Linux_Debug/Cygwin-Windows/xsoko.exe: ${OBJECTFILES}
-	${MKDIR} -p dist/Linux_Debug/Cygwin-Windows
-	${LINK.cc} -o dist/Linux_Debug/Cygwin-Windows/xsoko ${OBJECTFILES} ${LDLIBSOPTIONS} 
+dist/Linux_Debug/GNU-Linux-x86/xsoko: ${OBJECTFILES}
+	${MKDIR} -p dist/Linux_Debug/GNU-Linux-x86
+	${LINK.cc} -o dist/Linux_Debug/GNU-Linux-x86/xsoko ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
 ${OBJECTDIR}/src/player.o: src/player.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
@@ -127,11 +127,7 @@ ${OBJECTDIR}/src/levelbox.o: src/levelbox.cpp
 # Clean Targets
 .clean-conf:
 	${RM} -r build/Linux_Debug
-	${RM} dist/Linux_Debug/Cygwin-Windows/xsoko.exe
+	${RM} dist/Linux_Debug/GNU-Linux-x86/xsoko
 
 # Subprojects
 .clean-subprojects:
-
-# Enable dependency checking
-.KEEP_STATE:
-.KEEP_STATE_FILE:.make.state.${CONF}

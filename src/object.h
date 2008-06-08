@@ -56,18 +56,7 @@ namespace PacGame
                        PObject(float x, float y);
 								// PObject(float x, float y, float i, float j);
                        virtual ~PObject();
-
-								 // setters
-							//	 void setIndex(unsigned i, unsigned j);
-							//	 void setI(unsigned i);
-							//	 void setJ(unsigned j);
-
-								 // getters
-							//	 unsigned getI();
-							//	 unsigned getJ();
-							//	 void getIndex(unsigned &i, unsigned &j);
-
-								 // linked list
+						 // linked list
                        void add(PObject *obj);
                        void dumpList() const;
                        void releaseList();

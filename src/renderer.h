@@ -25,74 +25,75 @@ using namespace std;
 
 namespace PacGame
 {
-    
-      namespace RenderMaschine
-      {
-          
-            /**********************************************************
-            * PRenderer
-            *
-            * Class for drawing stuff
-            * --------------------------------------------------------
-            * Aljosa 2007
-            * ********************************************************/
-            class PRenderer
-            {
-            // TODO
-            private:
-            public:
-                    // constructor
-                    PRenderer();
-                    PMessages msg;
 
-                    // render func
-                    void drawBackground();
-                    void drawSkyDome();
-                    void drawCube(float x, float y, float size);
-                    void drawFloor(float x, float y, float size);
-            };
+  namespace RenderMaschine
+  {
 
-            /**********************************************************
-             * PTexture
-             *
-             * Class for drawing stuff
-             * --------------------------------------------------------
-             * Aljosa 2007
-             * ********************************************************/
-            class PTexture
-            {
-            private:
-                    string filename;
+        /**********************************************************
+        * PRenderer
+        *
+        * Class for drawing stuff
+        * --------------------------------------------------------
+        * Aljosa 2007
+        * ********************************************************/
+        class PRenderer
+        {
+        // TODO
+        private:
+        public:
+                // constructor
+                PRenderer();
+                PMessages msg;
 
-                    unsigned type; //  = GL_RGBA;
-                    PTextureImage texture;
+                // render func
+                void drawBackground();
+                void drawSkyDome();
+                void drawCube(float x, float y, float size);
+                void drawFloor(float x, float y, float size);
+        };
 
-            public:
-                    // constructor
-                    PTexture(string _filename);  // does it work? 16.3.08
-                    PTexture(string _filename, string type, bool filter);
-                    ~PTexture();
+        /**********************************************************
+         * PTexture
+         *
+         * Class for drawing stuff
+         * --------------------------------------------------------
+         * Aljosa 2007
+         * ********************************************************/
+        class PTexture
+        {
+        private:
+                string filename;
 
-                    // variables
-                    PMessages msg;
+                unsigned type; //  = GL_RGBA;
+                PTextureImage texture;
 
-                    // protoypes
-                    bool loadTGA();
-                    void generateTextureMipmap();
-                    void generateTextureLinear();
-                    bool makeTgaTexture(bool mipmap);
+        public:
+                // constructor
+            PTexture() {}
+            PTexture(string _filename);  // does it work? 16.3.08
+            PTexture(string _filename, string type, bool filter);
+            ~PTexture();
 
-                    // getters
-                    unsigned getTexID();
+            // variables
+            PMessages msg;
 
-                    // TODO:
-                    // separate TGA loading and texture generating... done
-                    // create mipmap tex generator and linear... done
-                    // create function, that loads and generates texture... done
-                    // move texture image variable to class and free texture in destructor... done
-                    // move loadTga to io.h and create Pio object in this object
-            };
-      }
+            // protoypes
+            bool loadTGA();
+            void generateTextureMipmap();
+            void generateTextureLinear();
+            bool makeTgaTexture(bool mipmap);
+
+            // getters
+            unsigned getTexID();
+
+            // TODO:
+            // separate TGA loading and texture generating... done
+            // create mipmap tex generator and linear... done
+            // create function, that loads and generates texture... done
+            // move texture image variable to class and free texture in destructor... done
+            // move loadTga to io.h and create Pio object in this object
+    };
+  }
 }
 
 #endif

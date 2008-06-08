@@ -27,50 +27,12 @@ namespace PacGame
 			      position.setCoordinates(x, y);  // set vector coordinates	
 			  }
 
-			  /*PObject::PObject(float x, float y, float i, float j)
-			  {
-				  root = NULL; // initiates linked list
-				  setCoordinates(x, y); // set vector coordinates
-				  this->i = i;   // set i index
-				  this->j = j;   // set j index
-			  }*/
 
 			  PObject::~PObject()
 			  {
 				  releaseList();   // at destrution of class, release it's children from memory 
 			  }
 
-			/*  void PObject::setIndex(unsigned i, unsigned j) // index setter
-			  {
-				  this->i = i;
-				  this->j = j;
-			  }
-
-			  void PObject::setI(unsigned i)  // i index setter
-			  {
-				  this->i = i;
-			  }
-
-			  void PObject::setJ(unsigned j)  // j index setter
-			  {
-				  this->j = j;
-			  }
-
-			  unsigned PObject::getI()  // i index getter
-			  {
-				  return this->i;
-			  }
-
-			  unsigned PObject::getJ()  // j index getter
-			  {
-				  return this->j;
-			  }
-
-			  void PObject::getIndex(unsigned &i, unsigned &j)  // both index getter
-			  {
-				  i = this->i;
-				  j = this->j;
-			  }*/
 
 			  void PObject::print()
 			  {
