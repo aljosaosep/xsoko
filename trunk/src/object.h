@@ -16,7 +16,7 @@
 
 #include <string>
 #include "CommonStructures.h"
-#include "renderer.h"
+#include "renderer/renderer.h"
 #include "vector.h"
 #include "messages.h"
 

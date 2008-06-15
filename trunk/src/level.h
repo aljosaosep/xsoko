@@ -16,7 +16,7 @@
 
 #include "stdint.h"
 #include "object.h"
-#include "renderer.h"
+#include "renderer/renderer.h"
 
 using namespace PacGame::GameClasses;
 using namespace PacGame::RenderMaschine;

@@ -16,8 +16,8 @@
 #include <GL/glfw.h>
 #include <stdio.h>
 #include <string>
-#include "CommonStructures.h"
-#include "messages.h"
+#include "../CommonStructures.h"
+#include "../messages.h"
 
 using namespace PacGame::Structures;
 using namespace PacGame::GameClasses;
