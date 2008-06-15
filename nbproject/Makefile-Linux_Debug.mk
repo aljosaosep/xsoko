@@ -29,8 +29,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/src/object.o \
 	${OBJECTDIR}/src/game-funcrender.o \
 	${OBJECTDIR}/src/game.o \
-	${OBJECTDIR}/src/renderer-texture.o \
 	${OBJECTDIR}/src/io.o \
+	${OBJECTDIR}/src/renderer/renderer-texture.o \
 	${OBJECTDIR}/src/game-funcinit.o \
 	${OBJECTDIR}/src/main.o \
 	${OBJECTDIR}/src/filemanagment.o \
@@ -38,8 +38,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/src/openglfunc.o \
 	${OBJECTDIR}/src/level.o \
 	${OBJECTDIR}/src/vector.o \
-	${OBJECTDIR}/src/renderer-core.o \
-	${OBJECTDIR}/src/levelbox.o
+	${OBJECTDIR}/src/levelbox.o \
+	${OBJECTDIR}/src/renderer/renderer-core.o
 
 # C Compiler Flags
 CFLAGS=
@@ -77,13 +77,13 @@ ${OBJECTDIR}/src/game.o: src/game.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
 	$(COMPILE.cc) -g -Wall -o ${OBJECTDIR}/src/game.o src/game.cpp
 
-${OBJECTDIR}/src/renderer-texture.o: src/renderer-texture.cpp 
-	${MKDIR} -p ${OBJECTDIR}/src
-	$(COMPILE.cc) -g -Wall -o ${OBJECTDIR}/src/renderer-texture.o src/renderer-texture.cpp
-
 ${OBJECTDIR}/src/io.o: src/io.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
 	$(COMPILE.cc) -g -Wall -o ${OBJECTDIR}/src/io.o src/io.cpp
+
+${OBJECTDIR}/src/renderer/renderer-texture.o: src/renderer/renderer-texture.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src/renderer
+	$(COMPILE.cc) -g -Wall -o ${OBJECTDIR}/src/renderer/renderer-texture.o src/renderer/renderer-texture.cpp
 
 ${OBJECTDIR}/src/game-funcinit.o: src/game-funcinit.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
@@ -113,13 +113,13 @@ ${OBJECTDIR}/src/vector.o: src/vector.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
 	$(COMPILE.cc) -g -Wall -o ${OBJECTDIR}/src/vector.o src/vector.cpp
 
-${OBJECTDIR}/src/renderer-core.o: src/renderer-core.cpp 
-	${MKDIR} -p ${OBJECTDIR}/src
-	$(COMPILE.cc) -g -Wall -o ${OBJECTDIR}/src/renderer-core.o src/renderer-core.cpp
-
 ${OBJECTDIR}/src/levelbox.o: src/levelbox.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
 	$(COMPILE.cc) -g -Wall -o ${OBJECTDIR}/src/levelbox.o src/levelbox.cpp
+
+${OBJECTDIR}/src/renderer/renderer-core.o: src/renderer/renderer-core.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src/renderer
+	$(COMPILE.cc) -g -Wall -o ${OBJECTDIR}/src/renderer/renderer-core.o src/renderer/renderer-core.cpp
 
 # Subprojects
 .build-subprojects:

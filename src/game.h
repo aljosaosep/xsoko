@@ -15,7 +15,7 @@
 
 #include <GL/glfw.h>
 #include <stdio.h>
-#include "renderer.h"
+#include "renderer/renderer.h"
 #include "messages.h"
 
 //using PacGame::RenderMaschine;
