@@ -5,7 +5,7 @@ _verzija 0.4_
 *Vsebina*
  # Opis
  # Cilj sokobana
- # Dodatni elementi (depre
+ # Dodatni elementi (deprecated)
  # Gameplay
  # Igralno polje
  # Iterakcija človek-igra
@@ -16,6 +16,7 @@ _verzija 0.4_
 
 *Pojmi*:
 zaradi nekonsistentnosti izrazov v dokumentaciji je potrebno definirati uporabljene pojme
+ * *uporabnik, igralec*: oseba, ki igra igro
  * *sokoban, možicelj*: glavni lik; uporavlja ga uporabnik; možicelj lahko premika določene elemente gor in dol po igralni plošči
  * *škatla*: objekt, ki ga možicelj (sokobanček) lahko premika gor in dol
  * *zid*: statični objekt, katerega možicelj ne more premikati; prav tako ga ne more prečkat noben drug objekt
@@ -40,7 +41,7 @@ Predelava klasičnega sokobana z nekaj dodatki.
 Škatle so nameščene po stopnji. Cilj igre je, da jih možicelj potisne v ciljni prostor. Škatlo lahko igralec pomika gor, dol, levo desno.
 Vec informacij o klasičnem sokobanu na [http://en.wikipedia.org/wiki/Sokoban wikipediji]; [http://www.geocities.com/ygp_bg/sokoban.html primer] sokobana (za windows)
 
-*3. Dodatni elementi (inovativni dodatki) - ta točka se umakne in ostane 9. točka!*
+*3. Dodatni elementi (DEPRECATED) - ta točka se umakne in ostane 9. točka!*
  * teleport
  * bomba, s katero laho razbije „leseno“ povrsino
  * polje, čez katerega se lahko premakneš samo 1x (most, ki se po prečkanju 'podre')
