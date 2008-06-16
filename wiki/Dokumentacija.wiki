@@ -11,6 +11,7 @@ _verzija 0.4_
  # Iterakcija človek-igra
  # Level editor (urejevalnik stopenj)
  # Cilji za verzijo 0.5
+ # Sprejeti inovativni dodatki in njihova namembnost
 ----
 *0. Časovni okvir*
 
