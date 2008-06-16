@@ -11,8 +11,19 @@ _verzija 0.4_
  # Iterakcija človek-igra
  # Level editor (urejevalnik stopenj)
  # Cilji za verzijo 0.5
- # Sprejeti inovativni dodatki in njihova namembnost
 ----
+
+*Pojmi*:
+zaradi nekonsistentnosti izrazov v dokumentaciji je potrebno definirati uporabljene pojme
+ * *sokoban, možicelj*: glavni lik; uporavlja ga uporabnik; možicelj lahko premika določene elemente gor in dol po igralni plošči
+ * *škatla*: objekt, ki ga možicelj (sokobanček) lahko premika gor in dol
+ * *zid*: statični objekt, katerega možicelj ne more premikati; prav tako ga ne more prečkat noben drug objekt
+ * *teleport*: objekt skozi katerega se možicelj premakne (preslika,...) na drugo pozicijo v igralni plošči
+ * *ciljni prostor*: objekt (ali mesto) na katerega možiclj mora premaknit škatlo
+ * *tla*: objekt kateri lahko vsebuje (nosi) druge objekte nad sabo: škatla, možicelj
+ * *bomba*: (destruktitev) objekt, ki lahko uničuje (določene) ostale objekte: leseni zid
+ * *leseni zid*: za ta objekt velja enako, kot za navadni zid; ima dodatno lastnost, da se ga lahko uniči (razstreli) z bombo 
+
 *0. Časovni okvir*
 
 Projekt brez časovnega roka je nedokonačan projekt, zato je naš cilj izdat končno verzijo igre do *1.10.2008 00:00*.
@@ -25,10 +36,10 @@ Predelava klasičnega sokobana z nekaj dodatki.
 
 *2. Cilj sokobana*
 
-Kocke so nameščene po stopnji. Cilj igre je, da jih igralec potisne v zanj namenjen prostor. Kocko lahko igralec pomika gor, dol, levo desno.
-Vec informacij o sokobanu na [http://en.wikipedia.org/wiki/Sokoban wikipediji]; [http://www.geocities.com/ygp_bg/sokoban.html primer] sokobana (za windows)
+Škatle so nameščene po stopnji. Cilj igre je, da jih možicelj potisne v ciljni prostor. Škatlo lahko igralec pomika gor, dol, levo desno.
+Vec informacij o klasičnem sokobanu na [http://en.wikipedia.org/wiki/Sokoban wikipediji]; [http://www.geocities.com/ygp_bg/sokoban.html primer] sokobana (za windows)
 
-*3. Dodatni elementi (inovativni dodatki)*
+*3. Dodatni elementi (inovativni dodatki) - ta točka se umakne in ostane 9. točka!*
  * teleport
  * bomba, s katero laho razbije „leseno“ povrsino
  * polje, čez katerega se lahko premakneš samo 1x (most, ki se po prečkanju 'podre')
@@ -38,8 +49,8 @@ Vec informacij o sokobanu na [http://en.wikipedia.org/wiki/Sokoban wikipediji]; 
 
 *4. Gameplay*
 
-Imamo igralca, ki ga lahko z pomočjo smernih tipk na tipkovnici pomikamo gor, dol, levo, desno. Igralec lahko premika kocke; premakne jih lahko kamorkoli, kjer je prazno mesto. Kocko premakne tako, da se postavi na eno od sosednjih kock in se premakne v smer, kamor hoče kocko premaknit.
-Igralec lahko gre tudi skozi teleport (kocka ne sme skozi teleport). Lahko razstreli določene (specifične) elemente (lesena škatla), če ima bombo. Bombo pa lahko ali pobere ali pa mu je katera dodeljena na začetku stopnje. Kocke (ki je more premaknit do cilja), zida, tla,... ni mogoče razstreliti
+Uporabnik s pomočjo smernih tipk pomika možiclja gor, dol, levo, desno. Možicelj lahko potiska škatle; premakne jih lahko kamorkoli na (praznih) tleh. To seveda stori tako, da se postavi 1 polje stran od škatle in "potisne" škatlo v izbrano smer (klasični sokoban).
+Možicelj lahko gre tudi skozi teleport (škatla ne sme skozi teleport). Lahko razstreli določene elemente (lesena kocka), če ima bombo. Bombo pa lahko ali pobere ali pa mu je katera dodeljena na začetku stopnje. Škatle, zida, tla ni mogoče razstreliti
 
 Cilj igralca je, da "obrne" vse stopnje, pri čemer lahko trenutno stanje shrani. To lahko stori na *dva* načina. Ob kliku na ESC (zapušča igro) se ga vpraša ali hoče shranit igro. Drugi način pa je, da med igranjem pritisne CTRL+S in se mu prikaže dialog za shranjevanje igre.
 Igralec drži tudi nek "highscore" oz. točke, ki jih je nabral do trenutne stopnje; ta higscore je pa odvisen od časa, ki ga igralec porabi za stopnjo in od števila potez.
@@ -49,7 +60,7 @@ Ko igralec obrne kampanijski del, lahko tudi naredi/zdownloada kak drug level in
 *5. Igralno polje*
 
 Igralno polje je sestavljeno iz dvodimenzionalne matrike velikosti m×n (predlog za dejansko velikost: *30x30*). Osnovni element, ki sestavljajo matriko se naj imenujeje 'kocka'.
-Kocka je prazen element (ne vsebuje ničesar nad sabo, niti tla). Na kocke potem projeciramo osnovne gradnike: tla, zid, škatla (to zadevo poriva sem in tja naš sokoban), ciljno polje (sem pa jo je potrebno zrivat), igralec (sokoban) + ostali naši inovativni dodatki. 'tla' je poseben osnovni gradnik, saj ima lahko na sebi sledeče gradnike: igralec, škatla.
+Kocka je prazen element (ne vsebuje ničesar nad sabo, niti tla). Na kocke potem projeciramo osnovne gradnike: tla, zid, škatla, ciljno polje, možicelj (sokoban) + ostali inovativni dodatki.
 
 *6. Interakcija človek-igra*
 
@@ -63,14 +74,14 @@ Uporabnik klikne na ikono 'xSoko'. Zažene se igra v celozaslonki način. Ko se 
 
 *7. Level editor (urejevalnik stopenj)*
 
-Eden izmed (pomebnih) sestavnih delov projekta je tudi level editor. Končnemu uporabniku omogoča izdelavo svojih stopenj, ki jih kasneje lahko uvozi v igro. Gre za preprosto aplikacijo v kateri ima na voljo vse grafične gradnike (zid, stena, kocka, igralec,...) in jih lahko poljubno razporedi po mreži (velikost mreže ima maksimum, minimum).
+Eden izmed (pomebnih) sestavnih delov projekta je tudi level editor. Končnemu uporabniku omogoča izdelavo svojih stopenj, ki jih kasneje lahko uvozi v igro. Gre za preprosto aplikacijo v kateri ima na voljo vse grafične gradnike (zid, škatla, možicelj, ciljno polje...) in jih lahko poljubno razporedi po mreži (velikost mreže ima maksimum, minimum).
 
 
 *8. Cilji za verzijo 0.5* (*deadline: 20.8.2008*)
  * zidovi (vse kar paše k njim, se pravi da se ne prehaja skozi njih)
  * možicelj (premikanje, porivanje)
- * kocke (premikanje v eno smer kadar jih poriva možicelj)
- * cilji (vse kocke morajo priti v "štalco" nakar se izpiše "super, opravil si level 1...ti si car!")
+ * škatle (premikanje v eno smer kadar jih poriva možicelj)
+ * cilja polja (vse kocke morajo priti v "štalco" nakar se izpiše "super, opravil si level 1...ti si car!")
  * 1. delujoč level! (oziroma vec, ker bo potrebno veliko testiranja)
  * osnovni level editor (ni nujno koncni)
 
