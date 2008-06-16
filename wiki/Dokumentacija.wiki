@@ -5,7 +5,7 @@ _verzija 0.4_
 *Vsebina*
  # Opis
  # Cilj sokobana
- # Dodatni elementi (deprecated)
+ # Dodatni elementi (depre
  # Gameplay
  # Igralno polje
  # Iterakcija človek-igra
@@ -16,7 +16,6 @@ _verzija 0.4_
 
 *Pojmi*:
 zaradi nekonsistentnosti izrazov v dokumentaciji je potrebno definirati uporabljene pojme
- * *uporabnik, igralec*: oseba, ki igra igro
  * *sokoban, možicelj*: glavni lik; uporavlja ga uporabnik; možicelj lahko premika določene elemente gor in dol po igralni plošči
  * *škatla*: objekt, ki ga možicelj (sokobanček) lahko premika gor in dol
  * *zid*: statični objekt, katerega možicelj ne more premikati; prav tako ga ne more prečkat noben drug objekt
@@ -41,7 +40,7 @@ Predelava klasičnega sokobana z nekaj dodatki.
 Škatle so nameščene po stopnji. Cilj igre je, da jih možicelj potisne v ciljni prostor. Škatlo lahko igralec pomika gor, dol, levo desno.
 Vec informacij o klasičnem sokobanu na [http://en.wikipedia.org/wiki/Sokoban wikipediji]; [http://www.geocities.com/ygp_bg/sokoban.html primer] sokobana (za windows)
 
-*3. Dodatni elementi (DEPRECATED) - ta točka se umakne in ostane 9. točka!*
+*3. Dodatni elementi (inovativni dodatki) - ta točka se umakne in ostane 9. točka!*
  * teleport
  * bomba, s katero laho razbije „leseno“ povrsino
  * polje, čez katerega se lahko premakneš samo 1x (most, ki se po prečkanju 'podre')
@@ -52,7 +51,7 @@ Vec informacij o klasičnem sokobanu na [http://en.wikipedia.org/wiki/Sokoban wi
 *4. Gameplay*
 
 Uporabnik s pomočjo smernih tipk pomika možiclja gor, dol, levo, desno. Možicelj lahko potiska škatle; premakne jih lahko kamorkoli na (praznih) tleh. To seveda stori tako, da se postavi 1 polje stran od škatle in "potisne" škatlo v izbrano smer (klasični sokoban).
-Možicelj lahko gre tudi skozi teleport (škatla ne sme skozi teleport). Lahko razstreli določene elemente (lesena kocka), če ima bombo. Bombo pa lahko ali pobere ali pa mu je katera dodeljena na začetku stopnje. Škatle, zida, tla ni mogoče razstreliti
+Možicelj lahko gre tudi skozi teleport (škatla ne sme skozi teleport). Lahko razstreli določene elemente (leseni zid), če ima bombo. Bombo pa lahko ali pobere ali pa mu je katera dodeljena na začetku stopnje. Škatle, zida, tla ni mogoče razstreliti
 
 Cilj uporabnika je, da "obrne" vse stopnje, pri čemer lahko trenutno stanje shrani. To lahko stori na *dva* načina. Ob kliku na ESC (zapušča igro) se ga vpraša ali hoče shranit igro. Drugi način pa je, da med igranjem pritisne CTRL+S in se mu prikaže dialog za shranjevanje igre.
 Uporabnik drži tudi nek "highscore" oz. točke, ki jih je nabral do trenutne stopnje; ta higscore je pa odvisen od časa, ki ga igralec porabi za stopnjo in od števila potez.
