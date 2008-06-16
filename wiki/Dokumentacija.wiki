@@ -1,6 +1,6 @@
 #labels Phase-Design
 =Dokumentacija - xSoko=
-_verzija 0.01_
+_verzija 0.4_
 ----
 *Vsebina*
  # Opis
@@ -14,7 +14,8 @@ _verzija 0.01_
 ----
 *0. Časovni okvir*
 
-Projekt brez časovnega roka je nedokonačan projekt, zato je naš cilj izdat končno verzijo igre do *1.10.2008 00:00* (komentirajte)
+Projekt brez časovnega roka je nedokonačan projekt, zato je naš cilj izdat končno verzijo igre do *1.10.2008 00:00*.
+Časovni rok za izdelavo koncepta igre in dokumentacije je *29.6.2008 00:00*
 
 *1. Opis*
 
@@ -29,32 +30,31 @@ Vec informacij o sokobanu na [http://en.wikipedia.org/wiki/Sokoban wikipediji]; 
 *3. Dodatni elementi (inovativni dodatki)*
  * teleport
  * bomba, s katero laho razbije „leseno“ povrsino
- * polje, čez katerega se lahko premakneš samo 1x
+ * polje, čez katerega se lahko premakneš samo 1x (most, ki se po prečkanju 'podre')
  * enosmerno polje
- * mehanizem mostu
- * (ideja od dominika) kocke, ki se jih lahko potisne samo v eno smer(da/ne?)
+ * mehanizem mostu (*???*)
+ * (ideja od dominika) kocke, ki se jih lahko potisne samo v eno smer
 
 *4. Gameplay*
 
 Imamo igralca, ki ga lahko z pomočjo smernih tipk na tipkovnici pomikamo gor, dol, levo, desno. Igralec lahko premika kocke; premakne jih lahko kamorkoli, kjer je prazno mesto. Kocko premakne tako, da se postavi na eno od sosednjih kock in se premakne v smer, kamor hoče kocko premaknit.
-Igralec lahko gre tudi skozi teleport (kocka ne sme skozi teleport). Lahko razstreli določene (specifične) bločne elemente (*katere elemente imamo tukaj v mislih?*), če ima bombo. Bombo pa lahko ali pobere ali pa mu je katera dodeljena na začetku stopnje.
-Če je kocka, ki jo igralec premika ob bombi, ali naj razstreli tudi kocko(in sledi gameover?)
+Igralec lahko gre tudi skozi teleport (kocka ne sme skozi teleport). Lahko razstreli določene (specifične) elemente (lesena škatla), če ima bombo. Bombo pa lahko ali pobere ali pa mu je katera dodeljena na začetku stopnje. Kocke (ki je more premaknit do cilja), zida, tla,... ni mogoče razstreliti
 
-Cilj igralca je, da "obrne" vse stopnje, pri čemer lahko trenutno stanje shrani. Vprašanje, ki se poraja je, ali funkcija "shrani" shrani igro do stopnje, v katerem je bil v trenutnku, ko je igro shranjeval, ta stopnja pa se "resetira", ali se shrani tudi stanje v stopnji in tako "load" vrze igralca tocno na tocko, kjer je koncal, preden je shranil(komentirajte).
-Igralec drzi tudi nek "highscore" oz. tocke, ki jih je nabral do trenutne stopnje; ta higscore je pa odvisen od časa, ki ga igralec porabi za stopnjo in od števila potez.
+Cilj igralca je, da "obrne" vse stopnje, pri čemer lahko trenutno stanje shrani. To lahko stori na *dva* načina. Ob kliku na ESC (zapušča igro) se ga vpraša ali hoče shranit igro. Drugi način pa je, da med igranjem pritisne CTRL+S in se mu prikaže dialog za shranjevanje igre.
+Igralec drži tudi nek "highscore" oz. točke, ki jih je nabral do trenutne stopnje; ta higscore je pa odvisen od časa, ki ga igralec porabi za stopnjo in od števila potez.
 
 Ko igralec obrne kampanijski del, lahko tudi naredi/zdownloada kak drug level in se ubada z njim. Highscore je v tem primeru vezan le na to stopnjo, medtem ko se pri kampaniji sešteva.
 
 *5. Igralno polje*
 
-Igralno polje je sestavljeno iz dvodimenzionalne matrike velikosti m×n (predlog za dejansko velikost?). Osnovni element, ki sestavljajo matriko se naj imenujeje 'kocka'.
-Kocka je prazen element (ne vsebuje ničesar nad sabo, niti tla). Na kocke potem projeciramo osnovne gradnike sokobana: tla, zid, škatla (to zadevo poriva sem in tja naš sokoban), ciljno polje (sem pa jo je potrebno zrivat), igralec (sokoban) + ostali naši inovativni dodatki. 'tla' je poseben osnovni gradnik, saj ima lahko na sebi sledeče gradnike: igralec, kocka.
+Igralno polje je sestavljeno iz dvodimenzionalne matrike velikosti m×n (predlog za dejansko velikost: *30x30*). Osnovni element, ki sestavljajo matriko se naj imenujeje 'kocka'.
+Kocka je prazen element (ne vsebuje ničesar nad sabo, niti tla). Na kocke potem projeciramo osnovne gradnike: tla, zid, škatla (to zadevo poriva sem in tja naš sokoban), ciljno polje (sem pa jo je potrebno zrivat), igralec (sokoban) + ostali naši inovativni dodatki. 'tla' je poseben osnovni gradnik, saj ima lahko na sebi sledeče gradnike: igralec, škatla.
 
 *6. Interakcija človek-igra*
 
 Uporabnik klikne na ikono 'xSoko'. Zažene se igra v celozaslonki način. Ko se zadeva uspešno naloži se ponudi igralcu osnovni menu.
 
- * _Nova igra_: zažene se glavna zanka igre (1. level) in uporabnik začne opravjat svojo nalogo (igranje). Ob predčasnem izhodu iz igre (ESC) se igralcu ponudi shranjevanje igre (save game)
+ * _Nova igra_: uporabnika se vpraša ali hoče igrat uradno kampanijo ali hoče igrat ustvarjeno sobo; zažene se glavna zanka igre (1. level) in uporabnik začne opravjat svojo nalogo (igranje). Ob predčasnem izhodu iz igre (ESC) se igralcu ponudi shranjevanje igre (save game)
  * _Naloži igro_: uporabniku se ponudi možnost nalaganja shranjene igre
  * _Nastavitve_: ločljivost, barva igralca, tema tekstur
  * _Highscore_: lestvica najboljših
@@ -65,15 +65,15 @@ Uporabnik klikne na ikono 'xSoko'. Zažene se igra v celozaslonki način. Ko se 
 Eden izmed (pomebnih) sestavnih delov projekta je tudi level editor. Končnemu uporabniku omogoča izdelavo svojih stopenj, ki jih kasneje lahko uvozi v igro. Gre za preprosto aplikacijo v kateri ima na voljo vse grafične gradnike (zid, stena, kocka, igralec,...) in jih lahko poljubno razporedi po mreži (velikost mreže ima maksimum, minimum).
 
 
-*8. Cilji za verzijo 0.5* (predlagajte, do kdaj naj bi bila verzija 0.5 fertik!)
+*8. Cilji za verzijo 0.5* (*deadline: 20.8.2008*)
  * zidovi (vse kar paše k njim, se pravi da se ne prehaja skozi njih)
  * možicelj (premikanje, porivanje)
  * kocke (premikanje v eno smer kadar jih poriva možicelj)
  * cilji (vse kocke morajo priti v "štalco" nakar se izpiše "super, opravil si level 1...ti si car!")
  * 1. delujoč level! (oziroma vec, ker bo potrebno veliko testiranja)
- * osnovni level editor, ni nujno koncni
+ * osnovni level editor (ni nujno koncni)
 
 *9. Sprejeti inovativni dodatki in njihova namembnost*
 
-Ideja našega projekta je inovativno razširiti klasični sokoban. In kot smo hitro ugotovili je potrebno o naših inovacijah razmišljati že zelo zgodaj, drugače lahko kasneje pride do (velikih) težav pri implementaciji.
- * _teleport_: teleportira (preslika, prestavi) igralca iz enega začetnega mesta (začetna luknja) proti končnemu mestu za teleport. *Vprašanje: uporabimo 2-hole-teleport (enostavno uporabimo samo dve 'luknji') ali kaj bolj kompleksnega?*
+Glavna ideja našega projekta je inovativno razširiti klasični sokoban. In kot smo hitro ugotovili je potrebno o naših inovacijah razmišljati že zelo zgodaj, drugače lahko kasneje pride do (velikih) težav pri implementaciji.
+ * _teleport_: teleportira (preslika, prestavi) igralca iz enega začetnega mesta (začetna luknja) proti končnemu mestu za teleport; možnih je več lukenj za teleport (max 5), v tem primeru pa se teleportira v naprej definiranem zaporedju
