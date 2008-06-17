@@ -45,7 +45,6 @@ Vec informacij o klasičnem sokobanu na [http://en.wikipedia.org/wiki/Sokoban wi
  * bomba, s katero laho razbije „leseno“ povrsino
  * polje, čez katerega se lahko premakneš samo 1x (most, ki se po prečkanju 'podre')
  * enosmerno polje
- * mehanizem mostu (*???*)
  * (ideja od dominika) kocke, ki se jih lahko potisne samo v eno smer
 
 *4. Gameplay*
