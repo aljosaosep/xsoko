@@ -24,6 +24,7 @@ namespace PacGame
 {
       namespace GameClasses
       {
+
             /**********************************************************
            * PGame
            *
@@ -60,8 +61,18 @@ namespace PacGame
                   void setWindow(int _width, int _height);
                   void setWindowTitle(string _title);
 
-          };
+          };       
       }
+      
+        /**********************************************************
+       * Outside-of-class-functions
+       *
+       * For input, since GLFW callback functions takes 
+       * function pointer as argument
+       * --------------------------------------------------------
+       * Jernej Skrabec 2008
+       * ********************************************************/
+       void GLFWCALL processKey(int key, int action); // processKey function prototype; function takes action based on key that is pressed  
 }
 
 #endif

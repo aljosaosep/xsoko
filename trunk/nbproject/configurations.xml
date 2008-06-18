@@ -9,7 +9,6 @@
       </logicalFolder>
       <itemPath>src/CommonStructures.h</itemPath>
       <itemPath>src/entities.h</itemPath>
-      <itemPath>src/filemanager.h</itemPath>
       <itemPath>src/game.h</itemPath>
       <itemPath>src/io.h</itemPath>
       <itemPath>src/level.h</itemPath>
@@ -33,7 +32,6 @@
         <itemPath>src/renderer/renderer-texture.cpp</itemPath>
       </logicalFolder>
       <itemPath>src/CommonStructures.cpp</itemPath>
-      <itemPath>src/filemanagment.cpp</itemPath>
       <itemPath>src/game-init.cpp</itemPath>
       <itemPath>src/game-render.cpp</itemPath>
       <itemPath>src/game.cpp</itemPath>
@@ -64,6 +62,7 @@
           <warningLevel>2</warningLevel>
         </ccCompilerTool>
         <linkerTool>
+          <commandlineTool>g++.exe</commandlineTool>
           <linkerLibItems>
             <linkerLibLibItem>glfw</linkerLibLibItem>
             <linkerLibLibItem>opengl32</linkerLibLibItem>
@@ -82,12 +81,6 @@
       </item>
       <item path="src/entities.h">
         <itemTool>3</itemTool>
-      </item>
-      <item path="src/filemanager.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/filemanagment.cpp">
-        <itemTool>1</itemTool>
       </item>
       <item path="src/game-init.cpp">
         <itemTool>1</itemTool>
@@ -191,12 +184,6 @@
       <item path="src/entities.h">
         <itemTool>3</itemTool>
       </item>
-      <item path="src/filemanager.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/filemanagment.cpp">
-        <itemTool>1</itemTool>
-      </item>
       <item path="src/game-init.cpp">
         <itemTool>1</itemTool>
       </item>
@@ -296,12 +283,6 @@
       </item>
       <item path="src/entities.h">
         <itemTool>3</itemTool>
-      </item>
-      <item path="src/filemanager.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/filemanagment.cpp">
-        <itemTool>1</itemTool>
       </item>
       <item path="src/game-init.cpp">
         <itemTool>1</itemTool>
@@ -407,12 +388,6 @@
       </item>
       <item path="src/entities.h">
         <itemTool>3</itemTool>
-      </item>
-      <item path="src/filemanager.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/filemanagment.cpp">
-        <itemTool>1</itemTool>
       </item>
       <item path="src/game-init.cpp">
         <itemTool>1</itemTool>

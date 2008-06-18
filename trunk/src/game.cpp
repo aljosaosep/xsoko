@@ -14,12 +14,34 @@
 
 namespace PacGame
 {
+           /**********************************************************
+           * Outside-of-class-functions
+           *
+           * For input, since GLFW callback functions takes 
+           * function pointer as argument
+           * --------------------------------------------------------
+           * Jernej Skrabec 2008
+           * Aljosa Osep 2008
+           * ********************************************************/
+          void GLFWCALL processKey( int key, int action )
+          {
+              /*
+               * TODO:
+               * * determine which key is pressed(up, down, left, right)
+               * * call suficient function, that takes proper action
+               * * exit key should be also processed
+               */
+              
+             /* if(key == GLFW_KEY_SPACE)
+                zoom();*/
+          }
+                          
           namespace GameClasses
           {
 			  // construcotrs
 			  PGame::PGame() 
 			  {
-				  windowTitle = "defaultGame - PacEngine";
+				  windowTitle = "xSoko";
 			  }
 
 			  PGame::PGame(int _width, int _height, string _title) 
@@ -42,6 +64,7 @@ namespace PacGame
 				    // the time of the previous frame
 //				  double old_time = glfwGetTime();   // ne brisat! se bo nucal!
 				  // this just loops as long as the program runs
+                                  
 				  while(1)
 				  {
 	
