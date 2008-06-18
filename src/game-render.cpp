@@ -11,6 +11,15 @@ namespace PacGame
           namespace GameClasses
           {
 			  float angle = 0.0;
+                          float z = -20.0;
+                          
+                          void zoom()
+                          {
+                              z+=0.4;
+                          }
+                          
+
+                          
 			  void PGame::renderGame()
 			  {
 				  // reset view matrix
@@ -19,7 +28,7 @@ namespace PacGame
 
 			  
 				  // temp
-				  glTranslatef(-1.0, -2.0, -20.0);
+				  glTranslatef(-1.0, -2.0, z);
 				  glRotatef(angle, 1.0, 1.0, 0.0);
 				//  glDisable(GL_TEXTURE_2D);
 				//  glEnable(GL_LIGHTING);

@@ -59,6 +59,7 @@ namespace PacGame
                      // glBindTexture(GL_TEXTURE_2D, textura.getTexId());
                       
 
+                      glfwSetKeyCallback(&(PacGame::processKey)); // sets keyboard input callback
                       msg.initMessage("Game", true);
                       return true;
               }
