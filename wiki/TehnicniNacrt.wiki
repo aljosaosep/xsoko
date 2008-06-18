@@ -64,7 +64,6 @@ Metoda še ni spisana, najprej bo klicala metodo za inicializacijo rendererja, p
 *mainLoop()*
 
 Zanka ki teče, dokler se igra izvaja; prekine se le na uporabnikovo željo ali ob dogodku gameOver. 
-V osnovi se zanka izvaja tako, da čaka na spremembe na vhodnih napravah(tipkovnici) in kliče metodo za izris scene. 
 Zaenkrat je delno implementirana.
 
  
@@ -72,10 +71,11 @@ Zaenkrat je delno implementirana.
 
  * bo dodana kmalu v game.h razred
  * bo implementirana na podlagi GLFW funkcij za hendlanje inputa
- * int glfwGetKey( int key )
- 
+ * void glfwSetKeyCallback( GLFWkeyfun cbfun )
+
 Zgledalo bo takole:
-Funkcija preveri, ce je bil pritisnjen kateri od gumbov gor, dol, levo desno. PReveri se s klicom funkcije glfwGetKey(), ki se ji poda kot parameter tipka, za katero cekiramo - ce funkcija vrne 1(GLFW_PRESS), pomeni, da je bila tipka pritisnjena.
+V zanki se izrisuje scena; ce pride do input callbacka se procesira prekinitev za input.
+Funkcija preveri, ce je bil pritisnjen kateri od gumbov gor, dol, levo desno, s pomocjo parametra key, ki pove katera tipka je bila pritisnjena/spuscena, in parameter action, ki pove, ali je tipka bila pritisnjena ali spuscena.
 
 Vrne pa vrednost, ki pove, za katero smer se procesira premik - lahko je to nek integer, ali pa enumeracija(enum smer {gor, dol, levo, desno};).
 Ali pa informacijo, da se ni zgodilo nic in da se naj stvari meljejo naprej.
