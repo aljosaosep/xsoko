@@ -34,15 +34,14 @@
       </logicalFolder>
       <itemPath>src/CommonStructures.cpp</itemPath>
       <itemPath>src/filemanagment.cpp</itemPath>
-      <itemPath>src/game-funcinit.cpp</itemPath>
-      <itemPath>src/game-funcrender.cpp</itemPath>
+      <itemPath>src/game-init.cpp</itemPath>
+      <itemPath>src/game-render.cpp</itemPath>
       <itemPath>src/game.cpp</itemPath>
       <itemPath>src/io.cpp</itemPath>
       <itemPath>src/level.cpp</itemPath>
       <itemPath>src/levelbox.cpp</itemPath>
       <itemPath>src/main.cpp</itemPath>
       <itemPath>src/object.cpp</itemPath>
-      <itemPath>src/openglfunc.cpp</itemPath>
       <itemPath>src/player.cpp</itemPath>
       <itemPath>src/vector.cpp</itemPath>
     </logicalFolder>
@@ -90,10 +89,10 @@
       <item path="src/filemanagment.cpp">
         <itemTool>1</itemTool>
       </item>
-      <item path="src/game-funcinit.cpp">
+      <item path="src/game-init.cpp">
         <itemTool>1</itemTool>
       </item>
-      <item path="src/game-funcrender.cpp">
+      <item path="src/game-render.cpp">
         <itemTool>1</itemTool>
       </item>
       <item path="src/game.cpp">
@@ -134,9 +133,6 @@
       </item>
       <item path="src/object.h">
         <itemTool>3</itemTool>
-      </item>
-      <item path="src/openglfunc.cpp">
-        <itemTool>1</itemTool>
       </item>
       <item path="src/player.cpp">
         <itemTool>1</itemTool>
@@ -201,10 +197,10 @@
       <item path="src/filemanagment.cpp">
         <itemTool>1</itemTool>
       </item>
-      <item path="src/game-funcinit.cpp">
+      <item path="src/game-init.cpp">
         <itemTool>1</itemTool>
       </item>
-      <item path="src/game-funcrender.cpp">
+      <item path="src/game-render.cpp">
         <itemTool>1</itemTool>
       </item>
       <item path="src/game.cpp">
@@ -245,9 +241,6 @@
       </item>
       <item path="src/object.h">
         <itemTool>3</itemTool>
-      </item>
-      <item path="src/openglfunc.cpp">
-        <itemTool>1</itemTool>
       </item>
       <item path="src/player.cpp">
         <itemTool>1</itemTool>
@@ -310,10 +303,10 @@
       <item path="src/filemanagment.cpp">
         <itemTool>1</itemTool>
       </item>
-      <item path="src/game-funcinit.cpp">
+      <item path="src/game-init.cpp">
         <itemTool>1</itemTool>
       </item>
-      <item path="src/game-funcrender.cpp">
+      <item path="src/game-render.cpp">
         <itemTool>1</itemTool>
       </item>
       <item path="src/game.cpp">
@@ -354,9 +347,6 @@
       </item>
       <item path="src/object.h">
         <itemTool>3</itemTool>
-      </item>
-      <item path="src/openglfunc.cpp">
-        <itemTool>1</itemTool>
       </item>
       <item path="src/player.cpp">
         <itemTool>1</itemTool>
@@ -424,10 +414,10 @@
       <item path="src/filemanagment.cpp">
         <itemTool>1</itemTool>
       </item>
-      <item path="src/game-funcinit.cpp">
+      <item path="src/game-init.cpp">
         <itemTool>1</itemTool>
       </item>
-      <item path="src/game-funcrender.cpp">
+      <item path="src/game-render.cpp">
         <itemTool>1</itemTool>
       </item>
       <item path="src/game.cpp">
@@ -468,9 +458,6 @@
       </item>
       <item path="src/object.h">
         <itemTool>3</itemTool>
-      </item>
-      <item path="src/openglfunc.cpp">
-        <itemTool>1</itemTool>
       </item>
       <item path="src/player.cpp">
         <itemTool>1</itemTool>
