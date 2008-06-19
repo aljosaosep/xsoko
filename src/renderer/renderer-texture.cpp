@@ -8,9 +8,11 @@
  * Author: Aljosa Osep 2007
  * Changes:
  * Aljosa 2008
+ * Jernej Skrabec June 19 2008
 */
 
 #include "renderer.h"
+#include "../zip/zipfile.h"
 
 namespace PacGame
 {
@@ -66,14 +68,15 @@ namespace PacGame
                   unsigned	temp;							
         //	  unsigned	type  = GL_RGBA; 	
 
-                  FILE *file = fopen(filename.c_str(), "rb");					// open file
+                  ZipFile zFile("data/textura.zip"); // open zip file
+                  zFile.openFile(filename.c_str());  // open file
 
-                  if(file==NULL ||							
-                        fread(TGAcompare, 1, sizeof(TGAcompare), file) != sizeof(TGAcompare) ||	// are 12 bytes readable?
+                  if( (!zFile.isFileOpened()) ||							
+                        zFile.readFile(TGAcompare, sizeof(TGAcompare)) != sizeof(TGAcompare) ||         // are 12 bytes readable?
                         memcmp(TGAheader,TGAcompare,sizeof(TGAheader)) != 0 ||				// header match?
-                        fread(header, 1,sizeof(header), file) != sizeof(header))				// :)
+                        zFile.readFile(header,sizeof(header)) != sizeof(header))				// :)
                   {
-                          if (file == NULL)
+                          if (!zFile.isFileOpened())
                           {
                                   msg.errorMessage("Texture file is empty!");
                                   return false;						// :(
@@ -81,7 +84,7 @@ namespace PacGame
                           else 
                           {
                                   msg.errorUnknown();
-                                  fclose(file);						
+                                  zFile.closeZip();
                                   return false;						
                           }
                   }
@@ -95,7 +98,7 @@ namespace PacGame
                   {
 
                           msg.errorMessage("Texture isn't 32 or 24 bit OR texture width or height isn't greater than zero :D");
-                          fclose(file);						
+                          zFile.closeZip();
                           return false;
                   } 
 
@@ -106,7 +109,7 @@ namespace PacGame
                   texture.imageData=(GLubyte *)malloc(imageSize);			// reserve memory to store TGA data
 
                   if(texture.imageData==NULL ||					// storage memory exist... ?
-                         fread(texture.imageData, 1, imageSize, file)!=imageSize)	// Does The Image Size Match The Memory Reserved?
+                          zFile.readFile(texture.imageData, imageSize)!=imageSize)	// Does The Image Size Match The Memory Reserved?
                   {
                           if(texture.imageData!=NULL)					// release
                           {
@@ -114,8 +117,8 @@ namespace PacGame
                                   free(texture.imageData);	
                           }
 
-                          msg.errorUnknown();
-                          fclose(file);							
+                          msg.errorUnknown();							
+                          zFile.closeZip();
                           return false;							
                   }
 
@@ -125,8 +128,8 @@ namespace PacGame
                           texture.imageData[i] = texture.imageData[i + 2];		
                           texture.imageData[i + 2] = temp;				
                   }
-
-                  fclose (file);								
+								
+                  zFile.closeZip();
                   msg.infoTexture(filename.c_str());
                   return true;
           }

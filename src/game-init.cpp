@@ -8,6 +8,7 @@
  * Author: Aljosa Osep 2007
  * Changes:
  * Aljosa May 28 2008
+ * Jernej Skrabec June 19 2008
  */
 
 #include "game.h"
@@ -52,7 +53,7 @@ namespace PacGame
                       // OpenGL specific
                       glEnable(GL_TEXTURE_2D);
                      // PTextureImage texture;
-                      RenderMaschine::PTexture textura("data/test.tga");
+                      RenderMaschine::PTexture textura("test.tga");
                       if(!textura.makeTgaTexture(true))
                           return false;
                       

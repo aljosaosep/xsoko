@@ -7,6 +7,24 @@
       <logicalFolder name="f1" displayName="renderer" projectFiles="true">
         <itemPath>src/renderer/renderer.h</itemPath>
       </logicalFolder>
+      <logicalFolder name="f2" displayName="zip" projectFiles="true">
+        <logicalFolder name="f1" displayName="zlib" projectFiles="true">
+          <itemPath>src/zip/zlib/crc32.h</itemPath>
+          <itemPath>src/zip/zlib/deflate.h</itemPath>
+          <itemPath>src/zip/zlib/inffast.h</itemPath>
+          <itemPath>src/zip/zlib/inffixed.h</itemPath>
+          <itemPath>src/zip/zlib/inflate.h</itemPath>
+          <itemPath>src/zip/zlib/inftrees.h</itemPath>
+          <itemPath>src/zip/zlib/trees.h</itemPath>
+          <itemPath>src/zip/zlib/zconf.h</itemPath>
+          <itemPath>src/zip/zlib/zconf.in.h</itemPath>
+          <itemPath>src/zip/zlib/zlib.h</itemPath>
+          <itemPath>src/zip/zlib/zutil.h</itemPath>
+        </logicalFolder>
+        <itemPath>src/zip/ioapi.h</itemPath>
+        <itemPath>src/zip/unzip.h</itemPath>
+        <itemPath>src/zip/zipfile.h</itemPath>
+      </logicalFolder>
       <itemPath>src/CommonStructures.h</itemPath>
       <itemPath>src/entities.h</itemPath>
       <itemPath>src/game.h</itemPath>
@@ -30,6 +48,25 @@
       <logicalFolder name="f1" displayName="renderer" projectFiles="true">
         <itemPath>src/renderer/renderer-core.cpp</itemPath>
         <itemPath>src/renderer/renderer-texture.cpp</itemPath>
+      </logicalFolder>
+      <logicalFolder name="f2" displayName="zip" projectFiles="true">
+        <logicalFolder name="f1" displayName="zlib" projectFiles="true">
+          <itemPath>src/zip/zlib/adler32.c</itemPath>
+          <itemPath>src/zip/zlib/compress.c</itemPath>
+          <itemPath>src/zip/zlib/crc32.c</itemPath>
+          <itemPath>src/zip/zlib/deflate.c</itemPath>
+          <itemPath>src/zip/zlib/gzio.c</itemPath>
+          <itemPath>src/zip/zlib/infback.c</itemPath>
+          <itemPath>src/zip/zlib/inffast.c</itemPath>
+          <itemPath>src/zip/zlib/inflate.c</itemPath>
+          <itemPath>src/zip/zlib/inftrees.c</itemPath>
+          <itemPath>src/zip/zlib/trees.c</itemPath>
+          <itemPath>src/zip/zlib/uncompr.c</itemPath>
+          <itemPath>src/zip/zlib/zutil.c</itemPath>
+        </logicalFolder>
+        <itemPath>src/zip/ioapi.c</itemPath>
+        <itemPath>src/zip/unzip.c</itemPath>
+        <itemPath>src/zip/zipfile.cpp</itemPath>
       </logicalFolder>
       <itemPath>src/CommonStructures.cpp</itemPath>
       <itemPath>src/game-init.cpp</itemPath>
@@ -62,7 +99,6 @@
           <warningLevel>2</warningLevel>
         </ccCompilerTool>
         <linkerTool>
-          <commandlineTool>g++.exe</commandlineTool>
           <linkerLibItems>
             <linkerLibLibItem>glfw</linkerLibLibItem>
             <linkerLibLibItem>opengl32</linkerLibLibItem>
@@ -146,6 +182,93 @@
         <itemTool>1</itemTool>
       </item>
       <item path="src/vector.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/ioapi.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/ioapi.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/unzip.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/unzip.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/zipfile.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/zip/zipfile.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/zlib/adler32.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/zlib/compress.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/zlib/crc32.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/zlib/crc32.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/zlib/deflate.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/zlib/deflate.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/zlib/gzio.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/zlib/infback.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/zlib/inffast.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/zlib/inffast.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/zlib/inffixed.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/zlib/inflate.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/zlib/inflate.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/zlib/inftrees.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/zlib/inftrees.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/zlib/trees.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/zlib/trees.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/zlib/uncompr.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/zlib/zconf.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/zlib/zconf.in.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/zlib/zlib.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/zlib/zutil.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/zlib/zutil.h">
         <itemTool>3</itemTool>
       </item>
     </conf>
@@ -250,6 +373,93 @@
       <item path="src/vector.h">
         <itemTool>3</itemTool>
       </item>
+      <item path="src/zip/ioapi.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/ioapi.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/unzip.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/unzip.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/zipfile.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/zip/zipfile.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/zlib/adler32.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/zlib/compress.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/zlib/crc32.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/zlib/crc32.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/zlib/deflate.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/zlib/deflate.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/zlib/gzio.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/zlib/infback.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/zlib/inffast.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/zlib/inffast.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/zlib/inffixed.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/zlib/inflate.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/zlib/inflate.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/zlib/inftrees.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/zlib/inftrees.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/zlib/trees.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/zlib/trees.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/zlib/uncompr.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/zlib/zconf.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/zlib/zconf.in.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/zlib/zlib.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/zlib/zutil.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/zlib/zutil.h">
+        <itemTool>3</itemTool>
+      </item>
     </conf>
     <conf name="Linux_Debug" type="1">
       <toolsSet>
@@ -348,6 +558,93 @@
         <itemTool>1</itemTool>
       </item>
       <item path="src/vector.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/ioapi.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/ioapi.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/unzip.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/unzip.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/zipfile.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/zip/zipfile.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/zlib/adler32.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/zlib/compress.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/zlib/crc32.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/zlib/crc32.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/zlib/deflate.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/zlib/deflate.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/zlib/gzio.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/zlib/infback.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/zlib/inffast.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/zlib/inffast.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/zlib/inffixed.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/zlib/inflate.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/zlib/inflate.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/zlib/inftrees.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/zlib/inftrees.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/zlib/trees.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/zlib/trees.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/zlib/uncompr.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/zlib/zconf.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/zlib/zconf.in.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/zlib/zlib.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/zlib/zutil.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/zlib/zutil.h">
         <itemTool>3</itemTool>
       </item>
     </conf>
@@ -453,6 +750,93 @@
         <itemTool>1</itemTool>
       </item>
       <item path="src/vector.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/ioapi.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/ioapi.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/unzip.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/unzip.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/zipfile.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/zip/zipfile.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/zlib/adler32.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/zlib/compress.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/zlib/crc32.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/zlib/crc32.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/zlib/deflate.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/zlib/deflate.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/zlib/gzio.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/zlib/infback.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/zlib/inffast.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/zlib/inffast.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/zlib/inffixed.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/zlib/inflate.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/zlib/inflate.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/zlib/inftrees.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/zlib/inftrees.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/zlib/trees.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/zlib/trees.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/zlib/uncompr.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/zlib/zconf.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/zlib/zconf.in.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/zlib/zlib.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/zip/zlib/zutil.c">
+        <itemTool>0</itemTool>
+      </item>
+      <item path="src/zip/zlib/zutil.h">
         <itemTool>3</itemTool>
       </item>
     </conf>
