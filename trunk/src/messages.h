@@ -3,7 +3,7 @@
  * File: messages.h
  *
  * Summary:
- * Includes PMessage class implementation
+ * Includes message function prototypes
  *
  * Author: Aljosa Osep 2008
  * Changes:
@@ -19,54 +19,16 @@ using namespace std;
 
 namespace PacGame
 {
-    namespace GameClasses
+    namespace Messages
     {
-        class PMessages
-        {
-	public:
-            void initMessage(string text, bool isSuccess)
-            {
-                if(isSuccess)
-                    cout<<"Initializing "<<text<<" ........... OK"<<endl;
-                else
-                    cout<<"Initializing "<<text<<" ........... FAILED"<<endl;
-            }
-
-            void errorMessage(string text)
-            {
-                cout<<"Error: "<<text<<endl;
-            }
-
-            void errorIndexOutOfRange()
-            {
-                cout<<"Error: index out of range!"<<endl;
-            }
-
-            void errorUnknown()
-            {
-                cout<<"Error: unknown!"<<endl;
-            }
-
-
-            void infoMessage(string text)
-            {
-                cout<<"Info: "<<text<<endl;
-            }
-
-            void infoTexture(string text)
-            {
-                cout<<"Info: Tga file "<<text<<" was successfully loaded."<<endl;
-            }
-
-            void mainTitleMessage()
-            {
-                cout<<"======================================"<<endl;
-                cout<<"==        CODENAME: xSoko           =="<<endl;
-                cout<<"==          Console output          =="<<endl;
-                cout<<"======================================"<<endl;
-                cout<<endl;
-            }
-        };
+        // error/status console messages prototypes
+        void initMessage(string text, bool isSuccess);  // init; isSuccess must be true in case that initialization is good
+        void errorMessage(string text); // error message
+        void errorIndexOutOfRange();  // index out of range error message
+        void errorUnknown(); // unknown error
+        void infoMessage(string text);  // info; for debugging
+        void infoTexture(string text);
+        void mainTitleMessage();
     }
 }
 

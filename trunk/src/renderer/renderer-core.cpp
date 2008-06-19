@@ -12,7 +12,7 @@ namespace PacGame
 			  // constructor
 			  PRenderer::PRenderer()
 			  {
-				  msg.infoMessage("Invoking PacEngine renderer... ");
+				  Messages::infoMessage("Invoking PacEngine renderer... ");
 			  }
 
 			  void PRenderer::drawCube(float x, float y, float size)

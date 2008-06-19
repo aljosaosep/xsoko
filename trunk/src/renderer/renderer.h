@@ -20,7 +20,7 @@
 #include "../messages.h"
 
 using namespace PacGame::Structures;
-using namespace PacGame::GameClasses;
+//using namespace PacGame::GameClasses;
 using namespace std;
 
 namespace PacGame
@@ -43,7 +43,7 @@ namespace PacGame
         public:
                 // constructor
                 PRenderer();
-                PMessages msg;
+//                PMessages msg;
 
                 // render func
                 void drawBackground();
@@ -75,7 +75,7 @@ namespace PacGame
             ~PTexture();
 
             // variables
-            PMessages msg;
+//            PMessages msg;
 
             // protoypes
             bool loadTGA();

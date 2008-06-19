@@ -71,7 +71,7 @@ namespace PacGame
 						  i=i->next;
 						  delete[] j;  // delete element
 					  }
-					  msg.infoMessage("List released");  // print out status
+					  infoMessage("List released");  // print out status
 				  }
 				  
 			  }

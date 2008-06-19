@@ -76,6 +76,7 @@
       <itemPath>src/level.cpp</itemPath>
       <itemPath>src/levelbox.cpp</itemPath>
       <itemPath>src/main.cpp</itemPath>
+      <itemPath>src/messages.cpp</itemPath>
       <itemPath>src/object.cpp</itemPath>
       <itemPath>src/player.cpp</itemPath>
       <itemPath>src/vector.cpp</itemPath>
@@ -153,6 +154,9 @@
       </item>
       <item path="src/maingameclasses.h">
         <itemTool>3</itemTool>
+      </item>
+      <item path="src/messages.cpp">
+        <itemTool>1</itemTool>
       </item>
       <item path="src/messages.h">
         <itemTool>3</itemTool>
@@ -343,6 +347,9 @@
       <item path="src/maingameclasses.h">
         <itemTool>3</itemTool>
       </item>
+      <item path="src/messages.cpp">
+        <itemTool>1</itemTool>
+      </item>
       <item path="src/messages.h">
         <itemTool>3</itemTool>
       </item>
@@ -529,6 +536,9 @@
       </item>
       <item path="src/maingameclasses.h">
         <itemTool>3</itemTool>
+      </item>
+      <item path="src/messages.cpp">
+        <itemTool>1</itemTool>
       </item>
       <item path="src/messages.h">
         <itemTool>3</itemTool>
@@ -721,6 +731,9 @@
       </item>
       <item path="src/maingameclasses.h">
         <itemTool>3</itemTool>
+      </item>
+      <item path="src/messages.cpp">
+        <itemTool>1</itemTool>
       </item>
       <item path="src/messages.h">
         <itemTool>3</itemTool>

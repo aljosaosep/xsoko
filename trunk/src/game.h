@@ -24,7 +24,6 @@ namespace PacGame
 {
       namespace GameClasses
       {
-
             /**********************************************************
            * PGame
            *
@@ -40,7 +39,7 @@ namespace PacGame
 
           public:
                   // variables
-                  PMessages msg;
+//                  PMessages msg;
                   PacGame::RenderMaschine::PRenderer renderer;
 
                   // prototypes
@@ -72,7 +71,12 @@ namespace PacGame
        * --------------------------------------------------------
        * Jernej Skrabec 2008
        * ********************************************************/
-       void GLFWCALL processKey(int key, int action); // processKey function prototype; function takes action based on key that is pressed  
+       /*******************************************
+       * processKey()
+       * function prototype; function takes action 
+       * based on key that is pressed
+       *******************************************/
+       void GLFWCALL processKey(int key, int action);   
 }
 
 #endif
