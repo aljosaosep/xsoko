@@ -20,7 +20,7 @@ namespace PacGame
               // other
               bool PGame::initGame()
               {
-                      msg.mainTitleMessage();
+                      Messages::mainTitleMessage();
 
                       if (!glfwInit())  // is GLFW initialization successful?
                       {
@@ -29,7 +29,7 @@ namespace PacGame
                             return false;
                       }
 
-                      msg.initMessage("GLFW", true); // prints out that initialization was success
+                      Messages::initMessage("GLFW", true); // prints out that initialization was success
 
                             // 800 x 600, 16 bit color, no depth, alpha or stencil buffers, windowed
                       if (!glfwOpenWindow(windowWidth, windowHeight, 5, 6, 5, 0, 0, 0, GLFW_WINDOW)) // attemps to open window
@@ -39,7 +39,7 @@ namespace PacGame
                             return false;
                       }
 
-                      msg.initMessage("OpenGL window", true);  // prints out success
+                      Messages::initMessage("OpenGL window", true);  // prints out success
 
                       glfwSetWindowTitle(this->windowTitle.c_str()); // temporary
 
@@ -61,7 +61,7 @@ namespace PacGame
                       
 
                       glfwSetKeyCallback(&(PacGame::processKey)); // sets keyboard input callback
-                      msg.initMessage("Game", true);
+                      Messages::initMessage("Game", true);
                       return true;
               }
       }

@@ -20,10 +20,10 @@
 #include "vector.h"
 #include "messages.h"
 
-
 using namespace PacGame::Structures;
 using namespace PacGame::RenderMaschine;
 using namespace PacGame::GameClasses;
+using namespace PacGame::Messages;
 using namespace std;
 
 
@@ -68,7 +68,7 @@ namespace PacGame
                    protected:
                        // PTexture texture(string texFilename);
 						//		unsigned i, j; // position in the matrix (x and y index)
-                       PMessages msg;
+//                       PMessages msg;
                        PVector2D position;  // position of object in OpenGL space, z coord is ignored
                    };
           }

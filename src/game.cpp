@@ -23,6 +23,12 @@ namespace PacGame
            * Jernej Skrabec 2008
            * Aljosa Osep 2008
            * ********************************************************/
+    
+           /*******************************************
+           * processKey()
+           * function implementation; function takes action 
+           * based on key that is pressed
+           *******************************************/
           void GLFWCALL processKey( int key, int action )
           {
               /*
@@ -60,7 +66,7 @@ namespace PacGame
 			  // other
 			  void PGame::mainLoop()
 			  {
-				  msg.infoMessage("Entering main loop...");
+				  PacGame::Messages::infoMessage("Entering main loop...");
 				    // the time of the previous frame
 //				  double old_time = glfwGetTime();   // ne brisat! se bo nucal!
 				  // this just loops as long as the program runs
@@ -96,7 +102,7 @@ namespace PacGame
 
 			  void PGame::terminateGLFW()
 			  {
-				  msg.infoMessage("Termination, destroying glfw...");
+				  PacGame::Messages::infoMessage("Termination, destroying glfw...");
 				  glfwTerminate();
 			  }
           }
