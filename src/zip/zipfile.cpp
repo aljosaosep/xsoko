@@ -16,7 +16,8 @@ ZipFile::ZipFile(){
 }
 
 ZipFile::ZipFile(const char* path){
-    ZipFile();
+    zipf = 0;
+    opened = false;
     openZip(path);
 }
 
@@ -28,7 +29,7 @@ int ZipFile::openZip(const char* path){
     if(!path && zipf){
             return UNZ_ERRNO;
     }
-    if((zipf = unzOpen(path)) == NULL)
+    if((zipf = unzOpen(path)) != 0)
         return UNZ_OK;
     else
         return UNZ_ERRNO;
@@ -43,7 +44,7 @@ void ZipFile::closeZip(){
 }
 
 int ZipFile::openFile(const char* filename){
-    if(zipf){
+    if(zipf && (!opened)){
         if(unzLocateFile(zipf,filename,0)==UNZ_END_OF_LIST_OF_FILE){
             return UNZ_END_OF_LIST_OF_FILE;
         }
