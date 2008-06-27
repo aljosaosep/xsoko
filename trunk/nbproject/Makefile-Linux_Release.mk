@@ -46,6 +46,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/src/object.o \
 	${OBJECTDIR}/src/zip/zlib/adler32.o \
 	${OBJECTDIR}/src/zip/zlib/trees.o \
+	${OBJECTDIR}/src/messages.o \
 	${OBJECTDIR}/src/game-render.o \
 	${OBJECTDIR}/src/io.o \
 	${OBJECTDIR}/src/renderer/renderer-texture.o \
@@ -68,11 +69,11 @@ FFLAGS=
 LDLIBSOPTIONS=-lglfw -lGL -lGLU -lXxf86vm -lm -lXrandr
 
 # Build Targets
-.build-conf: ${BUILD_SUBPROJECTS} dist/Linux_Release/GNU-Linux-x86/xsoko
+.build-conf: ${BUILD_SUBPROJECTS} dist/Linux_Release/GNU-Linux-x86/trunk
 
-dist/Linux_Release/GNU-Linux-x86/xsoko: ${OBJECTFILES}
+dist/Linux_Release/GNU-Linux-x86/trunk: ${OBJECTFILES}
 	${MKDIR} -p dist/Linux_Release/GNU-Linux-x86
-	${LINK.cc} -o dist/Linux_Release/GNU-Linux-x86/xsoko ${OBJECTFILES} ${LDLIBSOPTIONS} 
+	${LINK.cc} -o dist/Linux_Release/GNU-Linux-x86/trunk ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
 ${OBJECTDIR}/src/zip/zlib/infback.o: src/zip/zlib/infback.c 
 	${MKDIR} -p ${OBJECTDIR}/src/zip/zlib
@@ -158,6 +159,10 @@ ${OBJECTDIR}/src/zip/zlib/trees.o: src/zip/zlib/trees.c
 	${MKDIR} -p ${OBJECTDIR}/src/zip/zlib
 	$(COMPILE.c) -O2 -o ${OBJECTDIR}/src/zip/zlib/trees.o src/zip/zlib/trees.c
 
+${OBJECTDIR}/src/messages.o: src/messages.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/src/messages.o src/messages.cpp
+
 ${OBJECTDIR}/src/game-render.o: src/game-render.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
 	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/src/game-render.o src/game-render.cpp
@@ -192,7 +197,7 @@ ${OBJECTDIR}/src/renderer/renderer-core.o: src/renderer/renderer-core.cpp
 # Clean Targets
 .clean-conf:
 	${RM} -r build/Linux_Release
-	${RM} dist/Linux_Release/GNU-Linux-x86/xsoko
+	${RM} dist/Linux_Release/GNU-Linux-x86/trunk
 
 # Subprojects
 .clean-subprojects:
