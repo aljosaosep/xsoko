@@ -12,6 +12,8 @@
 
 #include "game.h"
 
+using namespace PacGame;
+
 namespace PacGame
 {
            /**********************************************************
@@ -66,7 +68,7 @@ namespace PacGame
 			  // other
 			  void PGame::mainLoop()
 			  {
-				  PacGame::Messages::infoMessage("Entering main loop...");
+				  Messages::infoMessage("Entering main loop...");
 				    // the time of the previous frame
 //				  double old_time = glfwGetTime();   // ne brisat! se bo nucal!
 				  // this just loops as long as the program runs
@@ -102,7 +104,7 @@ namespace PacGame
 
 			  void PGame::terminateGLFW()
 			  {
-				  PacGame::Messages::infoMessage("Termination, destroying glfw...");
+				  Messages::infoMessage("Termination, destroying glfw...");
 				  glfwTerminate();
 			  }
           }

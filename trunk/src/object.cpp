@@ -71,7 +71,7 @@ namespace PacGame
 						  i=i->next;
 						  delete[] j;  // delete element
 					  }
-					  infoMessage("List released");  // print out status
+					  Messages::infoMessage("List released");  // print out status
 				  }
 				  
 			  }
