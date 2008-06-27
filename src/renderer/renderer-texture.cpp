@@ -37,7 +37,7 @@ namespace PacGame
                   if(type == "tga")
                           makeTgaTexture(filter);
                   else
-                          msg.errorMessage("Unknown image format type, bad texture class initialization! Blame developers for this!");
+                          Messages::errorMessage("Unknown image format type, bad texture class initialization! Blame developers for this!");
 
                   // gen
         /*	  switch(type)
@@ -55,7 +55,7 @@ namespace PacGame
           PTexture::~PTexture()
           {
                 //  free(texture.imageData);
-                  msg.infoMessage("Texture released from memory.");
+                  Messages::infoMessage("Texture released from memory.");
           } 
 
           bool PTexture::loadTGA()
@@ -78,12 +78,12 @@ namespace PacGame
                   {
                           if (!zFile.isFileOpened())
                           {
-                                  msg.errorMessage("Texture file is empty!");
+                                  Messages::errorMessage("Texture file is empty!");
                                   return false;						// :(
                           }
                           else 
                           {
-                                  msg.errorUnknown();
+                                  Messages::errorUnknown();
                                   zFile.closeZip();
                                   return false;						
                           }
@@ -97,7 +97,7 @@ namespace PacGame
                          (header[4]!=24 && header[4]!=32))				// 24 or 32 bit
                   {
 
-                          msg.errorMessage("Texture isn't 32 or 24 bit OR texture width or height isn't greater than zero :D");
+                          Messages::errorMessage("Texture isn't 32 or 24 bit OR texture width or height isn't greater than zero :D");
                           zFile.closeZip();
                           return false;
                   } 
@@ -113,11 +113,11 @@ namespace PacGame
                   {
                           if(texture.imageData!=NULL)					// release
                           {
-                                  msg.errorMessage("TGA image data is empty. Releasing memory...");
+                                  Messages::errorMessage("TGA image data is empty. Releasing memory...");
                                   free(texture.imageData);	
                           }
 
-                          msg.errorUnknown();							
+                          Messages::errorUnknown();							
                           zFile.closeZip();
                           return false;							
                   }
@@ -130,7 +130,7 @@ namespace PacGame
                   }
 								
                   zFile.closeZip();
-                  msg.infoTexture(filename.c_str());
+                  Messages::infoTexture(filename.c_str());
                   return true;
           }
 
@@ -146,14 +146,14 @@ namespace PacGame
 
                   if (texPtr[0].bpp==24)							// if tga is 24 bit
                   {
-                          msg.initMessage("TGA texture/Alpha channel", false);
+                          Messages::initMessage("TGA texture/Alpha channel", false);
                           type=GL_RGB;							// type je GL_RGB
                   }
                   else
-                          msg.initMessage("TGA texture/Alpha channel", true);
+                          Messages::initMessage("TGA texture/Alpha channel", true);
 
                   gluBuild2DMipmaps(GL_TEXTURE_2D, type, texPtr[0].width, texPtr[0].height, type, GL_UNSIGNED_BYTE, texPtr[0].imageData);
-                  msg.infoMessage("Texture was successfully generated, mipmap filtering.");
+                  Messages::infoMessage("Texture was successfully generated, mipmap filtering.");
 
           }
 
@@ -168,14 +168,14 @@ namespace PacGame
 
                   if (texPtr[0].bpp==24)							// if tga is 24 bit
                   {
-                          msg.initMessage("TGA texture/Alpha channel", false);
+                          Messages::initMessage("TGA texture/Alpha channel", false);
                           type=GL_RGB;							// type je GL_RGB
                   }
                   else
-                          msg.initMessage("TGA texture/Alpha channel", true);
+                          Messages::initMessage("TGA texture/Alpha channel", true);
 
                   glTexImage2D(GL_TEXTURE_2D, 0, type, texPtr[0].width, texPtr[0].height, 0, type, GL_UNSIGNED_BYTE, texPtr[0].imageData);
-                  msg.infoMessage("Texture was successfully generated, linear filtering.");
+                  Messages::infoMessage("Texture was successfully generated, linear filtering.");
 
           }
 
@@ -183,7 +183,7 @@ namespace PacGame
           {
                   if(!loadTGA())
                   {
-                          msg.infoMessage("Texture creation failed.");
+                          Messages::infoMessage("Texture creation failed.");
                           return false;
                   }
 
@@ -192,7 +192,7 @@ namespace PacGame
                   else
                           generateTextureLinear();
 
-                  msg.infoMessage("Texture created, ready for use.");
+                  Messages::infoMessage("Texture created, ready for use.");
                   return true;
 
           }
