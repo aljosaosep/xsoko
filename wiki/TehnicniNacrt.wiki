@@ -79,3 +79,24 @@ Funkcija preveri, ce je bil pritisnjen kateri od gumbov gor, dol, levo desno, s 
 
 Vrne pa vrednost, ki pove, za katero smer se procesira premik - lahko je to nek integer, ali pa enumeracija(enum smer {gor, dol, levo, desno};).
 Ali pa informacijo, da se ni zgodilo nic in da se naj stvari meljejo naprej.
+
+= 4. Level format =
+
+Objekti, ki jih je treba izpeljati iz PLevelOBject in bodo prisotni na stopnji:
+
+Tile naj bodo implementirani v level.h:
+ * PFloor
+ * PSolidWall
+ * PUnsolidWall
+ * PTeleport
+ * PBridge
+ * PVoid
+ * PCube
+ * PCubeHolder
+ * POnewayFloor
+ * POnewayCube
+ * PBomb
+ * mogoce sem se kaj pozabil
+ 
+V player.h:
+ * PPlayer
