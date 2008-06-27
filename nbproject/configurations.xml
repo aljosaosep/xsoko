@@ -35,7 +35,6 @@
       <itemPath>src/messages.h</itemPath>
       <itemPath>src/object.h</itemPath>
       <itemPath>src/PLevelBox.h</itemPath>
-      <itemPath>src/stdint.h</itemPath>
       <itemPath>src/vector.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
@@ -86,6 +85,7 @@
                    projectFiles="false">
       <itemPath>Makefile</itemPath>
     </logicalFolder>
+    <itemPath>TODO</itemPath>
   </logicalFolder>
   <sourceEncoding>UTF-8</sourceEncoding>
   <projectmakefile>Makefile</projectmakefile>
@@ -107,6 +107,9 @@
           </linkerLibItems>
         </linkerTool>
       </compileType>
+      <item path="TODO">
+        <itemTool>3</itemTool>
+      </item>
       <item path="src/CommonStructures.cpp">
         <itemTool>1</itemTool>
       </item>
@@ -177,9 +180,6 @@
         <itemTool>1</itemTool>
       </item>
       <item path="src/renderer/renderer.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/stdint.h">
         <itemTool>3</itemTool>
       </item>
       <item path="src/vector.cpp">
@@ -299,6 +299,9 @@
           </linkerLibItems>
         </linkerTool>
       </compileType>
+      <item path="TODO">
+        <itemTool>3</itemTool>
+      </item>
       <item path="src/CommonStructures.cpp">
         <itemTool>1</itemTool>
       </item>
@@ -369,9 +372,6 @@
         <itemTool>1</itemTool>
       </item>
       <item path="src/renderer/renderer.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/stdint.h">
         <itemTool>3</itemTool>
       </item>
       <item path="src/vector.cpp">
@@ -489,6 +489,9 @@
           </linkerLibItems>
         </linkerTool>
       </compileType>
+      <item path="TODO">
+        <itemTool>3</itemTool>
+      </item>
       <item path="src/CommonStructures.cpp">
         <itemTool>1</itemTool>
       </item>
@@ -559,9 +562,6 @@
         <itemTool>1</itemTool>
       </item>
       <item path="src/renderer/renderer.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/stdint.h">
         <itemTool>3</itemTool>
       </item>
       <item path="src/vector.cpp">
@@ -684,6 +684,9 @@
           </linkerLibItems>
         </linkerTool>
       </compileType>
+      <item path="TODO">
+        <itemTool>3</itemTool>
+      </item>
       <item path="src/CommonStructures.cpp">
         <itemTool>1</itemTool>
       </item>
@@ -754,9 +757,6 @@
         <itemTool>1</itemTool>
       </item>
       <item path="src/renderer/renderer.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/stdint.h">
         <itemTool>3</itemTool>
       </item>
       <item path="src/vector.cpp">
