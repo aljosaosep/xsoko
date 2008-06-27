@@ -50,6 +50,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/src/io.o \
 	${OBJECTDIR}/src/renderer/renderer-texture.o \
 	${OBJECTDIR}/src/game-init.o \
+	${OBJECTDIR}/src/messages.o \
 	${OBJECTDIR}/src/CommonStructures.o \
 	${OBJECTDIR}/src/levelbox.o \
 	${OBJECTDIR}/src/renderer/renderer-core.o
@@ -129,6 +130,10 @@ ${OBJECTDIR}/src/zip/zipfile.o: src/zip/zipfile.cpp
 ${OBJECTDIR}/src/level.o: src/level.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
 	$(COMPILE.cc) -g -Wall -o ${OBJECTDIR}/src/level.o src/level.cpp
+
+${OBJECTDIR}/src/messages.o: src/messages.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	$(COMPILE.cc) -g -Wall -o ${OBJECTDIR}/src/messages.o src/messages.cpp
 
 ${OBJECTDIR}/src/zip/zlib/uncompr.o: src/zip/zlib/uncompr.c 
 	${MKDIR} -p ${OBJECTDIR}/src/zip/zlib
