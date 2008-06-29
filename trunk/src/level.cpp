@@ -11,8 +11,9 @@
  * Aljosa 2008
 */
 #include <iostream>
-#include "level.h"
 #include "messages.h"
+#include "level.h"
+#include "levelbox.h"
 
 using namespace std;
 using namespace PacGame::GameClasses;
@@ -21,49 +22,21 @@ namespace PacGame
 {
       namespace GameClasses
       {
-          /*****************************************
-           PLevelBox methods
-           *****************************************/			  
-          void PLevelObject::setIndex(unsigned i, unsigned j) // index setter
-          {
-                  this->i = i;
-                  this->j = j;
-          }
-
-          void PLevelObject::setI(unsigned i)  // i index setter
-          {
-                  this->i = i;
-          }
-
-          void PLevelObject::setJ(unsigned j)  // j index setter
-          {
-                  this->j = j;
-          }
-
-          unsigned PLevelObject::getI() const  // i index getter
-          {
-                  return this->i;
-          }
-
-          unsigned PLevelObject::getJ() const  // j index getter
-          {
-                  return this->j;
-          }
-          
-          unsigned short PLevelObject::getId() const
-          {
-              return id;
-          }
-
-          void PLevelObject::getIndex(unsigned &i, unsigned &j)  // both index getter
-          {
-                  i = this->i;
-                  j = this->j;
-          }
-          
            /*****************************************
            PLevel methods
            *****************************************/
-           // level functions implementation goes here! ;)
+          // level functions implementation goes here! ;)
+          // function is work in progress, started by Aljosa june 29, 2008
+          bool PLevel::initialize()
+          {
+              //data = new
+              if(/*!this->loadLevelFromFile()*/1)
+              {
+                  Messages::errorMessage("Level loading from file failed.");
+                  return 0;
+              }
+              
+              data[0][0] = new PTeleport;
+          }
     }
 }
