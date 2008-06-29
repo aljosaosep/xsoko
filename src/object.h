@@ -26,52 +26,48 @@ using namespace PacGame::GameClasses;
 using namespace PacGame::Messages;
 using namespace std;
 
-
 namespace PacGame
 {
-    
-          namespace GameClasses
-          {
-                    /**********************************************************
-                    * PObject
-                    *
-                    * Abstract class 
-                    * Every object should be drived from this class
-                    * --------------------------------------------------------
-                    * Aljosa 2007 - 2008
-                    * ********************************************************/
-                   class PObject //: public PVector2D
-                   {
-                   private:
-                       struct node  // linked list structure
-                       {
-                           PObject *object;
-                           node *next;
-                       };
+      namespace GameClasses
+      {
+            /**********************************************************
+            * PObject
+            *
+            * Abstract class 
+            * Every object should be drived from this class
+            * --------------------------------------------------------
+            * Aljosa 2007 - 2008
+            * ********************************************************/
+           class PObject //: public PVector2D
+           {
+           private:
+               struct node  // linked list structure
+               {
+                   PObject *object;
+                   node *next;
+               };
 
-                       node *root; // root of linked list
-                   public:
-		       // constructors
-                       PObject();
-                       PObject(float x, float y);
-								// PObject(float x, float y, float i, float j);
-                       virtual ~PObject();
-						 // linked list
-                       void add(PObject *obj);
-                       void dumpList() const;
-                       void releaseList();
-                       // etc
-                       virtual void draw()=0;
-                       virtual bool initialize()=0;
-                       virtual void print();    // print into console    
-							//	 string texFilename;
-                   protected:
-                       // PTexture texture(string texFilename);
-						//		unsigned i, j; // position in the matrix (x and y index)
-//                       PMessages msg;
-                       PVector2D position;  // position of object in OpenGL space, z coord is ignored
-                   };
-          }
+               node *root; // root of linked list
+           public:
+               // constructors
+               PObject();
+               PObject(float x, float y);
+                                                        // PObject(float x, float y, float i, float j);
+               ~PObject();
+                                         // linked list
+               void add(PObject *obj);
+               void dumpList() const;
+               void releaseList();
+               // etc
+               virtual void draw()=0;
+               virtual bool initialize()=0;
+               virtual void print();    // print into console    
+                                                //	 string texFilename;
+           protected:
+               // PTexture texture(string texFilename);
+               PVector2D position;  // position of object in OpenGL space, z coord is ignored
+           };
+      }
 }
 
 #endif
