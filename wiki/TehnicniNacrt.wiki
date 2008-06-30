@@ -83,6 +83,12 @@ Ali pa informacijo, da se ni zgodilo nic in da se naj stvari meljejo naprej.
 
 = 4. Level format =
 
+Nanasa se na:
+ - level.h
+ - level.cpp
+
+ - level editor 
+
 Objekti, ki jih je treba izpeljati iz PLevelOBject in bodo prisotni na stopnji:
 
 Tile naj bodo implementirani v level.h:
@@ -159,5 +165,33 @@ ID-ji elementov v datoteki:
 
 Ce kdo med programiranjem ugotovi, da z temi id-ji kaj ne stima, naj prosim popravi wiki, in nekam na grupo napise, da nekaj ne stima in zakaj ne stima!
 Naceloma spreminjanje tega ni zazeljeno; ce se bo spreminjalo, naj bo razlog res dober!
+
+Spodobi se in pravicno je, da se v kodi uporabljajo naslednji makri(da bo lazje berljivo):
+
+{{{
+// MATRIKA 1
+#define FLOOR 0 
+#define OW_FLOOR 1 // (POneWayFloor)
+#define S_WALL 2 //  (PSolidWall)
+#define U_WALL 3 // (PUnsolidWall)
+#define TELEPORT 4 // (PTeleport)
+#define BRIDGE 5 // (PBridge)
+#define VOID 6 // (PVoid) 
+
+// MATRIKA 2
+#define PLAYER 0 // (PPlayer)
+#define CUBE 1 // (PCube)
+#define OW_CUNE_L 2 // (POnewayCube)
+#define OW_C_CUBE_R 3 // (POnewayCube)
+#define OW_CUBE_U 4 // (POnewayCube)
+#define OW_CUBE_D 5 // (POnewayCube)
+#define BOMB 6 // (PBomb)
+
+// ID za smer enosmerne kocke  
+#define LEFT 7
+#define RIGHT 8
+#define UP 9 
+#define DOWN 10
+}}}
 
  
