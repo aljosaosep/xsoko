@@ -50,6 +50,8 @@ namespace PacGame
           }
 
           // linked list related
+          
+          // adds object to lists head
           void PObject::add(PObject *obj)
           {
                   node *newnode = new node;  // creates new node
@@ -64,6 +66,7 @@ namespace PacGame
 
           }
 
+          // releases all list elements from memory
           void PObject::releaseList()
           {
                   node *i = root;  // var points to root
@@ -82,6 +85,7 @@ namespace PacGame
 
           }
 
+          // prints list into console
           void PObject::dumpList() const
           {
         //	  this->print():
@@ -89,6 +93,12 @@ namespace PacGame
                   {
                           i->object->print();
                   }
+          }
+          
+          // functions returns first element in list, in soko, that is object appened to parent object
+          PObject* PObject::returnFirstChild() const
+          {
+              return root->object;
           }
       }
 }

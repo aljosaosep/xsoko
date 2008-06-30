@@ -18,7 +18,30 @@
 //#include "renderer/renderer.h"
 
 using namespace PacGame::GameClasses;
-//using namespace PacGame::RenderMaschine;
+
+// MATRIKA 1
+#define FLOOR 0 
+#define OW_FLOOR 1 // (POneWayFloor)
+#define S_WALL 2 //  (PSolidWall)
+#define U_WALL 3 // (PUnsolidWall)
+#define TELEPORT 4 // (PTeleport)
+#define BRIDGE 5 // (PBridge)
+#define VOID 6 // (PVoid) 
+
+// MATRIKA 2
+#define PLAYER 0 // (PPlayer)
+#define CUBE 1 // (PCube)
+#define OW_CUBE_L 2 // (POnewayCube)
+#define OW_C_CUBE_R 3 // (POnewayCube)
+#define OW_CUBE_U 4 // (POnewayCube)
+#define OW_CUBE_D 5 // (POnewayCube)
+#define BOMB 6 // (PBomb)
+
+// ID za smer enosmerne kocke  
+#define LEFT 7
+#define RIGHT 8
+#define UP 9 
+#define DOWN 10
 
 namespace PacGame
 {
@@ -45,8 +68,8 @@ namespace PacGame
                   PLevel(char *filename) : filename(filename),  width(0), height(0) {} // default constructor
                   // print
                   // todo: implement
-                  void printLevelByType(); // dumps level data insto console; prints type of level(wall, void, teleport, ...)
-                  void printLevelByMeta(); // same, but it prints meta data(what is on level block)
+                  void printLevelByType() const; // dumps level data insto console; prints type of level(wall, void, teleport, ...)
+                  void printLevelByMeta() const; // same, but it prints meta data(what is on level block)
                   
                   // level data manipulation
                   // todo: implement
