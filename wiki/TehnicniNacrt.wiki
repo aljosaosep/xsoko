@@ -181,7 +181,7 @@ Spodobi se in pravicno je, da se v kodi uporabljajo naslednji makri(da bo lazje 
 // MATRIKA 2
 #define PLAYER 0 // (PPlayer)
 #define CUBE 1 // (PCube)
-#define OW_CUNE_L 2 // (POnewayCube)
+#define OW_CUBE_L 2 // (POnewayCube)
 #define OW_C_CUBE_R 3 // (POnewayCube)
 #define OW_CUBE_U 4 // (POnewayCube)
 #define OW_CUBE_D 5 // (POnewayCube)
