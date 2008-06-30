@@ -55,6 +55,11 @@ namespace PacGame
                 i = this->i;
                 j = this->j;
         }
+        
+        void PLevelObject::print()
+        {
+            cout<<this->id<<' ';
+        }
           
           
         /*****************************************

@@ -52,12 +52,14 @@ namespace PacGame
                // constructors
                PObject();
                PObject(float x, float y);
-                                                        // PObject(float x, float y, float i, float j);
+                                                       
                ~PObject();
-                                         // linked list
+               // linked list
                void add(PObject *obj);
                void dumpList() const;
                void releaseList();
+               PObject* returnFirstChild() const;
+
                // etc
                virtual void draw()=0;
                virtual bool initialize()=0;
