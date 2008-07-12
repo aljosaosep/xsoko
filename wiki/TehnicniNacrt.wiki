@@ -151,6 +151,7 @@ ID-ji elementov v datoteki:
   * PTeleport -- *4* _(PTeleport)_
   * Most -- *5* _(PBridge)_
   * Nic/Prepad -- *6* _(PVoid)_
+  * Prostor za kocko *7* _(PCubeHolder)_
 
 *druga matrika:*
   * Nic(el. nima otroka, npr. zid) -- *0*
@@ -178,6 +179,7 @@ Spodobi se in pravicno je, da se v kodi uporabljajo naslednji makri(da bo lazje 
 #define TELEPORT 4 // (PTeleport)
 #define BRIDGE 5 // (PBridge)
 #define VOID 6 // (PVoid) 
+#define CUBE_PLACE 7
 
 // MATRIKA 2
 #define NO_CHILD 0
