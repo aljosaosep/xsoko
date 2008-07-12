@@ -198,4 +198,68 @@ Spodobi se in pravicno je, da se v kodi uporabljajo naslednji makri(da bo lazje 
 #define DOWN 11
 }}}
 
+*Testni level*
+
+Naredil sem nek tesni level v beleznici, ki prikazuje kaksen je format levela:
+{{{
+12 7
+2 2 2 2 2 2 2 2 2 2 2 2
+2 0 0 0 0 0 0 0 0 0 0 2
+2 0 0 0 0 0 0 0 0 0 0 2
+2 0 0 0 6 6 6 0 0 0 0 2
+2 4 0 0 0 0 0 0 0 0 0 2
+2 0 0 7 7 0 0 0 0 0 4 2
+2 2 2 2 2 2 2 2 2 2 2 2
++
+0 0 0 0 0 0 0 0 0 0 0 0
+0 0 1 0 0 0 0 2 2 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0
+0 11 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 12 0
+0 0 0 0 0 0 0 0 0 0 0 0
++
+2
+11 12
+12 11
+}}}
+
+Najprej to: presledki med stevilkami so obvezni!
+Torej matrika
+
+222
+
+222
+
+222 
+
+NI ok!
+Mora bit
+
+2 2 2
+
+2 2 2
+
+2 2 2
+
+Ker drugace ne bomo mogl locit med zaporedima celicama z vred. 1 in 2 in st. 12!
+
+Prva vrstica pove dimenzijo stopnje: 12x7
+
+Naslednjih 7 vrstic predstavlja matriko st. 1.
+
+Med matriko 1 in 2 je vmes znak +.
+
+Sledi 7 vrstic matrike 2, in za njo spet + , ki je locilo med matriko 2 in teleport matriko.
+
+Po + sledi st. 2, ki pomeni teleport matriko velikosti 2 (2x2)
+Sledi info, ki pove, kako so si teleporti v relaciji:
+
+ -- otrok od teleporta z id 11 je teleport z id 12
+
+ -- otrok od teleporta z id 12 je teleport z id 11
+
+Za taksen format bom jaz zdaj pisal funkcije za lovdanje stopenj; ce kdo najde kaksen "error", naj cimprej pove! Da ne bomo programirali za not-ok format stopnje.
+
+Ce komu ni kaj jasno, naj vprasa! (ce sploh kdo to bere :D)
  
