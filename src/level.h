@@ -15,9 +15,11 @@
 #define __LEVEL_H
 
 #include "object.h"
+#include "CommonStructures.h"
 //#include "renderer/renderer.h"
 
 using namespace PacGame::GameClasses;
+using namespace PacGame::Functions;
 
 // MATRIKA 1
 #define FLOOR 0 
@@ -27,21 +29,23 @@ using namespace PacGame::GameClasses;
 #define TELEPORT 4 // (PTeleport)
 #define BRIDGE 5 // (PBridge)
 #define VOID 6 // (PVoid) 
+#define CUBE_PLACE 7
 
 // MATRIKA 2
-#define PLAYER 0 // (PPlayer)
-#define CUBE 1 // (PCube)
-#define OW_CUBE_L 2 // (POnewayCube)
-#define OW_C_CUBE_R 3 // (POnewayCube)
-#define OW_CUBE_U 4 // (POnewayCube)
-#define OW_CUBE_D 5 // (POnewayCube)
-#define BOMB 6 // (PBomb)
+#define NO_CHILD 0
+#define PLAYER 1 // (PPlayer)
+#define CUBE 2 // (PCube)
+#define OW_CUBE_L 3 // (POnewayCube)
+#define OW_C_CUBE_R 4 // (POnewayCube)
+#define OW_CUBE_U 5 // (POnewayCube)
+#define OW_CUBE_D 6 // (POnewayCube)
+#define BOMB 7 // (PBomb)
 
 // ID za smer enosmerne kocke  
-#define LEFT 7
-#define RIGHT 8
-#define UP 9 
-#define DOWN 10
+#define LEFT 8
+#define RIGHT 9
+#define UP 10 
+#define DOWN 11
 
 namespace PacGame
 {
