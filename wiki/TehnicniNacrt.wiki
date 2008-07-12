@@ -153,15 +153,16 @@ ID-ji elementov v datoteki:
   * Nic/Prepad -- *6* _(PVoid)_
 
 *druga matrika:*
-  * Igralec -- *0* (PPlayer)_
-  * Kocka -- *1* (PCube)_
-  * Enosmerna kocka levo -- *2* _(POnewayCube)_
-  * Enosmerna kocka desno -- *3* _(POnewayCube)_
-  * Enosmerna kocka gor -- *4* _(POnewayCube)_
-  * Enosmerna kocka dol -- *5* _(POnewayCube)_
-  * Bomba -- *6* _(PBomb)_
-  * ID za smer enosmerne kocke -- *7-levo, 8-desno, 9-gor, 10-dol*
-  * ID starsevskega teleporta -- *> 10*
+  * Nic(el. nima otroka, npr. zid) -- *0*
+  * Igralec -- *1* (PPlayer)_
+  * Kocka -- *2* (PCube)_
+  * Enosmerna kocka levo -- *3* _(POnewayCube)_
+  * Enosmerna kocka desno -- *4* _(POnewayCube)_
+  * Enosmerna kocka gor -- *5* _(POnewayCube)_
+  * Enosmerna kocka dol -- *6* _(POnewayCube)_
+  * Bomba -- *7* _(PBomb)_
+  * ID za smer enosmerne kocke -- *8-levo, 9-desno, 10-gor, 11-dol*
+  * ID starsevskega teleporta -- *> 11*
 
 Ce kdo med programiranjem ugotovi, da z temi id-ji kaj ne stima, naj prosim popravi wiki, in nekam na grupo napise, da nekaj ne stima in zakaj ne stima!
 Naceloma spreminjanje tega ni zazeljeno; ce se bo spreminjalo, naj bo razlog res dober!
@@ -179,19 +180,20 @@ Spodobi se in pravicno je, da se v kodi uporabljajo naslednji makri(da bo lazje 
 #define VOID 6 // (PVoid) 
 
 // MATRIKA 2
-#define PLAYER 0 // (PPlayer)
-#define CUBE 1 // (PCube)
-#define OW_CUBE_L 2 // (POnewayCube)
-#define OW_C_CUBE_R 3 // (POnewayCube)
-#define OW_CUBE_U 4 // (POnewayCube)
-#define OW_CUBE_D 5 // (POnewayCube)
-#define BOMB 6 // (PBomb)
+#define NO_CHILD 0
+#define PLAYER 1 // (PPlayer)
+#define CUBE 2 // (PCube)
+#define OW_CUBE_L 3 // (POnewayCube)
+#define OW_C_CUBE_R 4 // (POnewayCube)
+#define OW_CUBE_U 5 // (POnewayCube)
+#define OW_CUBE_D 6 // (POnewayCube)
+#define BOMB 7 // (PBomb)
 
 // ID za smer enosmerne kocke  
-#define LEFT 7
-#define RIGHT 8
-#define UP 9 
-#define DOWN 10
+#define LEFT 8
+#define RIGHT 9
+#define UP 10 
+#define DOWN 11
 }}}
 
  
