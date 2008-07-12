@@ -12,10 +12,11 @@
 */
 
 #include <iostream>
+#include <fstream>
+#include <string>
 #include "messages.h"
 #include "level.h"
 #include "levelbox.h"
-#include "object.h"
 
 using namespace std;
 using namespace PacGame::GameClasses;
@@ -32,7 +33,22 @@ namespace PacGame
           // function is work in progress, started by Aljosa june 29, 2008
           bool PLevel::loadLevelFromFile()
           {
+              unsigned short m = 0, n = 0;
+              string line;
+              ifstream level;
+              level.open("data/testlevel.lvl");  // opens level
+              if(!level.good())  // checks if file is properly open
+                  return false;  // if it isn't, end routine
               
+              // everything went ok so far
+              while(!level.eof()) // read line-by-line 'till the end
+              {
+              //    getline(level, line);  // read line into buffer
+              //    m = atoi(line[0]->c_str());
+                  
+              }
+              
+              level.close();
               return true; // everything went ok
           }
           
