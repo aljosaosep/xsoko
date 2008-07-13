@@ -34,6 +34,7 @@
       <itemPath>src/maingameclasses.h</itemPath>
       <itemPath>src/messages.h</itemPath>
       <itemPath>src/object.h</itemPath>
+      <itemPath>src/player.h</itemPath>
       <itemPath>src/PLevelBox.h</itemPath>
       <itemPath>src/vector.h</itemPath>
     </logicalFolder>
@@ -172,6 +173,9 @@
       </item>
       <item path="src/player.cpp">
         <itemTool>1</itemTool>
+      </item>
+      <item path="src/player.h">
+        <itemTool>3</itemTool>
       </item>
       <item path="src/renderer/renderer-core.cpp">
         <itemTool>1</itemTool>
@@ -365,6 +369,9 @@
       <item path="src/player.cpp">
         <itemTool>1</itemTool>
       </item>
+      <item path="src/player.h">
+        <itemTool>3</itemTool>
+      </item>
       <item path="src/renderer/renderer-core.cpp">
         <itemTool>1</itemTool>
       </item>
@@ -554,6 +561,9 @@
       </item>
       <item path="src/player.cpp">
         <itemTool>1</itemTool>
+      </item>
+      <item path="src/player.h">
+        <itemTool>3</itemTool>
       </item>
       <item path="src/renderer/renderer-core.cpp">
         <itemTool>1</itemTool>
@@ -749,6 +759,9 @@
       </item>
       <item path="src/player.cpp">
         <itemTool>1</itemTool>
+      </item>
+      <item path="src/player.h">
+        <itemTool>3</itemTool>
       </item>
       <item path="src/renderer/renderer-core.cpp">
         <itemTool>1</itemTool>

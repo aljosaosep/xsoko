@@ -24,7 +24,7 @@ namespace PacGame
 
                       if (!glfwInit())  // is GLFW initialization successful?
                       {
-//					msg.errorMessage("OpenGL/glfw initialization failed."); // in case, it is not
+                            Messages::errorMessage("OpenGL/glfw initialization failed."); // in case, it is not
                             terminateGLFW(); // terminate glfw and return false
                             return false;
                       }
@@ -34,7 +34,7 @@ namespace PacGame
                             // 800 x 600, 16 bit color, no depth, alpha or stencil buffers, windowed
                       if (!glfwOpenWindow(windowWidth, windowHeight, 5, 6, 5, 0, 0, 0, GLFW_WINDOW)) // attemps to open window
                       {
-//					msg.errorMessage("OpenGL window creation failed.");  // failed
+                            Messages::errorMessage("OpenGL window creation failed.");  // failed
                             terminateGLFW();
                             return false;
                       }
@@ -52,10 +52,9 @@ namespace PacGame
 
                       // OpenGL specific
                       glEnable(GL_TEXTURE_2D);
-                     // PTextureImage texture;
-                      RenderMaschine::PTexture textura("test.tga");
-                      if(!textura.makeTgaTexture(true))
-                          return false;
+                    //  RenderMaschine::PTexture textura("data/test.tga");
+                    //  if(!textura.makeTgaTexture(true))
+                    //      return false;
                       
                      // glBindTexture(GL_TEXTURE_2D, textura.getTexId());
                       

@@ -69,8 +69,9 @@ namespace PacGame
           {
           private:
           public:
+              PFloor() {}
               void draw();
-              bool initalize();
+              bool initialize();
               void print();
           };
 
@@ -86,7 +87,7 @@ namespace PacGame
           private:
           public:
               void draw();
-              bool initalize();
+              bool initialize();
               void print();
           };
 
@@ -102,7 +103,7 @@ namespace PacGame
           private:
           public:
               void draw();
-              bool initalize();
+              bool initialize();
               void print();
           };
 
@@ -135,7 +136,7 @@ namespace PacGame
           private:
           public:
               void draw();
-              bool initalize();
+              bool initialize();
               void print();
           };
 
@@ -151,7 +152,7 @@ namespace PacGame
           private:
           public:
               void draw();
-              bool initalize();
+              bool initialize();
               void print();
           };
 
@@ -167,7 +168,7 @@ namespace PacGame
           private:
           public:
               void draw();
-              bool initalize();
+              bool initialize();
               void print();
           };
 
@@ -183,7 +184,7 @@ namespace PacGame
           private:
           public:
               void draw();
-              bool initalize();
+              bool initialize();
               void print();
           };
 
@@ -199,7 +200,7 @@ namespace PacGame
           private:
           public:
               void draw();
-              bool initalize();
+              bool initialize();
               void print();
           };
 
@@ -215,7 +216,7 @@ namespace PacGame
           private:
           public:
               void draw();
-              bool initalize();
+              bool initialize();
               void print();
           };
 
@@ -231,7 +232,7 @@ namespace PacGame
           private:
           public:
               void draw();
-              bool initalize();
+              bool initialize();
               void print();
           };
       }

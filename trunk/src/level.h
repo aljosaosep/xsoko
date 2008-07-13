@@ -14,6 +14,7 @@
 #ifndef __LEVEL_H
 #define __LEVEL_H
 
+#include <string>
 #include "object.h"
 #include "CommonStructures.h"
 //#include "renderer/renderer.h"
@@ -36,7 +37,7 @@ using namespace PacGame::Functions;
 #define PLAYER 1 // (PPlayer)
 #define CUBE 2 // (PCube)
 #define OW_CUBE_L 3 // (POnewayCube)
-#define OW_C_CUBE_R 4 // (POnewayCube)
+#define OW_CUBE_R 4 // (POnewayCube)
 #define OW_CUBE_U 5 // (POnewayCube)
 #define OW_CUBE_D 6 // (POnewayCube)
 #define BOMB 7 // (PBomb)
@@ -63,13 +64,12 @@ namespace PacGame
               class PLevel : public PObject
               {
               private:
-                  char *filename;
+                  string filename;
                   PObject* data[30][30]; 
                   unsigned width, height;
-                  
-
+                 
               public:
-                  PLevel(char *filename) : filename(filename),  width(0), height(0) {} // default constructor
+                  PLevel(string filename) : filename(filename),  width(0), height(0) {} // default constructor
                   // print
                   // todo: implement
                   void printLevelByType() const; // dumps level data insto console; prints type of level(wall, void, teleport, ...)
@@ -79,6 +79,9 @@ namespace PacGame
                   // todo: implement
                   bool loadLevelFromFile(); // loads level from txt file into structure, stores level widthm height into class properties
                   bool saveStateToFile(char *filename);   // exports level state to file
+                  
+                  // level toolkit functions
+                  int returnNumberFromFile(ifstream &file);
 
                   // functions to override
                   // todo: implement
