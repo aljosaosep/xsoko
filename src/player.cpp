@@ -10,7 +10,7 @@
  * Aljosa May 28 2008
  */
 
-#include "entities.h"
+#include "player.h"
 
 namespace PacGame
 {

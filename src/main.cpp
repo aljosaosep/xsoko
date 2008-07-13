@@ -11,6 +11,7 @@
  */
 
 #include <cstdlib>
+#include "level.h"
 #include "game.h"
 #include "entities.h"
 #include "messages.h"
@@ -29,6 +30,10 @@ int main(int argc, char *argv[])
       //  PStatus.initMessage("game", false); // todo: izpisi status!
         return -1;
     }
+    
+    PLevel test("data/testlevel.lvl");
+    test.loadLevelFromFile();
+
 
     pacgame.mainLoop();
 

@@ -60,7 +60,13 @@ namespace PacGame
         {
             cout<<this->id<<' ';
         }
-          
+       
+        
+        /*****************************************
+         
+         * MATRIX I. ELEMENTS METHODS IMPLEMENTATION
+         *
+         *****************************************/
           
         /*****************************************
          PTeleport methods
@@ -80,6 +86,201 @@ namespace PacGame
         {
 
         }
+        
+        /*****************************************
+         PFloor methods
+         *****************************************/	
+        // TODO: implement
+        bool PFloor::initialize()
+        {
+            return true;
+        }
+        
+        void PFloor::draw()
+        {
+
+        }
+        
+        void PFloor::print()
+        {
+
+        }
+        
+        /*****************************************
+         POnewayFloor methods
+         *****************************************/	
+        // TODO: implement
+        bool POnewayFloor::initialize()
+        {
+            return true;
+        }
+        
+        void POnewayFloor::draw()
+        {
+
+        }
+        
+        void POnewayFloor::print()
+        {
+
+        }
+        
+        /*****************************************
+         PSolidWall methods
+         *****************************************/	
+        // TODO: implement
+        bool PSolidWall::initialize()
+        {
+            return true;
+        }
+        
+        void PSolidWall::draw()
+        {
+
+        }
+        
+        void PSolidWall::print()
+        {
+
+        }
+        
+        /*****************************************
+         PUnsolidWall methods
+         *****************************************/	
+        // TODO: implement
+        bool PUnsolidWall::initialize()
+        {
+            return true;
+        }
+        
+        void PUnsolidWall::draw()
+        {
+
+        }
+        
+        void PUnsolidWall::print()
+        {
+
+        }  
+        
+        /*****************************************
+         PBridge methods
+         *****************************************/	
+        // TODO: implement
+        bool PBridge::initialize()
+        {
+            return true;
+        }
+        
+        void PBridge::draw()
+        {
+
+        }
+        
+        void PBridge::print()
+        {
+
+        } 
+        
+        /*****************************************
+         PVoid methods
+         *****************************************/	
+        // TODO: implement
+        bool PVoid::initialize()
+        {
+            return true;
+        }
+        
+        void PVoid::draw()
+        {
+
+        }
+        
+        void PVoid::print()
+        {
+
+        } 
+        
+        /*****************************************
+         PCubeHolder methods
+         *****************************************/	
+        // TODO: implement
+        bool PCubeHolder::initialize()
+        {
+            return true;
+        }
+        
+        void PCubeHolder::draw()
+        {
+
+        }
+        
+        void PCubeHolder::print()
+        {
+
+        }  
+        
+        /*****************************************
+         
+         * MATRIX II. ELEMENTS METHODS IMPLEMENTATION
+         *
+         *****************************************/
+        /*****************************************
+         PCube methods
+         *****************************************/	
+        // TODO: implement
+        bool PCube::initialize()
+        {
+            return true;
+        }
+        
+        void PCube::draw()
+        {
+
+        }
+        
+        void PCube::print()
+        {
+
+        } 
+        
+        /*****************************************
+         POnewayCube methods
+         *****************************************/	
+        // TODO: implement
+        bool POnewayCube::initialize()
+        {
+            return true;
+        }
+        
+        void POnewayCube::draw()
+        {
+
+        }
+        
+        void POnewayCube::print()
+        {
+
+        } 
+        
+        /*****************************************
+         PBomb methods
+         *****************************************/	
+        // TODO: implement
+        bool PBomb::initialize()
+        {
+            return true;
+        }
+        
+        void PBomb::draw()
+        {
+
+        }
+        
+        void PBomb::print()
+        {
+
+        } 
     }
 }
 

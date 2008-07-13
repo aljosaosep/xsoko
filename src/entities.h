@@ -8,7 +8,7 @@
 
 */
 
-#ifndef __ENTITIES_H
+/*#ifndef __ENTITIES_H
 #define __ENTITIES_H
 
 #include <iostream>
@@ -31,7 +31,7 @@ namespace PacGame
            * Class is template
            * --------------------------------------------------------
            * Aljosa 2007
-           * ********************************************************/
+           * ********************************************************
           class PEntity : public PObject
           {
           private:
@@ -51,7 +51,7 @@ namespace PacGame
            * Represents player entity
            * --------------------------------------------------------
            * Aljosa 2007
-           * ********************************************************/
+           * ********************************************************
           class PPlayer : public PEntity
           {
           private:
@@ -90,4 +90,4 @@ namespace PacGame
       }
 }
 
-#endif
+#endif*/
