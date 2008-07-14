@@ -53,7 +53,7 @@ namespace PacGame
                PObject();
                PObject(float x, float y);
                                                        
-               ~PObject();
+               virtual ~PObject();
                // linked list
                void add(PObject *obj);
                void dumpList() const;

@@ -12,16 +12,16 @@ MKDIR=mkdir
 CP=cp
 CCADMIN=CCadmin
 RANLIB=ranlib
-CC=gcc
-CCC=g++
-CXX=g++
+CC=gcc.exe
+CCC=g++.exe
+CXX=g++.exe
 FC=
 
 # Include project Makefile
 include Makefile
 
 # Object Directory
-OBJECTDIR=build/Linux_Release/GNU-Linux-x86
+OBJECTDIR=build/Linux_Release/Cygwin-Linux-x86
 
 # Object Files
 OBJECTFILES= \
@@ -69,11 +69,11 @@ FFLAGS=
 LDLIBSOPTIONS=-lglfw -lGL -lGLU -lXxf86vm -lm -lXrandr
 
 # Build Targets
-.build-conf: ${BUILD_SUBPROJECTS} dist/Linux_Release/GNU-Linux-x86/trunk
+.build-conf: ${BUILD_SUBPROJECTS} dist/Linux_Release/Cygwin-Linux-x86/xsoko
 
-dist/Linux_Release/GNU-Linux-x86/trunk: ${OBJECTFILES}
-	${MKDIR} -p dist/Linux_Release/GNU-Linux-x86
-	${LINK.cc} -o dist/Linux_Release/GNU-Linux-x86/trunk ${OBJECTFILES} ${LDLIBSOPTIONS} 
+dist/Linux_Release/Cygwin-Linux-x86/xsoko: ${OBJECTFILES}
+	${MKDIR} -p dist/Linux_Release/Cygwin-Linux-x86
+	${LINK.cc} -o dist/Linux_Release/Cygwin-Linux-x86/xsoko ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
 ${OBJECTDIR}/src/zip/zlib/infback.o: src/zip/zlib/infback.c 
 	${MKDIR} -p ${OBJECTDIR}/src/zip/zlib
@@ -197,7 +197,11 @@ ${OBJECTDIR}/src/renderer/renderer-core.o: src/renderer/renderer-core.cpp
 # Clean Targets
 .clean-conf:
 	${RM} -r build/Linux_Release
-	${RM} dist/Linux_Release/GNU-Linux-x86/trunk
+	${RM} dist/Linux_Release/Cygwin-Linux-x86/xsoko
 
 # Subprojects
 .clean-subprojects:
+
+# Enable dependency checking
+.KEEP_STATE:
+.KEEP_STATE_FILE:.make.state.${CONF}

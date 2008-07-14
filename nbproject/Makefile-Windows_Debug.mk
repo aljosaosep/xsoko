@@ -12,9 +12,9 @@ MKDIR=mkdir
 CP=cp
 CCADMIN=CCadmin
 RANLIB=ranlib
-CC=
-CCC=
-CXX=
+CC=gcc.exe
+CCC=g++.exe
+CXX=g++.exe
 FC=
 
 # Include project Makefile
@@ -69,11 +69,11 @@ FFLAGS=
 LDLIBSOPTIONS=-lglfw -lopengl32 -lglu32
 
 # Build Targets
-.build-conf: ${BUILD_SUBPROJECTS} dist/Windows_Debug/Cygwin-Windows/trunk.exe
+.build-conf: ${BUILD_SUBPROJECTS} dist/Windows_Debug/Cygwin-Windows/xsoko.exe
 
-dist/Windows_Debug/Cygwin-Windows/trunk.exe: ${OBJECTFILES}
+dist/Windows_Debug/Cygwin-Windows/xsoko.exe: ${OBJECTFILES}
 	${MKDIR} -p dist/Windows_Debug/Cygwin-Windows
-	${LINK.cc} -o dist/Windows_Debug/Cygwin-Windows/trunk ${OBJECTFILES} ${LDLIBSOPTIONS} 
+	${LINK.cc} -o dist/Windows_Debug/Cygwin-Windows/xsoko ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
 ${OBJECTDIR}/src/zip/zlib/infback.o: src/zip/zlib/infback.c 
 	${MKDIR} -p ${OBJECTDIR}/src/zip/zlib
@@ -197,7 +197,11 @@ ${OBJECTDIR}/src/renderer/renderer-core.o: src/renderer/renderer-core.cpp
 # Clean Targets
 .clean-conf:
 	${RM} -r build/Windows_Debug
-	${RM} dist/Windows_Debug/Cygwin-Windows/trunk.exe
+	${RM} dist/Windows_Debug/Cygwin-Windows/xsoko.exe
 
 # Subprojects
 .clean-subprojects:
+
+# Enable dependency checking
+.KEEP_STATE:
+.KEEP_STATE_FILE:.make.state.${CONF}

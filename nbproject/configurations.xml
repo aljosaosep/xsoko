@@ -26,7 +26,6 @@
         <itemPath>src/zip/zipfile.h</itemPath>
       </logicalFolder>
       <itemPath>src/CommonStructures.h</itemPath>
-      <itemPath>src/entities.h</itemPath>
       <itemPath>src/game.h</itemPath>
       <itemPath>src/io.h</itemPath>
       <itemPath>src/level.h</itemPath>
@@ -118,9 +117,6 @@
         <itemTool>3</itemTool>
       </item>
       <item path="src/PLevelBox.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/entities.h">
         <itemTool>3</itemTool>
       </item>
       <item path="src/game-init.cpp">
@@ -315,9 +311,6 @@
       <item path="src/PLevelBox.h">
         <itemTool>3</itemTool>
       </item>
-      <item path="src/entities.h">
-        <itemTool>3</itemTool>
-      </item>
       <item path="src/game-init.cpp">
         <itemTool>1</itemTool>
       </item>
@@ -506,9 +499,6 @@
         <itemTool>3</itemTool>
       </item>
       <item path="src/PLevelBox.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/entities.h">
         <itemTool>3</itemTool>
       </item>
       <item path="src/game-init.cpp">
@@ -704,9 +694,6 @@
         <itemTool>3</itemTool>
       </item>
       <item path="src/PLevelBox.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/entities.h">
         <itemTool>3</itemTool>
       </item>
       <item path="src/game-init.cpp">
