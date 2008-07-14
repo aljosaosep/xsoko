@@ -70,6 +70,7 @@ namespace PacGame
                  
               public:
                   PLevel(string filename) : filename(filename),  width(0), height(0) {} // default constructor
+                  virtual ~PLevel() {};
                   // print
                   // todo: implement
                   void printLevelByType() const; // dumps level data insto console; prints type of level(wall, void, teleport, ...)

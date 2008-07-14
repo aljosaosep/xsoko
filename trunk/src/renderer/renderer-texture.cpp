@@ -64,7 +64,7 @@ namespace PacGame
                   GLubyte	TGAcompare[12];						// for compare...
                   GLubyte	header[6];						// first 6 bits
                   unsigned	bytesPerPixel;						// number of bytes per pixel in tga image
-                  unsigned	imageSize;						// store image size
+                  int	imageSize;						// store image size
                   unsigned	temp;							
         //	  unsigned	type  = GL_RGBA; 	
 
@@ -122,7 +122,7 @@ namespace PacGame
                           return false;							
                   }
 
-                  for(unsigned i=0; i<imageSize; i+=bytesPerPixel)	// Swaps The 1st And 3rd Bytes, R and B
+                  for(int i=0; i<imageSize; i+=bytesPerPixel)	// Swaps The 1st And 3rd Bytes, R and B
                   {
                           temp=texture.imageData[i];					
                           texture.imageData[i] = texture.imageData[i + 2];		

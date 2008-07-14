@@ -13,7 +13,6 @@
 #include <cstdlib>
 #include "level.h"
 #include "game.h"
-#include "entities.h"
 #include "messages.h"
 
 // using namespace std;
@@ -23,21 +22,21 @@ int main(int argc, char *argv[])
 {
   //  PMessages status;
     
-    PGame pacgame(640, 480, "xSoko project");
+    //PGame pacgame(640, 480, "xSoko project");
 
-    if(!pacgame.initGame())
-    {
+    //if(!pacgame.initGame())
+    //{
       //  PStatus.initMessage("game", false); // todo: izpisi status!
-        return -1;
-    }
+    //    return -1;
+    //}
     
     PLevel test("data/testlevel.lvl");
     test.loadLevelFromFile();
 
 
-    pacgame.mainLoop();
+    //pacgame.mainLoop();
 
-    PacGame::RenderMaschine::PRenderer renderer;
+    //PacGame::RenderMaschine::PRenderer renderer;
 
     system("pause");
     return 0;
