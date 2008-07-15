@@ -15,6 +15,7 @@
 #include "game.h"
 #include "messages.h"
 
+
 // using namespace std;
 using namespace PacGame::GameClasses;
 
@@ -31,6 +32,8 @@ int main(int argc, char *argv[])
     PLevel test("data/testlevel.lvl");
     test.loadLevelFromFile();
     test.print();
+    
+  //  cout<<endl<<typeid().<<endl;
 
 
   //  pacgame.mainLoop();

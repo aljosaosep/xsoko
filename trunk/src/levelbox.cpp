@@ -210,7 +210,7 @@ namespace PacGame
         
         void PVoid::print()
         {
-            cout<<"|XXXXX";
+            cout<<"|     ";
         } 
         
         /*****************************************
@@ -297,10 +297,10 @@ namespace PacGame
         /*****************************************
          PNoData methods
          *****************************************/
-        void PNoData::print()
+     /*   void PNoData::print()
         {
             cout<<"|_NULL";
-        } 
+        } */
         
         
         /*****************************************

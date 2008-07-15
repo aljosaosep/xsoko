@@ -98,7 +98,7 @@ namespace PacGame
           // functions returns first element in list, in soko, that is object appened to parent object
           PObject* PObject::returnFirstChild() const
           {
-              return root->object;
+              return root == NULL ? NULL : root->object;
           }
       }
 }

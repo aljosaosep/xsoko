@@ -11,21 +11,25 @@
  * Aljosa 2008
 */
 
-#include "levelbox.h"
+#include <vector>
 
 
-#include "object.h"
 
 
-#include <sstream>
+
+
+
 #include <string>
 // #include "level.h"
 #include <iostream>
 #include <fstream>
+//#include <typeinfo>
+
 #include <iomanip>
 #include "messages.h"
 #include "level.h"
 #include "levelbox.h"
+//#include "object.h"
 
 using namespace std;
 using namespace PacGame::GameClasses;
@@ -67,6 +71,26 @@ namespace PacGame
  
               return atoi(buff);  // we return number read from file, parsed into integer
           }
+
+           /*****************************************************************
+           * Function loops through level and finds teleport with
+           * given id. It returns pointer to that teleport.
+           *****************************************************************/
+        /*  PTeleport *PLevel::returnTeleportById(int id)
+          {
+              for(unsigned i=0; i<this->width; i++)
+              {
+                  for(unsigned j=0; j<this->height; j++)
+                  {
+                      if(typeid(data[i][j]) == typeid(PTeleport))
+                      {
+                        // data[i][j]->returnFirstChild()->getData();
+                          // note to myself: store teleport pointers to an vector and search vector for this data!
+                      }
+                  }
+              }              
+          }*/
+          
           // level functions implementation goes here! ;)
           
           /**************************************************************
@@ -127,6 +151,8 @@ namespace PacGame
                                       
                                   case TELEPORT:
                                       data[i][j] = new PTeleport;
+                             //        PTeleport *teli=static_cast<PTeleport*>(&data[i][j]);
+                                    //  teleports.push_back(teli);
                                       break; 
                                       
                                   case BRIDGE:
@@ -230,7 +256,10 @@ namespace PacGame
               return true; // everything went ok
           }
           
-          // function is work in progress, started by Aljosa june 29, 2008
+          /**************************************************************
+           * Function initiates level
+           * work in progress
+           **************************************************************/
           bool PLevel::initialize()
           {
               //data = new
@@ -246,13 +275,18 @@ namespace PacGame
               return true; // everything went ok
           }
           
-          // draws whole level
+          /**************************************************************
+           * Function draws level with OpenGL into a window
+           **************************************************************/
           void PLevel::draw()
           {
               
           }
           
-          // dumps level data into console
+          /**************************************************************
+           * Function dumps level data into console
+           * consider it as an alternative render function :D
+           **************************************************************/
           void PLevel::print()
           {
               cout<<endl;
@@ -274,8 +308,10 @@ namespace PacGame
               cout<<endl;  
           }
      
-     
-          // dumps level data insto console; prints type of level(wall, void, teleport, ...)          
+          /**************************************************************
+           * Function dumps level data into console
+           * prints type of level(wall, void, teleport, ...) 
+           **************************************************************/        
           void PLevel::printLevelByType() const
           {
               cout<<endl;
@@ -287,7 +323,11 @@ namespace PacGame
               }
               cout<<endl;
           }
-          // dumps level data insto console;  prints meta data(what is on level block)
+          
+          /**************************************************************
+           * Function dumps level data into console
+           * prints meta data(what is on level block)
+           **************************************************************/  
           void PLevel::printLevelByMeta() const
           {
               cout<<endl;

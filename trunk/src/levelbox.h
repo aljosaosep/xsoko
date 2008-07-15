@@ -258,14 +258,14 @@ namespace PacGame
            * --------------------------------------------------------
            * Aljosa 2008
            * ********************************************************/ 
-          class PNoData : public PLevelObject
+  /*        class PNoData : public PLevelObject
           {
           private:
           public:
               void draw() {}
               bool initialize() { return true; }
               void print();
-          };
+          };*/
           
           /**********************************************************
            * PData
@@ -282,6 +282,9 @@ namespace PacGame
               int data;
           public:
               PData(int data) : data(data) {}
+              
+              // getter
+              int getData() const { return data; }
               void draw() {}
               bool initialize() {return true;}
               void print()
