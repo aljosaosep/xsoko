@@ -22,6 +22,7 @@
 // #include "level.h"
 #include <iostream>
 #include <fstream>
+#include <iomanip>
 #include "messages.h"
 #include "level.h"
 #include "levelbox.h"
@@ -37,42 +38,50 @@ namespace PacGame
            /*****************************************
            PLevel methods
            *****************************************/
+          
+          /*****************************************************************
+           * Function reads two-digit number from stream pointer current
+           * position and skips one character, it is suitable for our
+           * level format only.
+           *****************************************************************/
           int PLevel::returnNumberFromFile(ifstream &file)
           {
-              char buff[3];
-              char c;
-              file.get(c);
-              if(!(c >= '0' && c <= '9'))
+              char buff[3]; // char buffer for our number, before it is being parsed into integer
+              char c;       // strage for single character
+              file.get(c);  // we read first digit
+              if(!(c >= '0' && c <= '9')) // if it isn't a digit, we return an error
                   return -1;
               else
-                  buff[0] = c;
+                  buff[0] = c; // otherwise, we store it into buffer
                   
-              file.get(c);
+              file.get(c); // we read next character
               
-              if(c >= '0' && c <= '9')
+              if(c >= '0' && c <= '9') // if it is a digit ...
               {
-                  buff[1] = c;
-                  buff[2] = '\0';
-                  file.get();
+                  buff[1] = c;  // we also store it into buffer
+                  buff[2] = '\0'; // and then we close string, because we need two-digit numbers only
+                  file.get();  // we skip one character(space)
               }
-              else
-              {
-                  buff[1] = '\0';
-              //    file.get();
-              }
-              
-              return atoi(buff);
+              else // if second character isn't digit
+                  buff[1] = '\0';  // we just close string
+ 
+              return atoi(buff);  // we return number read from file, parsed into integer
           }
           // level functions implementation goes here! ;)
           
+          /**************************************************************
+           * Function reads file data form file, given by filename 
+           * variable into level class
+           **************************************************************/
           // function is work in progress, started by Aljosa june 29, 2008
           bool PLevel::loadLevelFromFile()
           {
               int m = 0, n = 0; // dimensions
               char c; // for reading single character in file
-              PObject *p = NULL;
+              PObject *p = NULL; // our pobject pointer; for creating dynamic objects
               ifstream level; // file handle
               level.open(this->filename.c_str());  // opens level
+              
               if(!level.good())  // checks if file is properly open
               {
                   Messages::errorMessage("Level data is in invalid format ot there is not level data at all!");
@@ -81,22 +90,24 @@ namespace PacGame
               
               // everything went ok so far
               Messages::infoMessage("Loading level data... please wait.");
-              while(!level.eof()) // read line-by-line 'till the end
+              while(!level.eof()) // we read file 'till the end
               {
-                  // first, I read dimension
-                  m = height = this->returnNumberFromFile(level);
+                  // first read dimension
+                  m = height = this->returnNumberFromFile(level); // dimensions are first two numbers
                   n = width = this->returnNumberFromFile(level);
                   
-                  int num = 0;  // numer that we get from file
+                  int num = 0;  // number that we get from file
+                  
                   // considering dimension, we read first matrix
-                  for(int i=0; i<n; i++)
+                  for(int i=0; i<n; i++)  
                   {
                       for(int j=0; j<m; j++)
                       {
-                          num = returnNumberFromFile(level);
-                          if(num!=-1)
+                          num = returnNumberFromFile(level);  // we read number from file and store it into num
+                          
+                          if(num!=-1)  // we check if data is valid
                           {
-                              switch(num)
+                              switch(num)  // if it is, we create suitable object
                               {
                                   case FLOOR:
                                       data[i][j] = new PFloor;
@@ -131,7 +142,7 @@ namespace PacGame
                                       break;                                       
                               }
                           }
-                          else
+                          else  // if it isn't, we return error
                           {
                               Messages::errorMessage("Invalid level data.");
                               return false;
@@ -140,16 +151,16 @@ namespace PacGame
                   }
                   
                   // first matrix shoud be in memory by now.
-                  level.get(c); // skip +
-                  if(c!='+') // checks if so far is everything ok
+                  
+                  level.get(c); // skip +  sing
+                  
+                  if(c!='+') // checks if our position is valid
                   {
-                      Messages::errorMessage("Invalid level data.");
+                      Messages::errorMessage("Invalid level data."); 
                       return false;                      
                   }
                   
                   level.get(); // skip newline
-                  
-                  PNoData *noData = new PNoData;  // one object for all fields with no data
 
                   // we continue with second matrix
                   for(int i=0; i<n; i++)
@@ -166,12 +177,7 @@ namespace PacGame
                               }
                               
                               switch(num)
-                              {
-                                  case NO_CHILD:
-                                   //   p = new PNoData;
-                                      data[i][j]->add(noData);
-                                      break;                                      
-                                      
+                              {                                              
                                   case PLAYER:
                                       p = new PPlayer;
                                       data[i][j]->add(p);
@@ -206,8 +212,6 @@ namespace PacGame
                                       p = new PBomb;
                                       data[i][j]->add(p);
                                       break; 
-                                      
-                              
                               }
                           }
                           else
@@ -217,9 +221,7 @@ namespace PacGame
                           }
                       }
                   }              
-                  
 
-                  
                   break;   
               }
               
@@ -253,11 +255,23 @@ namespace PacGame
           // dumps level data into console
           void PLevel::print()
           {
-              cout<<"Level by type:"<<endl;
-              this->printLevelByType();
-              cout<<"Level by meta:"<<endl;
-              this->printLevelByMeta();
-              
+              cout<<endl;
+              for(unsigned i=0; i<this->width; i++)
+              {
+                  cout<<setfill('-')<<setw(73)<<"-"<<endl;  // prints line
+
+                  for(unsigned j=0; j<this->height; j++)
+                  {
+                      PObject *obj = data[i][j]->returnFirstChild(); 
+                      if(obj!=NULL) // if there is boject binded
+                          obj->print(); // prints it
+                      else
+                          data[i][j]->print();  // otherwise, print object
+                  }
+                  cout<<'|'<<endl;
+              }
+              cout<<setfill('-')<<setw(73)<<"-"<<endl;  // prints line
+              cout<<endl;  
           }
      
      
@@ -268,7 +282,7 @@ namespace PacGame
               for(unsigned i=0; i<this->width; i++)
               {
                   for(unsigned j=0; j<this->height; j++)
-                      data[i][j]->print();
+                      data[i][j]->print(); // prints objects info
                   cout<<'|'<<endl;
               }
               cout<<endl;
@@ -280,7 +294,13 @@ namespace PacGame
               for(unsigned i=0; i<this->width; i++)
               {
                   for(unsigned j=0; j<this->height; j++)
-                      data[i][j]->returnFirstChild()->print();
+                  {
+                      PObject *obj = data[i][j]->returnFirstChild(); 
+                      if(obj!=NULL) // if there is boject binded
+                          obj->print(); // prints it
+                      else
+                          cout<<"|     "; // otherwise, print empty
+                  }
                   cout<<'|'<<endl;
               }
               cout<<endl;            
