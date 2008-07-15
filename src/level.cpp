@@ -11,6 +11,12 @@
  * Aljosa 2008
 */
 
+#include "levelbox.h"
+
+
+#include "object.h"
+
+
 #include <sstream>
 #include <string>
 // #include "level.h"
@@ -64,18 +70,22 @@ namespace PacGame
           {
               int m = 0, n = 0; // dimensions
               char c; // for reading single character in file
+              PObject *p = NULL;
               ifstream level; // file handle
               level.open(this->filename.c_str());  // opens level
               if(!level.good())  // checks if file is properly open
+              {
+                  Messages::errorMessage("Level data is in invalid format ot there is not level data at all!");
                   return false;  // if it isn't, end routine
+              }
               
               // everything went ok so far
               Messages::infoMessage("Loading level data... please wait.");
               while(!level.eof()) // read line-by-line 'till the end
               {
                   // first, I read dimension
-                  m = this->returnNumberFromFile(level);
-                  n = this->returnNumberFromFile(level);
+                  m = height = this->returnNumberFromFile(level);
+                  n = width = this->returnNumberFromFile(level);
                   
                   int num = 0;  // numer that we get from file
                   // considering dimension, we read first matrix
@@ -138,6 +148,8 @@ namespace PacGame
                   }
                   
                   level.get(); // skip newline
+                  
+                  PNoData *noData = new PNoData;  // one object for all fields with no data
 
                   // we continue with second matrix
                   for(int i=0; i<n; i++)
@@ -147,36 +159,55 @@ namespace PacGame
                           num = returnNumberFromFile(level);
                           if(num!=-1)
                           {
+                              if(num >= 11) // if it is > 11, then it is an teleport id
+                              {
+                                      p = new PData(num);
+                                      data[i][j]->add(p);                                
+                              }
+                              
                               switch(num)
                               {
+                                  case NO_CHILD:
+                                   //   p = new PNoData;
+                                      data[i][j]->add(noData);
+                                      break;                                      
                                       
-                               /*   case PLAYER:
-                                   //   data[i][j] = new POnewayFloor;
+                                  case PLAYER:
+                                      p = new PPlayer;
+                                      data[i][j]->add(p);
                                       break;
                                       
                                   case CUBE:
-                                      data[i][j].add()
+                                      p = new PCube;
+                                      data[i][j]->add(p);
                                       break;
                                       
-                                  case U_WALL:
-                                      data[i][j] = new PUnsolidWall;
+                                  case OW_CUBE_L:
+                                      p = new POnewayCube(Aliases::left);
+                                      data[i][j]->add(p);
                                       break; 
                                       
-                                  case TELEPORT:
-                                      data[i][j] = new PTeleport;
+                                  case OW_CUBE_R:
+                                      p = new POnewayCube(Aliases::right);
+                                      data[i][j]->add(p);
                                       break; 
                                       
-                                  case BRIDGE:
-                                      data[i][j] = new PBridge;
+                                  case OW_CUBE_U:
+                                      p = new POnewayCube(Aliases::up);
+                                      data[i][j]->add(p);
                                       break;  
                                       
-                                  case VOID:
-                                      data[i][j] = new PVoid;
+                                  case OW_CUBE_D:
+                                      p = new POnewayCube(Aliases::down);
+                                      data[i][j]->add(p);
                                       break;
                                       
-                                  case CUBE_PLACE:
-                                      data[i][j] = new PCubeHolder;
-                                      break;  */                                     
+                                  case BOMB:
+                                      p = new PBomb;
+                                      data[i][j]->add(p);
+                                      break; 
+                                      
+                              
                               }
                           }
                           else
@@ -222,6 +253,10 @@ namespace PacGame
           // dumps level data into console
           void PLevel::print()
           {
+              cout<<"Level by type:"<<endl;
+              this->printLevelByType();
+              cout<<"Level by meta:"<<endl;
+              this->printLevelByMeta();
               
           }
      
@@ -229,22 +264,26 @@ namespace PacGame
           // dumps level data insto console; prints type of level(wall, void, teleport, ...)          
           void PLevel::printLevelByType() const
           {
+              cout<<endl;
               for(unsigned i=0; i<this->width; i++)
               {
                   for(unsigned j=0; j<this->height; j++)
                       data[i][j]->print();
-                  cout<<endl;
+                  cout<<'|'<<endl;
               }
+              cout<<endl;
           }
           // dumps level data insto console;  prints meta data(what is on level block)
           void PLevel::printLevelByMeta() const
           {
+              cout<<endl;
               for(unsigned i=0; i<this->width; i++)
               {
-                  for(unsigned j=0; j<this->height; j++);
-                   //   data[i][j]->returnFirstChild()->print();  // print it's child; // zakaj ne dela?!?
-                  cout<<endl;
-              }              
+                  for(unsigned j=0; j<this->height; j++)
+                      data[i][j]->returnFirstChild()->print();
+                  cout<<'|'<<endl;
+              }
+              cout<<endl;            
           }
     }
 }

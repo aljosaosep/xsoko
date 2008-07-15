@@ -16,10 +16,10 @@ namespace PacGame
 {
       namespace GameClasses
       {
-              /*PPlayer::PPlayer() {} // default constructor
+              PPlayer::PPlayer() {} // default constructor
 
               // setters
-              void PPlayer::setBombs(uint8_t _bombs)
+              void PPlayer::setBombs(unsigned _bombs)
               {
                       bombs = _bombs;
               }
@@ -32,7 +32,7 @@ namespace PacGame
 
               unsigned short PPlayer::getBombs()
               {
-                      return (unsigned short)bombs;
+                      return bombs;
               }
 
               // etc
@@ -44,14 +44,9 @@ namespace PacGame
               void PPlayer::incBombs()
               {
                       bombs++;
-              }*/
-
-              // ===== FUNCTIONS TO OVERRIDE ===== //
-              void PPlayer::onDeath()
-              {
-                      // TODO
               }
 
+              // ===== FUNCTIONS TO OVERRIDE ===== //
               void PPlayer::draw() 
               {
                       // TODO
@@ -65,11 +60,7 @@ namespace PacGame
 
               void PPlayer::print()
               {
-                      // TODO
-                      cout<<"==== PLAYER INFO ===="<<endl;
-                      //cout<<"Bombs:" <<getBombs()<<endl;
-                      //cout<<"Score:" <<getScore()<<endl;
-                      cout<<"====================="<<endl;
+                  cout<<"|_PLYR";
               }
       }
 }

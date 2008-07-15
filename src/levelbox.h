@@ -13,6 +13,7 @@
 
 #include "renderer/renderer.h"
 #include "object.h"
+#include "CommonStructures.h"
 
 using namespace PacGame::RenderMaschine;
 
@@ -117,8 +118,18 @@ namespace PacGame
           class PTeleport : public PLevelObject
           {
           private:
+              int teleport_id;
+              
           public:
               PTeleport() {}
+              PTeleport(int id) : teleport_id(id) {}
+              
+              // setters
+              void setId(int id);
+              
+              // getters
+              int getId() const;
+              
               void draw();
               bool initialize();
               void print();
@@ -214,7 +225,11 @@ namespace PacGame
           class POnewayCube : public PLevelObject
           {
           private:
+              Aliases::PDirection dir; // tells in wich way os cube orientated
+              
           public:
+              POnewayCube(Aliases::PDirection dir) : dir(dir) {}
+           //   POnewayCube() {}
               void draw();
               bool initialize();
               void print();
@@ -234,6 +249,45 @@ namespace PacGame
               void draw();
               bool initialize();
               void print();
+          };
+          
+          /**********************************************************
+           * PNoData
+           *
+           * Represents blind child, means that element doens't have data
+           * --------------------------------------------------------
+           * Aljosa 2008
+           * ********************************************************/ 
+          class PNoData : public PLevelObject
+          {
+          private:
+          public:
+              void draw() {}
+              bool initialize() { return true; }
+              void print();
+          };
+          
+          /**********************************************************
+           * PData
+           *
+           * Represents object, that hold only data
+           * one way of use: binds teleport id
+           * --------------------------------------------------------
+           * Aljosa 2008
+           * ********************************************************/ 
+        //  template<class T>
+          class PData : public PLevelObject
+          {
+          private:
+              int data;
+          public:
+              PData(int data) : data(data) {}
+              void draw() {}
+              bool initialize() {return true;}
+              void print()
+              {
+                  cout<<"|DAT"<<this->data;
+              }
           };
       }
 }

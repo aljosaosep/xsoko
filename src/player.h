@@ -1,42 +1,62 @@
 /* 
  * File:   player.h
  * Author: jernej
+ * Desc: Includes player class definition
  *
  * Created on Ponedeljek, 14 julij 2008, 18:56
+ * Modified: aljosa on Torek, 15 julij 2008, 12:25 (conflict resloving)
  */
 
-#ifndef _PLAYER_H
-#define	_PLAYER_H
+
+#ifndef __PLAYER_H
+#define	__PLAYER_H
 
 #include <iostream>
-
-#include "stdint.h"
-#include "object.h"
+#include "levelbox.h"
 
 using namespace std;
 using namespace PacGame::GameClasses;
 
 namespace PacGame
 {
-    namespace GameClasses
-    {
-        class PPlayer
-        {
+      namespace GameClasses
+      {
+           /**********************************************************
+           * PPlayer
+           *
+           * Represents player entity
+           * --------------------------------------------------------
+           * Aljosa 2008
+           * ********************************************************/
+          class PPlayer : public PLevelObject
+          {
           private:
-            int score;
+                  int score;   
+                  unsigned bombs;
+
           public:
-            PPlayer();
-            void setBombs(uint8_t _bombs);
-            int getScore();
-              
-            // to override
-            void draw();
-            bool initialize();
-            void print();
-            void onDeath();
+                  // constructors
+                  PPlayer();
+
+                  // setters
+                  void setBombs(unsigned _bombs);
+
+                  // getters
+                  int getScore();
+                  unsigned short getBombs();
+
+                  // increase +1
+                  void incScore();
+                  void incBombs();
+
+                  // to override
+                  void draw();
+                  bool initialize();
+                  void print();
           };
-    }
+      }
 }
+
 
 #endif	/* _PLAYER_H */
 

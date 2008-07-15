@@ -70,7 +70,19 @@ namespace PacGame
           
         /*****************************************
          PTeleport methods
-         *****************************************/	
+         *****************************************/
+        // setters
+        void PTeleport::setId(int id)
+        {
+            this->teleport_id = id;
+        }
+        
+        // getters
+        int PTeleport::getId() const
+        {
+            return this->teleport_id;
+        }
+        
         // TODO: implement
         bool PTeleport::initialize()
         {
@@ -84,7 +96,7 @@ namespace PacGame
         
         void PTeleport::print()
         {
-
+            cout<<"|  T  ";
         }
         
         /*****************************************
@@ -103,7 +115,7 @@ namespace PacGame
         
         void PFloor::print()
         {
-
+            cout<<"|  F  ";
         }
         
         /*****************************************
@@ -122,7 +134,7 @@ namespace PacGame
         
         void POnewayFloor::print()
         {
-
+            cout<<"| OWF ";
         }
         
         /*****************************************
@@ -141,7 +153,7 @@ namespace PacGame
         
         void PSolidWall::print()
         {
-
+            cout<<"| SW  ";
         }
         
         /*****************************************
@@ -160,7 +172,7 @@ namespace PacGame
         
         void PUnsolidWall::print()
         {
-
+            cout<<"| USW ";
         }  
         
         /*****************************************
@@ -179,7 +191,7 @@ namespace PacGame
         
         void PBridge::print()
         {
-
+            cout<<"|  B  ";
         } 
         
         /*****************************************
@@ -198,7 +210,7 @@ namespace PacGame
         
         void PVoid::print()
         {
-
+            cout<<"|XXXXX";
         } 
         
         /*****************************************
@@ -217,7 +229,7 @@ namespace PacGame
         
         void PCubeHolder::print()
         {
-
+            cout<<"| CH  ";
         }  
         
         /*****************************************
@@ -241,7 +253,7 @@ namespace PacGame
         
         void PCube::print()
         {
-
+            cout<<"|  C  ";
         } 
         
         /*****************************************
@@ -260,7 +272,7 @@ namespace PacGame
         
         void POnewayCube::print()
         {
-
+            cout<<"| OWC ";
         } 
         
         /*****************************************
@@ -279,9 +291,31 @@ namespace PacGame
         
         void PBomb::print()
         {
-
+            cout<<"|  B  ";
         } 
+        
+        /*****************************************
+         PNoData methods
+         *****************************************/
+        void PNoData::print()
+        {
+            cout<<"|_NULL";
+        } 
+        
+        
+        /*****************************************
+         PData methods
+         *****************************************/
+     /*   template<class T>
+        void PData::print()
+        {
+            cout<<"|DAT"<<this->data;
+        } 
+        
+        // in this class, this two methods exists just because they must me owerwritten
+        bool PData::initialize() { return true; }
+        void PData::draw() {}*/
+
     }
 }
-
 

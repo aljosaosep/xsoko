@@ -22,7 +22,11 @@ namespace PacGame
 {
       namespace Aliases
       {
-
+          enum PDirection
+          {
+              left, right, up, down
+          };
+        
       }
 
       namespace Structures

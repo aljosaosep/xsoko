@@ -17,6 +17,7 @@
 #include <string>
 #include "object.h"
 #include "CommonStructures.h"
+#include "player.h"
 //#include "renderer/renderer.h"
 
 using namespace PacGame::GameClasses;
