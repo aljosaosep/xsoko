@@ -15,6 +15,7 @@
 #define __LEVEL_H
 
 #include <string>
+#include <vector>
 #include "object.h"
 #include "CommonStructures.h"
 #include "player.h"
@@ -54,36 +55,36 @@ namespace PacGame
 
       namespace GameClasses
       {
-              
                /**********************************************************
                * PLevel
                *
-               * Represents a whole level
+               * Represents a whole level, including its data
                * --------------------------------------------------------
                * Aljosa 2007 - 2008
                * ********************************************************/
               class PLevel : public PObject
               {
               private:
-                  string filename;
-                  PObject* data[30][30]; 
-                  unsigned width, height;
+                  string filename;              // level filename
+                  PObject* data[30][30];        // actual level data
+                  vector<PTeleport*> teleports; // vector of teleport pointers
+                  unsigned width, height;       // level dimensions
                  
               public:
                   PLevel(string filename) : filename(filename),  width(0), height(0) {} // default constructor
                   virtual ~PLevel() {};
+                  
                   // print
-                  // todo: implement
                   void printLevelByType() const; // dumps level data insto console; prints type of level(wall, void, teleport, ...)
                   void printLevelByMeta() const; // same, but it prints meta data(what is on level block)
                   
                   // level data manipulation
-                  // todo: implement
                   bool loadLevelFromFile(); // loads level from txt file into structure, stores level widthm height into class properties
                   bool saveStateToFile(char *filename);   // exports level state to file
                   
                   // level toolkit functions
                   int returnNumberFromFile(ifstream &file);
+                  PTeleport *returnTeleportById(int id);
 
                   // functions to override
                   // todo: implement
