@@ -84,7 +84,8 @@ namespace PacGame
                   
                   // level toolkit functions
                   int returnNumberFromFile(ifstream &file);
-                  PTeleport *returnTeleportById(int id);
+                  bool checkPosition(ifstream &file); // checks if position is valid and moves file pointer
+                  PTeleport *returnTeleport(int id);
 
                   // functions to override
                   // todo: implement

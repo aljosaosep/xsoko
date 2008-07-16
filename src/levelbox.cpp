@@ -96,7 +96,7 @@ namespace PacGame
         
         void PTeleport::print()
         {
-            cout<<"|  T  ";
+            cout<<"| T"<<this->teleport_id<<' ';
         }
         
         /*****************************************
