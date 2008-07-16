@@ -263,3 +263,4 @@ Za taksen format bom jaz zdaj pisal funkcije za lovdanje stopenj; ce kdo najde k
 
 Ce komu ni kaj jasno, naj vprasa! (ce sploh kdo to bere :D)
  
+= 5. Gameplay =
