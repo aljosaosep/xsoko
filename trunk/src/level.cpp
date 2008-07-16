@@ -11,25 +11,18 @@
  * Aljosa 2008
 */
 
+#include "levelbox.h"
+
+
 #include <vector>
-
-
-
-
-
-
-
 #include <string>
-// #include "level.h"
 #include <iostream>
 #include <fstream>
 //#include <typeinfo>
-
 #include <iomanip>
 #include "messages.h"
 #include "level.h"
 #include "levelbox.h"
-//#include "object.h"
 
 using namespace std;
 using namespace PacGame::GameClasses;
@@ -71,25 +64,38 @@ namespace PacGame
  
               return atoi(buff);  // we return number read from file, parsed into integer
           }
+  
+          /*****************************************************************
+           * Function validates level format with checking + sign
+           * position.
+           *****************************************************************/
+          bool PLevel::checkPosition(ifstream &file)
+          {
+              char c; // single character buffer
+              file.get(c); // read +  sign
+
+              if(c!='+') // checks if our position is valid
+              {
+                  Messages::errorMessage("Invalid level data."); 
+                  return false;                      
+              }
+
+              file.get(); // skip newline
+              return true; // position is ok
+          }
 
            /*****************************************************************
            * Function loops through level and finds teleport with
            * given id. It returns pointer to that teleport.
            *****************************************************************/
-        /*  PTeleport *PLevel::returnTeleportById(int id)
+          PTeleport *PLevel::returnTeleport(int id)
           {
-              for(unsigned i=0; i<this->width; i++)
-              {
-                  for(unsigned j=0; j<this->height; j++)
-                  {
-                      if(typeid(data[i][j]) == typeid(PTeleport))
-                      {
-                        // data[i][j]->returnFirstChild()->getData();
-                          // note to myself: store teleport pointers to an vector and search vector for this data!
-                      }
-                  }
-              }              
-          }*/
+              for(unsigned i=0; i<teleports.size(); i++) // loops thorough vector
+                  if(teleports[i]->getId() == id)  // if teleport's id matches id we're lookin' for
+                      return teleports[i];  // then return it's address
+         
+              return NULL; // otherwise return NULL
+          }
           
           // level functions implementation goes here! ;)
           
@@ -100,8 +106,8 @@ namespace PacGame
           // function is work in progress, started by Aljosa june 29, 2008
           bool PLevel::loadLevelFromFile()
           {
-              int m = 0, n = 0; // dimensions
-              char c; // for reading single character in file
+           //   int m = 0, n = 0; // dimensions
+              int tmsize; // teleport matrix size
               PObject *p = NULL; // our pobject pointer; for creating dynamic objects
               ifstream level; // file handle
               level.open(this->filename.c_str());  // opens level
@@ -117,15 +123,15 @@ namespace PacGame
               while(!level.eof()) // we read file 'till the end
               {
                   // first read dimension
-                  m = height = this->returnNumberFromFile(level); // dimensions are first two numbers
-                  n = width = this->returnNumberFromFile(level);
+                  height = this->returnNumberFromFile(level); // dimensions are first two numbers
+                  width = this->returnNumberFromFile(level);
                   
                   int num = 0;  // number that we get from file
                   
                   // considering dimension, we read first matrix
-                  for(int i=0; i<n; i++)  
+                  for(unsigned i=0; i<width; i++)  
                   {
-                      for(int j=0; j<m; j++)
+                      for(unsigned j=0; j<height; j++)
                       {
                           num = returnNumberFromFile(level);  // we read number from file and store it into num
                           
@@ -147,12 +153,6 @@ namespace PacGame
                                       
                                   case U_WALL:
                                       data[i][j] = new PUnsolidWall;
-                                      break; 
-                                      
-                                  case TELEPORT:
-                                      data[i][j] = new PTeleport;
-                             //        PTeleport *teli=static_cast<PTeleport*>(&data[i][j]);
-                                    //  teleports.push_back(teli);
                                       break; 
                                       
                                   case BRIDGE:
@@ -177,29 +177,23 @@ namespace PacGame
                   }
                   
                   // first matrix shoud be in memory by now.
-                  
-                  level.get(c); // skip +  sing
-                  
-                  if(c!='+') // checks if our position is valid
-                  {
-                      Messages::errorMessage("Invalid level data."); 
-                      return false;                      
-                  }
-                  
-                  level.get(); // skip newline
+                  if(!checkPosition(level))
+                      return false;
 
                   // we continue with second matrix
-                  for(int i=0; i<n; i++)
+                  for(unsigned i=0; i<width; i++)
                   {
-                      for(int j=0; j<m; j++)
+                      for(unsigned j=0; j<height; j++)
                       {
                           num = returnNumberFromFile(level);
                           if(num!=-1)
                           {
                               if(num >= 11) // if it is > 11, then it is an teleport id
                               {
-                                      p = new PData(num);
-                                      data[i][j]->add(p);                                
+                                  PTeleport *teleport = new PTeleport; // create object
+                                  teleport->setId(num);                // set its id
+                                  data[i][j] = teleport;               // attach it on level
+                                  this->teleports.push_back(teleport); // push teleport info on vector
                               }
                               
                               switch(num)
@@ -246,8 +240,34 @@ namespace PacGame
                               return false;
                           }
                       }
-                  }              
+                  }   
 
+                  // second matrix should be in memory by now
+                  // now validate
+                  if(!checkPosition(level))
+                      return false;
+                  
+                  // validation went ok; now we read teleport relationship matrix
+                  tmsize = returnNumberFromFile(level);
+                  for(int i=0; i<tmsize; i++)
+                  {
+                      PTeleport *childTeleport;  // teleprot we're attaching
+                      PTeleport *parentTeleport; // parent teleport
+
+                      parentTeleport = returnTeleport(returnNumberFromFile(level)); // get parent teleport
+                      childTeleport = returnTeleport(returnNumberFromFile(level));  // get child teleport
+
+                      if(parentTeleport!=NULL && childTeleport!=NULL)  // if teleports has been found
+                      {
+                          parentTeleport->add(childTeleport);  // attach them
+                          cout<<"Teleport "<<childTeleport->getId()<<" attached to teleport "<<parentTeleport->getId()<<endl;
+                      }
+                      else
+                      {
+                          Messages::errorMessage("Invalid level data.");
+                          return false;
+                      }
+                  }
                   break;   
               }
               

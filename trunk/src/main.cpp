@@ -21,9 +21,9 @@ using namespace PacGame::GameClasses;
 
 int main(int argc, char *argv[])
 {
-//    PGame pacgame(640, 480, "xSoko project");
+  //  PGame pacgame(640, 480, "xSoko project");
 
-/*    if(!pacgame.initGame())
+   /* if(!pacgame.initGame())
     {
         PacGame::Messages::initMessage("game", false); 
         return -1;
@@ -36,10 +36,10 @@ int main(int argc, char *argv[])
   //  cout<<endl<<typeid().<<endl;
 
 
-  //  pacgame.mainLoop();
+ //   pacgame.mainLoop();
 
   //  PacGame::RenderMaschine::PRenderer renderer;
 
-    system("pause");
+  //  system("pause");
     return 0;
 }
