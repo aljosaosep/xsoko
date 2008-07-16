@@ -106,7 +106,6 @@ namespace PacGame
           // function is work in progress, started by Aljosa june 29, 2008
           bool PLevel::loadLevelFromFile()
           {
-           //   int m = 0, n = 0; // dimensions
               int tmsize; // teleport matrix size
               PObject *p = NULL; // our pobject pointer; for creating dynamic objects
               ifstream level; // file handle
@@ -268,6 +267,7 @@ namespace PacGame
                           return false;
                       }
                   }
+                  teleports.clear(); // clear teleport vector, since they are by now in memory and no longer needed
                   break;   
               }
               
@@ -364,6 +364,32 @@ namespace PacGame
                   cout<<'|'<<endl;
               }
               cout<<endl;            
+          }
+          
+           /**************************************************************
+           * releaseLevel()
+           * clear all level data from memory
+           **************************************************************/          
+          void PLevel::releaseLevel()
+          {
+              for(unsigned i=0; i<width; i++)  
+              {
+                  for(unsigned j=0; j<height; j++)
+                  {
+                      delete data[i][j];
+                      data[i][j] = NULL; 
+                  }
+              }
+              Messages::infoMessage("Level data successfully released from memory.");              
+          }
+ 
+          /**************************************************************
+           * Destructor
+           * clear all level data from memory
+           **************************************************************/ 
+          PLevel::~PLevel()
+          {
+              this->releaseLevel();
           }
     }
 }

@@ -17,6 +17,7 @@
 #include <stdio.h>
 #include "renderer/renderer.h"
 #include "messages.h"
+#include "level.h"
 
 //using PacGame::RenderMaschine;
 
@@ -36,6 +37,7 @@ namespace PacGame
           private:
                   int windowWidth, windowHeight;
                   string windowTitle;
+                  PLevel *currentLevel;  
 
           public:
                   // variables
@@ -59,6 +61,7 @@ namespace PacGame
                   // setters
                   void setWindow(int _width, int _height);
                   void setWindowTitle(string _title);
+                  void setLevel(PLevel *level);
 
           };       
       }
