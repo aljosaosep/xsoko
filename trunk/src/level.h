@@ -66,13 +66,13 @@ namespace PacGame
               {
               private:
                   string filename;              // level filename
-                  PObject* data[30][30];        // actual level data
+                  PLevelObject* data[30][30];        // actual level data
                   vector<PTeleport*> teleports; // vector of teleport pointers
                   unsigned width, height;       // level dimensions
                  
               public:
                   PLevel(string filename) : filename(filename),  width(0), height(0) {} // default constructor
-                  virtual ~PLevel() {};
+                  virtual ~PLevel();
                   
                   // print
                   void printLevelByType() const; // dumps level data insto console; prints type of level(wall, void, teleport, ...)
@@ -81,11 +81,12 @@ namespace PacGame
                   // level data manipulation
                   bool loadLevelFromFile(); // loads level from txt file into structure, stores level widthm height into class properties
                   bool saveStateToFile(char *filename);   // exports level state to file
+                  void releaseLevel(); // released level from memory
                   
                   // level toolkit functions
-                  int returnNumberFromFile(ifstream &file);
+                  int returnNumberFromFile(ifstream &file); // returns number from file and moves file pointer
                   bool checkPosition(ifstream &file); // checks if position is valid and moves file pointer
-                  PTeleport *returnTeleport(int id);
+                  PTeleport *returnTeleport(int id); // returns teleports addres, that contains given id
 
                   // functions to override
                   // todo: implement

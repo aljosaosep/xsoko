@@ -32,6 +32,7 @@ int main(int argc, char *argv[])
     PLevel test("data/testlevel.lvl");
     test.loadLevelFromFile();
     test.print();
+    test.printLevelByMeta();
     
   //  cout<<endl<<typeid().<<endl;
 
