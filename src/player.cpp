@@ -25,10 +25,10 @@ namespace PacGame
               }
 
               // getters
-              int PPlayer::getScore()
+        /*      int PPlayer::getScore()
               {
                       return score;
-              }
+              }*/
 
               unsigned short PPlayer::getBombs()
               {
@@ -36,10 +36,10 @@ namespace PacGame
               }
 
               // etc
-              void PPlayer::incScore()
+           /*   void PPlayer::incScore()
               {
                       score++;
-              }
+              }*/
 
               void PPlayer::incBombs()
               {

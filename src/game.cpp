@@ -42,6 +42,38 @@ namespace PacGame
            * * call suficient function, that takes proper action
            * * exit key should be also processed
            */
+          
+          // if key was pressed(not released!)
+          if(action == GLFW_PRESS)
+          {
+              // determine which was pressed and take proper action.
+              switch(key)
+              {
+                  case GLFW_KEY_UP:
+                      Messages::infoMessage("Key up pressed.");
+                      break;
+
+                  case GLFW_KEY_DOWN:
+                      Messages::infoMessage("Key DOWN pressed.");
+                      break;
+
+                  case GLFW_KEY_LEFT:
+                      Messages::infoMessage("Key left pressed.");
+                      break;        
+
+                  case GLFW_KEY_RIGHT:
+                      Messages::infoMessage("Key right pressed.");
+                      break;
+                      
+                  case GLFW_KEY_ESC:
+                      Messages::infoMessage("Esc key pressed, quitting...");
+                      break;
+
+                  default:
+                      Messages::infoMessage("Unknown Key pressed.");
+                      break;
+              }
+          }
 
          /* if(key == GLFW_KEY_SPACE)
             zoom();*/
@@ -69,7 +101,7 @@ namespace PacGame
           }
 
           // other
-          void PGame::mainLoop()
+/*          void PGame::mainLoop()
           {
                   Messages::infoMessage("Entering main loop...");
                     // the time of the previous frame
@@ -87,19 +119,26 @@ namespace PacGame
                          // clear the buffer
                          glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
                          // draw the figure
-                         renderGame();
+//                         renderGame();
                          // swap back and front buffers
                          glfwSwapBuffers();
 
                   }
-          }
+          }*/
 
-          // setters
-          void PGame::setLevel(PLevel *level)
+          
+          // methods
+          void PGame::loadSession(PGameSession *session)
           {
-              this->currentLevel = level;
+              this->session = session;
           }
           
+          bool PGame::run()
+          {
+              return this->session->run();
+          }
+          
+          // setters
           void PGame::setWindow(int _width, int _height)
           {
                windowWidth = _width;   
