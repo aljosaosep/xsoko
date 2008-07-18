@@ -17,6 +17,7 @@
 
 using namespace std;
 using namespace PacGame::GameClasses;
+using namespace PacGame::Aliases;
 
 namespace PacGame
 {
@@ -43,17 +44,17 @@ namespace PacGame
                   void setBombs(unsigned _bombs);
 
                   // getters
-              //    int getScore();
                   unsigned short getBombs();
 
                   // increase +1
-               //   void incScore();
                   void incBombs();
 
                   // to override
                   void draw();
                   bool initialize();
                   void print();
+                  
+                  bool onMoveProcess(PDirection dir, PLevelObject* data[][30], int i, int j);
           };
       }
 }

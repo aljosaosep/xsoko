@@ -11,9 +11,6 @@
  * Aljosa 2008
 */
 
-#include "levelbox.h"
-
-
 #include <vector>
 #include <string>
 #include <iostream>
@@ -22,7 +19,7 @@
 #include <iomanip>
 #include "messages.h"
 #include "level.h"
-#include "levelbox.h"
+//#include "levelbox.h"
 
 using namespace std;
 using namespace PacGame::GameClasses;
@@ -289,6 +286,9 @@ namespace PacGame
                   return 0;
               }
               // by now, matrix should be initialized with proper classes, if it went ok this far
+              
+              // temporary, dump state
+              this->print();
               
 
              // test.add(&data[0][0]);
