@@ -5,6 +5,7 @@
  *
  * Created on Ponedeljek, 14 julij 2008, 18:56
  * Modified: aljosa on Torek, 15 julij 2008, 12:25 (conflict resloving)
+ *           aljosa on Petek, 18 julij 2008, 11:48; score moved to game session class(session.h)
  */
 
 
@@ -31,7 +32,7 @@ namespace PacGame
           class PPlayer : public PLevelObject
           {
           private:
-                  int score;   
+           //       int score;   
                   unsigned bombs;
 
           public:
@@ -42,11 +43,11 @@ namespace PacGame
                   void setBombs(unsigned _bombs);
 
                   // getters
-                  int getScore();
+              //    int getScore();
                   unsigned short getBombs();
 
                   // increase +1
-                  void incScore();
+               //   void incScore();
                   void incBombs();
 
                   // to override

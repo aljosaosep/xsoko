@@ -13,13 +13,8 @@
 #ifndef __GAME_H
 #define __GAME_H
 
-#include <GL/glfw.h>
-#include <stdio.h>
-#include "renderer/renderer.h"
 #include "messages.h"
-#include "level.h"
-
-//using PacGame::RenderMaschine;
+#include "session.h"
 
 namespace PacGame
 {
@@ -35,33 +30,33 @@ namespace PacGame
           class PGame
           {
           private:
-                  int windowWidth, windowHeight;
-                  string windowTitle;
-                  PLevel *currentLevel;  
+              int windowWidth, windowHeight;
+              string windowTitle;
+             // PLevel *currentLevel;  
+              PGameSession *session;  // pointer to current game class
 
           public:
-                  // variables
-//                  PMessages msg;
-                  PacGame::RenderMaschine::PRenderer renderer;
+              // variables
+              PacGame::RenderMaschine::PRenderer renderer;
 
-                  // prototypes
-                  // constructors
-                  PGame();
-                  PGame(int _width, int _height, string _title);
+              // prototypes
+              // constructors
+              PGame();
+              PGame(int _width, int _height, string _title);
 
-                  // destructor
-                  ~PGame();
+              // destructor
+              ~PGame();
 
-                  // other
-                  bool initGame();
-                  void mainLoop();
-                  void renderGame();
-                  void terminateGLFW();
+              // other
+              bool run();
+              bool initGame();
+              void terminateGLFW();
 
-                  // setters
-                  void setWindow(int _width, int _height);
-                  void setWindowTitle(string _title);
-                  void setLevel(PLevel *level);
+              // setters
+              void setWindow(int _width, int _height);
+              void setWindowTitle(string _title);
+                  
+              void loadSession(PGameSession *session);
 
           };       
       }

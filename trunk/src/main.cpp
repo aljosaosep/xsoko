@@ -21,26 +21,23 @@ using namespace PacGame::GameClasses;
 
 int main(int argc, char *argv[])
 {
-  //  PGame pacgame(640, 480, "xSoko project");
+    PGame pacgame(640, 480, "xSoko project");
 
-   /* if(!pacgame.initGame())
+    if(!pacgame.initGame())
     {
         PacGame::Messages::initMessage("game", false); 
         return -1;
-    }*/
+    }
     
-    PLevel test("data/testlevel.lvl");
-    test.loadLevelFromFile();
+    PLevel *test = new PLevel("data/testlevel.lvl");   
+    PGameSession *testsession = new PGameSession(test);
+
+    pacgame.loadSession(testsession);
+    pacgame.run();
+
+  /*  test.loadLevelFromFile();
     test.print();
-    test.printLevelByMeta();
-    
-  //  cout<<endl<<typeid().<<endl;
-
-
- //   pacgame.mainLoop();
-
-  //  PacGame::RenderMaschine::PRenderer renderer;
-
+    test.printLevelByMeta();*/
   //  system("pause");
     return 0;
 }

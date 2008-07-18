@@ -1,8 +1,12 @@
 /*
+ * I think it should be obsolete, but don't delete it yet, I will -- Aljosa
+ */
+
+/*
   codename: Pac-Game
   Aljosa Osep 2007
 */
-#include "game.h"
+/*#include "game.h"
 
 
 
@@ -35,4 +39,4 @@ namespace PacGame
                   angle+=0.03;
           }
       }
-}
+}*/
