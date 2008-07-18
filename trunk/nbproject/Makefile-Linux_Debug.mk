@@ -30,6 +30,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/src/zip/zlib/compress.o \
 	${OBJECTDIR}/src/game.o \
 	${OBJECTDIR}/src/zip/zlib/deflate.o \
+	${OBJECTDIR}/src/session.o \
 	${OBJECTDIR}/src/zip/unzip.o \
 	${OBJECTDIR}/src/zip/zlib/crc32.o \
 	${OBJECTDIR}/src/main.o \
@@ -94,6 +95,10 @@ ${OBJECTDIR}/src/game.o: src/game.cpp
 ${OBJECTDIR}/src/zip/zlib/deflate.o: src/zip/zlib/deflate.c 
 	${MKDIR} -p ${OBJECTDIR}/src/zip/zlib
 	$(COMPILE.c) -g -o ${OBJECTDIR}/src/zip/zlib/deflate.o src/zip/zlib/deflate.c
+
+${OBJECTDIR}/src/session.o: src/session.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	$(COMPILE.cc) -g -Wall -o ${OBJECTDIR}/src/session.o src/session.cpp
 
 ${OBJECTDIR}/src/zip/unzip.o: src/zip/unzip.c 
 	${MKDIR} -p ${OBJECTDIR}/src/zip
