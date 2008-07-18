@@ -53,14 +53,29 @@ namespace PacGame
         bool PGameSession::initialize()
         {
             // temporary code here!
-            this->level->loadLevelFromFile();
+          //  this->level->initialize();
             
             return true;
         }
         
         bool PGameSession::run()
         {
-            this->initialize();
+            // first, we init level, because witohut it, there is no game
+            if(!level->initialize())
+                return false;
+            
+            // next, we initiate session
+            if(!this->initialize())
+            {
+                Messages::initMessage("Game session", false);
+                return false;
+            }
+            else
+                Messages::initMessage("Game session", true);
+            
+            
+            // at last(but not at least;)), we trigger main loop
+            // down there, code is not finished yet!!!!
             this->mainLoop();
             
             return true;
@@ -71,6 +86,7 @@ namespace PacGame
         void PGameSession::setLevel(PLevel *level)
         {
             this->level = level;
+        //    level->initialize();
         }
         
         // sets session's score

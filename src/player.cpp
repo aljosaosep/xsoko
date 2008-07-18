@@ -10,6 +10,9 @@
  * Aljosa May 28 2008
  */
 
+#include "object.h"
+
+
 #include "player.h"
 
 namespace PacGame
@@ -25,22 +28,32 @@ namespace PacGame
               }
 
               // getters
-        /*      int PPlayer::getScore()
-              {
-                      return score;
-              }*/
-
               unsigned short PPlayer::getBombs()
               {
                       return bombs;
               }
 
               // etc
-           /*   void PPlayer::incScore()
+              bool PPlayer::onMoveProcess(PDirection dir, PLevelObject* data[][30], int i, int j)
               {
-                      score++;
-              }*/
-
+                  switch(dir)
+                  {
+                      case Aliases::left:
+                          data[i-1][j]->add(data[i][j]->returnFirstChild());
+                          break;
+                          
+                      case Aliases::right:
+                          break;  
+                          
+                      case Aliases::up:
+                          break;
+                          
+                      case Aliases::down:
+                          break;                        
+                  }
+                  return true;
+              }
+              
               void PPlayer::incBombs()
               {
                       bombs++;

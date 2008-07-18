@@ -15,6 +15,7 @@
 #include "object.h"
 #include "CommonStructures.h"
 
+
 using namespace PacGame::RenderMaschine;
 
 namespace PacGame
@@ -57,6 +58,8 @@ namespace PacGame
               virtual void draw()=0;        // code that draws object
               virtual bool initialize()=0;  // code that initiates objects properties
               virtual void print()=0;       // object's console dump
+              
+              
           };
          
            /**********************************************************
