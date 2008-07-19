@@ -18,13 +18,14 @@ namespace PacGame
         class PGameSession
         {
         private:
-            PLevel *level;  
+            PLevel *level; 
+            PPlayer *player;           
             unsigned score;
             PacGame::RenderMaschine::PRenderer renderer; 
             
         public:
-            PGameSession(PLevel *level) : level(level) {}
-            PGameSession() {}
+            PGameSession(PLevel *level) : level(level), player(level->getPlayerHandle()) {}
+            PGameSession() : level(NULL), player(NULL)  {}
             
             bool run();
             bool initialize();
@@ -36,8 +37,7 @@ namespace PacGame
             
             // getters
             PLevel *getLevel() const;
-            unsigned getScore() const;
-            
+            unsigned getScore() const; 
         };
     }
 }

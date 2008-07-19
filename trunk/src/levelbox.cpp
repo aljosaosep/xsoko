@@ -19,13 +19,13 @@ namespace PacGame
         /*****************************************
          PLevelBox methods
          *****************************************/			  
-        void PLevelObject::setIndex(unsigned i, unsigned j) // index setter
+        void PLevelObject::setIndex(int i, int j) // index setter
         {
                 this->i = i;
                 this->j = j;
         }
 
-        void PLevelObject::setI(unsigned i)  // i index setter
+    /*    void PLevelObject::setI(unsigned i)  // i index setter
         {
                 this->i = i;
         }
@@ -33,14 +33,14 @@ namespace PacGame
         void PLevelObject::setJ(unsigned j)  // j index setter
         {
                 this->j = j;
-        }
+        }*/
 
-        unsigned PLevelObject::getI() const  // i index getter
+        int PLevelObject::getI() const  // i index getter
         {
                 return this->i;
         }
 
-        unsigned PLevelObject::getJ() const  // j index getter
+        int PLevelObject::getJ() const  // j index getter
         {
                 return this->j;
         }
@@ -50,11 +50,11 @@ namespace PacGame
             return id;
         }
 
-        void PLevelObject::getIndex(unsigned &i, unsigned &j)  // both index getter
+      /*  void PLevelObject::getIndex(unsigned &i, unsigned &j)  // both index getter
         {
                 i = this->i;
                 j = this->j;
-        }
+        }*/
         
         void PLevelObject::print()
         {
@@ -78,7 +78,7 @@ namespace PacGame
         }
         
         // getters
-        int PTeleport::getId() const
+        int PTeleport::getId() 
         {
             return this->teleport_id;
         }
@@ -97,6 +97,12 @@ namespace PacGame
         void PTeleport::print()
         {
             cout<<"| T"<<this->teleport_id<<' ';
+        }
+        
+        short PTeleport::isPlayerMovePossible()
+        {
+            /// tmp
+            return 0;            
         }
         
         /*****************************************
@@ -118,6 +124,10 @@ namespace PacGame
             cout<<"|  F  ";
         }
         
+        short PFloor::isPlayerMovePossible() 
+        {
+            return 1;
+        }
         /*****************************************
          POnewayFloor methods
          *****************************************/	
@@ -137,6 +147,12 @@ namespace PacGame
             cout<<"| OWF ";
         }
         
+        short POnewayFloor::isPlayerMovePossible() 
+        {
+            /// tmp
+            return 0;
+        }
+        
         /*****************************************
          PSolidWall methods
          *****************************************/	
@@ -154,6 +170,12 @@ namespace PacGame
         void PSolidWall::print()
         {
             cout<<"| SW  ";
+        }
+
+        short PSolidWall::isPlayerMovePossible() 
+        {
+            /// tmp
+            return 0;
         }
         
         /*****************************************
@@ -175,6 +197,11 @@ namespace PacGame
             cout<<"| USW ";
         }  
         
+        short PUnsolidWall::isPlayerMovePossible() 
+        {
+            /// tmp
+            return 0;
+        }        
         /*****************************************
          PBridge methods
          *****************************************/	
@@ -193,6 +220,12 @@ namespace PacGame
         {
             cout<<"|  B  ";
         } 
+        
+        short PBridge::isPlayerMovePossible() 
+        {
+            /// tmp
+            return 0;
+        }
         
         /*****************************************
          PVoid methods
@@ -213,6 +246,12 @@ namespace PacGame
             cout<<"|     ";
         } 
         
+        short PVoid::isPlayerMovePossible() 
+        {
+            /// tmp
+            return 0;
+        }
+        
         /*****************************************
          PCubeHolder methods
          *****************************************/	
@@ -231,6 +270,12 @@ namespace PacGame
         {
             cout<<"| CH  ";
         }  
+        
+        short PCubeHolder::isPlayerMovePossible() 
+        {
+            /// tmp
+            return 0;
+        }
         
         /*****************************************
          
@@ -256,6 +301,12 @@ namespace PacGame
             cout<<"|  C  ";
         } 
         
+    /*    short PCube::isPlayerMovePossible() 
+        {
+            /// tmp
+            return 0;
+        }*/
+        
         /*****************************************
          POnewayCube methods
          *****************************************/	
@@ -274,6 +325,12 @@ namespace PacGame
         {
             cout<<"| OWC ";
         } 
+
+    /*    short POnewayCube::isPlayerMovePossible() 
+        {
+            /// tmp
+            return 0;
+        }*/
         
         /*****************************************
          PBomb methods
@@ -293,6 +350,12 @@ namespace PacGame
         {
             cout<<"|  B  ";
         } 
+        
+     /*   short POnewayFloor::isPlayerMovePossible() 
+        {
+            /// tmp
+            return f;
+        }*/
         
         /*****************************************
          PNoData methods

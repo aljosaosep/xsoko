@@ -86,6 +86,7 @@ namespace PacGame
         void PGameSession::setLevel(PLevel *level)
         {
             this->level = level;
+            this->player = level->getPlayerHandle();
         //    level->initialize();
         }
         

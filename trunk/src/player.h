@@ -39,6 +39,12 @@ namespace PacGame
           public:
                   // constructors
                   PPlayer();
+                  PPlayer(int i, int j)
+                  {
+                      this->i = i;
+                      this->j = j;
+                  }
+                  
 
                   // setters
                   void setBombs(unsigned _bombs);
@@ -54,7 +60,8 @@ namespace PacGame
                   bool initialize();
                   void print();
                   
-                  bool onMoveProcess(PDirection dir, PLevelObject* data[][30], int i, int j);
+                  short isPlayerMovePossible() { return 0; }
+               //   bool onMoveProcess(PDirection dir, PLevelObject* data[][30], int i, int j);
           };
       }
 }
