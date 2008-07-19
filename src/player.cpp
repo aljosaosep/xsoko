@@ -11,8 +11,6 @@
  */
 
 #include "object.h"
-
-
 #include "player.h"
 
 namespace PacGame
@@ -32,9 +30,14 @@ namespace PacGame
               {
                       return bombs;
               }
+              
+         /*     short PPlayer::isPlayerMovePossible()
+              {
+                  return false;
+              }*/
 
               // etc
-              bool PPlayer::onMoveProcess(PDirection dir, PLevelObject* data[][30], int i, int j)
+             /* bool PPlayer::onMoveProcess(PDirection dir, PLevelObject* data[][30], int i, int j)
               {
                   switch(dir)
                   {
@@ -52,7 +55,7 @@ namespace PacGame
                           break;                        
                   }
                   return true;
-              }
+              }*/
               
               void PPlayer::incBombs()
               {

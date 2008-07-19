@@ -58,23 +58,17 @@ namespace PacGame
                   
               void loadSession(PGameSession *session);
 
+              /*******************************************
+               * processKey()
+               * function prototype; function takes action 
+               * based on key that is pressed
+               * ----------------------------------
+               * Jernej Skrabec
+               * modified by Aljosa
+               *******************************************/
+              static void GLFWCALL processKey(int key, int action); 
           };       
-      }
-      
-        /**********************************************************
-       * Outside-of-class-functions
-       *
-       * For input, since GLFW callback functions takes 
-       * function pointer as argument
-       * --------------------------------------------------------
-       * Jernej Skrabec 2008
-       * ********************************************************/
-       /*******************************************
-       * processKey()
-       * function prototype; function takes action 
-       * based on key that is pressed
-       *******************************************/
-       void GLFWCALL processKey(int key, int action);   
+      }       
 }
 
 #endif

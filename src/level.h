@@ -23,6 +23,7 @@
 
 using namespace PacGame::GameClasses;
 using namespace PacGame::Functions;
+using namespace PacGame::Aliases;
 
 // MATRIKA 1
 #define FLOOR 0 
@@ -69,9 +70,10 @@ namespace PacGame
                   PLevelObject* data[30][30];        // actual level data
                   vector<PTeleport*> teleports; // vector of teleport pointers
                   unsigned width, height;       // level dimensions
+                  PPlayer *player;              // player instance 
                  
               public:
-                  PLevel(string filename) : filename(filename),  width(0), height(0) {} // default constructor
+                  PLevel(string filename) : filename(filename),  width(0), height(0), player(NULL) {} // default constructor
                   virtual ~PLevel();
                   
                   // print
@@ -86,7 +88,8 @@ namespace PacGame
                   // level toolkit functions
                   int returnNumberFromFile(ifstream &file); // returns number from file and moves file pointer
                   bool checkPosition(ifstream &file); // checks if position is valid and moves file pointer
-                  PTeleport *returnTeleport(int id); // returns teleports addres, that contains given id
+                  PTeleport* returnTeleport(int id); // returns teleports addres, that contains given id
+                  PPlayer* getPlayerHandle();
 
                   // functions to override
                   // todo: implement

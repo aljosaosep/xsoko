@@ -55,10 +55,11 @@ namespace PacGame
                                                        
                virtual ~PObject();
                // linked list
-               void add(PObject *obj);
-               void dumpList() const;
-               void releaseList();
-               PObject* returnFirstChild() const;
+               void add(PObject *obj);  // attaches another object to this object 
+               void dumpList() const;   // dumps children data into console
+               void releaseList();      // releases this objects children from memory
+               PObject* returnFirstChild() const;  // returns first child
+               void releaseFirstChild(); // releases first child from memory; WARNING: if there are more children, others are lost!
 
                // etc
                virtual void draw()=0;

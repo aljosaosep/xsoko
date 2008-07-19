@@ -9,8 +9,8 @@
  * Author: Aljosa Osep 2008
  * Changes:
  * Aljosa 2008
-*/
-
+ */
+#include <typeinfo>
 #include <vector>
 #include <string>
 #include <iostream>
@@ -195,7 +195,8 @@ namespace PacGame
                               switch(num)
                               {                                              
                                   case PLAYER:
-                                      p = new PPlayer;
+                                      p = new PPlayer(i, j);
+                                      this->player = dynamic_cast<PPlayer*>(p); // set class player pointer to player element
                                       data[i][j]->add(p);
                                       break;
                                       
@@ -271,6 +272,14 @@ namespace PacGame
               Messages::infoMessage("Level data successfully loaded from file.");
               level.close();
               return true; // everything went ok
+          }
+          
+           /**************************************************************
+           * Function returns pointer to player in level
+           **************************************************************/
+          PPlayer* PLevel::getPlayerHandle()
+          {
+              return this->player;
           }
           
           /**************************************************************

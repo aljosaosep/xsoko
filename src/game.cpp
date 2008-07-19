@@ -19,65 +19,10 @@ using namespace PacGame;
 
 namespace PacGame
 {
-       /**********************************************************
-       * Outside-of-class-functions
-       *
-       * For input, since GLFW callback functions takes 
-       * function pointer as argument
-       * --------------------------------------------------------
-       * Jernej Skrabec 2008
-       * Aljosa Osep 2008
-       * ********************************************************/
 
-       /*******************************************
-       * processKey()
-       * function implementation; function takes action 
-       * based on key that is pressed
-       *******************************************/
-      void GLFWCALL processKey( int key, int action )
-      {
-          /*
-           * TODO:
-           * * determine which key is pressed(up, down, left, right)
-           * * call suficient function, that takes proper action
-           * * exit key should be also processed
-           */
-          
-          // if key was pressed(not released!)
-          if(action == GLFW_PRESS)
-          {
-              // determine which was pressed and take proper action.
-              switch(key)
-              {
-                  case GLFW_KEY_UP:
-                      Messages::infoMessage("Key up pressed.");
-                      break;
 
-                  case GLFW_KEY_DOWN:
-                      Messages::infoMessage("Key DOWN pressed.");
-                      break;
 
-                  case GLFW_KEY_LEFT:
-                      Messages::infoMessage("Key left pressed.");
-                      break;        
 
-                  case GLFW_KEY_RIGHT:
-                      Messages::infoMessage("Key right pressed.");
-                      break;
-                      
-                  case GLFW_KEY_ESC:
-                      Messages::infoMessage("Esc key pressed, quitting...");
-                      break;
-
-                  default:
-                      Messages::infoMessage("Unknown Key pressed.");
-                      break;
-              }
-          }
-
-         /* if(key == GLFW_KEY_SPACE)
-            zoom();*/
-      }
 
       namespace GameClasses
       {
@@ -99,34 +44,51 @@ namespace PacGame
           {
                   terminateGLFW();
           }
-
-          // other
-/*          void PGame::mainLoop()
-          {
-                  Messages::infoMessage("Entering main loop...");
-                    // the time of the previous frame
-//				  double old_time = glfwGetTime();   // ne brisat! se bo nucal!
-                  // this just loops as long as the program runs
-
-                  while(1)
-                  {
-
-                          // calculate time elapsed, and the amount by which stuff rotates
-                //	  double current_time = glfwGetTime(),
-                //		  delta_rotate = (current_time - old_time) * rotations_per_tick * 360;
-                //	  old_time = current_time;
-
-                         // clear the buffer
-                         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-                         // draw the figure
-//                         renderGame();
-                         // swap back and front buffers
-                         glfwSwapBuffers();
-
-                  }
-          }*/
-
           
+          // input
+           /*******************************************
+           * processKey()
+           * function implementation; function takes action 
+           * based on key that is pressed
+           * ------------------------------------
+           * Jernej Skrabec 08
+           * modified Aljosa 08
+           *******************************************/   
+          void GLFWCALL PGame::processKey(int key, int action)
+          {   
+              if(action == GLFW_PRESS) // was key pressed? (two possible actions; press and release - we are interested only in press)
+              {
+                  // determine which was pressed and take proper action.
+                  switch(key)
+                  {
+                      case GLFW_KEY_UP:  // KEYUP
+                          Messages::infoMessage("Key up pressed.");
+                          break;
+
+                      case GLFW_KEY_DOWN:   // KEYDOWN
+                          Messages::infoMessage("Key DOWN pressed.");
+                          break;
+
+                      case GLFW_KEY_LEFT:   // KEYLEFT
+                          //this->session->getLevel()->
+                          Messages::infoMessage("Key left pressed.");
+                          break;        
+
+                      case GLFW_KEY_RIGHT:    // KEYRIGHT
+                          Messages::infoMessage("Key right pressed.");
+                          break;
+
+                      case GLFW_KEY_ESC:    // KEY ESCAPE
+                          Messages::infoMessage("Esc key pressed, quitting...");
+                          break;
+
+                      default:
+                          Messages::infoMessage("Unknown Key pressed.");
+                          break;
+                  }
+             }
+          }
+
           // methods
           void PGame::loadSession(PGameSession *session)
           {

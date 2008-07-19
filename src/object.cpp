@@ -82,7 +82,6 @@ namespace PacGame
                           }
                           Messages::infoMessage("List released");  // print out status
                   }
-
           }
 
           // prints list into console
@@ -99,6 +98,13 @@ namespace PacGame
           PObject* PObject::returnFirstChild() const
           {
               return root == NULL ? NULL : root->object;
+          }
+          
+          // removes first child, deletes it from memory; WARNING: it there are more children, they're lost!!!
+          void PObject::releaseFirstChild()
+          {
+              delete [] root;  // delete object
+              root = NULL;     // set pointer to NULL
           }
       }
 }

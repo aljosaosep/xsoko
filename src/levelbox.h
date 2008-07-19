@@ -33,31 +33,33 @@ namespace PacGame
           class PLevelObject : public PObject  
           {
           protected:
-              unsigned i, j;     // represents indexes of element on level matrix
+              int i, j;     // represents indexes of element on level matrix
               PTexture texture;  // represents texture of object
               unsigned short id; // number, that represents object in file
 
           public:
-            //  PLevelObject() : i(0), j(0), id(0) {}// constructors
+              PLevelObject() : i(0), j(0), id(0) {}// constructors
            //   PLevelObject(unsigned short id) : id(id) {}                
-            //  PLevelObject(unsigned i, unsigned j) : i(i), j(j) {}
+              PLevelObject(unsigned i, unsigned j) : i(i), j(j) {}
            //   PLevelObject(unsigned i, unsigned j, unsigned short id) : i(i), j(j), id(id) {}
+             
 
               // setters
-              void setIndex(unsigned i, unsigned j);
-              void setI(unsigned i);
-              void setJ(unsigned j);
+              void setIndex(int i, int j);
+      /*        void setI(unsigned i);
+              void setJ(unsigned j);*/
 
               // getters
-              unsigned getI() const;
-              unsigned getJ() const;
-              void getIndex(unsigned &i, unsigned &j);
+              int getI() const;
+              int getJ() const;
+              //void getIndex(unsigned &i, unsigned &j);
               unsigned short getId() const;
 
               // virtual functions to override
               virtual void draw()=0;        // code that draws object
               virtual bool initialize()=0;  // code that initiates objects properties
               virtual void print()=0;       // object's console dump
+              virtual short isPlayerMovePossible() = 0;
               
               
           };
@@ -77,6 +79,7 @@ namespace PacGame
               void draw();
               bool initialize();
               void print();
+              short isPlayerMovePossible() ;
           };
 
            /**********************************************************
@@ -93,6 +96,7 @@ namespace PacGame
               void draw();
               bool initialize();
               void print();
+              short isPlayerMovePossible() ;
           };
 
            /**********************************************************
@@ -109,6 +113,7 @@ namespace PacGame
               void draw();
               bool initialize();
               void print();
+              short isPlayerMovePossible() ;
           };
 
            /**********************************************************
@@ -131,11 +136,12 @@ namespace PacGame
               void setId(int id);
               
               // getters
-              int getId() const;
+              int getId();
               
               void draw();
               bool initialize();
               void print();
+              short isPlayerMovePossible() ;
           };
 
            /**********************************************************
@@ -152,6 +158,7 @@ namespace PacGame
               void draw();
               bool initialize();
               void print();
+              short isPlayerMovePossible() ;
           };
 
            /**********************************************************
@@ -168,6 +175,7 @@ namespace PacGame
               void draw();
               bool initialize();
               void print();
+              short isPlayerMovePossible() ;
           };
 
            /**********************************************************
@@ -184,6 +192,7 @@ namespace PacGame
               void draw();
               bool initialize();
               void print();
+              short isPlayerMovePossible()  { return 0; }
           };
 
            /**********************************************************
@@ -200,6 +209,7 @@ namespace PacGame
               void draw();
               bool initialize();
               void print();
+              short isPlayerMovePossible() ;
           };
 
            /**********************************************************
@@ -216,6 +226,7 @@ namespace PacGame
               void draw();
               bool initialize();
               void print();
+              short isPlayerMovePossible() ;
           };
 
            /**********************************************************
@@ -236,6 +247,7 @@ namespace PacGame
               void draw();
               bool initialize();
               void print();
+              short isPlayerMovePossible()  { return 0; }
           };
 
            /**********************************************************
@@ -252,6 +264,7 @@ namespace PacGame
               void draw();
               bool initialize();
               void print();
+              short isPlayerMovePossible()  { return 0; }
           };
           
           /**********************************************************
@@ -287,9 +300,10 @@ namespace PacGame
               PData(int data) : data(data) {}
               
               // getter
-              int getData() const { return data; }
+              int getData()  { return data; }
               void draw() {}
               bool initialize() {return true;}
+              short isPlayerMovePossible() ;
               void print()
               {
                   cout<<"|DAT"<<this->data;
