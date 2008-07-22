@@ -25,15 +25,15 @@ namespace PacGame
                 this->j = j;
         }
 
-    /*    void PLevelObject::setI(unsigned i)  // i index setter
+        void PLevelObject::setI(int i)  // i index setter
         {
                 this->i = i;
         }
 
-        void PLevelObject::setJ(unsigned j)  // j index setter
+        void PLevelObject::setJ(int j)  // j index setter
         {
                 this->j = j;
-        }*/
+        }
 
         int PLevelObject::getI() const  // i index getter
         {
@@ -174,7 +174,6 @@ namespace PacGame
 
         short PSolidWall::isPlayerMovePossible() 
         {
-            /// tmp
             return 0;
         }
         

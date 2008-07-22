@@ -65,6 +65,13 @@ namespace PacGame
                   root = newnode;
 
           }
+          
+          // attaches new object to root; doesn't create new object
+          void PObject::attachToRoot(PObject *obj)
+          {
+//              if(root->object == NULL)
+                root->object = obj; 
+          }
 
           // releases all list elements from memory
           void PObject::releaseList()
@@ -106,5 +113,12 @@ namespace PacGame
               delete [] root;  // delete object
               root = NULL;     // set pointer to NULL
           }
+  
+          // removes first child, deletes it from memory; WARNING: it there are more children, they're lost!!!
+          void PObject::unlinkFirstChild()
+          {
+              root->object = NULL;     // set pointer to NULL
+          }
+          
       }
 }

@@ -94,6 +94,44 @@ namespace PacGame
               return NULL; // otherwise return NULL
           }
           
+          // gameplay related
+           /*****************************************************************
+           * Function moves object to antoher field if it is possible;
+           * successful move returns true, unsuccessfull false
+           *****************************************************************/
+          bool PLevel::moveObject(PDirection dir)
+          {
+             int i = this->player->getI(), j = this->player->getJ();
+              
+                  switch(dir)
+                  {
+                      case Aliases::left:
+                          if(data[i][j-1]->isPlayerMovePossible()==1)
+                          {
+                              data[i][j-1]->attachToRoot(data[i][j]->returnFirstChild());
+                              data[i][j]->unlinkFirstChild();
+                              this->player->setJ(j-1);
+                          }
+                          break;
+                          
+                      case Aliases::right:
+                          if(data[i][j+1]->isPlayerMovePossible()==1)
+                          {                          
+                              data[i][j+1]->attachToRoot(data[i][j]->returnFirstChild());
+                              data[i][j]->unlinkFirstChild();
+                              this->player->setJ(j+1);
+                          }
+                          break;  
+                          
+                      case Aliases::up:
+                          break;
+                          
+                      case Aliases::down:
+                          break;                        
+                  }
+                  return true;              
+          }
+          
           // level functions implementation goes here! ;)
           
           /**************************************************************
@@ -229,6 +267,9 @@ namespace PacGame
                                       p = new PBomb;
                                       data[i][j]->add(p);
                                       break; 
+                                      
+                                  default:   // in
+                                      data[i][j]->add(NULL);
                               }
                           }
                           else

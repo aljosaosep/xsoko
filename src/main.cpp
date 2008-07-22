@@ -14,6 +14,7 @@
 #include "level.h"
 #include "game.h"
 #include "messages.h"
+#include "input.h"
 
 
 // using namespace std;
@@ -30,7 +31,8 @@ int main(int argc, char *argv[])
     }
     
     PLevel *test = new PLevel("data/testlevel.lvl");   
-    PGameSession *testsession = new PGameSession(test);
+    PInputSystem *input = new PInputSystem(test);
+    PGameSession *testsession = new PGameSession(test, input);
 
     pacgame.loadSession(testsession);
     pacgame.run();

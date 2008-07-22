@@ -25,6 +25,7 @@ namespace PacGame
             float angle = 0.0;
             while(1)
             {
+                input->process();
                 // calculate time elapsed, and the amount by which stuff rotates
                 // double current_time = glfwGetTime(),
                 // delta_rotate = (current_time - old_time) * rotations_per_tick * 360;

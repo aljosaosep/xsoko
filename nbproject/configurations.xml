@@ -27,6 +27,7 @@
       </logicalFolder>
       <itemPath>src/CommonStructures.h</itemPath>
       <itemPath>src/game.h</itemPath>
+      <itemPath>src/input.h</itemPath>
       <itemPath>src/io.h</itemPath>
       <itemPath>src/level.h</itemPath>
       <itemPath>src/levelbox.h</itemPath>
@@ -72,6 +73,7 @@
       <itemPath>src/game-init.cpp</itemPath>
       <itemPath>src/game-render.cpp</itemPath>
       <itemPath>src/game.cpp</itemPath>
+      <itemPath>src/input.cpp</itemPath>
       <itemPath>src/io.cpp</itemPath>
       <itemPath>src/level.cpp</itemPath>
       <itemPath>src/levelbox.cpp</itemPath>
@@ -131,6 +133,12 @@
         <itemTool>1</itemTool>
       </item>
       <item path="src/game.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/input.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/input.h">
         <itemTool>3</itemTool>
       </item>
       <item path="src/io.cpp">
@@ -331,6 +339,12 @@
       <item path="src/game.h">
         <itemTool>3</itemTool>
       </item>
+      <item path="src/input.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/input.h">
+        <itemTool>3</itemTool>
+      </item>
       <item path="src/io.cpp">
         <itemTool>1</itemTool>
       </item>
@@ -525,6 +539,12 @@
         <itemTool>1</itemTool>
       </item>
       <item path="src/game.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/input.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/input.h">
         <itemTool>3</itemTool>
       </item>
       <item path="src/io.cpp">
@@ -726,6 +746,12 @@
         <itemTool>1</itemTool>
       </item>
       <item path="src/game.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/input.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/input.h">
         <itemTool>3</itemTool>
       </item>
       <item path="src/io.cpp">
