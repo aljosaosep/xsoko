@@ -46,8 +46,8 @@ namespace PacGame
 
               // setters
               void setIndex(int i, int j);
-      /*        void setI(unsigned i);
-              void setJ(unsigned j);*/
+              void setI(int i);
+              void setJ(int j);
 
               // getters
               int getI() const;

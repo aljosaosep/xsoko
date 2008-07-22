@@ -19,11 +19,6 @@ using namespace PacGame;
 
 namespace PacGame
 {
-
-
-
-
-
       namespace GameClasses
       {
           // construcotrs
@@ -54,7 +49,7 @@ namespace PacGame
            * Jernej Skrabec 08
            * modified Aljosa 08
            *******************************************/   
-          void GLFWCALL PGame::processKey(int key, int action)
+         /* void GLFWCALL PGame::processKey(int key, int action)
           {   
               if(action == GLFW_PRESS) // was key pressed? (two possible actions; press and release - we are interested only in press)
               {
@@ -87,7 +82,7 @@ namespace PacGame
                           break;
                   }
              }
-          }
+          }*/
 
           // methods
           void PGame::loadSession(PGameSession *session)

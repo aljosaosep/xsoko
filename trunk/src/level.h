@@ -80,6 +80,9 @@ namespace PacGame
                   void printLevelByType() const; // dumps level data insto console; prints type of level(wall, void, teleport, ...)
                   void printLevelByMeta() const; // same, but it prints meta data(what is on level block)
                   
+                  // gameplay related
+                  bool moveObject(PDirection dir);
+                  
                   // level data manipulation
                   bool loadLevelFromFile(); // loads level from txt file into structure, stores level widthm height into class properties
                   bool saveStateToFile(char *filename);   // exports level state to file

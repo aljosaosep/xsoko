@@ -15,6 +15,7 @@
 
 #include "messages.h"
 #include "session.h"
+#include "input.h"
 
 namespace PacGame
 {
@@ -34,6 +35,7 @@ namespace PacGame
               string windowTitle;
              // PLevel *currentLevel;  
               PGameSession *session;  // pointer to current game class
+         //     PInputSystem input;
 
           public:
               // variables
