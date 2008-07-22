@@ -33,6 +33,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/src/session.o \
 	${OBJECTDIR}/src/zip/unzip.o \
 	${OBJECTDIR}/src/zip/zlib/crc32.o \
+	${OBJECTDIR}/src/input.o \
 	${OBJECTDIR}/src/main.o \
 	${OBJECTDIR}/src/zip/zlib/gzio.o \
 	${OBJECTDIR}/src/zip/zlib/zutil.o \
@@ -107,6 +108,10 @@ ${OBJECTDIR}/src/zip/unzip.o: src/zip/unzip.c
 ${OBJECTDIR}/src/zip/zlib/crc32.o: src/zip/zlib/crc32.c 
 	${MKDIR} -p ${OBJECTDIR}/src/zip/zlib
 	$(COMPILE.c) -g -o ${OBJECTDIR}/src/zip/zlib/crc32.o src/zip/zlib/crc32.c
+
+${OBJECTDIR}/src/input.o: src/input.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	$(COMPILE.cc) -g -Wall -o ${OBJECTDIR}/src/input.o src/input.cpp
 
 ${OBJECTDIR}/src/main.o: src/main.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
