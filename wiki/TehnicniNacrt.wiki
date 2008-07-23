@@ -264,3 +264,27 @@ Za taksen format bom jaz zdaj pisal funkcije za lovdanje stopenj; ce kdo najde k
 Ce komu ni kaj jasno, naj vprasa! (ce sploh kdo to bere :D)
  
 = 5. Gameplay =
+
+Gameplay se zacne pri inputu; tipicna main-game zanka izgleda namrec takole:
+
+*gameCycle()*
+ * preveri, ce je so spremebe na vhodnih napravah(oz. ce je igralec naredil spremembo)
+
+ * v skladu z spremembami procesiraj gameplay(fiziko, AI, ...)
+
+ * narisi sceno
+
+Zelo grobo povedano.
+Zato je nastal novi razred, imenovan *PInputSystem()*; definiran je v *input.h* in implementiran v *input.cpp*. Glavna metoda je *process()*, ki preverja spremembe na smernih tipkah in v skladu z spremembami prozi akcije, torej premika igralca levo, desno, gor, dol.
+Ker so funkcije za premikanje objektov po igralnem polju oz. igralni matriki, vsebuje ta razred kazalec na stopnjo {{{ (PLevel *level) }}}.
+Ko input sistem "ulovi" pritisk tipko, sprozi ustrezno akcijo; klice namrec metodo razreda *level.h* imenovano *moveObject()*, ki jemlje za parameter enumeracijo *PDirection*(ki je lako *left, right, up, down*).
+Ta funkcija, *moveObject()*, je silno preprosta; vse, kar naredi, je to, da glede na parameter PDirection, torej smer premika, "poklice" funkcijo *checkAndApply()*(prosim za predloge za bolj smiselno ime!:D), poklice pa jo z ustreznimi parameteri za indekse objekta na polju; npr. ce se premikamo levo, klicemo z indexi(i , j-1), desno pa (i , j+1). 
+Ta funkcija, *checkAndApply()* naredi(oz bo naredila, v casu pisanja ni niti 10% implementirana, homever, sposobna je enostavnega premikanja igralca po polju) "magic stuff" oz. tukaj se melje vecina gameplaya in tudi ta funkcija je/bo zelo enostavna.
+Po domace povedano, ta funkcija mora preveriti, ce je premik na zeljeno polje mogoc(check) in ce je, premik izvesti(Apply:D).
+
+Tu nam priskoci na pomoc funkcija vsakega objekta na stopnji, *isPlayerMovePossible()* (verjetno je tudi to ime precej butasto, saj bo ista funkcija nabrz uporabljena tudi za cekiranje ce je mogoce premakniti skatlo, feel free to rename). Funkcija ni tipa bool, saj nista mogoci le 2 stanji, torej je premik mogoc ali ne, ampak precej vec! 
+Na primer, funkcija vrne 0 ce premik absolutno ni mogoc(na polju je npr. zid), 1, ce je naceloma mogoc, ampak je treba pregledati se vsebino(npr. tla; ce ni gor nic drugega, je premik takoj mogoc), vrednost 3 pa a teleport(tabela vrnjenih vred. in njihov pomen bo zbrana spodaj). 
+Ko gledamo vsebino, ce ni vsebine ni problema in izvedemo premik. Ce ja je na polju tla npr. kocka, naredimo naslednje:
+
+   * preverimo, ce je kocko mogoce premaknit na eno polje dlje v smeri v katero se premikamo; ce je, nam moveObject() vrne true in tja zdaj lahko premaknemo igralca
+   * v nasprotnem primeru premik ni mogoc
