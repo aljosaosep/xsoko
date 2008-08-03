@@ -290,10 +290,20 @@ Ko gledamo vsebino, ce ni vsebine ni problema in izvedemo premik. Ce ja je na po
    * v nasprotnem primeru premik ni mogoc
 
 Ce kdo to bere, mu je najbrz jasno, da je bil ravnokar opisan obicni premik kocke!
-Zdaj pa kar je pravzaprav pomembno, je tabela vrnjenih vrednosti in rekacij.
+Zdaj pa kar je pravzaprav pomembno, sta tabeli vrnjenih vrednosti in rekacij.
+Ti dve tabeli bosta tekom razvoja seveda rasli!
 
+Vrednosti, ki jih vrne element na matriki:
 || *vrnjena vrednost* || *reakcija* ||
 || 0 || absolutno nemogoc premik ||
 || 1 || absolutno mogoc premik ||
 || 2 || pogojno mogoc - cekiraj otroka ||
 || 3 || teleport - teleportiraj element!  ||
+|| 4 || bomba - odstrani bombo, povecaj stevec bomb! ||
+
+
+Vrednosti, ki jih vrne otrok elementa na matriki
+|| *vrnjena vrednost* || *reakcija* ||
+|| 0 || absolutno nemogoc premik ||
+|| 1 || absolutno mogoc premik ||
+|| 2 || kocka - poskusi premaknit! ||
