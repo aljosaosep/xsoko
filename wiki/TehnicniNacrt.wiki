@@ -144,24 +144,24 @@ while(niFertik())
 ID-ji elementov v datoteki:
 
 *prva matrika:*
-  * Tla -- *0* _(PFloor)_
-  * Enosmerna tla -- *1* _(POneWayFloor)_
-  * Neprebojni zid -- *2* _(PSolidWall)_
-  * Prebojni zid -- *3* _(PUnsolidWall)_
-  * PTeleport -- *4* _(PTeleport)_
-  * Most -- *5* _(PBridge)_
-  * Nic/Prepad -- *6* _(PVoid)_
-  * Prostor za kocko *7* _(PCubeHolder)_
+  * Tla -- *0* _(PFloor)_   ...F
+  * Enosmerna tla -- *1* _(POneWayFloor)_  ...OWF
+  * Neprebojni zid -- *2* _(PSolidWall)_   ...SW
+  * Prebojni zid -- *3* _(PUnsolidWall)_   ...USW
+  * PTeleport -- *4* _(PTeleport)_   ...T  
+  * Most -- *5* _(PBridge)_   ...B
+  * Nic/Prepad -- *6* _(PVoid)_  ...VOID
+  * Prostor za kocko *7* _(PCubeHolder)_   ...CH
 
 *druga matrika:*
-  * Nic(el. nima otroka, npr. zid) -- *0*
-  * Igralec -- *1* (PPlayer)_
-  * Kocka -- *2* (PCube)_
-  * Enosmerna kocka levo -- *3* _(POnewayCube)_
-  * Enosmerna kocka desno -- *4* _(POnewayCube)_
-  * Enosmerna kocka gor -- *5* _(POnewayCube)_
-  * Enosmerna kocka dol -- *6* _(POnewayCube)_
-  * Bomba -- *7* _(PBomb)_
+  * Nic(el. nima otroka, npr. zid) -- *0*   
+  * Igralec -- *1* (PPlayer)_  ...PLYR
+  * Kocka -- *2* (PCube)_    ...C
+  * Enosmerna kocka levo -- *3* _(POnewayCube)_   ...OWC
+  * Enosmerna kocka desno -- *4* _(POnewayCube)_  ...OWC
+  * Enosmerna kocka gor -- *5* _(POnewayCube)_    ...OWC
+  * Enosmerna kocka dol -- *6* _(POnewayCube)_    ...OWC
+  * Bomba -- *7* _(PBomb)_    ...B
   * ID za smer enosmerne kocke -- *8-levo, 9-desno, 10-gor, 11-dol*
   * ID starsevskega teleporta -- *> 11*
 
