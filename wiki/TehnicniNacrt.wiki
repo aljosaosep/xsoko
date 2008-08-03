@@ -288,3 +288,12 @@ Ko gledamo vsebino, ce ni vsebine ni problema in izvedemo premik. Ce ja je na po
 
    * preverimo, ce je kocko mogoce premaknit na eno polje dlje v smeri v katero se premikamo; ce je, nam moveObject() vrne true in tja zdaj lahko premaknemo igralca
    * v nasprotnem primeru premik ni mogoc
+
+Ce kdo to bere, mu je najbrz jasno, da je bil ravnokar opisan obicni premik kocke!
+Zdaj pa kar je pravzaprav pomembno, je tabela vrnjenih vrednosti in rekacij.
+
+|| *vrnjena vrednost* || *reakcija* ||
+|| 0 || absolutno nemogoc premik ||
+|| 1 || absolutno mogoc premik ||
+|| 2 || pogojno mogoc - cekiraj otroka ||
+|| 3 || teleport - teleportiraj element!  ||
