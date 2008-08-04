@@ -77,10 +77,20 @@ namespace PacGame
             this->teleport_id = id;
         }
         
+        void PTeleport::setChildTeleport(PTeleport *child)
+        {
+            this->childTeleport = child;
+        }
+        
         // getters
         int PTeleport::getId() 
         {
             return this->teleport_id;
+        }
+        
+        PTeleport* PTeleport::getChildTeleport() const
+        {
+            return this->childTeleport;
         }
         
         // TODO: implement
@@ -102,7 +112,7 @@ namespace PacGame
         short PTeleport::isPlayerMovePossible()
         {
             /// tmp
-            return 0;            
+            return 3;            
         }
         
         /*****************************************
@@ -126,7 +136,7 @@ namespace PacGame
         
         short PFloor::isPlayerMovePossible() 
         {
-            return 1;
+            return 2;
         }
         /*****************************************
          POnewayFloor methods
@@ -222,8 +232,7 @@ namespace PacGame
         
         short PBridge::isPlayerMovePossible() 
         {
-            /// tmp
-            return 0;
+            return 2;
         }
         
         /*****************************************
@@ -300,11 +309,11 @@ namespace PacGame
             cout<<"|  C  ";
         } 
         
-    /*    short PCube::isPlayerMovePossible() 
+        short PCube::isPlayerMovePossible() 
         {
-            /// tmp
-            return 0;
-        }*/
+   
+            return 2;
+        }
         
         /*****************************************
          POnewayCube methods

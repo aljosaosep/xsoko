@@ -59,7 +59,7 @@ namespace PacGame
               virtual void draw()=0;        // code that draws object
               virtual bool initialize()=0;  // code that initiates objects properties
               virtual void print()=0;       // object's console dump
-              virtual short isPlayerMovePossible() = 0;
+              virtual short isPlayerMovePossible()=0;
               
               
           };
@@ -127,16 +127,20 @@ namespace PacGame
           {
           private:
               int teleport_id;
+              PTeleport *childTeleport;
               
           public:
               PTeleport() {}
               PTeleport(int id) : teleport_id(id) {}
+              PTeleport(int i, int j) { this->i=i; this->j = j; }
               
               // setters
               void setId(int id);
+              void setChildTeleport(PTeleport *child);
               
               // getters
               int getId();
+              PTeleport* getChildTeleport() const;
               
               void draw();
               bool initialize();
@@ -189,10 +193,11 @@ namespace PacGame
           {
           private:
           public:
+              PCube(int i, int j) { this->i=i; this->j = j; }
               void draw();
               bool initialize();
               void print();
-              short isPlayerMovePossible()  { return 0; }
+              short isPlayerMovePossible(); //  { return 0; }
           };
 
            /**********************************************************
@@ -242,7 +247,7 @@ namespace PacGame
               Aliases::PDirection dir; // tells in wich way os cube orientated
               
           public:
-              POnewayCube(Aliases::PDirection dir) : dir(dir) {}
+              POnewayCube(Aliases::PDirection dir, int i, int j) : dir(dir) { this->i=i; this->j = j; }
            //   POnewayCube() {}
               void draw();
               bool initialize();
@@ -261,53 +266,11 @@ namespace PacGame
           {
           private:
           public:
+              PBomb(int i, int j) { this->i=i; this->j = j; }
               void draw();
               bool initialize();
               void print();
               short isPlayerMovePossible()  { return 0; }
-          };
-          
-          /**********************************************************
-           * PNoData
-           *
-           * Represents blind child, means that element doens't have data
-           * --------------------------------------------------------
-           * Aljosa 2008
-           * ********************************************************/ 
-  /*        class PNoData : public PLevelObject
-          {
-          private:
-          public:
-              void draw() {}
-              bool initialize() { return true; }
-              void print();
-          };*/
-          
-          /**********************************************************
-           * PData
-           *
-           * Represents object, that hold only data
-           * one way of use: binds teleport id
-           * --------------------------------------------------------
-           * Aljosa 2008
-           * ********************************************************/ 
-        //  template<class T>
-          class PData : public PLevelObject
-          {
-          private:
-              int data;
-          public:
-              PData(int data) : data(data) {}
-              
-              // getter
-              int getData()  { return data; }
-              void draw() {}
-              bool initialize() {return true;}
-              short isPlayerMovePossible() ;
-              void print()
-              {
-                  cout<<"|DAT"<<this->data;
-              }
           };
       }
 }

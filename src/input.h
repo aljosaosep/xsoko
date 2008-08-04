@@ -2,6 +2,9 @@
  * File:   input.h
  * Author: aljosa
  *
+ * Input class; provides interface for interaction
+ * with input devices
+ *
  * Created on July 20, 2008, 5:50 PM
  */
 
@@ -18,7 +21,7 @@ namespace PacGame
         class PInputSystem
         {
         private:
-            PLevel *level;
+            PLevel *level;    // level object
 
         public:
             // constructors

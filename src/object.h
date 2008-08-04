@@ -64,6 +64,7 @@ namespace PacGame
                void unlinkFirstChild();  // destroys connection with first child; WARNING: if there are more children, others are lost!
 
                // etc
+               virtual short isPlayerMovePossible()=0;
                virtual void draw()=0;
                virtual bool initialize()=0;
                virtual void print();    // print into console    

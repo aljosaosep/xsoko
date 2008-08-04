@@ -91,6 +91,11 @@ namespace PacGame
         //    level->initialize();
         }
         
+        void PGameSession::setInput(PInputSystem *input)
+        {
+            this->input = input;
+        }
+        
         // sets session's score
         void PGameSession::setScore(unsigned score)
         {

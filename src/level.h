@@ -81,7 +81,9 @@ namespace PacGame
                   void printLevelByMeta() const; // same, but it prints meta data(what is on level block)
                   
                   // gameplay related
-                  bool moveObject(PDirection dir);
+                  bool moveObject(PDirection dir, PLevelObject *obj);
+                  inline bool checkAndApply(int i2, int j2, PLevelObject *obj, PDirection dir);
+                  inline void reattachNode(int i, int j, int i2, int j2, PLevelObject *obj);
                   
                   // level data manipulation
                   bool loadLevelFromFile(); // loads level from txt file into structure, stores level widthm height into class properties
@@ -89,9 +91,9 @@ namespace PacGame
                   void releaseLevel(); // released level from memory
                   
                   // level toolkit functions
-                  int returnNumberFromFile(ifstream &file); // returns number from file and moves file pointer
-                  bool checkPosition(ifstream &file); // checks if position is valid and moves file pointer
-                  PTeleport* returnTeleport(int id); // returns teleports addres, that contains given id
+                  inline int returnNumberFromFile(ifstream &file); // returns number from file and moves file pointer
+                  inline bool checkPosition(ifstream &file); // checks if position is valid and moves file pointer
+                  inline PTeleport* returnTeleport(int id); // returns teleports addres, that contains given id
                   PPlayer* getPlayerHandle();
 
                   // functions to override
@@ -99,6 +101,7 @@ namespace PacGame
                   void draw();  // draws whole level
                   bool initialize(); // initiates level
                   void print(); // dumps level data into console
+                  short isPlayerMovePossible();  // blind method
               };
       }
 }
