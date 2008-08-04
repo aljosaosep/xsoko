@@ -15,11 +15,9 @@
 #include <string>
 #include <iostream>
 #include <fstream>
-//#include <typeinfo>
 #include <iomanip>
-#include "messages.h"
+//#include "messages.h"
 #include "level.h"
-//#include "levelbox.h"
 
 using namespace std;
 using namespace PacGame::GameClasses;
@@ -38,7 +36,7 @@ namespace PacGame
            * position and skips one character, it is suitable for our
            * level format only.
            *****************************************************************/
-          int PLevel::returnNumberFromFile(ifstream &file)
+          inline int PLevel::returnNumberFromFile(ifstream &file)
           {
               char buff[3]; // char buffer for our number, before it is being parsed into integer
               char c;       // strage for single character
@@ -66,7 +64,7 @@ namespace PacGame
            * Function validates level format with checking + sign
            * position.
            *****************************************************************/
-          bool PLevel::checkPosition(ifstream &file)
+          inline bool PLevel::checkPosition(ifstream &file)
           {
               char c; // single character buffer
               file.get(c); // read +  sign
@@ -85,7 +83,7 @@ namespace PacGame
            * Function loops through level and finds teleport with
            * given id. It returns pointer to that teleport.
            *****************************************************************/
-          PTeleport *PLevel::returnTeleport(int id)
+          inline PTeleport *PLevel::returnTeleport(int id)
           {
               for(unsigned i=0; i<teleports.size(); i++) // loops thorough vector
                   if(teleports[i]->getId() == id)  // if teleport's id matches id we're lookin' for
@@ -94,39 +92,99 @@ namespace PacGame
               return NULL; // otherwise return NULL
           }
           
+           /*****************************************************************
+           * Function attaches object to another element in matrix
+           * releases node from original element in matrix
+           * and changes indexes
+           *****************************************************************/          
+          inline void PLevel::reattachNode(int i, int j, int i2, int j2, PLevelObject *obj)
+          {
+              data[i2][j2]->attachToRoot(data[i][j]->returnFirstChild());
+              data[i][j]->unlinkFirstChild();
+              obj->setIndex(i2, j2);
+          }
+          
+           /*****************************************************************
+           * Function checks if move is possible; if it is, processes it
+           *****************************************************************/
+          inline bool PLevel::checkAndApply(int i2, int j2, PLevelObject *obj, PDirection dir)
+          {
+              int i = obj->getI(), j = obj->getJ(); // gets object indexes
+              // is move absolutely possible?
+              if(data[i2][j2]->isPlayerMovePossible()==1)  // it is!
+              {
+                  reattachNode(i, j, i2, j2, obj);  // so we just do it ;)
+                  return true;
+              }
+              
+              else if(data[i2][j2]->isPlayerMovePossible()==3)  // teleport
+              {
+                  PTeleport *srcTeleport = dynamic_cast<PTeleport*>(data[i2][j2]); // cast object to teleport, so we can use teleport methods
+                  int it = (dynamic_cast<PTeleport*>(data[i2][j2]))->getChildTeleport()->getI(), // get id's of child teleport(our teleport destination)
+                          jt = (dynamic_cast<PTeleport*>(data[i2][j2]))->getChildTeleport()->getJ();
+                  
+                  if(data[it][jt]->returnFirstChild()!=NULL) // if there is object alredy on teleport
+                  {
+                      if(this->moveObject(dir, dynamic_cast<PLevelObject*>(data[it][jt]->returnFirstChild())))  // try to move it
+                      {
+                          reattachNode(i, j, it, jt, obj);   // and then move player to teleport
+                          return true;
+                      }
+                  }
+                  else  // there is no object attached to teleport, that's ok
+                  {
+                      reattachNode(i, j, it, jt, obj);  // so we just move player to dest teleport ;)
+                      return true;
+                  }
+              }
+
+              else if(data[i2][j2]->isPlayerMovePossible()==2)  // move is conditionally possible; we check children
+              {
+                  if(data[i2][j2]->returnFirstChild() == NULL)  // move is possible since there are no children
+                  {
+                      reattachNode(i, j, i2, j2, obj);   // so we do it ;)
+                      return true;
+                  }
+                  else if(data[i2][j2]->returnFirstChild()->isPlayerMovePossible() == 2)  // na polju je kocka - poskusimo premaknit!
+                  {
+                      // koda za premik kocke
+                      if(this->moveObject(dir, dynamic_cast<PLevelObject*>(data[i2][j2]->returnFirstChild())))
+                      {
+                          reattachNode(i, j, i2, j2, obj);   // so we do it ;)
+                          return true;                         
+                      }
+                  }
+                  
+              }
+          }
+          
           // gameplay related
            /*****************************************************************
            * Function moves object to antoher field if it is possible;
            * successful move returns true, unsuccessfull false
            *****************************************************************/
-          bool PLevel::moveObject(PDirection dir)
+          bool PLevel::moveObject(PDirection dir, PLevelObject *obj)
           {
-             int i = this->player->getI(), j = this->player->getJ();
-              
                   switch(dir)
                   {
                       case Aliases::left:
-                          if(data[i][j-1]->isPlayerMovePossible()==1)
-                          {
-                              data[i][j-1]->attachToRoot(data[i][j]->returnFirstChild());
-                              data[i][j]->unlinkFirstChild();
-                              this->player->setJ(j-1);
-                          }
+                          if(!checkAndApply(obj->getI(), obj->getJ()-1, obj, Aliases::left))
+                              return false;
                           break;
                           
                       case Aliases::right:
-                          if(data[i][j+1]->isPlayerMovePossible()==1)
-                          {                          
-                              data[i][j+1]->attachToRoot(data[i][j]->returnFirstChild());
-                              data[i][j]->unlinkFirstChild();
-                              this->player->setJ(j+1);
-                          }
+                          if(!checkAndApply(obj->getI(), obj->getJ()+1, obj, Aliases::right))
+                              return false;
                           break;  
                           
                       case Aliases::up:
+                          if(!(checkAndApply(obj->getI()-1, obj->getJ(), obj, Aliases::up)))
+                                  return false;
                           break;
                           
                       case Aliases::down:
+                          if(!(checkAndApply(obj->getI()+1, obj->getJ(), obj, Aliases::down)))
+                              return false;                      
                           break;                        
                   }
                   return true;              
@@ -224,7 +282,9 @@ namespace PacGame
                           {
                               if(num >= 11) // if it is > 11, then it is an teleport id
                               {
-                                  PTeleport *teleport = new PTeleport; // create object
+                                  
+                                  PTeleport *teleport = new PTeleport(i, j); // create object
+                                //  cout<<"Tel id: "<<teleport->getI()<<' '<<teleport->getJ()<<endl;
                                   teleport->setId(num);                // set its id
                                   data[i][j] = teleport;               // attach it on level
                                   this->teleports.push_back(teleport); // push teleport info on vector
@@ -239,32 +299,32 @@ namespace PacGame
                                       break;
                                       
                                   case CUBE:
-                                      p = new PCube;
+                                      p = new PCube(i, j);
                                       data[i][j]->add(p);
                                       break;
                                       
                                   case OW_CUBE_L:
-                                      p = new POnewayCube(Aliases::left);
+                                      p = new POnewayCube(Aliases::left, i, j);
                                       data[i][j]->add(p);
                                       break; 
                                       
                                   case OW_CUBE_R:
-                                      p = new POnewayCube(Aliases::right);
+                                      p = new POnewayCube(Aliases::right, i, j);
                                       data[i][j]->add(p);
                                       break; 
                                       
                                   case OW_CUBE_U:
-                                      p = new POnewayCube(Aliases::up);
+                                      p = new POnewayCube(Aliases::up, i, j);
                                       data[i][j]->add(p);
                                       break;  
                                       
                                   case OW_CUBE_D:
-                                      p = new POnewayCube(Aliases::down);
+                                      p = new POnewayCube(Aliases::down, i, j);
                                       data[i][j]->add(p);
                                       break;
                                       
                                   case BOMB:
-                                      p = new PBomb;
+                                      p = new PBomb(i, j);
                                       data[i][j]->add(p);
                                       break; 
                                       
@@ -297,7 +357,8 @@ namespace PacGame
 
                       if(parentTeleport!=NULL && childTeleport!=NULL)  // if teleports has been found
                       {
-                          parentTeleport->add(childTeleport);  // attach them
+                    //      parentTeleport->add(childTeleport);  // attach them
+                          parentTeleport->setChildTeleport(childTeleport);                      
                           cout<<"Teleport "<<childTeleport->getId()<<" attached to teleport "<<parentTeleport->getId()<<endl;
                       }
                       else
@@ -322,6 +383,7 @@ namespace PacGame
           {
               return this->player;
           }
+          
           
           /**************************************************************
            * Function initiates level
@@ -441,5 +503,9 @@ namespace PacGame
           {
               this->releaseLevel();
           }
+          
+          
+          short PLevel::isPlayerMovePossible() { return 0; }  // blind function, just for overwrtie; DO NOT attempt to implement it and escpecially,
+                                                              // do not use it in LEVEL class context!
     }
 }

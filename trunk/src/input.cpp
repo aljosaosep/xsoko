@@ -15,23 +15,24 @@ namespace PacGame
         void PInputSystem::process()
         {
             glfwEnable(GLFW_STICKY_KEYS);
-            if((glfwGetKey(GLFW_KEY_UP) == GLFW_PRESS) && (glfwGetKey(GLFW_KEY_UP) == GLFW_RELEASE))
+            if((glfwGetKey(GLFW_KEY_UP) == GLFW_PRESS) && (glfwGetKey(GLFW_KEY_UP) == GLFW_RELEASE))  // checks up key
             {
-             //   if(glfwGetKey(GLFW_KEY_UP) == GLFW_RELEASE)
+                this->level->moveObject(Aliases::up, this->level->getPlayerHandle());
                 Messages::infoMessage("Key up pressed."); 
             }
-            else if((glfwGetKey(GLFW_KEY_DOWN) == GLFW_PRESS) && (glfwGetKey(GLFW_KEY_DOWN) == GLFW_RELEASE))
+            else if((glfwGetKey(GLFW_KEY_DOWN) == GLFW_PRESS) && (glfwGetKey(GLFW_KEY_DOWN) == GLFW_RELEASE)) // checks down key
             {
+                this->level->moveObject(Aliases::down, this->level->getPlayerHandle());
                 Messages::infoMessage("Key down pressed.");                
             }
-            else if((glfwGetKey(GLFW_KEY_LEFT) == GLFW_PRESS) && (glfwGetKey(GLFW_KEY_LEFT) == GLFW_RELEASE))
+            else if((glfwGetKey(GLFW_KEY_LEFT) == GLFW_PRESS) && (glfwGetKey(GLFW_KEY_LEFT) == GLFW_RELEASE)) // checks left key
             {
-                this->level->moveObject(Aliases::left);
+                this->level->moveObject(Aliases::left, this->level->getPlayerHandle());
                 Messages::infoMessage("Key left pressed.");                
             }
-            else if((glfwGetKey(GLFW_KEY_RIGHT) == GLFW_PRESS) && (glfwGetKey(GLFW_KEY_RIGHT) == GLFW_RELEASE))
+            else if((glfwGetKey(GLFW_KEY_RIGHT) == GLFW_PRESS) && (glfwGetKey(GLFW_KEY_RIGHT) == GLFW_RELEASE)) // checks right key
             {
-                this->level->moveObject(Aliases::right);
+                this->level->moveObject(Aliases::right, this->level->getPlayerHandle());
                 Messages::infoMessage("Key right pressed.");                
             }
             else if((glfwGetKey(GLFW_KEY_SPACE) == GLFW_PRESS) && (glfwGetKey(GLFW_KEY_SPACE) == GLFW_RELEASE))

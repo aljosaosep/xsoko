@@ -37,26 +37,6 @@ namespace PacGame
               }*/
 
               // etc
-             /* bool PPlayer::onMoveProcess(PDirection dir, PLevelObject* data[][30], int i, int j)
-              {
-                  switch(dir)
-                  {
-                      case Aliases::left:
-                          data[i-1][j]->add(data[i][j]->returnFirstChild());
-                          break;
-                          
-                      case Aliases::right:
-                          break;  
-                          
-                      case Aliases::up:
-                          break;
-                          
-                      case Aliases::down:
-                          break;                        
-                  }
-                  return true;
-              }*/
-              
               void PPlayer::incBombs()
               {
                       bombs++;

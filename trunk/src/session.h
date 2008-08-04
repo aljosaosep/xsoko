@@ -24,15 +24,14 @@ namespace PacGame
             unsigned score;
             PacGame::RenderMaschine::PRenderer renderer; 
             PInputSystem *input;
+            bool isGameOver;
             
         public:
-            PGameSession(PLevel *level, PInputSystem *input) : level(level), player(level->getPlayerHandle()), input(input) 
-            {
-          //      input.setLevel(level);
-            }
-            
+            // constructors
+            PGameSession(PLevel *level, PInputSystem *input) : level(level), player(level->getPlayerHandle()), input(input) {}
             PGameSession() : level(NULL), player(NULL), input(NULL)  {}
             
+            // methods
             bool run();
             bool initialize();
             void mainLoop();
@@ -40,6 +39,7 @@ namespace PacGame
             // setters
             void setLevel(PLevel *level);
             void setScore(unsigned score);
+            void setInput(PInputSystem *input);
             
             // getters
             PLevel *getLevel() const;
