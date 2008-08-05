@@ -300,6 +300,7 @@ Vrednosti, ki jih vrne element na matriki:
 || 2 || pogojno mogoc - cekiraj otroka ||
 || 3 || teleport - teleportiraj element!  ||
 || 4 || bomba - odstrani bombo, povecaj stevec bomb! ||
+|| 5 || most - naj se sesuje! ||
 
 
 Vrednosti, ki jih vrne otrok elementa na matriki
