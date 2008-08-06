@@ -232,7 +232,7 @@ namespace PacGame
         
         short PBridge::isPlayerMovePossible() 
         {
-            return 2;
+            return 5;
         }
         
         /*****************************************
@@ -281,8 +281,7 @@ namespace PacGame
         
         short PCubeHolder::isPlayerMovePossible() 
         {
-            /// tmp
-            return 0;
+            return 6;
         }
         
         /*****************************************

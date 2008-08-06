@@ -57,6 +57,7 @@ namespace PacGame
                // linked list
                void add(PObject *obj);  // attaches another object to this object 
                void attachToRoot(PObject *obj); // attaches new object to root; doesn't create new object
+          //     void attachToHead(PObject *obj); // attaches object to head
                void dumpList() const;   // dumps children data into console
                void releaseList();      // releases this objects children from memory
                PObject* returnFirstChild() const;  // returns first child

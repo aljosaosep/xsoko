@@ -71,6 +71,7 @@ namespace PacGame
                   vector<PTeleport*> teleports; // vector of teleport pointers
                   unsigned width, height;       // level dimensions
                   PPlayer *player;              // player instance 
+                  vector<PCubeHolder*> holds;           // vector contains all cube holders in level; it helps to determine when level is finished
                  
               public:
                   PLevel(string filename) : filename(filename),  width(0), height(0), player(NULL) {} // default constructor
@@ -84,6 +85,7 @@ namespace PacGame
                   bool moveObject(PDirection dir, PLevelObject *obj);
                   inline bool checkAndApply(int i2, int j2, PLevelObject *obj, PDirection dir);
                   inline void reattachNode(int i, int j, int i2, int j2, PLevelObject *obj);
+                  inline bool isLevelDone(); // checks if all cubes are in places
                   
                   // level data manipulation
                   bool loadLevelFromFile(); // loads level from txt file into structure, stores level widthm height into class properties

@@ -75,7 +75,7 @@ namespace PacGame
           {
           private:
           public:
-              PFloor() {}
+              PFloor()  { this->id = 0; }
               void draw();
               bool initialize();
               void print();
@@ -93,6 +93,7 @@ namespace PacGame
           {
           private:
           public:
+              PSolidWall()  { this->id = 2; }
               void draw();
               bool initialize();
               void print();
@@ -110,6 +111,7 @@ namespace PacGame
           {
           private:
           public:
+              PUnsolidWall() { this->id = 3; }
               void draw();
               bool initialize();
               void print();
@@ -130,9 +132,9 @@ namespace PacGame
               PTeleport *childTeleport;
               
           public:
-              PTeleport() {}
-              PTeleport(int id) : teleport_id(id) {}
-              PTeleport(int i, int j) { this->i=i; this->j = j; }
+              PTeleport() { this->id = 4; }
+              PTeleport(int id) : teleport_id(id) { this->id = 4; }
+              PTeleport(int i, int j) { this->i=i; this->j = j; this->id=4; }
               
               // setters
               void setId(int id);
@@ -159,6 +161,7 @@ namespace PacGame
           {
           private:
           public:
+              PBridge() { this->id = 5; }
               void draw();
               bool initialize();
               void print();
@@ -176,6 +179,7 @@ namespace PacGame
           {
           private:
           public:
+              PVoid() { this->id = 6; }
               void draw();
               bool initialize();
               void print();
@@ -193,7 +197,7 @@ namespace PacGame
           {
           private:
           public:
-              PCube(int i, int j) { this->i=i; this->j = j; }
+              PCube(int i, int j) { this->i=i; this->j = j; this->id=2;}
               void draw();
               bool initialize();
               void print();
@@ -211,6 +215,7 @@ namespace PacGame
           {
           private:
           public:
+              PCubeHolder() { this->id = 7; }
               void draw();
               bool initialize();
               void print();
@@ -228,6 +233,7 @@ namespace PacGame
           {
           private:
           public:
+              POnewayFloor() { this->id = 1; }
               void draw();
               bool initialize();
               void print();
@@ -241,6 +247,8 @@ namespace PacGame
            * --------------------------------------------------------
            * Aljosa 2008
            * ********************************************************/ 
+          // attention : id 
+          // TODO!
           class POnewayCube : public PLevelObject
           {
           private:
@@ -266,7 +274,7 @@ namespace PacGame
           {
           private:
           public:
-              PBomb(int i, int j) { this->i=i; this->j = j; }
+              PBomb(int i, int j) { this->i=i; this->j = j; this->id = 7; }
               void draw();
               bool initialize();
               void print();
