@@ -66,6 +66,11 @@ namespace PacGame
 
           }
           
+        /*  void PObject::attachToHead(PObject *obj)
+          {
+              
+          }*/
+          
           // attaches new object to root; doesn't create new object
           void PObject::attachToRoot(PObject *obj)
           {

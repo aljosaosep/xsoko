@@ -1,3 +1,6 @@
+
+#include "object.h"
+
 /*
  * Codename: xSoko
  * File: level.h
@@ -104,6 +107,24 @@ namespace PacGame
               obj->setIndex(i2, j2);
           }
           
+
+           /*****************************************************************
+           * Function checks in player has moved all cubes to their 
+           * spaces
+           *****************************************************************/ 
+          inline bool PLevel::isLevelDone()
+          {
+              for(unsigned i=0; i<this->holds.size(); i++)  // we loop thorough all holders in level
+              {
+                  if(this->holds[i]->returnFirstChild()==NULL) // if hold has no child
+                      return false;  // level cant be done!
+                  else if((dynamic_cast<PLevelObject*>(this->holds[i]->returnFirstChild()))->getId() != 2) // if hold contains something else than cube
+                      return false; // level cant be done either!
+              }
+              
+              return true; // otherwise, player won :)
+          }
+          
            /*****************************************************************
            * Function checks if move is possible; if it is, processes it
            *****************************************************************/
@@ -119,7 +140,7 @@ namespace PacGame
               
               else if(data[i2][j2]->isPlayerMovePossible()==3)  // teleport
               {
-                  PTeleport *srcTeleport = dynamic_cast<PTeleport*>(data[i2][j2]); // cast object to teleport, so we can use teleport methods
+//                  PTeleport *srcTeleport = dynamic_cast<PTeleport*>(data[i2][j2]); // cast object to teleport, so we can use teleport methods
                   int it = (dynamic_cast<PTeleport*>(data[i2][j2]))->getChildTeleport()->getI(), // get id's of child teleport(our teleport destination)
                           jt = (dynamic_cast<PTeleport*>(data[i2][j2]))->getChildTeleport()->getJ();
                   
@@ -156,6 +177,48 @@ namespace PacGame
                   }
                   
               }
+              
+              else if(data[i2][j2]->isPlayerMovePossible()==6)  // move is conditionally possible; we check children; thid id cubeholder case
+              {                                             // only diffrence between causal conditional move and move to cubeHolder is
+                                                             // that in this case, after we move cube to cube holder, we check if level has been done
+                  if(data[i2][j2]->returnFirstChild() == NULL)  // move is possible since there are no children
+                  {
+                      reattachNode(i, j, i2, j2, obj);   // so we do it ;)
+                      cout<<"ID: "<<dynamic_cast<PLevelObject*>(data[i2][j2]->returnFirstChild())->getId()<<endl;
+                      if(this->isLevelDone())
+                          Messages::infoMessage("You won!!!!! :))))");
+                      return true;
+                  }
+                  else if(data[i2][j2]->returnFirstChild()->isPlayerMovePossible() == 2)  // na polju je kocka - poskusimo premaknit!
+                  {
+                      // koda za premik kocke
+                      if(this->moveObject(dir, dynamic_cast<PLevelObject*>(data[i2][j2]->returnFirstChild())))
+                      {
+                          reattachNode(i, j, i2, j2, obj);   // so we do it ;)
+                          cout<<"ID: "<<dynamic_cast<PLevelObject*>(data[i2][j2]->returnFirstChild())->getId()<<endl;
+                          if(this->isLevelDone())
+                              Messages::infoMessage("You won!!!!! :))))");
+                          return true;                         
+                      }
+                  }
+                  
+                  
+              }
+              
+              else if(data[i2][j2]->isPlayerMovePossible()==5) // bridge!
+              {
+                  //// TODO
+             /*     reattachNode(i, j, i2, j2, obj);   // move player to bridge
+                  PVoid *praznina = new PVoid;       // create new void object
+                  praznina->attachToRoot(NULL);  // attach player to void
+                  
+              //    data[i2][j2]->releaseFirstChild();   // drop player from bridge
+                  delete data[i2][j2];  // delete bridge
+                  data[i2][j2] = praznina;*/
+                  
+              }
+              
+
           }
           
           // gameplay related
@@ -163,7 +226,7 @@ namespace PacGame
            * Function moves object to antoher field if it is possible;
            * successful move returns true, unsuccessfull false
            *****************************************************************/
-          bool PLevel::moveObject(PDirection dir, PLevelObject *obj)
+         bool PLevel::moveObject(PDirection dir, PLevelObject *obj)
           {
                   switch(dir)
                   {
@@ -257,6 +320,7 @@ namespace PacGame
                                       
                                   case CUBE_PLACE:
                                       data[i][j] = new PCubeHolder;
+                                      this->holds.push_back(dynamic_cast<PCubeHolder*>(data[i][j])); // adds cuneHolder to holds array
                                       break;                                       
                               }
                           }
