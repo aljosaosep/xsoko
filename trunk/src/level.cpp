@@ -476,6 +476,34 @@ namespace PacGame
            **************************************************************/
           void PLevel::draw()
           {
+              glPushMatrix();
+                  for(unsigned i=0; i<this->width; i++)
+                  {
+                      for(unsigned j=0; j<this->height; j++)
+                      {
+                          PObject *obj = data[i][j]->returnFirstChild(); 
+                          if(obj!=NULL) // if there is boject binded
+                          {
+                              glPushMatrix();
+                              glTranslatef(i*2.3, j*2.3, 0.0);
+                              obj->draw(); // prints it
+                              glPopMatrix();
+                          }
+                          else
+                              if(data[i][j]!=NULL)
+                              {
+                                  glPushMatrix();
+                                  glTranslatef(i*2.3, j*2.3, 0.0);
+                                  data[i][j]->draw();  // otherwise, print object
+                                  glPopMatrix();
+                              }
+                      }
+                  //    cout<<'|'<<endl;
+                  }
+             //     cout<<setfill('-')<<setw(73)<<"-"<<endl;  // prints line
+              
+
+              glPopMatrix();
               
           }
           
@@ -496,13 +524,16 @@ namespace PacGame
                       if(obj!=NULL) // if there is boject binded
                           obj->print(); // prints it
                       else
-                          data[i][j]->print();  // otherwise, print object
+                          if(data[i][j]!=NULL)
+                            
+                              data[i][j]->print();  // otherwise, print object
                   }
                   cout<<'|'<<endl;
               }
               cout<<setfill('-')<<setw(73)<<"-"<<endl;  // prints line
               cout<<endl;  
           }
+          
      
           /**************************************************************
            * Function dumps level data into console

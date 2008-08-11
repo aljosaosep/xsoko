@@ -101,6 +101,8 @@ namespace PacGame
         
         void PTeleport::draw()
         {
+            glColor3f(0.0, 0.0, 1.0);
+            this->renderer.drawCube(0.0, 0.0, 1.0, 0.0);
 
         }
         
@@ -108,7 +110,7 @@ namespace PacGame
         {
             cout<<"| T"<<this->teleport_id<<' ';
         }
-        
+
         short PTeleport::isPlayerMovePossible()
         {
             /// tmp
@@ -126,12 +128,13 @@ namespace PacGame
         
         void PFloor::draw()
         {
-
+            glColor3f(0.3, 0.2, 0.6);
+            this->renderer.drawFloor(0.0, 0.0, 1.0);
         }
         
         void PFloor::print()
         {
-            cout<<"|  F  ";
+            cout<<"|     ";
         }
         
         short PFloor::isPlayerMovePossible() 
@@ -155,7 +158,7 @@ namespace PacGame
         void POnewayFloor::print()
         {
             cout<<"| OWF ";
-        }
+        }      
         
         short POnewayFloor::isPlayerMovePossible() 
         {
@@ -174,14 +177,15 @@ namespace PacGame
         
         void PSolidWall::draw()
         {
-
+            glColor3f(1.0, 0.0, 0.0);
+            this->renderer.drawCube(0.0, 1.0, 1.0, 0.0);
         }
         
         void PSolidWall::print()
         {
             cout<<"| SW  ";
         }
-
+              
         short PSolidWall::isPlayerMovePossible() 
         {
             return 0;
@@ -205,7 +209,7 @@ namespace PacGame
         {
             cout<<"| USW ";
         }  
-        
+
         short PUnsolidWall::isPlayerMovePossible() 
         {
             /// tmp
@@ -222,6 +226,8 @@ namespace PacGame
         
         void PBridge::draw()
         {
+            glColor3f(0.0, 0.3, 0.1);
+            this->renderer.drawFloor(0.0, 0.0, 1.0);
 
         }
         
@@ -229,7 +235,7 @@ namespace PacGame
         {
             cout<<"|  B  ";
         } 
-        
+
         short PBridge::isPlayerMovePossible() 
         {
             return 5;
@@ -246,14 +252,15 @@ namespace PacGame
         
         void PVoid::draw()
         {
-
+          //  glColor3f(0.0, 0.0, 0.0);
+          //  this->renderer.drawFloor(0.0, 0.0, 1.0);
         }
         
         void PVoid::print()
         {
             cout<<"|     ";
         } 
-        
+
         short PVoid::isPlayerMovePossible() 
         {
             /// tmp
@@ -271,14 +278,15 @@ namespace PacGame
         
         void PCubeHolder::draw()
         {
-
+            glColor3f(0.3, 0.0, 0.0);
+            this->renderer.drawFloor(0.0, 0.0, 1.0);
         }
         
         void PCubeHolder::print()
         {
             cout<<"| CH  ";
         }  
-        
+
         short PCubeHolder::isPlayerMovePossible() 
         {
             return 6;
@@ -300,14 +308,15 @@ namespace PacGame
         
         void PCube::draw()
         {
-
+            glColor3f(0.0, 1.0, 0.0);
+            this->renderer.drawCube(0.0, 0.0, 1.0, 0.0);
         }
         
         void PCube::print()
         {
             cout<<"|  C  ";
         } 
-        
+
         short PCube::isPlayerMovePossible() 
         {
    
@@ -357,34 +366,14 @@ namespace PacGame
         {
             cout<<"|  B  ";
         } 
-        
+              
      /*   short POnewayFloor::isPlayerMovePossible() 
         {
             /// tmp
             return f;
         }*/
         
-        /*****************************************
-         PNoData methods
-         *****************************************/
-     /*   void PNoData::print()
-        {
-            cout<<"|_NULL";
-        } */
-        
-        
-        /*****************************************
-         PData methods
-         *****************************************/
-     /*   template<class T>
-        void PData::print()
-        {
-            cout<<"|DAT"<<this->data;
-        } 
-        
-        // in this class, this two methods exists just because they must me owerwritten
-        bool PData::initialize() { return true; }
-        void PData::draw() {}*/
+
 
     }
 }

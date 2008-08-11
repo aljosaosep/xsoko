@@ -48,7 +48,7 @@ namespace PacGame
                 // render func
                 void drawBackground();
                 void drawSkyDome();
-                void drawCube(float x, float y, float size);
+                void drawCube(float x, float y, float size, float angle);
                 void drawFloor(float x, float y, float size);
         };
 

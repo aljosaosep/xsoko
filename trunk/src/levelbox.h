@@ -14,6 +14,7 @@
 #include "renderer/renderer.h"
 #include "object.h"
 #include "CommonStructures.h"
+#include "renderer/renderer.h"
 
 
 using namespace PacGame::RenderMaschine;
@@ -36,6 +37,7 @@ namespace PacGame
               int i, j;     // represents indexes of element on level matrix
               PTexture texture;  // represents texture of object
               unsigned short id; // number, that represents object in file
+              PRenderer renderer;
 
           public:
               PLevelObject() : i(0), j(0), id(0) {}// constructors
@@ -58,7 +60,7 @@ namespace PacGame
               // virtual functions to override
               virtual void draw()=0;        // code that draws object
               virtual bool initialize()=0;  // code that initiates objects properties
-              virtual void print()=0;       // object's console dump
+              virtual void print()=0;       // object's console dump            
               virtual short isPlayerMovePossible()=0;
               
               
@@ -78,7 +80,7 @@ namespace PacGame
               PFloor()  { this->id = 0; }
               void draw();
               bool initialize();
-              void print();
+              void print();             
               short isPlayerMovePossible() ;
           };
 
@@ -96,7 +98,7 @@ namespace PacGame
               PSolidWall()  { this->id = 2; }
               void draw();
               bool initialize();
-              void print();
+              void print();             
               short isPlayerMovePossible() ;
           };
 
@@ -114,7 +116,7 @@ namespace PacGame
               PUnsolidWall() { this->id = 3; }
               void draw();
               bool initialize();
-              void print();
+              void print();              
               short isPlayerMovePossible() ;
           };
 
@@ -146,7 +148,7 @@ namespace PacGame
               
               void draw();
               bool initialize();
-              void print();
+              void print();             
               short isPlayerMovePossible() ;
           };
 
@@ -164,7 +166,7 @@ namespace PacGame
               PBridge() { this->id = 5; }
               void draw();
               bool initialize();
-              void print();
+              void print();             
               short isPlayerMovePossible() ;
           };
 
@@ -182,7 +184,7 @@ namespace PacGame
               PVoid() { this->id = 6; }
               void draw();
               bool initialize();
-              void print();
+              void print();             
               short isPlayerMovePossible() ;
           };
 
@@ -200,7 +202,7 @@ namespace PacGame
               PCube(int i, int j) { this->i=i; this->j = j; this->id=2;}
               void draw();
               bool initialize();
-              void print();
+              void print();             
               short isPlayerMovePossible(); //  { return 0; }
           };
 
@@ -218,7 +220,7 @@ namespace PacGame
               PCubeHolder() { this->id = 7; }
               void draw();
               bool initialize();
-              void print();
+              void print();              
               short isPlayerMovePossible() ;
           };
 
@@ -236,7 +238,7 @@ namespace PacGame
               POnewayFloor() { this->id = 1; }
               void draw();
               bool initialize();
-              void print();
+              void print();             
               short isPlayerMovePossible() ;
           };
 
@@ -259,7 +261,7 @@ namespace PacGame
            //   POnewayCube() {}
               void draw();
               bool initialize();
-              void print();
+              void print();        
               short isPlayerMovePossible()  { return 0; }
           };
 

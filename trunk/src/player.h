@@ -59,6 +59,7 @@ namespace PacGame
                   void draw();
                   bool initialize();
                   void print();
+                  void drawToConsole();
                   
                   short isPlayerMovePossible() { return 0; }
                //   bool onMoveProcess(PDirection dir, PLevelObject* data[][30], int i, int j);
