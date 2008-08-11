@@ -58,6 +58,14 @@ namespace PacGame
                       
                      // glBindTexture(GL_TEXTURE_2D, textura.getTexId());
                       
+                      
+                      
+                      // light related
+                     glEnable(GL_DEPTH_TEST);
+                     glEnable(GL_LIGHTING);
+                     glEnable(GL_LIGHT0);
+                     glEnable(GL_COLOR_MATERIAL);
+                      
 
 //                      glfwSetKeyCallback(&PacGame::GameClasses::PGame::processKey); // sets keyboard input callback
                       Messages::initMessage("Game", true);

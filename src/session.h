@@ -22,14 +22,18 @@ namespace PacGame
             PLevel *level; 
             PPlayer *player;           
             unsigned score;
+            
             PacGame::RenderMaschine::PRenderer renderer; 
             PInputSystem *input;
-            bool isGameOver;
+            unsigned moves;
+            bool isGameOver;    
             
         public:
             // constructors
-            PGameSession(PLevel *level, PInputSystem *input) : level(level), player(level->getPlayerHandle()), input(input) {}
-            PGameSession() : level(NULL), player(NULL), input(NULL)  {}
+            PGameSession(PLevel *level, PInputSystem *input) : level(level), player(level->getPlayerHandle()), input(input), 
+                                                                moves(0), isGameOver(false) {}
+            
+            PGameSession() : level(NULL), player(NULL), input(NULL),  moves(0), isGameOver(false)   {}
             
             // methods
             bool run();

@@ -30,6 +30,7 @@ namespace PacGame
                 // double current_time = glfwGetTime(),
                 // delta_rotate = (current_time - old_time) * rotations_per_tick * 360;
                 // old_time = current_time;
+                glClearDepth(1);
 
                 // clear the buffer
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -41,13 +42,21 @@ namespace PacGame
                 glLoadIdentity();
 
                 // temp
-                glTranslatef(-1.0, -2.0, -20);
-                glRotatef(angle, 1.0, 1.0, 0.0);
-                renderer.drawCube(0.0, 0.0, 1.0);
+               // gluLookAt (0.0, 0.0, 5.0, 0.0, 0.0, -5.0, 0.0, 1.0, 0.0);
+                glTranslatef(-10.0, -15.0, -45.0);
+                
+              //  glRotatef(angle,1.0, 1.0, 1.0);
+            //    glRotatef(180.0, 0.0, 1.0, 0.0);
+             //   glColor3f(1.0, 0.0, 0.0);
+           /*     renderer.drawCube(0.0, 0.0, 1.0, angle);
+                renderer.drawCube(2.2, 0.0, 1.0, 0);*/
                 //renderer.drawFloor(0.0, -1.0, 1.0);
-                angle+=0.1;
+                
+                this->level->draw();
+               
          
                 glfwSwapBuffers();
+                 angle+=0.1;
             }
         }
         
