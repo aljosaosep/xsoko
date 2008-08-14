@@ -57,6 +57,11 @@ namespace PacGame
                 //  free(texture.imageData);
                   Messages::infoMessage("Texture released from memory.");
           } 
+          
+          void PTexture::setPath(string filename)
+          {
+              this->filename = filename;
+          }
 
           bool PTexture::loadTGA()
           {

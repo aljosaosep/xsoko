@@ -41,10 +41,10 @@ namespace PacGame
             struct PTextureImage								
             {
                 GLubyte	*imageData;						// data 
-                unsigned	bpp;							// Image Color Depth In Bits Per Pixel.
-                unsigned	width;							// Image Width
-                unsigned	height;							// Image Height
-                unsigned	texID;							// Texture ID Used To Select A Texture
+                unsigned bpp;							// Image Color Depth In Bits Per Pixel.
+                unsigned width;							// Image Width
+                unsigned height;							// Image Height
+                unsigned texID;							// Texture ID Used To Select A Texture
             };
       }
       

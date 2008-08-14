@@ -14,6 +14,8 @@ namespace PacGame
     {
         void PInputSystem::process()
         {
+            PRenderer *rn = this->level->getRendererHandle();
+            
             glfwEnable(GLFW_STICKY_KEYS);
             if((glfwGetKey(GLFW_KEY_UP) == GLFW_PRESS) && (glfwGetKey(GLFW_KEY_UP) == GLFW_RELEASE))  // checks up key
             {
@@ -39,6 +41,32 @@ namespace PacGame
             {
                 Messages::infoMessage("Key space pressed, dumping...");                
                 this->level->print();              
+            }
+            else if((glfwGetKey('W') == GLFW_PRESS) && (glfwGetKey('W') == GLFW_RELEASE))
+            {              
+                rn->setCameraY(rn->getCameraY()-0.9);           
+            }
+            else if((glfwGetKey('S') == GLFW_PRESS) && (glfwGetKey('S') == GLFW_RELEASE))
+            {              
+                rn->setCameraY(rn->getCameraY()+0.9);           
+            }
+            
+            else if((glfwGetKey('A') == GLFW_PRESS) && (glfwGetKey('A') == GLFW_RELEASE))
+            {              
+                rn->setCameraX(rn->getCameraX()-0.9);           
+            }
+            else if((glfwGetKey('D') == GLFW_PRESS) && (glfwGetKey('D') == GLFW_RELEASE))
+            {              
+                rn->setCameraX(rn->getCameraX()+0.9);           
+            }
+            
+            else if((glfwGetKey('Q') == GLFW_PRESS) && (glfwGetKey('Q') == GLFW_RELEASE))
+            {              
+                rn->setCameraZ(rn->getCameraZ()-0.9);           
+            }
+            else if((glfwGetKey('Z') == GLFW_PRESS) && (glfwGetKey('Z') == GLFW_RELEASE))
+            {              
+                rn->setCameraZ(rn->getCameraZ()+0.9);           
             }
         }
         

@@ -31,8 +31,8 @@ namespace PacGame
 
                       Messages::initMessage("GLFW", true); // prints out that initialization was success
 
-                            // 800 x 600, 16 bit color, no depth, alpha or stencil buffers, windowed
-                      if (!glfwOpenWindow(windowWidth, windowHeight, 5, 6, 5, 0, 0, 0, GLFW_WINDOW)) // attemps to open window
+                      // 800 x 600, 16 bit color, no depth, alpha or stencil buffers, windowed
+                      if (!glfwOpenWindow(windowWidth, windowHeight, 8, 8, 8, 8, 24, 0, GLFW_WINDOW)) // attemps to open window
                       {
                             Messages::errorMessage("OpenGL window creation failed.");  // failed
                             terminateGLFW();
@@ -44,28 +44,22 @@ namespace PacGame
                       glfwSetWindowTitle(this->windowTitle.c_str()); // temporary
 
                   // set the projection matrix to a normal frustum with a max depth of 50
-                      glMatrixMode(GL_PROJECTION);
+            /*          glMatrixMode(GL_PROJECTION);
                       glLoadIdentity();
                       float aspectRatio = ((float)windowHeight) / windowWidth;
                       glFrustum(.5, -.5, -.5 * aspectRatio, .5 * aspectRatio, 1, 50);
-                      glMatrixMode(GL_MODELVIEW);
-
-                      // OpenGL specific
-                      glEnable(GL_TEXTURE_2D);
-                    //  RenderMaschine::PTexture textura("data/test.tga");
-                    //  if(!textura.makeTgaTexture(true))
-                    //      return false;
+                      glMatrixMode(GL_MODELVIEW);*/
                       
-                     // glBindTexture(GL_TEXTURE_2D, textura.getTexId());
+                      glMatrixMode(GL_PROJECTION);						// Select The Projection Matrix
+                      glLoadIdentity();							// Reset The Projection Matrix
+                      // Calculate The Aspect Ratio Of The Window
+                      gluPerspective(45.0f,(float)windowWidth/(float)windowHeight,0.1f,100.0f);
+                      glMatrixMode(GL_MODELVIEW);						// Select The Modelview Matrix
+                      glLoadIdentity();
                       
-                      
-                      
-                      // light related
-                     glEnable(GL_DEPTH_TEST);
-                     glEnable(GL_LIGHTING);
-                     glEnable(GL_LIGHT0);
-                     glEnable(GL_COLOR_MATERIAL);
-                      
+                      // initiates renderer
+                   /*   if(!this->getRendererHandle()->init())
+                          return false;*/
 
 //                      glfwSetKeyCallback(&PacGame::GameClasses::PGame::processKey); // sets keyboard input callback
                       Messages::initMessage("Game", true);
