@@ -7,6 +7,9 @@
 
 #include "session.h"
 
+
+#include "session.h"
+
 namespace PacGame
 {
     namespace GameClasses
@@ -20,50 +23,48 @@ namespace PacGame
              */
             
             // the time of the previous frame
-            // double old_time = glfwGetTime();   // ne brisat! se bo nucal!
-            // this just loops as long as the program runs
+            double old_time = glfwGetTime();   
             float angle = 0.0;
-            while(1)
+            
+            // game official begins here! this is so called main game loop
+            while(1/*this->isGameRunning*/)
             {
-                input->process();
                 // calculate time elapsed, and the amount by which stuff rotates
-                // double current_time = glfwGetTime(),
-                // delta_rotate = (current_time - old_time) * rotations_per_tick * 360;
-                // old_time = current_time;
-                glClearDepth(1);
+                double current_time = glfwGetTime(),
+                delta_rotate = (current_time - old_time) * rotations_per_tick * 360;
+                old_time = current_time;
+                
+                // is game over? or level done?
+                if(this->level->getEndgameFlag())
+                    break;
+                
+                // check for input every time
+                input->process();
 
                 // clear the buffer
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-                   
-                // temporary code!!!!
-                // this->level->print();
+                glLoadIdentity(); // reset view matrix
 
-                // reset view matrix
-                glLoadIdentity();
-
-                // temp
-               // gluLookAt (0.0, 0.0, 5.0, 0.0, 0.0, -5.0, 0.0, 1.0, 0.0);
-                glTranslatef(-10.0, -15.0, -45.0);
+                // gluLookAt (0.0, 0.0, 5.0, 0.0, 0.0, -5.0, 0.0, 1.0, 0.0);
+                // moves camera
+                glTranslatef(this->renderer->getCameraX(), this->renderer->getCameraY(), this->renderer->getCameraZ());
+                // this->renderer->drawCube(0.0, 0.0, 0.5, angle);
                 
-              //  glRotatef(angle,1.0, 1.0, 1.0);
-            //    glRotatef(180.0, 0.0, 1.0, 0.0);
-             //   glColor3f(1.0, 0.0, 0.0);
-           /*     renderer.drawCube(0.0, 0.0, 1.0, angle);
-                renderer.drawCube(2.2, 0.0, 1.0, 0);*/
-                //renderer.drawFloor(0.0, -1.0, 1.0);
+              //  glRotatef(angle, 1.0, 1.0, 1.0);
                 
+                glRotatef(-90.0, 0.0, 0.0, 1.0);
                 this->level->draw();
-               
-         
+              
                 glfwSwapBuffers();
-                 angle+=0.1;
+                angle+=delta_rotate;
             }
         }
         
         bool PGameSession::initialize()
         {
-            // temporary code here!
-          //  this->level->initialize();
+            // set renderer to game session
+            this->setRenderer();
+
             
             return true;
         }
@@ -100,6 +101,11 @@ namespace PacGame
         //    level->initialize();
         }
         
+        void PGameSession::setRenderer()
+        {
+            this->renderer = level->getRendererHandle();
+        }
+        
         void PGameSession::setInput(PInputSystem *input)
         {
             this->input = input;
@@ -110,6 +116,11 @@ namespace PacGame
         {
             this->score = score;
         }
+        
+     /*   void PGameSession::setGameEnd()
+        {
+            this->isGameRunning = false;
+        }*/
         
         // getters
         // return current level
@@ -122,6 +133,11 @@ namespace PacGame
         unsigned PGameSession::getScore() const
         {
             return this->score;
+        }
+        
+        PRenderer *PGameSession::getRendererHandle()
+        {
+            return this->renderer;
         }
     }
 }

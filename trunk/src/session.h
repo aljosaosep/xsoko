@@ -12,6 +12,8 @@
 #ifndef __SESSION_H
 #define	__SESSION_H
 
+using namespace PacGame::RenderMaschine;
+
 namespace PacGame
 {
     namespace GameClasses
@@ -23,27 +25,31 @@ namespace PacGame
             PPlayer *player;           
             unsigned score;
             
-            PacGame::RenderMaschine::PRenderer renderer; 
+            PRenderer *renderer; 
             PInputSystem *input;
             unsigned moves;
-            bool isGameOver;    
+        //    bool isGameRunning;    
+            double rotations_per_tick;
             
         public:
             // constructors
-            PGameSession(PLevel *level, PInputSystem *input) : level(level), player(level->getPlayerHandle()), input(input), 
-                                                                moves(0), isGameOver(false) {}
+            PGameSession(PLevel *level, PInputSystem *input, PRenderer *renderer) : level(level), player(level->getPlayerHandle()), 
+                                                                renderer(renderer), input(input), moves(0), /*isGameRunning(true),*/ rotations_per_tick(0.1) {}
             
-            PGameSession() : level(NULL), player(NULL), input(NULL),  moves(0), isGameOver(false)   {}
+            PGameSession() : level(NULL), player(NULL), renderer(NULL), input(NULL),  moves(0),/* isGameRunning(true),*/ rotations_per_tick(0.1)   {}
             
             // methods
             bool run();
             bool initialize();
             void mainLoop();
+            PRenderer* getRendererHandle();
             
             // setters
             void setLevel(PLevel *level);
             void setScore(unsigned score);
             void setInput(PInputSystem *input);
+            void setRenderer();
+          //  void setGameEnd();
             
             // getters
             PLevel *getLevel() const;

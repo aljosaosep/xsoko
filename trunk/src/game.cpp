@@ -51,43 +51,23 @@ namespace PacGame
            *******************************************/   
          /* void GLFWCALL PGame::processKey(int key, int action)
           {   
-              if(action == GLFW_PRESS) // was key pressed? (two possible actions; press and release - we are interested only in press)
-              {
-                  // determine which was pressed and take proper action.
-                  switch(key)
-                  {
-                      case GLFW_KEY_UP:  // KEYUP
-                          Messages::infoMessage("Key up pressed.");
-                          break;
 
-                      case GLFW_KEY_DOWN:   // KEYDOWN
-                          Messages::infoMessage("Key DOWN pressed.");
-                          break;
-
-                      case GLFW_KEY_LEFT:   // KEYLEFT
-                          //this->session->getLevel()->
-                          Messages::infoMessage("Key left pressed.");
-                          break;        
-
-                      case GLFW_KEY_RIGHT:    // KEYRIGHT
-                          Messages::infoMessage("Key right pressed.");
-                          break;
-
-                      case GLFW_KEY_ESC:    // KEY ESCAPE
-                          Messages::infoMessage("Esc key pressed, quitting...");
-                          break;
-
-                      default:
-                          Messages::infoMessage("Unknown Key pressed.");
-                          break;
-                  }
-             }
           }*/
 
           // methods
           void PGame::loadSession(PGameSession *session)
           {
               this->session = session;
+          }
+          
+        /*  void PGame::setRenderer()
+          {
+              this->session->getRendererHandle()
+          }*/
+          
+          PRenderer* PGame::getRendererHandle()
+          {
+              return this->session->getRendererHandle();
           }
           
           bool PGame::run()

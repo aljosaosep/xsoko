@@ -17,7 +17,17 @@ namespace PacGame
 {
       namespace GameClasses
       {
-              PPlayer::PPlayer() {} // default constructor
+              PPlayer::PPlayer(PRenderer *renderer) //  constructor
+              { 
+                  this->renderer = renderer;
+              } 
+              
+              PPlayer::PPlayer(int i, int j, PRenderer *renderer)
+              {
+                   this->i = i;
+                   this->j = j;
+                   this->renderer = renderer;                  
+              }
 
               // setters
               void PPlayer::setBombs(unsigned _bombs)
@@ -45,8 +55,9 @@ namespace PacGame
               // ===== FUNCTIONS TO OVERRIDE ===== //
               void PPlayer::draw() 
               {
-                    glColor3f(1.0, 1.0, 0.7);
-                    this->renderer.drawCube(0.0, 0.0, 1.0, 0.0);
+                    glColor4f(1.0, 1.0, 0.7, 0.8);
+                    glBindTexture(GL_TEXTURE_2D, this->renderer->playerTex->getTexID());
+                    this->renderer->drawCube(0.0, 0.0, 1.0, 0.0);
                       // TODO
               }
 
@@ -59,11 +70,6 @@ namespace PacGame
               void PPlayer::print()
               {
                   cout<<"|_PLYR";
-              }
-              
-              void PPlayer::drawToConsole()
-              {
-                  cout<<"-o-";
               }
       }
 }

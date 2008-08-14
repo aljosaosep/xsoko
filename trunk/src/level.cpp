@@ -138,7 +138,8 @@ namespace PacGame
                   return true;
               }
               
-              else if(data[i2][j2]->isPlayerMovePossible()==3)  // teleport
+              //////// TELEPORT
+              else if(data[i2][j2]->isPlayerMovePossible()==3)  
               {
 //                  PTeleport *srcTeleport = dynamic_cast<PTeleport*>(data[i2][j2]); // cast object to teleport, so we can use teleport methods
                   int it = (dynamic_cast<PTeleport*>(data[i2][j2]))->getChildTeleport()->getI(), // get id's of child teleport(our teleport destination)
@@ -157,7 +158,7 @@ namespace PacGame
                       reattachNode(i, j, it, jt, obj);  // so we just move player to dest teleport ;)
                       return true;
                   }
-              }
+              }  /// END OF TELEPORT SECTION
 
               else if(data[i2][j2]->isPlayerMovePossible()==2)  // move is conditionally possible; we check children
               {
@@ -178,15 +179,17 @@ namespace PacGame
                   
               }
               
-              else if(data[i2][j2]->isPlayerMovePossible()==6)  // move is conditionally possible; we check children; thid id cubeholder case
+    /*          else if(data[i2][j2]->isPlayerMovePossible()==6)  // move is conditionally possible; we check children; thid id cubeholder case
               {                                             // only diffrence between causal conditional move and move to cubeHolder is
                                                              // that in this case, after we move cube to cube holder, we check if level has been done
                   if(data[i2][j2]->returnFirstChild() == NULL)  // move is possible since there are no children
                   {
                       reattachNode(i, j, i2, j2, obj);   // so we do it ;)
-                      cout<<"ID: "<<dynamic_cast<PLevelObject*>(data[i2][j2]->returnFirstChild())->getId()<<endl;
                       if(this->isLevelDone())
+                      {
+                          this->endgameFlag = true;
                           Messages::infoMessage("You won!!!!! :))))");
+                      }
                       return true;
                   }
                   else if(data[i2][j2]->returnFirstChild()->isPlayerMovePossible() == 2)  // na polju je kocka - poskusimo premaknit!
@@ -195,15 +198,15 @@ namespace PacGame
                       if(this->moveObject(dir, dynamic_cast<PLevelObject*>(data[i2][j2]->returnFirstChild())))
                       {
                           reattachNode(i, j, i2, j2, obj);   // so we do it ;)
-                          cout<<"ID: "<<dynamic_cast<PLevelObject*>(data[i2][j2]->returnFirstChild())->getId()<<endl;
                           if(this->isLevelDone())
+                          {
+                              this->endgameFlag = true;
                               Messages::infoMessage("You won!!!!! :))))");
+                          }
                           return true;                         
                       }
-                  }
-                  
-                  
-              }
+                  }   
+              }*/
               
               else if(data[i2][j2]->isPlayerMovePossible()==5) // bridge!
               {
@@ -218,7 +221,15 @@ namespace PacGame
                   
               }
               
-
+              // is there empty space?
+              else if(data[i2][j2]->returnFirstChild()==NULL)
+              {
+                  // yes! game over, haha!
+              /*    cout<<"Is not a bug, you fall into space - or you pushed cube into space, so it's game over!!!! :p"<<endl;
+                  data[i][j]->attachToRoot(NULL);  // we make cube or player vanish
+                 // delete [] this->player;   // todo: delete player obj without segmentation fault!
+                  this->endgameFlag = true;  // and we make game end */
+              }
           }
           
           // gameplay related
@@ -295,31 +306,31 @@ namespace PacGame
                               switch(num)  // if it is, we create suitable object
                               {
                                   case FLOOR:
-                                      data[i][j] = new PFloor;
+                                      data[i][j] = new PFloor(this->renderer);
                                       break;
                                       
                                   case OW_FLOOR:
-                                      data[i][j] = new POnewayFloor;
+                                      data[i][j] = new POnewayFloor(this->renderer);
                                       break;
                                       
                                   case S_WALL:
-                                      data[i][j] = new PSolidWall;
+                                      data[i][j] = new PSolidWall(this->renderer);                    
                                       break;
                                       
                                   case U_WALL:
-                                      data[i][j] = new PUnsolidWall;
+                                      data[i][j] = new PUnsolidWall(this->renderer);
                                       break; 
                                       
                                   case BRIDGE:
-                                      data[i][j] = new PBridge;
+                                      data[i][j] = new PBridge(this->renderer);
                                       break;  
                                       
                                   case VOID:
-                                      data[i][j] = new PVoid;
+                                      data[i][j] = new PVoid(this->renderer);
                                       break;
                                       
                                   case CUBE_PLACE:
-                                      data[i][j] = new PCubeHolder;
+                                      data[i][j] = new PCubeHolder(this->renderer);
                                       this->holds.push_back(dynamic_cast<PCubeHolder*>(data[i][j])); // adds cuneHolder to holds array
                                       break;                                       
                               }
@@ -347,7 +358,7 @@ namespace PacGame
                               if(num >= 11) // if it is > 11, then it is an teleport id
                               {
                                   
-                                  PTeleport *teleport = new PTeleport(i, j); // create object
+                                  PTeleport *teleport = new PTeleport(i, j, this->renderer); // create object
                                 //  cout<<"Tel id: "<<teleport->getI()<<' '<<teleport->getJ()<<endl;
                                   teleport->setId(num);                // set its id
                                   data[i][j] = teleport;               // attach it on level
@@ -357,38 +368,41 @@ namespace PacGame
                               switch(num)
                               {                                              
                                   case PLAYER:
-                                      p = new PPlayer(i, j);
+                                      p = new PPlayer(i, j, this->renderer);
                                       this->player = dynamic_cast<PPlayer*>(p); // set class player pointer to player element
                                       data[i][j]->add(p);
                                       break;
                                       
                                   case CUBE:
-                                      p = new PCube(i, j);
-                                      data[i][j]->add(p);
+                                      p = new PCube(i, j, this->renderer);
+                                    //  if(!p->initialize())
+                                    //      return false;
+                                   //   else
+                                          data[i][j]->add(p);
                                       break;
                                       
                                   case OW_CUBE_L:
-                                      p = new POnewayCube(Aliases::left, i, j);
+                                      p = new POnewayCube(Aliases::left, i, j, this->renderer);
                                       data[i][j]->add(p);
                                       break; 
                                       
                                   case OW_CUBE_R:
-                                      p = new POnewayCube(Aliases::right, i, j);
+                                      p = new POnewayCube(Aliases::right, i, j, this->renderer);
                                       data[i][j]->add(p);
                                       break; 
                                       
                                   case OW_CUBE_U:
-                                      p = new POnewayCube(Aliases::up, i, j);
+                                      p = new POnewayCube(Aliases::up, i, j, this->renderer);
                                       data[i][j]->add(p);
                                       break;  
                                       
                                   case OW_CUBE_D:
-                                      p = new POnewayCube(Aliases::down, i, j);
+                                      p = new POnewayCube(Aliases::down, i, j, this->renderer);
                                       data[i][j]->add(p);
                                       break;
                                       
                                   case BOMB:
-                                      p = new PBomb(i, j);
+                                      p = new PBomb(i, j, this->renderer);
                                       data[i][j]->add(p);
                                       break; 
                                       
@@ -447,7 +461,30 @@ namespace PacGame
           {
               return this->player;
           }
+
+           /**************************************************************
+           * Function returns pointer to renderer object
+           **************************************************************/
+          PRenderer* PLevel::getRendererHandle()
+          {
+              return this->renderer;
+          }
+
+          /**************************************************************
+           * Function returns pointer to renderer object
+           **************************************************************/
+          bool PLevel::getEndgameFlag()
+          {
+              return this->endgameFlag;
+          }
           
+           /**************************************************************
+           * Function sets renderer object to level
+           **************************************************************/          
+          void PLevel::setRenderer(PRenderer *renderer)
+          {
+              this->renderer = renderer;
+          }
           
           /**************************************************************
            * Function initiates level
@@ -485,7 +522,7 @@ namespace PacGame
                           if(obj!=NULL) // if there is boject binded
                           {
                               glPushMatrix();
-                              glTranslatef(i*2.3, j*2.3, 0.0);
+                              glTranslatef(i*2.0, j*2.0, 0.0);
                               obj->draw(); // prints it
                               glPopMatrix();
                           }
@@ -493,7 +530,7 @@ namespace PacGame
                               if(data[i][j]!=NULL)
                               {
                                   glPushMatrix();
-                                  glTranslatef(i*2.3, j*2.3, 0.0);
+                                  glTranslatef(i*2.0, j*2.0, 0.0);
                                   data[i][j]->draw();  // otherwise, print object
                                   glPopMatrix();
                               }

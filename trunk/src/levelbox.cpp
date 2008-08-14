@@ -101,9 +101,9 @@ namespace PacGame
         
         void PTeleport::draw()
         {
-            glColor3f(0.0, 0.0, 1.0);
-            this->renderer.drawCube(0.0, 0.0, 1.0, 0.0);
-
+            glColor4f(0.0, 0.0, 1.0, 0.4);
+            glBindTexture(GL_TEXTURE_2D, renderer->cubeTex->getTexID());
+            this->renderer->drawCube(0.0, 0.0, 1.0, 0.0);
         }
         
         void PTeleport::print()
@@ -129,7 +129,8 @@ namespace PacGame
         void PFloor::draw()
         {
             glColor3f(0.3, 0.2, 0.6);
-            this->renderer.drawFloor(0.0, 0.0, 1.0);
+            glBindTexture(GL_TEXTURE_2D, this->renderer->wallTex->getTexID());
+            this->renderer->drawFloor(0.0, 0.0, 1.0);
         }
         
         void PFloor::print()
@@ -172,13 +173,20 @@ namespace PacGame
         // TODO: implement
         bool PSolidWall::initialize()
         {
+         /*   this->texture.setPath("wall.tga");
+            if(!this->texture.makeTgaTexture(true))
+            {
+                Messages::errorMessage("SW texture error!");
+                return false;
+            }*/
             return true;
         }
         
         void PSolidWall::draw()
         {
-            glColor3f(1.0, 0.0, 0.0);
-            this->renderer.drawCube(0.0, 1.0, 1.0, 0.0);
+            glColor3f(1.0, 1.0, 1.0);
+            glBindTexture(GL_TEXTURE_2D, this->renderer->wallTex->getTexID());
+            this->renderer->drawCube(0.0, 0.0, 1.0, 0.0);
         }
         
         void PSolidWall::print()
@@ -227,7 +235,8 @@ namespace PacGame
         void PBridge::draw()
         {
             glColor3f(0.0, 0.3, 0.1);
-            this->renderer.drawFloor(0.0, 0.0, 1.0);
+       //     glBindTexture(GL_TEXTURE_2D, this->texture.getTexID());
+            this->renderer->drawFloor(0.0, 0.0, 1.0);
 
         }
         
@@ -279,7 +288,8 @@ namespace PacGame
         void PCubeHolder::draw()
         {
             glColor3f(0.3, 0.0, 0.0);
-            this->renderer.drawFloor(0.0, 0.0, 1.0);
+            glBindTexture(GL_TEXTURE_2D, this->renderer->crateTex->getTexID());
+            this->renderer->drawFloor(0.0, 0.0, 1.0);
         }
         
         void PCubeHolder::print()
@@ -303,13 +313,20 @@ namespace PacGame
         // TODO: implement
         bool PCube::initialize()
         {
+          /*  this->texture.setPath("test.tga");
+            if(!this->texture.makeTgaTexture(true))
+            {
+                Messages::errorMessage("Cube texture error!");
+                return false;
+            }*/
             return true;
         }
         
         void PCube::draw()
         {
-            glColor3f(0.0, 1.0, 0.0);
-            this->renderer.drawCube(0.0, 0.0, 1.0, 0.0);
+            glColor3f(1.0, 1.0, 1.0);
+            glBindTexture(GL_TEXTURE_2D, this->renderer->crateTex->getTexID());
+            this->renderer->drawCube(0.0, 0.0, 1.0, 0.0);
         }
         
         void PCube::print()

@@ -16,6 +16,9 @@
 #include "messages.h"
 #include "session.h"
 #include "input.h"
+#include "renderer/renderer.h"
+
+using namespace PacGame::RenderMaschine;
 
 namespace PacGame
 {
@@ -35,11 +38,12 @@ namespace PacGame
               string windowTitle;
              // PLevel *currentLevel;  
               PGameSession *session;  // pointer to current game class
+              //PRenderer *renderer;
          //     PInputSystem input;
 
           public:
               // variables
-              PacGame::RenderMaschine::PRenderer renderer;
+              //PRenderer renderer;
 
               // prototypes
               // constructors
@@ -53,10 +57,14 @@ namespace PacGame
               bool run();
               bool initGame();
               void terminateGLFW();
+              PRenderer *getRendererHandle();
 
               // setters
               void setWindow(int _width, int _height);
               void setWindowTitle(string _title);
+            //  void setRenderer();
+              
+              
                   
               void loadSession(PGameSession *session);
 
