@@ -179,7 +179,7 @@ namespace PacGame
                   
               }
               
-    /*          else if(data[i2][j2]->isPlayerMovePossible()==6)  // move is conditionally possible; we check children; thid id cubeholder case
+              else if(data[i2][j2]->isPlayerMovePossible()==6)  // move is conditionally possible; we check children; thid id cubeholder case
               {                                             // only diffrence between causal conditional move and move to cubeHolder is
                                                              // that in this case, after we move cube to cube holder, we check if level has been done
                   if(data[i2][j2]->returnFirstChild() == NULL)  // move is possible since there are no children
@@ -206,7 +206,7 @@ namespace PacGame
                           return true;                         
                       }
                   }   
-              }*/
+              }
               
               else if(data[i2][j2]->isPlayerMovePossible()==5) // bridge!
               {
