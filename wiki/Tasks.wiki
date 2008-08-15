@@ -61,3 +61,20 @@ Pride kmalu
 ==== zeljen datum implementacije: 1 mesec nazaj ====
 ==== quick summary: ====
 Mislim, da opis ni potreben.
+
+== implementacija metode Renderer::DrawSkyDome == 
+==== prioriteta: nizka ====
+==== trenutno dela: nihce ====
+==== zeljen datum implementacije: se ni datuma ====
+==== kljucni besedi: skydome, skybox ====
+==== quick summary: ====
+Kdor bi rad delal kaj z grafiko oz. opengl - je to to! Dokaj zabavna rec in niti ne pretezka, pravzaprav precej enostavna, kdor bi to delal, bi si pac poiskal nek skydome tutorial in izvedel zadevo v tem stilu.
+Kaj je skydome:
+predstavljajte si takole: http://www.barnabu.co.uk/wp-content/uploads/skydome-in-sketchup.JPG
+
+clanek o skybox: http://gpwiki.org/index.php/Sky_Box
+in o skydome: http://www.spheregames.com/index.php?p=templates/pages/tutorials
+
+btw, skydome ni cisto isto kot skybox - ampak mislim, da je vseeno, kaj uporabimo, samo da bomo imeli lepo nebo ;)
+
+To vidite prakticno v vsaki igri, naredi "fake" nebo.
