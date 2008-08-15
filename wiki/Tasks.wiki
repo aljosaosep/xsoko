@@ -32,7 +32,6 @@ Funkcija, ki shrani stanje levela iz pomnilnika v datoteko(torej ki
 naredi ravno obratno kot obstojeca funkcija za lovdanje stopenj).
 
 
-#summary Kaj je za narest
 
 == Implementacija ostalih sokoban add-onov (torej gameplaya, ki se ni implementiran) == 
 ==== prioriteta: srednja ====
