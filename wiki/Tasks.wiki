@@ -1,4 +1,4 @@
-
+#summary Kaj je za narest
 
 == Audio sistem == 
 ==== prioriteta: visoka ====
