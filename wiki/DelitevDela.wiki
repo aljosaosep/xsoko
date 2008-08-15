@@ -1,49 +1,64 @@
-#summary Dokument vsebuje delitev dela.
-
-= Uvod =
-
-Kot prvo, naj poudarim open policiy, o kerem je nekaj že napisano v tehničnem dokumentu. 
-Kar jaz sem napišem, so predvsem predlogi, ne kaki ukazi! 
-Wiki lahko vsak spreminja po mili volji!
-
-=== 1. naloga(za vse) ===
-
-Preberi TehnicniNacrt
-
-
-=== 2. naloga(za vse) ===
-
-Preberi StilProgramiranja in se dokument nauci na pamet!
-(en del te povedi ni misljen resno)
-
-=== 3. naloga(za vse) ===
-
-Cimvec trenutne kode se naj komentira(velja predvsem zame:D) in uredi po postavkah v StilProgramiranja. Jaz sem ze delal na tem in se bom.
-
-=== Skrabec ===
-
-Ok, mislim, da sva midva ze zmenjena:
-
-1. unzipper
-
-2. level editor
-
-
-=== Halozan ===
-
-Kokr smo ze zmenen, messages.h prvo, sej ves kaj.
 
 
 
-=== Aljosa ===
+== Audio sistem == 
+==== prioriteta: visoka ====
+==== trenutno dela: nihce ====
+==== zeljen datum implementacije: 1.9. 2008 ====
+==== quick summary: ====
+Nek razred ali skupek razredov, ki skrbi za zvok. ce
+se kdo javi, da to naredi, bolj natancno povem kaj je to, kako bi naj
+delovalo in katere knjiznjice bi naj bile uporabljene, seveda je pa
+vse stvar dogovora ;)
 
-Jaz delam trenutno na prestrukturiranju osnovnih razredov in komentiranju kode. Je ze in progress.
-
-Trenutni status, kar se tice "odpravljanja" warningov - le se 2 sta ostala - in bota konec storila takoj, ko bo knjiznjica messages.h popravljena.
 
 
 
-=== Ostali ===
+== MD2 in OBJ file loader == 
+==== prioriteta: srednja ====
+==== trenutno dela: nihce ====
+==== zeljen datum implementacije: 1.9. 2008 ====
+==== quick summary: ====
+2 razreda, ki znata zlovdat v memory 3d modele doticnih
+formatov, jih izrisat in poteksturirat
 
-Se malo pocakajte :D
- 
+
+
+== Funkcija, ki preslika stanje levela pomnilnik->datoteka == 
+==== prioriteta: srednja ====
+==== trenutno dela: Jernej Halozan ====
+==== zeljen datum implementacije: 1.9. 2008 ====
+==== quick summary: ====
+Funkcija, ki shrani stanje levela iz pomnilnika v datoteko(torej ki
+naredi ravno obratno kot obstojeca funkcija za lovdanje stopenj).
+
+
+
+== Implementacija ostalih sokoban add-onov (torej gameplaya, ki se ni implementiran) == 
+==== prioriteta: srednja ====
+==== trenutno dela: Aljosa ====
+==== zeljen datum implementacije: 1.9. 2008 ====
+==== quick summary: ====
+Ce kdo zeli, lahko implementira se kak objekt oz. feauture, ni pa
+nujno, ker kar zadeva gameplay, so cilji za verzijo 0.5 ze
+izpopolnjeni. ce bo kdo to delal, naj pove, ker se moram v tem primeru
+razpisat kako se gameplay tule programira(treba je poznat nekaj
+razredov in delo z njimi) 
+
+
+
+== Resource manager == 
+==== prioriteta: srednja ====
+==== trenutno dela: nihce ====
+==== zeljen datum implementacije: 1.10. 2008 ====
+==== quick summary: ====
+Pride kmalu
+
+
+
+== Level editor == 
+==== prioriteta: zelo visoka ====
+==== trenutno dela: naj bi Jernej Skrabec ====
+==== zeljen datum implementacije: 1 mesec nazaj ====
+==== quick summary: ====
+Mislim, da opis ni potreben.
