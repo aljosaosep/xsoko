@@ -1,4 +1,7 @@
 
+#include "level.h"
+
+
 #include "object.h"
 
 /*
@@ -371,6 +374,7 @@ namespace PacGame
                                       p = new PPlayer(i, j, this->renderer);
                                       this->player = dynamic_cast<PPlayer*>(p); // set class player pointer to player element
                                       data[i][j]->add(p);
+                                      second_matrix[i][j] = PLAYER;
                                       break;
                                       
                                   case CUBE:
@@ -378,36 +382,43 @@ namespace PacGame
                                     //  if(!p->initialize())
                                     //      return false;
                                    //   else
-                                          data[i][j]->add(p);
+                                      data[i][j]->add(p);
+                                      second_matrix[i][j] = CUBE;
                                       break;
                                       
                                   case OW_CUBE_L:
                                       p = new POnewayCube(Aliases::left, i, j, this->renderer);
                                       data[i][j]->add(p);
+                                      second_matrix[i][j] = OW_CUBE_L;
                                       break; 
                                       
                                   case OW_CUBE_R:
                                       p = new POnewayCube(Aliases::right, i, j, this->renderer);
                                       data[i][j]->add(p);
+                                      second_matrix[i][j] = OW_CUBE_R;
                                       break; 
                                       
                                   case OW_CUBE_U:
                                       p = new POnewayCube(Aliases::up, i, j, this->renderer);
                                       data[i][j]->add(p);
+                                      second_matrix[i][j] = OW_CUBE_U;
                                       break;  
                                       
                                   case OW_CUBE_D:
                                       p = new POnewayCube(Aliases::down, i, j, this->renderer);
                                       data[i][j]->add(p);
+                                      second_matrix[i][j] = OW_CUBE_D;
                                       break;
                                       
                                   case BOMB:
                                       p = new PBomb(i, j, this->renderer);
                                       data[i][j]->add(p);
+                                      second_matrix[i][j] = BOMB;
                                       break; 
                                       
                                   default:   // in
                                       data[i][j]->add(NULL);
+                                      second_matrix[i][j] = 0;
                               }
                           }
                           else
@@ -422,7 +433,7 @@ namespace PacGame
                   // now validate
                   if(!checkPosition(level))
                       return false;
-                  
+
                   // validation went ok; now we read teleport relationship matrix
                   tmsize = returnNumberFromFile(level);
                   for(int i=0; i<tmsize; i++)
@@ -431,6 +442,10 @@ namespace PacGame
                       PTeleport *parentTeleport; // parent teleport
 
                       parentTeleport = returnTeleport(returnNumberFromFile(level)); // get parent teleport
+                      int tmp_i = parentTeleport->getI();
+                      int tmp_j = parentTeleport->getJ();
+                      second_matrix[tmp_i][tmp_j] = parentTeleport->getId();
+                      
                       childTeleport = returnTeleport(returnNumberFromFile(level));  // get child teleport
 
                       if(parentTeleport!=NULL && childTeleport!=NULL)  // if teleports has been found
@@ -445,13 +460,91 @@ namespace PacGame
                           return false;
                       }
                   }
-                  teleports.clear(); // clear teleport vector, since they are by now in memory and no longer needed
+                  // teleports.clear(); // clear teleport vector, since they are by now in memory and no longer needed
                   break;   
               }
               
               Messages::infoMessage("Level data successfully loaded from file.");
               level.close();
               return true; // everything went ok
+          }
+          
+          bool PLevel::saveStateToFile(string file_name)
+          {
+              
+              // cout << "test" << endl;
+              ofstream file (file_name.c_str());
+              if (file.is_open()) {
+                  
+                  file << this->width << " " << this->height << endl; // 1st matrix dimension
+                  
+                  // write 1st matrix data to file
+                  for (unsigned i=0; i<this->width; i++)
+                  {
+                      for (unsigned j=0; j<this->height; j++) {
+                          file << data[i][j]->getId() << " ";
+                      }
+                      file << endl;
+                  }
+                  
+                  file << "+" << endl;
+                  
+                  for (unsigned i=0; i<this->width; i++)
+                  {
+                      for (unsigned j=0; j<this->height; j++) {
+                          file << second_matrix[i][j] << " ";
+                      }
+                      file << endl;
+                  }
+                  
+                  file << "+" << endl;
+                  
+                  file << teleports.size() << endl;
+                  
+                  for(int i=0; i<teleports.size(); i++)
+                  {
+                      PTeleport* tmp = teleports.at(i);
+                      PTeleport* child = tmp->getChildTeleport();
+
+                      file << tmp->getId() << " " << child->getId() << endl;
+                  }
+                  
+                  file.close();
+                  return true;
+                  
+              } else {
+                  cout << "NAPAKA: datoteke ni mogoče ustvariti!" << endl;
+                  return false;
+              }
+              
+              
+              /*for (unsigned i=0; i<this->width; i++)
+              {
+                  for (unsigned j=0; j<this->height; j++) {
+                      cout << data[i][j]->getId() << " ";
+                  }
+                  cout << endl;
+              }
+              
+              cout << endl;
+              
+              for (unsigned i=0; i<this->width; i++)
+              {
+                  for (unsigned j=0; j<this->height; j++) {
+                      cout << second_matrix[i][j] << " ";
+                  }
+                  cout << endl;
+              }
+              
+              for(int i=0; i<teleports.size(); i++)
+              {
+                  PTeleport* tmp = teleports.at(i);
+                  PTeleport* child = tmp->getChildTeleport();
+                  
+                  cout << tmp->getId() << " " << child->getId() << endl;
+              }
+              
+              return true;*/
           }
           
            /**************************************************************

@@ -63,7 +63,7 @@ namespace PacGame
                PObject* returnFirstChild() const;  // returns first child
                void releaseFirstChild(); // releases first child from memory; WARNING: if there are more children, others are lost!
                void unlinkFirstChild();  // destroys connection with first child; WARNING: if there are more children, others are lost!
-
+               
                // etc
                virtual short isPlayerMovePossible()=0;
                virtual void draw()=0;
