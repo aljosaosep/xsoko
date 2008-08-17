@@ -70,6 +70,7 @@ namespace PacGame
               private:
                   string filename;              // level filename
                   PLevelObject* data[30][30];        // actual level data
+                  int second_matrix[30][30];        // presentation of second matrix with id
                   vector<PTeleport*> teleports; // vector of teleport pointers
                   unsigned width, height;       // level dimensions
                   PPlayer *player;              // player instance 
@@ -93,7 +94,7 @@ namespace PacGame
                   
                   // level data manipulation
                   bool loadLevelFromFile(); // loads level from txt file into structure, stores level widthm height into class properties
-                  bool saveStateToFile(char *filename);   // exports level state to file
+                  bool saveStateToFile(string filename);   // exports level state to file
                   void releaseLevel(); // released level from memory
                   
                   // level toolkit functions

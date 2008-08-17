@@ -35,8 +35,14 @@ int main(int argc, char *argv[])
     }
     
     // level object
-    PLevel *test = new PLevel("data/testlevel.lvl"); 
-    
+    PLevel *test = new PLevel("data/testlevel.lvl");
+    /*test->initialize();
+    if (test->saveStateToFile("test.txt"))
+    {
+        cout << "Zapis stopnje v datoteko uspel!" << endl;
+    } else {
+        cout << "Napaka pri zapisu stopnje v datoteko!" << endl;
+    }*/
     // renderer object
     PRenderer *renderer = new PRenderer;
     
