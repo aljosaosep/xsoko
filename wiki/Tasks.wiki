@@ -4,6 +4,7 @@
 ==== prioriteta: visoka ====
 ==== trenutno dela: nihce ====
 ==== zeljen datum implementacije: 1.9. 2008 ====
+==== status: nacrtovanje ====
 ==== quick summary: ====
 Nek razred ali skupek razredov, ki skrbi za zvok. ce
 se kdo javi, da to naredi, bolj natancno povem kaj je to, kako bi naj
@@ -17,6 +18,7 @@ vse stvar dogovora ;)
 ==== prioriteta: srednja ====
 ==== trenutno dela: nihce ====
 ==== zeljen datum implementacije: 1.9. 2008 ====
+==== status: ni se nic ====
 ==== quick summary: ====
 2 razreda, ki znata zlovdat v memory 3d modele doticnih
 formatov, jih izrisat in poteksturirat
@@ -27,6 +29,7 @@ formatov, jih izrisat in poteksturirat
 ==== prioriteta: srednja ====
 ==== trenutno dela: Jernej Halozan ====
 ==== zeljen datum implementacije: 1.9. 2008 ====
+==== status: koncano :) ====
 ==== quick summary: ====
 Funkcija, ki shrani stanje levela iz pomnilnika v datoteko(torej ki
 naredi ravno obratno kot obstojeca funkcija za lovdanje stopenj).
@@ -37,6 +40,7 @@ naredi ravno obratno kot obstojeca funkcija za lovdanje stopenj).
 ==== prioriteta: srednja ====
 ==== trenutno dela: Aljosa ====
 ==== zeljen datum implementacije: 1.9. 2008 ====
+==== status: 50% ====
 ==== quick summary: ====
 Ce kdo zeli, lahko implementira se kak objekt oz. feauture, ni pa
 nujno, ker kar zadeva gameplay, so cilji za verzijo 0.5 ze
@@ -49,6 +53,7 @@ razredov in delo z njimi)
 == Resource manager == 
 ==== prioriteta: srednja ====
 ==== trenutno dela: nihce ====
+==== status: ni se nic ====
 ==== zeljen datum implementacije: 1.10. 2008 ====
 ==== quick summary: ====
 Pride kmalu
@@ -59,6 +64,7 @@ Pride kmalu
 ==== prioriteta: zelo visoka ====
 ==== trenutno dela: naj bi Jernej Skrabec ====
 ==== zeljen datum implementacije: 1 mesec nazaj ====
+==== status: neznan ====
 ==== quick summary: ====
 Mislim, da opis ni potreben.
 
@@ -67,6 +73,7 @@ Mislim, da opis ni potreben.
 ==== trenutno dela: nihce ====
 ==== zeljen datum implementacije: se ni datuma ====
 ==== kljucni besedi: skydome, skybox ====
+==== status: ni se nic ====
 ==== quick summary: ====
 Kdor bi rad delal kaj z grafiko oz. opengl - je to to! Dokaj zabavna rec in niti ne pretezka, pravzaprav precej enostavna, kdor bi to delal, bi si pac poiskal nek skydome tutorial in izvedel zadevo v tem stilu.
 Kaj je skydome:
