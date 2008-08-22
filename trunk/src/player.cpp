@@ -20,13 +20,15 @@ namespace PacGame
               PPlayer::PPlayer(PRenderer *renderer) //  constructor
               { 
                   this->renderer = renderer;
+                  this->id = 1;
               } 
               
               PPlayer::PPlayer(int i, int j, PRenderer *renderer)
               {
                    this->i = i;
                    this->j = j;
-                   this->renderer = renderer;                  
+                   this->renderer = renderer;      
+                   this->id = 1;
               }
 
               // setters

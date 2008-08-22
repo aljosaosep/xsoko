@@ -14,35 +14,41 @@ namespace PacGame
     {
         void PInputSystem::process()
         {
-            PRenderer *rn = this->level->getRendererHandle();
+            // gets renderer handle, for camera
+            // PRenderer *rn = this->level->getRendererHandle();
             
-            glfwEnable(GLFW_STICKY_KEYS);
+            
+            glfwEnable(GLFW_STICKY_KEYS);  // enables sticky keys
+            
+            // in next lines, we check if some keys has been pressed
             if((glfwGetKey(GLFW_KEY_UP) == GLFW_PRESS) && (glfwGetKey(GLFW_KEY_UP) == GLFW_RELEASE))  // checks up key
             {
-                this->level->moveObject(Aliases::up, this->level->getPlayerHandle());
-                this->level->print(); 
+                this->level->moveObject(Aliases::up, this->level->getPlayerHandle());  // move object player up
+          //      this->level->print(); 
             }
             else if((glfwGetKey(GLFW_KEY_DOWN) == GLFW_PRESS) && (glfwGetKey(GLFW_KEY_DOWN) == GLFW_RELEASE)) // checks down key
             {
-                this->level->moveObject(Aliases::down, this->level->getPlayerHandle());
-                this->level->print();               
+                this->level->moveObject(Aliases::down, this->level->getPlayerHandle()); // move object player down
+          //      this->level->print();               
             }
             else if((glfwGetKey(GLFW_KEY_LEFT) == GLFW_PRESS) && (glfwGetKey(GLFW_KEY_LEFT) == GLFW_RELEASE)) // checks left key
             {
-                this->level->moveObject(Aliases::left, this->level->getPlayerHandle());
-                this->level->print();               
+                this->level->moveObject(Aliases::left, this->level->getPlayerHandle()); // move object player left
+          //      this->level->print();               
             }
             else if((glfwGetKey(GLFW_KEY_RIGHT) == GLFW_PRESS) && (glfwGetKey(GLFW_KEY_RIGHT) == GLFW_RELEASE)) // checks right key
             {
-                this->level->moveObject(Aliases::right, this->level->getPlayerHandle());
-                this->level->print();                   
+                this->level->moveObject(Aliases::right, this->level->getPlayerHandle()); // move object player right
+             //   this->level->print();                   
             }
             else if((glfwGetKey(GLFW_KEY_SPACE) == GLFW_PRESS) && (glfwGetKey(GLFW_KEY_SPACE) == GLFW_RELEASE))
             {
                 Messages::infoMessage("Key space pressed, dumping...");                
                 this->level->print();              
             }
-            else if((glfwGetKey('W') == GLFW_PRESS) && (glfwGetKey('W') == GLFW_RELEASE))
+            
+            // camera values; if you need to move camera, uncomment this code
+      /*      else if((glfwGetKey('W') == GLFW_PRESS) && (glfwGetKey('W') == GLFW_RELEASE))
             {              
                 rn->setCameraY(rn->getCameraY()-0.9);           
             }
@@ -67,7 +73,7 @@ namespace PacGame
             else if((glfwGetKey('Z') == GLFW_PRESS) && (glfwGetKey('Z') == GLFW_RELEASE))
             {              
                 rn->setCameraZ(rn->getCameraZ()+0.9);           
-            }
+            }*/
         }
         
         // setters

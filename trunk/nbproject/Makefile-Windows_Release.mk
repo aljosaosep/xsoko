@@ -12,16 +12,16 @@ MKDIR=mkdir
 CP=cp
 CCADMIN=CCadmin
 RANLIB=ranlib
-CC=gcc.exe
-CCC=g++.exe
-CXX=g++.exe
+CC=gcc
+CCC=g++
+CXX=g++
 FC=
 
 # Include project Makefile
 include Makefile
 
 # Object Directory
-OBJECTDIR=build/Windows_Release/Cygwin-Windows
+OBJECTDIR=build/Windows_Release/GNU-Windows
 
 # Object Files
 OBJECTFILES= \
@@ -30,8 +30,10 @@ OBJECTFILES= \
 	${OBJECTDIR}/src/zip/zlib/compress.o \
 	${OBJECTDIR}/src/game.o \
 	${OBJECTDIR}/src/zip/zlib/deflate.o \
+	${OBJECTDIR}/src/session.o \
 	${OBJECTDIR}/src/zip/unzip.o \
 	${OBJECTDIR}/src/zip/zlib/crc32.o \
+	${OBJECTDIR}/src/input.o \
 	${OBJECTDIR}/src/main.o \
 	${OBJECTDIR}/src/zip/zlib/gzio.o \
 	${OBJECTDIR}/src/zip/zlib/zutil.o \
@@ -69,11 +71,11 @@ FFLAGS=
 LDLIBSOPTIONS=-lglfw -lopengl32 -lglu32
 
 # Build Targets
-.build-conf: ${BUILD_SUBPROJECTS} dist/Windows_Release/Cygwin-Windows/xsoko.exe
+.build-conf: ${BUILD_SUBPROJECTS} dist/Windows_Release/GNU-Windows/trunk.exe
 
-dist/Windows_Release/Cygwin-Windows/xsoko.exe: ${OBJECTFILES}
-	${MKDIR} -p dist/Windows_Release/Cygwin-Windows
-	${LINK.cc} -o dist/Windows_Release/Cygwin-Windows/xsoko ${OBJECTFILES} ${LDLIBSOPTIONS} 
+dist/Windows_Release/GNU-Windows/trunk.exe: ${OBJECTFILES}
+	${MKDIR} -p dist/Windows_Release/GNU-Windows
+	${LINK.cc} -o dist/Windows_Release/GNU-Windows/trunk ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
 ${OBJECTDIR}/src/zip/zlib/infback.o: src/zip/zlib/infback.c 
 	${MKDIR} -p ${OBJECTDIR}/src/zip/zlib
@@ -95,6 +97,10 @@ ${OBJECTDIR}/src/zip/zlib/deflate.o: src/zip/zlib/deflate.c
 	${MKDIR} -p ${OBJECTDIR}/src/zip/zlib
 	$(COMPILE.c) -O2 -o ${OBJECTDIR}/src/zip/zlib/deflate.o src/zip/zlib/deflate.c
 
+${OBJECTDIR}/src/session.o: src/session.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/src/session.o src/session.cpp
+
 ${OBJECTDIR}/src/zip/unzip.o: src/zip/unzip.c 
 	${MKDIR} -p ${OBJECTDIR}/src/zip
 	$(COMPILE.c) -O2 -o ${OBJECTDIR}/src/zip/unzip.o src/zip/unzip.c
@@ -102,6 +108,10 @@ ${OBJECTDIR}/src/zip/unzip.o: src/zip/unzip.c
 ${OBJECTDIR}/src/zip/zlib/crc32.o: src/zip/zlib/crc32.c 
 	${MKDIR} -p ${OBJECTDIR}/src/zip/zlib
 	$(COMPILE.c) -O2 -o ${OBJECTDIR}/src/zip/zlib/crc32.o src/zip/zlib/crc32.c
+
+${OBJECTDIR}/src/input.o: src/input.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/src/input.o src/input.cpp
 
 ${OBJECTDIR}/src/main.o: src/main.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
@@ -197,11 +207,7 @@ ${OBJECTDIR}/src/renderer/renderer-core.o: src/renderer/renderer-core.cpp
 # Clean Targets
 .clean-conf:
 	${RM} -r build/Windows_Release
-	${RM} dist/Windows_Release/Cygwin-Windows/xsoko.exe
+	${RM} dist/Windows_Release/GNU-Windows/trunk.exe
 
 # Subprojects
 .clean-subprojects:
-
-# Enable dependency checking
-.KEEP_STATE:
-.KEEP_STATE_FILE:.make.state.${CONF}
