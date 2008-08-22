@@ -41,8 +41,7 @@ namespace PacGame
            ********************************************/
           float* PRenderer::getLightPosition() 
           {
-              return this->lightPosition;
-              
+              return this->lightPosition;  
           }
           
           

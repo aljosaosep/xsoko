@@ -173,12 +173,7 @@ namespace PacGame
         // TODO: implement
         bool PSolidWall::initialize()
         {
-         /*   this->texture.setPath("wall.tga");
-            if(!this->texture.makeTgaTexture(true))
-            {
-                Messages::errorMessage("SW texture error!");
-                return false;
-            }*/
+
             return true;
         }
         
@@ -235,7 +230,7 @@ namespace PacGame
         void PBridge::draw()
         {
             glColor3f(0.0, 0.3, 0.1);
-       //     glBindTexture(GL_TEXTURE_2D, this->texture.getTexID());
+            glBindTexture(GL_TEXTURE_2D, this->renderer->cubeTex->getTexID());
             this->renderer->drawFloor(0.0, 0.0, 1.0);
 
         }
@@ -247,7 +242,7 @@ namespace PacGame
 
         short PBridge::isPlayerMovePossible() 
         {
-            return 5;
+            return 2;
         }
         
         /*****************************************
@@ -351,7 +346,9 @@ namespace PacGame
         
         void POnewayCube::draw()
         {
-
+            glColor3f(0.0, 1.0, 0.0);
+            glBindTexture(GL_TEXTURE_2D, this->renderer->crateTex->getTexID());
+            this->renderer->drawCube(0.0, 0.0, 1.0, 0.0);
         }
         
         void POnewayCube::print()
@@ -359,11 +356,15 @@ namespace PacGame
             cout<<"| OWC ";
         } 
 
-    /*    short POnewayCube::isPlayerMovePossible() 
+        short POnewayCube::isPlayerMovePossible() 
         {
-            /// tmp
-            return 0;
-        }*/
+            return 3;
+        }
+        
+        PDirection POnewayCube::getDirection()
+        {
+            return this->dir;
+        }
         
         /*****************************************
          PBomb methods

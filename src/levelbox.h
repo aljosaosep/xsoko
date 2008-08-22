@@ -181,7 +181,7 @@ namespace PacGame
           {
           private:
           public:
-              PVoid(PRenderer *renderer) { this->id = 6; this->renderer = renderer;}
+              PVoid() { this->id = 6; }
               void draw();
               bool initialize();
               void print();             
@@ -255,14 +255,17 @@ namespace PacGame
           {
           private:
               Aliases::PDirection dir; // tells in wich way os cube orientated
-              
-          public:
-              POnewayCube(Aliases::PDirection dir, int i, int j, PRenderer *renderer) : dir(dir) { this->i=i; this->j = j; this->renderer = renderer;}
+
+          public:            
+              POnewayCube(Aliases::PDirection dir, int i, int j, unsigned short id, PRenderer *renderer) : dir(dir) { this->i=i; this->j = j; this->renderer = renderer; this->id=id; }
            //   POnewayCube() {}
               void draw();
               bool initialize();
               void print();        
-              short isPlayerMovePossible()  { return 0; }
+              short isPlayerMovePossible();
+              
+              // getters
+              Aliases::PDirection getDirection();
           };
 
            /**********************************************************

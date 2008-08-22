@@ -32,6 +32,8 @@ namespace PacGame
 {
       namespace GameClasses
       {
+          // globals
+           PVoid *globalVoid = new PVoid; 
  
            /*****************************************
            PLevel methods
@@ -97,7 +99,7 @@ namespace PacGame
          
               return NULL; // otherwise return NULL
           }
-          
+         
            /*****************************************************************
            * Function attaches object to another element in matrix
            * releases node from original element in matrix
@@ -107,6 +109,13 @@ namespace PacGame
           {
               data[i2][j2]->attachToRoot(data[i][j]->returnFirstChild());
               data[i][j]->unlinkFirstChild();
+              
+              if(data[i][j]->getId()==BRIDGE)
+              {
+                  delete data[i][j];
+                  data[i][j] = globalVoid;
+              }
+              
               obj->setIndex(i2, j2);
           }
           
@@ -119,10 +128,15 @@ namespace PacGame
           {
               for(unsigned i=0; i<this->holds.size(); i++)  // we loop thorough all holders in level
               {
+                  
+               //   int id = (dynamic_cast<PLevelObject*>(this->holds[i]->returnFirstChild()))->getId();
+                  
                   if(this->holds[i]->returnFirstChild()==NULL) // if hold has no child
                       return false;  // level cant be done!
-                  else if((dynamic_cast<PLevelObject*>(this->holds[i]->returnFirstChild()))->getId() != 2) // if hold contains something else than cube
-                      return false; // level cant be done either!
+
+                  else if(((dynamic_cast<PLevelObject*>(this->holds[i]->returnFirstChild()))->getId() < 2) 
+                          || ((dynamic_cast<PLevelObject*>(this->holds[i]->returnFirstChild()))->getId() >6))
+                      return false; // on this holder there is no valid cubes (valid cubes has id's: 2-normal, 3...6-oneway cubes)
               }
               
               return true; // otherwise, player won :)
@@ -133,26 +147,32 @@ namespace PacGame
            *****************************************************************/
           inline bool PLevel::checkAndApply(int i2, int j2, PLevelObject *obj, PDirection dir)
           {
-              int i = obj->getI(), j = obj->getJ(); // gets object indexes
+
+              // i2 and j2 are indexes of field, we re checking; so if on field with idexes i2 and j2 is empty
+              // (has nothing attached to it), then we move our object(obj) to i2, j2
+              
+              int i = obj->getI(), j = obj->getJ(); // gets source object indexes, object, that we're moving
+              
               // is move absolutely possible?
               if(data[i2][j2]->isPlayerMovePossible()==1)  // it is!
               {
-                  reattachNode(i, j, i2, j2, obj);  // so we just do it ;)
+                  reattachNode(i, j, i2, j2, obj);  // so we just do it ;) we move object from indexes i, j to i2, j2
                   return true;
               }
               
               //////// TELEPORT
               else if(data[i2][j2]->isPlayerMovePossible()==3)  
               {
-//                  PTeleport *srcTeleport = dynamic_cast<PTeleport*>(data[i2][j2]); // cast object to teleport, so we can use teleport methods
-                  int it = (dynamic_cast<PTeleport*>(data[i2][j2]))->getChildTeleport()->getI(), // get id's of child teleport(our teleport destination)
+                  // it - I index of dest teleport
+                  // jt-  J index of dest teleport
+                  int it = (dynamic_cast<PTeleport*>(data[i2][j2]))->getChildTeleport()->getI(), 
                           jt = (dynamic_cast<PTeleport*>(data[i2][j2]))->getChildTeleport()->getJ();
                   
                   if(data[it][jt]->returnFirstChild()!=NULL) // if there is object alredy on teleport
                   {
                       if(this->moveObject(dir, dynamic_cast<PLevelObject*>(data[it][jt]->returnFirstChild())))  // try to move it
                       {
-                          reattachNode(i, j, it, jt, obj);   // and then move player to teleport
+                          reattachNode(i, j, it, jt, obj);   //  then move player to teleport
                           return true;
                       }
                   }
@@ -163,6 +183,7 @@ namespace PacGame
                   }
               }  /// END OF TELEPORT SECTION
 
+              // CONDITIONALLY POSSIBLE MOVES
               else if(data[i2][j2]->isPlayerMovePossible()==2)  // move is conditionally possible; we check children
               {
                   if(data[i2][j2]->returnFirstChild() == NULL)  // move is possible since there are no children
@@ -170,18 +191,35 @@ namespace PacGame
                       reattachNode(i, j, i2, j2, obj);   // so we do it ;)
                       return true;
                   }
-                  else if(data[i2][j2]->returnFirstChild()->isPlayerMovePossible() == 2)  // na polju je kocka - poskusimo premaknit!
+                  
+                  // case, there is normal cube
+                  else if(data[i2][j2]->returnFirstChild()->isPlayerMovePossible() == 2 && (obj->getId()==1))  // there is cube on the field, we attemt to move it
+                                                                                                              // but we can move it only, if obj is player(do it has id=1)
                   {
-                      // koda za premik kocke
+                      // CUBE-MOVE CODE GOES HERE
                       if(this->moveObject(dir, dynamic_cast<PLevelObject*>(data[i2][j2]->returnFirstChild())))
                       {
-                          reattachNode(i, j, i2, j2, obj);   // so we do it ;)
-                          return true;                         
+                          reattachNode(i, j, i2, j2, obj);   // it is, we move object
+                          return true;   
                       }
-                  }
+                  }  
                   
-              }
-              
+                  // case, there is oneway cube
+                  else if(data[i2][j2]->returnFirstChild()->isPlayerMovePossible() == 3 && (obj->getId()==1))  // there is cube on the field, we attemt to move it
+                                                                                                              // but we can move it only, if obj is player(do it has id=1)
+                  { 
+                      if(dynamic_cast<POnewayCube*>(data[i2][j2]->returnFirstChild())->getDirection()==dir)
+                      {
+                          // CUBE-MOVE CODE GOES HERE
+                          if(this->moveObject(dir, dynamic_cast<PLevelObject*>(data[i2][j2]->returnFirstChild())))
+                          {
+
+                              reattachNode(i, j, i2, j2, obj);   // it is, we move object
+                              return true;   
+                          }
+                      }
+                  } 
+              }     
               else if(data[i2][j2]->isPlayerMovePossible()==6)  // move is conditionally possible; we check children; thid id cubeholder case
               {                                             // only diffrence between causal conditional move and move to cubeHolder is
                                                              // that in this case, after we move cube to cube holder, we check if level has been done
@@ -195,7 +233,7 @@ namespace PacGame
                       }
                       return true;
                   }
-                  else if(data[i2][j2]->returnFirstChild()->isPlayerMovePossible() == 2)  // na polju je kocka - poskusimo premaknit!
+                  else if(data[i2][j2]->returnFirstChild()->isPlayerMovePossible() == 2 && (obj->getId()==1))  // na polju je kocka - poskusimo premaknit!
                   {
                       // koda za premik kocke
                       if(this->moveObject(dir, dynamic_cast<PLevelObject*>(data[i2][j2]->returnFirstChild())))
@@ -329,7 +367,7 @@ namespace PacGame
                                       break;  
                                       
                                   case VOID:
-                                      data[i][j] = new PVoid(this->renderer);
+                                      data[i][j] = new PVoid;
                                       break;
                                       
                                   case CUBE_PLACE:
@@ -387,25 +425,25 @@ namespace PacGame
                                       break;
                                       
                                   case OW_CUBE_L:
-                                      p = new POnewayCube(Aliases::left, i, j, this->renderer);
+                                      p = new POnewayCube(Aliases::left, i, j, 3, this->renderer);
                                       data[i][j]->add(p);
                                       second_matrix[i][j] = OW_CUBE_L;
                                       break; 
                                       
                                   case OW_CUBE_R:
-                                      p = new POnewayCube(Aliases::right, i, j, this->renderer);
+                                      p = new POnewayCube(Aliases::right, i, j, 4, this->renderer);
                                       data[i][j]->add(p);
                                       second_matrix[i][j] = OW_CUBE_R;
                                       break; 
                                       
                                   case OW_CUBE_U:
-                                      p = new POnewayCube(Aliases::up, i, j, this->renderer);
+                                      p = new POnewayCube(Aliases::up, i, j, 5, this->renderer);
                                       data[i][j]->add(p);
                                       second_matrix[i][j] = OW_CUBE_U;
                                       break;  
                                       
                                   case OW_CUBE_D:
-                                      p = new POnewayCube(Aliases::down, i, j, this->renderer);
+                                      p = new POnewayCube(Aliases::down, i, j, 6, this->renderer);
                                       data[i][j]->add(p);
                                       second_matrix[i][j] = OW_CUBE_D;
                                       break;
