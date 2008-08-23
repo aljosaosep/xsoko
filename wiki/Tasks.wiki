@@ -2,14 +2,12 @@
 
 == Audio sistem == 
 ==== prioriteta: visoka ====
-==== trenutno dela: nihce ====
-==== zeljen datum implementacije: 1.9. 2008 ====
-==== status: nacrtovanje ====
+==== trenutno dela: Jernej Haložan ====
+==== datum implementacije: 15.9. 2008 ====
+==== status: nacrtovanje, analiza, priprava ====
+==== API: OpenAL ====
 ==== quick summary: ====
-Nek razred ali skupek razredov, ki skrbi za zvok. ce
-se kdo javi, da to naredi, bolj natancno povem kaj je to, kako bi naj
-delovalo in katere knjiznjice bi naj bile uporabljene, seveda je pa
-vse stvar dogovora ;)
+Opis + info na [http://groups.google.com/group/xsoko/browse_thread/thread/b0821ffd80b25adb xsoko-discuss] 
 
 ----
 
