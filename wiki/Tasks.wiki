@@ -38,7 +38,7 @@ naredi ravno obratno kot obstojeca funkcija za lovdanje stopenj).
 ==== prioriteta: srednja ====
 ==== trenutno dela: Aljosa ====
 ==== zeljen datum implementacije: 1.9. 2008 ====
-==== status: 50% ====
+==== status: 65% ====
 ==== quick summary: ====
 Ce kdo zeli, lahko implementira se kak objekt oz. feauture, ni pa
 nujno, ker kar zadeva gameplay, so cilji za verzijo 0.5 ze
