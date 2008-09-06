@@ -51,7 +51,7 @@ razredov in delo z njimi)
 == Resource manager == 
 ==== prioriteta: zelo visoka ====
 ==== trenutno dela: Aljosa ====
-==== status: zacetek dela ====
+==== status: koncano :) ====
 ==== zeljen datum implementacije: 15.9. 2008 ====
 ==== quick summary: ====
 Pride kmalu
