@@ -125,7 +125,7 @@ namespace PacGame
               // generation of few textures
               // by Aljosa 08
               // WALL
-              wallTex = new PTexture;
+          /*    wallTex = new PTexture;
               this->wallTex->setPath("wall.tga");
               if(!this->wallTex->makeTgaTexture(true))
               {
@@ -160,7 +160,7 @@ namespace PacGame
                   return false;
               } 
               // end of temporary code
-              
+              */
               return true;
           }
 

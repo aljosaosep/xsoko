@@ -38,8 +38,8 @@ namespace PacGame
 
           public:
                   // constructors
-                  PPlayer(PRenderer *renderer);
-                  PPlayer(int i, int j, PRenderer *renderer);
+                  PPlayer(PCore *core);
+                  PPlayer(int i, int j, PCore *core);
 
                   // setters
                   void setBombs(unsigned _bombs);

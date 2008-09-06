@@ -11,7 +11,7 @@
  * Jernej Skrabec June 19 2008
 */
 
-#include "renderer.h"
+#include "texture.h"
 #include "../zip/zipfile.h"
 
 namespace PacGame
@@ -54,8 +54,8 @@ namespace PacGame
 
           PTexture::~PTexture()
           {
-                //  free(texture.imageData);
-                  Messages::infoMessage("Texture released from memory.");
+              this->release();
+              Messages::infoMessage("Texture released from memory.");
           } 
           
           void PTexture::setPath(string filename)
@@ -206,6 +206,11 @@ namespace PacGame
           unsigned PTexture::getTexID()
           {
                   return texture.texID;
+          }
+          
+          void PTexture::release()
+          {
+            //  free(texture.imageData);
           }
       }
 }

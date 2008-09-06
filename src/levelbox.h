@@ -14,7 +14,7 @@
 #include "renderer/renderer.h"
 #include "object.h"
 #include "CommonStructures.h"
-#include "renderer/renderer.h"
+#include "core.h"
 
 
 using namespace PacGame::RenderMaschine;
@@ -37,7 +37,7 @@ namespace PacGame
               int i, j;     // represents indexes of element on level matrix
            //   PTexture texture;  // represents texture of object
               unsigned short id; // number, that represents object in file
-              PRenderer *renderer;
+              PCore *core;
 
           public:
               PLevelObject() : i(0), j(0), id(0) {}// constructors
@@ -77,7 +77,7 @@ namespace PacGame
           {
           private:
           public:
-              PFloor(PRenderer *renderer) { this->id = 0; this->renderer = renderer; }
+              PFloor(PCore *core) { this->id = 0; this->core = core; }
               void draw();
               bool initialize();
               void print();             
@@ -95,7 +95,7 @@ namespace PacGame
           {
           private:
           public:
-              PSolidWall(PRenderer *renderer) { this->id = 2; this->renderer = renderer; }
+              PSolidWall(PCore *core) { this->id = 2; this->core = core; }
               void draw();
               bool initialize();
               void print();             
@@ -113,7 +113,7 @@ namespace PacGame
           {
           private:
           public:
-              PUnsolidWall(PRenderer *renderer) { this->id = 3; this->renderer = renderer; }
+              PUnsolidWall(PCore *core) { this->id = 3; this->core = core; }
               void draw();
               bool initialize();
               void print();              
@@ -134,9 +134,9 @@ namespace PacGame
               PTeleport *childTeleport;
               
           public:
-              PTeleport(PRenderer *renderer) { this->id = 4; this->renderer = renderer; }
-              PTeleport(int id, PRenderer *renderer) : teleport_id(id) { this->id = 4; this->renderer = renderer; }
-              PTeleport(int i, int j, PRenderer *renderer) { this->i=i; this->j = j; this->id=4; this->renderer = renderer; }
+              PTeleport(PCore *core) { this->id = 4; this->core = core; }
+              PTeleport(int id, PCore *core) : teleport_id(id) { this->id = 4; this->core = core; }
+              PTeleport(int i, int j, PCore *core) { this->i=i; this->j = j; this->id=4; this->core = core; }
               
               // setters
               void setId(int id);
@@ -163,7 +163,7 @@ namespace PacGame
           {
           private:
           public:
-              PBridge(PRenderer *renderer) { this->id = 5; this->renderer = renderer;}
+              PBridge(PCore *core) { this->id = 5; this->core = core; }
               void draw();
               bool initialize();
               void print();             
@@ -199,7 +199,7 @@ namespace PacGame
           {
           private:
           public:
-              PCube(int i, int j, PRenderer *renderer) { this->i=i; this->j = j; this->id=2; this->renderer = renderer;}
+              PCube(int i, int j, PCore *core) { this->i=i; this->j = j; this->id=2; this->core = core; }
               void draw();
               bool initialize();
               void print();             
@@ -217,7 +217,7 @@ namespace PacGame
           {
           private:
           public:
-              PCubeHolder(PRenderer *renderer)  { this->id = 7; this->renderer = renderer;}
+              PCubeHolder(PCore *core)  { this->id = 7; this->core = core; }
               void draw();
               bool initialize();
               void print();              
@@ -235,7 +235,7 @@ namespace PacGame
           {
           private:
           public:
-              POnewayFloor(PRenderer *renderer) { this->id = 1; this->renderer = renderer;}
+              POnewayFloor(PCore *core) { this->id = 1; this->core = core; }
               void draw();
               bool initialize();
               void print();             
@@ -257,7 +257,7 @@ namespace PacGame
               Aliases::PDirection dir; // tells in wich way os cube orientated
 
           public:            
-              POnewayCube(Aliases::PDirection dir, int i, int j, unsigned short id, PRenderer *renderer) : dir(dir) { this->i=i; this->j = j; this->renderer = renderer; this->id=id; }
+              POnewayCube(Aliases::PDirection dir, int i, int j, unsigned short id, PCore *core) : dir(dir) { this->i=i; this->j = j; this->core = core; this->id=id; }
            //   POnewayCube() {}
               void draw();
               bool initialize();
@@ -279,7 +279,7 @@ namespace PacGame
           {
           private:
           public:
-              PBomb(int i, int j, PRenderer *renderer){ this->i=i; this->j = j; this->id = 7; this->renderer = renderer;}
+              PBomb(int i, int j, PCore *core){ this->i=i; this->j = j; this->id = 7; this->core = core; }
               void draw();
               bool initialize();
               void print();

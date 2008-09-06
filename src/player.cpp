@@ -17,17 +17,19 @@ namespace PacGame
 {
       namespace GameClasses
       {
-              PPlayer::PPlayer(PRenderer *renderer) //  constructor
+              PPlayer::PPlayer(PCore *core) //  constructor
               { 
-                  this->renderer = renderer;
+                 // this->renderer = renderer;
+                  this->core = core;
                   this->id = 1;
               } 
               
-              PPlayer::PPlayer(int i, int j, PRenderer *renderer)
+              PPlayer::PPlayer(int i, int j, PCore *core)
               {
                    this->i = i;
                    this->j = j;
-                   this->renderer = renderer;      
+                 //  this->renderer = renderer; 
+                   this->core = core;
                    this->id = 1;
               }
 
@@ -58,8 +60,8 @@ namespace PacGame
               void PPlayer::draw() 
               {
                     glColor4f(1.0, 1.0, 0.7, 0.8);
-                    glBindTexture(GL_TEXTURE_2D, this->renderer->playerTex->getTexID());
-                    this->renderer->drawCube(0.0, 0.0, 1.0, 0.0);
+//                    glBindTexture(GL_TEXTURE_2D, this->renderer->playerTex->getTexID());
+                    this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, 0.0);
                       // TODO
               }
 
