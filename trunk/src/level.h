@@ -19,7 +19,7 @@
 #include "object.h"
 #include "CommonStructures.h"
 #include "player.h"
-#include "renderer/renderer.h"
+#include "core.h"
 
 using namespace PacGame::GameClasses;
 using namespace PacGame::Functions;
@@ -75,11 +75,13 @@ namespace PacGame
                   unsigned width, height;       // level dimensions
                   PPlayer *player;              // player instance 
                   vector<PCubeHolder*> holds;           // vector contains all cube holders in level; it helps to determine when level is finished
-                  PRenderer *renderer;
+                //  PRenderer *renderer;
+                  PCore *gameCore;             // game core object
+                  PResourceManager *resourceHandle; // shortcut to resources
                   bool endgameFlag;
                  
               public:
-                  PLevel(string filename) : filename(filename),  width(0), height(0), player(NULL), renderer(NULL), endgameFlag(false) {} // default constructor
+                  PLevel(string filename) : filename(filename),  width(0), height(0), player(NULL),  gameCore(new PCore), resourceHandle(this->gameCore->getResources()), endgameFlag(false) {} // default constructor
                   virtual ~PLevel();
                   
                   // print
@@ -102,17 +104,15 @@ namespace PacGame
                   inline bool checkPosition(ifstream &file); // checks if position is valid and moves file pointer
                   inline PTeleport* returnTeleport(int id); // returns teleports addres, that contains given id
                   PPlayer* getPlayerHandle();
-                  PRenderer* getRendererHandle();
+               //   PRenderer* getRendererHandle();
                   
                   // setters
-                  void setRenderer(PRenderer *renderer);
+               //   void setRenderer(PRenderer *renderer);
                   
                   // getters
                   bool getEndgameFlag();
 
-
                   // functions to override
-                  // todo: implement
                   void draw();  // draws whole level
                   bool initialize(); // initiates level
                   void print(); // dumps level data into console

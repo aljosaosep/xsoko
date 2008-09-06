@@ -57,7 +57,7 @@ namespace PacGame
               bool run();
               bool initGame();
               void terminateGLFW();
-              PRenderer *getRendererHandle();
+           //   PRenderer *getRendererHandle();
 
               // setters
               void setWindow(int _width, int _height);

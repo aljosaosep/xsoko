@@ -6,6 +6,7 @@
                    projectFiles="true">
       <logicalFolder name="f1" displayName="renderer" projectFiles="true">
         <itemPath>src/renderer/renderer.h</itemPath>
+        <itemPath>src/renderer/texture.h</itemPath>
       </logicalFolder>
       <logicalFolder name="f2" displayName="zip" projectFiles="true">
         <logicalFolder name="f1" displayName="zlib" projectFiles="true">
@@ -26,6 +27,7 @@
         <itemPath>src/zip/zipfile.h</itemPath>
       </logicalFolder>
       <itemPath>src/CommonStructures.h</itemPath>
+      <itemPath>src/core.h</itemPath>
       <itemPath>src/game.h</itemPath>
       <itemPath>src/input.h</itemPath>
       <itemPath>src/io.h</itemPath>
@@ -36,6 +38,7 @@
       <itemPath>src/object.h</itemPath>
       <itemPath>src/player.h</itemPath>
       <itemPath>src/PLevelBox.h</itemPath>
+      <itemPath>src/resource.h</itemPath>
       <itemPath>src/session.h</itemPath>
       <itemPath>src/vector.h</itemPath>
     </logicalFolder>
@@ -70,6 +73,7 @@
         <itemPath>src/zip/zipfile.cpp</itemPath>
       </logicalFolder>
       <itemPath>src/CommonStructures.cpp</itemPath>
+      <itemPath>src/core.cpp</itemPath>
       <itemPath>src/game-init.cpp</itemPath>
       <itemPath>src/game-render.cpp</itemPath>
       <itemPath>src/game.cpp</itemPath>
@@ -81,6 +85,7 @@
       <itemPath>src/messages.cpp</itemPath>
       <itemPath>src/object.cpp</itemPath>
       <itemPath>src/player.cpp</itemPath>
+      <itemPath>src/resource.cpp</itemPath>
       <itemPath>src/session.cpp</itemPath>
       <itemPath>src/vector.cpp</itemPath>
     </logicalFolder>
@@ -121,6 +126,12 @@
         <itemTool>3</itemTool>
       </item>
       <item path="src/PLevelBox.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/core.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/core.h">
         <itemTool>3</itemTool>
       </item>
       <item path="src/game-init.cpp">
@@ -190,6 +201,15 @@
         <itemTool>1</itemTool>
       </item>
       <item path="src/renderer/renderer.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/renderer/texture.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/resource.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/resource.h">
         <itemTool>3</itemTool>
       </item>
       <item path="src/session.cpp">
@@ -327,6 +347,12 @@
       <item path="src/PLevelBox.h">
         <itemTool>3</itemTool>
       </item>
+      <item path="src/core.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/core.h">
+        <itemTool>3</itemTool>
+      </item>
       <item path="src/game-init.cpp">
         <itemTool>1</itemTool>
       </item>
@@ -394,6 +420,15 @@
         <itemTool>1</itemTool>
       </item>
       <item path="src/renderer/renderer.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/renderer/texture.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/resource.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/resource.h">
         <itemTool>3</itemTool>
       </item>
       <item path="src/session.cpp">
@@ -529,6 +564,12 @@
       <item path="src/PLevelBox.h">
         <itemTool>3</itemTool>
       </item>
+      <item path="src/core.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/core.h">
+        <itemTool>3</itemTool>
+      </item>
       <item path="src/game-init.cpp">
         <itemTool>1</itemTool>
       </item>
@@ -596,6 +637,15 @@
         <itemTool>1</itemTool>
       </item>
       <item path="src/renderer/renderer.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/renderer/texture.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/resource.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/resource.h">
         <itemTool>3</itemTool>
       </item>
       <item path="src/session.cpp">
@@ -736,6 +786,12 @@
       <item path="src/PLevelBox.h">
         <itemTool>3</itemTool>
       </item>
+      <item path="src/core.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/core.h">
+        <itemTool>3</itemTool>
+      </item>
       <item path="src/game-init.cpp">
         <itemTool>1</itemTool>
       </item>
@@ -803,6 +859,15 @@
         <itemTool>1</itemTool>
       </item>
       <item path="src/renderer/renderer.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/renderer/texture.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/resource.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/resource.h">
         <itemTool>3</itemTool>
       </item>
       <item path="src/session.cpp">

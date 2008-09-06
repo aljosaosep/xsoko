@@ -65,10 +65,10 @@ namespace PacGame
               this->session->getRendererHandle()
           }*/
           
-          PRenderer* PGame::getRendererHandle()
+        /*  PRenderer* PGame::getRendererHandle()
           {
               return this->session->getRendererHandle();
-          }
+          }*/
           
           bool PGame::run()
           {

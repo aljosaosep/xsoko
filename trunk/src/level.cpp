@@ -1,9 +1,3 @@
-
-#include "level.h"
-
-
-#include "object.h"
-
 /*
  * Codename: xSoko
  * File: level.h
@@ -16,13 +10,14 @@
  * Changes:
  * Aljosa 2008
  */
+
 #include <typeinfo>
 #include <vector>
 #include <string>
 #include <iostream>
 #include <fstream>
 #include <iomanip>
-//#include "messages.h"
+
 #include "level.h"
 
 using namespace std;
@@ -271,6 +266,8 @@ namespace PacGame
                  // delete [] this->player;   // todo: delete player obj without segmentation fault!
                   this->endgameFlag = true;  // and we make game end */
               }
+              
+         //     return true; // to avoid warning
           }
           
           // gameplay related
@@ -347,23 +344,24 @@ namespace PacGame
                               switch(num)  // if it is, we create suitable object
                               {
                                   case FLOOR:
-                                      data[i][j] = new PFloor(this->renderer);
+                                      data[i][j] = new PFloor(this->gameCore);
                                       break;
                                       
                                   case OW_FLOOR:
-                                      data[i][j] = new POnewayFloor(this->renderer);
+                                      data[i][j] = new POnewayFloor(this->gameCore);
                                       break;
                                       
                                   case S_WALL:
-                                      data[i][j] = new PSolidWall(this->renderer);                    
+                                      data[i][j] = new PSolidWall(this->gameCore);   
+                                      resourceHandle->loadTextureResource(&this->resourceHandle->solidWall, "wall.tga");
                                       break;
                                       
                                   case U_WALL:
-                                      data[i][j] = new PUnsolidWall(this->renderer);
+                                      data[i][j] = new PUnsolidWall(this->gameCore);
                                       break; 
                                       
                                   case BRIDGE:
-                                      data[i][j] = new PBridge(this->renderer);
+                                      data[i][j] = new PBridge(this->gameCore);
                                       break;  
                                       
                                   case VOID:
@@ -371,7 +369,7 @@ namespace PacGame
                                       break;
                                       
                                   case CUBE_PLACE:
-                                      data[i][j] = new PCubeHolder(this->renderer);
+                                      data[i][j] = new PCubeHolder(this->gameCore);
                                       this->holds.push_back(dynamic_cast<PCubeHolder*>(data[i][j])); // adds cuneHolder to holds array
                                       break;                                       
                               }
@@ -399,7 +397,7 @@ namespace PacGame
                               if(num >= 11) // if it is > 11, then it is an teleport id
                               {
                                   
-                                  PTeleport *teleport = new PTeleport(i, j, this->renderer); // create object
+                                  PTeleport *teleport = new PTeleport(i, j, this->gameCore); // create object
                                 //  cout<<"Tel id: "<<teleport->getI()<<' '<<teleport->getJ()<<endl;
                                   teleport->setId(num);                // set its id
                                   data[i][j] = teleport;               // attach it on level
@@ -409,14 +407,14 @@ namespace PacGame
                               switch(num)
                               {                                              
                                   case PLAYER:
-                                      p = new PPlayer(i, j, this->renderer);
+                                      p = new PPlayer(i, j, this->gameCore);
                                       this->player = dynamic_cast<PPlayer*>(p); // set class player pointer to player element
                                       data[i][j]->add(p);
                                       second_matrix[i][j] = PLAYER;
                                       break;
                                       
                                   case CUBE:
-                                      p = new PCube(i, j, this->renderer);
+                                      p = new PCube(i, j, this->gameCore);
                                     //  if(!p->initialize())
                                     //      return false;
                                    //   else
@@ -425,31 +423,31 @@ namespace PacGame
                                       break;
                                       
                                   case OW_CUBE_L:
-                                      p = new POnewayCube(Aliases::left, i, j, 3, this->renderer);
+                                      p = new POnewayCube(Aliases::left, i, j, 3, this->gameCore);
                                       data[i][j]->add(p);
                                       second_matrix[i][j] = OW_CUBE_L;
                                       break; 
                                       
                                   case OW_CUBE_R:
-                                      p = new POnewayCube(Aliases::right, i, j, 4, this->renderer);
+                                      p = new POnewayCube(Aliases::right, i, j, 4, this->gameCore);
                                       data[i][j]->add(p);
                                       second_matrix[i][j] = OW_CUBE_R;
                                       break; 
                                       
                                   case OW_CUBE_U:
-                                      p = new POnewayCube(Aliases::up, i, j, 5, this->renderer);
+                                      p = new POnewayCube(Aliases::up, i, j, 5, this->gameCore);
                                       data[i][j]->add(p);
                                       second_matrix[i][j] = OW_CUBE_U;
                                       break;  
                                       
                                   case OW_CUBE_D:
-                                      p = new POnewayCube(Aliases::down, i, j, 6, this->renderer);
+                                      p = new POnewayCube(Aliases::down, i, j, 6, this->gameCore);
                                       data[i][j]->add(p);
                                       second_matrix[i][j] = OW_CUBE_D;
                                       break;
                                       
                                   case BOMB:
-                                      p = new PBomb(i, j, this->renderer);
+                                      p = new PBomb(i, j, this->gameCore);
                                       data[i][j]->add(p);
                                       second_matrix[i][j] = BOMB;
                                       break; 
@@ -539,7 +537,7 @@ namespace PacGame
                   
                   file << teleports.size() << endl;
                   
-                  for(int i=0; i<teleports.size(); i++)
+                  for(int i=0; i<(int)teleports.size(); i++)
                   {
                       PTeleport* tmp = teleports.at(i);
                       PTeleport* child = tmp->getChildTeleport();
@@ -596,10 +594,10 @@ namespace PacGame
            /**************************************************************
            * Function returns pointer to renderer object
            **************************************************************/
-          PRenderer* PLevel::getRendererHandle()
+        /*  PRenderer* PLevel::getRendererHandle()
           {
               return this->renderer;
-          }
+          }*/
 
           /**************************************************************
            * Function returns pointer to renderer object
@@ -612,10 +610,10 @@ namespace PacGame
            /**************************************************************
            * Function sets renderer object to level
            **************************************************************/          
-          void PLevel::setRenderer(PRenderer *renderer)
+         /* void PLevel::setRenderer(PRenderer *renderer)
           {
               this->renderer = renderer;
-          }
+          }*/
           
           /**************************************************************
            * Function initiates level
@@ -630,6 +628,18 @@ namespace PacGame
                   return 0;
               }
               // by now, matrix should be initialized with proper classes, if it went ok this far
+              
+              // try to initialize core
+              if(!this->gameCore->init())
+              {
+                  this->gameCore->release();
+                  Messages::initMessage("Game core", false);
+              }
+              else
+                  Messages::initMessage("Game core", true);
+              
+              /// tmp !!!
+//              this->gameCore->getResources()->loadTextures();
               
               // temporary, dump state
               this->print();

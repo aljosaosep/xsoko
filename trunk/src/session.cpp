@@ -47,7 +47,8 @@ namespace PacGame
 
                 // gluLookAt (0.0, 0.0, 5.0, 0.0, 0.0, -5.0, 0.0, 1.0, 0.0);
                 // moves camera
-                glTranslatef(this->renderer->getCameraX(), this->renderer->getCameraY(), this->renderer->getCameraZ());
+       //         glTranslatef(this->renderer->getCameraX(), this->renderer->getCameraY(), this->renderer->getCameraZ());
+                glTranslatef(-10.0, 6.0, -25.0);                
                 // this->renderer->drawCube(0.0, 0.0, 0.5, angle);
                 
               //  glRotatef(angle, 1.0, 1.0, 1.0);
@@ -63,7 +64,7 @@ namespace PacGame
         bool PGameSession::initialize()
         {
             // set renderer to game session
-            this->setRenderer();
+        //    this->setRenderer();
 
             
             return true;
@@ -101,10 +102,10 @@ namespace PacGame
         //    level->initialize();
         }
         
-        void PGameSession::setRenderer()
+        /*void PGameSession::setRenderer()
         {
             this->renderer = level->getRendererHandle();
-        }
+        }*/
         
         void PGameSession::setInput(PInputSystem *input)
         {
@@ -135,9 +136,9 @@ namespace PacGame
             return this->score;
         }
         
-        PRenderer *PGameSession::getRendererHandle()
+        /*PRenderer *PGameSession::getRendererHandle()
         {
             return this->renderer;
-        }
+        }*/
     }
 }

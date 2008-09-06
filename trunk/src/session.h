@@ -25,7 +25,7 @@ namespace PacGame
             PPlayer *player;           
             unsigned score;
             
-            PRenderer *renderer; 
+        //    PRenderer *renderer; 
             PInputSystem *input;
             unsigned moves;
         //    bool isGameRunning;    
@@ -33,22 +33,20 @@ namespace PacGame
             
         public:
             // constructors
-            PGameSession(PLevel *level, PInputSystem *input, PRenderer *renderer) : level(level), player(level->getPlayerHandle()), 
-                                                                renderer(renderer), input(input), moves(0), /*isGameRunning(true),*/ rotations_per_tick(0.1) {}
-            
-            PGameSession() : level(NULL), player(NULL), renderer(NULL), input(NULL),  moves(0),/* isGameRunning(true),*/ rotations_per_tick(0.1)   {}
+            PGameSession(PLevel *level, PInputSystem *input) : level(level), input(input), moves(0),  rotations_per_tick(0.1) {}
+            PGameSession() : level(NULL), player(NULL), input(NULL),  moves(0),rotations_per_tick(0.1)   {}
             
             // methods
             bool run();
             bool initialize();
             void mainLoop();
-            PRenderer* getRendererHandle();
+            //PRenderer* getRendererHandle();
             
             // setters
             void setLevel(PLevel *level);
             void setScore(unsigned score);
             void setInput(PInputSystem *input);
-            void setRenderer();
+            //void setRenderer();
           //  void setGameEnd();
             
             // getters

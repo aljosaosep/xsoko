@@ -44,28 +44,28 @@ int main(int argc, char *argv[])
         cout << "Napaka pri zapisu stopnje v datoteko!" << endl;
     }*/
     // renderer object
-    PRenderer *renderer = new PRenderer;
+//    PRenderer *renderer = new PRenderer;
     
     // input object
     PInputSystem input(test); 
     
 
     // sets renderer to level
-    test->setRenderer(renderer);
+ //   test->setRenderer(renderer);
 
     // make session
-    PGameSession *testsession = new PGameSession(test, &input, renderer);
+    PGameSession *testsession = new PGameSession(test, &input);
 
     // loads session
     pacgame.loadSession(testsession);
     
-    if(!renderer->init())
+   /* if(!renderer->init())
     {
         PacGame::Messages::initMessage("Renderer", false);
         return false;
     }
     else
-        PacGame::Messages::initMessage("Renderer", true);        
+        PacGame::Messages::initMessage("Renderer", true);  */      
     
     // run game
     pacgame.run();

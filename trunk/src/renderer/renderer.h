@@ -25,55 +25,7 @@ namespace PacGame
 {
 
   namespace RenderMaschine
-  {
-      
-        /**********************************************************
-         * PTexture
-         *
-         * Class for drawing stuff
-         * --------------------------------------------------------
-         * Aljosa 2007
-         * ********************************************************/
-        class PTexture
-        {
-        private:
-                string filename;
-
-                unsigned type; //  = GL_RGBA;
-                PTextureImage texture;
-
-        public:
-                // constructor
-            PTexture() {}
-            PTexture(string _filename);  // does it work? 16.3.08
-            PTexture(string _filename, string type, bool filter);
-            ~PTexture();
-
-            // variables
-//            PMessages msg;
-
-            // protoypes
-            bool loadTGA();
-            void generateTextureMipmap();
-            void generateTextureLinear();
-            bool makeTgaTexture(bool mipmap);
-
-            // getters
-            unsigned getTexID();
-            
-            // setters
-            void setPath(string filename);
-            
-
-
-            // TODO:
-            // separate TGA loading and texture generating... done
-            // create mipmap tex generator and linear... done
-            // create function, that loads and generates texture... done
-            // move texture image variable to class and free texture in destructor... done
-            // move loadTga to io.h and create Pio object in this object
-    };
-
+  { 
     /**********************************************************
     * PRenderer
     *
@@ -124,10 +76,10 @@ namespace PacGame
 
         // textures
         // code below is temporary; in final game we will use resource manager
-        PTexture *wallTex;
+  /*      PTexture *wallTex;
         PTexture *cubeTex;
         PTexture *crateTex;
-        PTexture *playerTex;
+        PTexture *playerTex;*/
     };
   }
 }
