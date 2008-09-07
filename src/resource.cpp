@@ -19,7 +19,7 @@ namespace PacGame
         {
             if(this->texture!=NULL)
             {
-               // this->texture->release();
+                this->texture->release();
                 delete [] this->texture;
                 this->texture = NULL;
             }
@@ -50,7 +50,7 @@ namespace PacGame
             return true; // ok :)
         }
         
-        int PTextureResource::getId()
+        unsigned PTextureResource::getId()
         {
             return this->texture->getTexID();
         }
@@ -58,6 +58,16 @@ namespace PacGame
         /******************************
          * PTextureManager resources
          *****************************/
+        PResourceManager::PResourceManager()
+        {
+            for(int i=0; i<ELEMENTS_TEXTURES; textures[i++]=NULL); 
+        }
+        
+        PResourceManager::~PResourceManager()
+        {
+            this->release();
+        }
+        
         bool PResourceManager::loadTextureResource(PTextureResource **res, string file)
         {
             *res = new PTextureResource(file);
@@ -72,9 +82,43 @@ namespace PacGame
             return true;
         }
         
+        bool PResourceManager::loadTextureResource(int offset, string file)
+        {
+            textures[offset] = new PTextureResource(file);
+            if(!((textures[offset])->load()))
+            {
+                (textures[offset])->release();
+                delete [] textures[offset];
+                textures[offset] = NULL;
+                return false;
+            }
+
+            return true;
+        }
+        
+        // getters
+        PTextureResource* PResourceManager::getTextureResource(int offset)
+        {
+            return this->textures[offset];
+        }
+        
+        unsigned PResourceManager::getTextureTesourceId(int offset)
+        {
+            return this->textures[offset]->getId();
+        }
+        
         void PResourceManager::release()
         {
-        
+            // release textures
+            for(int i=0; i<ELEMENTS_TEXTURES; i++)
+            {
+                if(this->textures[i]!=NULL)
+                {
+                    textures[i]->release();
+                    delete textures[i];
+                    textures[i] = NULL;
+                }
+            }
         }
     }
 }

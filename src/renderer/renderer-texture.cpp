@@ -198,6 +198,7 @@ namespace PacGame
                           generateTextureLinear();
 
                   Messages::infoMessage("Texture created, ready for use.");
+                  cout<<endl<<endl;
                   return true;
 
           }
@@ -210,7 +211,7 @@ namespace PacGame
           
           void PTexture::release()
           {
-            //  free(texture.imageData);
+              free(texture.imageData);
           }
       }
 }

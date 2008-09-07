@@ -37,7 +37,6 @@
       <itemPath>src/messages.h</itemPath>
       <itemPath>src/object.h</itemPath>
       <itemPath>src/player.h</itemPath>
-      <itemPath>src/PLevelBox.h</itemPath>
       <itemPath>src/resource.h</itemPath>
       <itemPath>src/session.h</itemPath>
       <itemPath>src/vector.h</itemPath>
@@ -123,9 +122,6 @@
         <itemTool>1</itemTool>
       </item>
       <item path="src/CommonStructures.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/PLevelBox.h">
         <itemTool>3</itemTool>
       </item>
       <item path="src/core.cpp">
@@ -344,9 +340,6 @@
       <item path="src/CommonStructures.h">
         <itemTool>3</itemTool>
       </item>
-      <item path="src/PLevelBox.h">
-        <itemTool>3</itemTool>
-      </item>
       <item path="src/core.cpp">
         <itemTool>1</itemTool>
       </item>
@@ -559,9 +552,6 @@
         <itemTool>1</itemTool>
       </item>
       <item path="src/CommonStructures.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/PLevelBox.h">
         <itemTool>3</itemTool>
       </item>
       <item path="src/core.cpp">
@@ -781,9 +771,6 @@
         <itemTool>1</itemTool>
       </item>
       <item path="src/CommonStructures.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/PLevelBox.h">
         <itemTool>3</itemTool>
       </item>
       <item path="src/core.cpp">
