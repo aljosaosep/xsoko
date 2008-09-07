@@ -10,6 +10,8 @@
 
 #include "renderer/texture.h"
 
+#define ELEMENTS_TEXTURES 11
+
 using namespace PacGame::RenderMaschine;
 
 namespace PacGame
@@ -33,7 +35,7 @@ namespace PacGame
             
             // other
             bool load();
-            int getId();
+            unsigned getId();
             void release();
         };
             
@@ -41,13 +43,18 @@ namespace PacGame
         class PResourceManager
         {
         private:
+            PTextureResource *textures[ELEMENTS_TEXTURES];
+            
         public:
+            PResourceManager();
+            ~PResourceManager();
             bool loadTextureResource(PTextureResource **res, string file);
+            bool loadTextureResource(int offset, string file);
             
-            PTextureResource *solidWall;
-            
+            PTextureResource* getTextureResource(int offset);
+            unsigned getTextureTesourceId(int offset);
+
             void release();
-            
         }; 
     }
 }

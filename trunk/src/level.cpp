@@ -353,7 +353,9 @@ namespace PacGame
                                       
                                   case S_WALL:
                                       data[i][j] = new PSolidWall(this->gameCore);   
-                                      resourceHandle->loadTextureResource(&this->resourceHandle->solidWall, "wall.tga");
+                                      if((resourceHandle->getTextureResource(S_WALL))==NULL)
+                                          resourceHandle->loadTextureResource(S_WALL, "wall.tga"); 
+
                                       break;
                                       
                                   case U_WALL:
@@ -398,7 +400,10 @@ namespace PacGame
                               {
                                   
                                   PTeleport *teleport = new PTeleport(i, j, this->gameCore); // create object
-                                //  cout<<"Tel id: "<<teleport->getI()<<' '<<teleport->getJ()<<endl;
+                                  
+                                  if((resourceHandle->getTextureResource(TELEPORT))==NULL)  // texture isn't in memory yet?
+                                      resourceHandle->loadTextureResource(TELEPORT, "test.tga");  // load it!
+
                                   teleport->setId(num);                // set its id
                                   data[i][j] = teleport;               // attach it on level
                                   this->teleports.push_back(teleport); // push teleport info on vector
@@ -408,6 +413,10 @@ namespace PacGame
                               {                                              
                                   case PLAYER:
                                       p = new PPlayer(i, j, this->gameCore);
+                                      
+                                      if((resourceHandle->getTextureResource(PLAYER+7))==NULL)  // texture isn't in memory yet?
+                                          resourceHandle->loadTextureResource(PLAYER+7, "player.tga");  // load it!
+                                      
                                       this->player = dynamic_cast<PPlayer*>(p); // set class player pointer to player element
                                       data[i][j]->add(p);
                                       second_matrix[i][j] = PLAYER;
@@ -415,9 +424,10 @@ namespace PacGame
                                       
                                   case CUBE:
                                       p = new PCube(i, j, this->gameCore);
-                                    //  if(!p->initialize())
-                                    //      return false;
-                                   //   else
+                                      
+                                      if((resourceHandle->getTextureResource(CUBE+7))==NULL)  // texture isn't in memory yet?
+                                          resourceHandle->loadTextureResource(CUBE+7, "crate.tga");  // load it!
+
                                       data[i][j]->add(p);
                                       second_matrix[i][j] = CUBE;
                                       break;
@@ -425,24 +435,40 @@ namespace PacGame
                                   case OW_CUBE_L:
                                       p = new POnewayCube(Aliases::left, i, j, 3, this->gameCore);
                                       data[i][j]->add(p);
+                                      
+                                      if((resourceHandle->getTextureResource(10))==NULL)  // texture isn't in memory yet?
+                                          resourceHandle->loadTextureResource(10, "onewaycube.tga");  // load it!
+                                      
                                       second_matrix[i][j] = OW_CUBE_L;
                                       break; 
                                       
                                   case OW_CUBE_R:
                                       p = new POnewayCube(Aliases::right, i, j, 4, this->gameCore);
                                       data[i][j]->add(p);
+                                      
+                                      if((resourceHandle->getTextureResource(10))==NULL)  // texture isn't in memory yet?
+                                          resourceHandle->loadTextureResource(10, "onewaycube.tga");  // load it!
+                                      
                                       second_matrix[i][j] = OW_CUBE_R;
                                       break; 
                                       
                                   case OW_CUBE_U:
                                       p = new POnewayCube(Aliases::up, i, j, 5, this->gameCore);
                                       data[i][j]->add(p);
+                                      
+                                      if((resourceHandle->getTextureResource(10))==NULL)  // texture isn't in memory yet?
+                                          resourceHandle->loadTextureResource(10, "onewaycube.tga");  // load it!
+                                      
                                       second_matrix[i][j] = OW_CUBE_U;
                                       break;  
                                       
                                   case OW_CUBE_D:
                                       p = new POnewayCube(Aliases::down, i, j, 6, this->gameCore);
                                       data[i][j]->add(p);
+                                      
+                                      if((resourceHandle->getTextureResource(10))==NULL)  // texture isn't in memory yet?
+                                          resourceHandle->loadTextureResource(10, "onewaycube.tga");  // load it!
+                                      
                                       second_matrix[i][j] = OW_CUBE_D;
                                       break;
                                       

@@ -102,7 +102,7 @@ namespace PacGame
         void PTeleport::draw()
         {
             glColor4f(0.0, 0.0, 1.0, 0.4);
-//            glBindTexture(GL_TEXTURE_2D, renderer->cubeTex->getTexID());
+            glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(4));
             this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, 0.0);
             
         }
@@ -130,7 +130,7 @@ namespace PacGame
         void PFloor::draw()
         {
             glColor3f(0.3, 0.2, 0.6);
-//            glBindTexture(GL_TEXTURE_2D, this->renderer->wallTex->getTexID());
+            glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(2));
             this->core->getRenderer()->drawFloor(0.0, 0.0, 1.0);
         }
         
@@ -181,7 +181,7 @@ namespace PacGame
         void PSolidWall::draw()
         {
             glColor3f(1.0, 1.0, 1.0);
-            glBindTexture(GL_TEXTURE_2D, this->core->getResources()->solidWall->getId());
+            glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(2));
             this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, 0.0);
         }
         
@@ -231,7 +231,7 @@ namespace PacGame
         void PBridge::draw()
         {
             glColor3f(0.0, 0.3, 0.1);
-     //       glBindTexture(GL_TEXTURE_2D, this->renderer->cubeTex->getTexID());
+            glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(4));
             this->core->getRenderer()->drawFloor(0.0, 0.0, 1.0);
 
         }
@@ -284,7 +284,7 @@ namespace PacGame
         void PCubeHolder::draw()
         {
             glColor3f(0.3, 0.0, 0.0);
-      //      glBindTexture(GL_TEXTURE_2D, this->renderer->crateTex->getTexID());
+            glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(9));
             this->core->getRenderer()->drawFloor(0.0, 0.0, 1.0);
         }
         
@@ -321,7 +321,7 @@ namespace PacGame
         void PCube::draw()
         {
             glColor3f(1.0, 1.0, 1.0);
-        //    glBindTexture(GL_TEXTURE_2D, this->renderer->crateTex->getTexID());
+            glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(9));
             this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, 0.0);
         }
         
@@ -347,8 +347,22 @@ namespace PacGame
         
         void POnewayCube::draw()
         {
-            glColor3f(0.0, 1.0, 0.0);
-       //     glBindTexture(GL_TEXTURE_2D, this->renderer->crateTex->getTexID());
+            glColor3f(1.0, 1.0, 1.0);
+            switch(this->dir)
+            {
+                    case Aliases::left:
+                        glRotatef(180.0, 0.0, 0.0, 1.0);
+                        break;
+                        
+                    case Aliases::up:
+                        glRotatef(90.0, 0.0, 0.0, 1.0);
+                        break;
+                            
+                    case Aliases::down:
+                        glRotatef(-90.0, 0.0, 0.0, 1.0);
+                        break;
+            }
+            glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(10));
             this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, 0.0);
         }
         

@@ -118,49 +118,6 @@ namespace PacGame
               glEnable(GL_BLEND);
               glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
               
-              // textures
-              // THIS CODE IS TEMPORARY; IT PROVIDES ONLY FANCY LOOK
-              // resource managment will be handlen somewhere else
-              // next few lines are responsible for loading and
-              // generation of few textures
-              // by Aljosa 08
-              // WALL
-          /*    wallTex = new PTexture;
-              this->wallTex->setPath("wall.tga");
-              if(!this->wallTex->makeTgaTexture(true))
-              {
-                  Messages::errorMessage("SW texture error!");
-                  return false;
-              }
-              
-              // CUBE
-              cubeTex = new PTexture;
-              this->cubeTex->setPath("test.tga");
-              if(!this->cubeTex->makeTgaTexture(true))
-              {
-                  Messages::errorMessage("CUBE texture error!");
-                  return false;
-              }  
-              
-              // CRATE
-              crateTex = new PTexture;
-              this->crateTex->setPath("crate.tga");
-              if(!this->crateTex->makeTgaTexture(true))
-              {
-                  Messages::errorMessage("CRATE texture error!");
-                  return false;
-              } 
-              
-             // PLAYER
-              playerTex = new PTexture;
-              this->playerTex->setPath("player.tga");
-              if(!this->playerTex->makeTgaTexture(true))
-              {
-                  Messages::errorMessage("PLYR texture error!");
-                  return false;
-              } 
-              // end of temporary code
-              */
               return true;
           }
 

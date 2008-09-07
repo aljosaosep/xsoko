@@ -74,12 +74,7 @@ namespace PacGame
         void drawCube(float x, float y, float size, float angle);
         void drawFloor(float x, float y, float size);
 
-        // textures
-        // code below is temporary; in final game we will use resource manager
-  /*      PTexture *wallTex;
-        PTexture *cubeTex;
-        PTexture *crateTex;
-        PTexture *playerTex;*/
+
     };
   }
 }

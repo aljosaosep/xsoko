@@ -60,7 +60,7 @@ namespace PacGame
               void PPlayer::draw() 
               {
                     glColor4f(1.0, 1.0, 0.7, 0.8);
-//                    glBindTexture(GL_TEXTURE_2D, this->renderer->playerTex->getTexID());
+                    glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(8));
                     this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, 0.0);
                       // TODO
               }
