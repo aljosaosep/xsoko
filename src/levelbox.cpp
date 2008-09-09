@@ -129,8 +129,8 @@ namespace PacGame
         
         void PFloor::draw()
         {
-            glColor3f(0.3, 0.2, 0.6);
-            glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(2));
+            glColor3f(0.5, 0.5, 0.4);
+            glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(0));
             this->core->getRenderer()->drawFloor(0.0, 0.0, 1.0);
         }
         
@@ -154,7 +154,23 @@ namespace PacGame
         
         void POnewayFloor::draw()
         {
-
+            glColor3f(0.5, 0.5, 0.4);
+            switch(this->dir)
+            {
+                    case Aliases::left:
+                        glRotatef(180.0, 0.0, 0.0, 1.0);
+                        break;
+                        
+                    case Aliases::up:
+                        glRotatef(90.0, 0.0, 0.0, 1.0);
+                        break;
+                            
+                    case Aliases::down:
+                        glRotatef(-90.0, 0.0, 0.0, 1.0);
+                        break;
+            }
+            glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(10));
+            this->core->getRenderer()->drawFloor(0.0, 0.0, 1.0);
         }
         
         void POnewayFloor::print()
@@ -164,8 +180,17 @@ namespace PacGame
         
         short POnewayFloor::isPlayerMovePossible() 
         {
-            /// tmp
-            return 0;
+            return 5;
+        }
+        
+        Aliases::PDirection POnewayFloor::getDirection()
+        {
+            return this->dir;
+        }
+        
+        void POnewayFloor::setDirection(Aliases::PDirection dir)
+        {
+            this->dir = dir;
         }
         
         /*****************************************
@@ -180,7 +205,7 @@ namespace PacGame
         
         void PSolidWall::draw()
         {
-            glColor3f(1.0, 1.0, 1.0);
+            glColor3f(0.9, 0.9, 0.9);
             glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(2));
             this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, 0.0);
         }
@@ -230,8 +255,8 @@ namespace PacGame
         
         void PBridge::draw()
         {
-            glColor3f(0.0, 0.3, 0.1);
-            glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(4));
+            glColor4f(1.0, 1.0, 1.0, 0.5);
+            glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(5));
             this->core->getRenderer()->drawFloor(0.0, 0.0, 1.0);
 
         }

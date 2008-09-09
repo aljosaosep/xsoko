@@ -62,8 +62,6 @@ namespace PacGame
               virtual bool initialize()=0;  // code that initiates objects properties
               virtual void print()=0;       // object's console dump            
               virtual short isPlayerMovePossible()=0;
-              
-              
           };
          
            /**********************************************************
@@ -234,12 +232,19 @@ namespace PacGame
           class POnewayFloor : public PLevelObject
           {
           private:
+              Aliases::PDirection dir; // tells in wich way os cube orientated
           public:
               POnewayFloor(PCore *core) { this->id = 1; this->core = core; }
               void draw();
               bool initialize();
               void print();             
               short isPlayerMovePossible() ;
+              
+              // getters
+              Aliases::PDirection getDirection();
+              
+              // setters
+              void  setDirection(Aliases::PDirection dir);
           };
 
            /**********************************************************

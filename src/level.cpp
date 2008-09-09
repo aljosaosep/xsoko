@@ -11,6 +11,9 @@
  * Aljosa 2008
  */
 
+#include "object.h"
+
+
 #include <typeinfo>
 #include <vector>
 #include <string>
@@ -107,10 +110,12 @@ namespace PacGame
               
               if(data[i][j]->getId()==BRIDGE)
               {
-                  delete data[i][j];
-                  data[i][j] = globalVoid;
+                  if(obj->getId() == 1)
+                  {
+                      delete data[i][j];
+                      data[i][j] = globalVoid;
+                  }
               }
-              
               obj->setIndex(i2, j2);
           }
           
@@ -122,10 +127,7 @@ namespace PacGame
           inline bool PLevel::isLevelDone()
           {
               for(unsigned i=0; i<this->holds.size(); i++)  // we loop thorough all holders in level
-              {
-                  
-               //   int id = (dynamic_cast<PLevelObject*>(this->holds[i]->returnFirstChild()))->getId();
-                  
+              { 
                   if(this->holds[i]->returnFirstChild()==NULL) // if hold has no child
                       return false;  // level cant be done!
 
@@ -214,7 +216,52 @@ namespace PacGame
                           }
                       }
                   } 
-              }     
+              }    
+          /*    else if(1)
+              {
+              Aliases::PDirection dirrr = dynamic_cast<POnewayFloor*>(data[i2][j2])->getDirection();
+              cout<<"stupid"<<endl;
+              }*/
+              // CONDITIONALLY POSSIBLE MOVE - ONEWAY FLOOR    // T O D O    FFIIIXX
+              else if((data[i2][j2]->isPlayerMovePossible()==5) && (dir ==  (dynamic_cast<POnewayFloor*>(data[i2][j2])->getDirection())))  // move is conditionally possible; we check children
+              {
+                  cout<<"passed"<<endl;
+                  if(data[i2][j2]->returnFirstChild() == NULL)  // move is possible since there are no children
+                  {
+                      reattachNode(i, j, i2, j2, obj);   // so we do it ;)
+                      return true;
+                  }
+                  
+                  // case, there is normal cube
+                  else if(data[i2][j2]->returnFirstChild()->isPlayerMovePossible() == 2 && (obj->getId()==1))  // there is cube on the field, we attemt to move it
+                                                                                                              // but we can move it only, if obj is player(do it has id=1)
+                  {
+                      // CUBE-MOVE CODE GOES HERE
+                      if(this->moveObject(dir, dynamic_cast<PLevelObject*>(data[i2][j2]->returnFirstChild())))
+                      {
+                          reattachNode(i, j, i2, j2, obj);   // it is, we move object
+                          return true;   
+                      }
+                  }  
+                  
+                  // case, there is oneway cube
+                  else if(data[i2][j2]->returnFirstChild()->isPlayerMovePossible() == 3 && (obj->getId()==1))  // there is cube on the field, we attemt to move it
+                                                                                                              // but we can move it only, if obj is player(do it has id=1)
+                  { 
+                      if(dynamic_cast<POnewayCube*>(data[i2][j2]->returnFirstChild())->getDirection()==dir)
+                      {
+                          // CUBE-MOVE CODE GOES HERE
+                          if(this->moveObject(dir, dynamic_cast<PLevelObject*>(data[i2][j2]->returnFirstChild())))
+                          {
+
+                              reattachNode(i, j, i2, j2, obj);   // it is, we move object
+                              return true;   
+                          }
+                      }
+                  } 
+              }
+             
+              
               else if(data[i2][j2]->isPlayerMovePossible()==6)  // move is conditionally possible; we check children; thid id cubeholder case
               {                                             // only diffrence between causal conditional move and move to cubeHolder is
                                                              // that in this case, after we move cube to cube holder, we check if level has been done
@@ -244,19 +291,6 @@ namespace PacGame
                   }   
               }
               
-              else if(data[i2][j2]->isPlayerMovePossible()==5) // bridge!
-              {
-                  //// TODO
-             /*     reattachNode(i, j, i2, j2, obj);   // move player to bridge
-                  PVoid *praznina = new PVoid;       // create new void object
-                  praznina->attachToRoot(NULL);  // attach player to void
-                  
-              //    data[i2][j2]->releaseFirstChild();   // drop player from bridge
-                  delete data[i2][j2];  // delete bridge
-                  data[i2][j2] = praznina;*/
-                  
-              }
-              
               // is there empty space?
               else if(data[i2][j2]->returnFirstChild()==NULL)
               {
@@ -267,7 +301,7 @@ namespace PacGame
                   this->endgameFlag = true;  // and we make game end */
               }
               
-         //     return true; // to avoid warning
+              return false; // to avoid warning
           }
           
           // gameplay related
@@ -345,11 +379,15 @@ namespace PacGame
                               {
                                   case FLOOR:
                                       data[i][j] = new PFloor(this->gameCore);
+                                      
+                                      if((resourceHandle->getTextureResource(FLOOR))==NULL)  // texture isn't in memory yet?
+                                            resourceHandle->loadTextureResource(FLOOR, "floor.tga");  // load it!
+                                      
                                       break;
                                       
-                                  case OW_FLOOR:
+                             /*     case OW_FLOOR:
                                       data[i][j] = new POnewayFloor(this->gameCore);
-                                      break;
+                                      break;*/
                                       
                                   case S_WALL:
                                       data[i][j] = new PSolidWall(this->gameCore);   
@@ -364,6 +402,10 @@ namespace PacGame
                                       
                                   case BRIDGE:
                                       data[i][j] = new PBridge(this->gameCore);
+                                      
+                                      if((resourceHandle->getTextureResource(BRIDGE))==NULL)  // texture isn't in memory yet?
+                                            resourceHandle->loadTextureResource(BRIDGE, "bridge.tga");  // load it!
+                                      
                                       break;  
                                       
                                   case VOID:
@@ -396,17 +438,16 @@ namespace PacGame
                           num = returnNumberFromFile(level);
                           if(num!=-1)
                           {
-                              if(num >= 11) // if it is > 11, then it is an teleport id
+                              if(num > 11) // if it is > 11, then it is an teleport id
                               {
-                                  
-                                  PTeleport *teleport = new PTeleport(i, j, this->gameCore); // create object
+                                  data[i][j] = new PTeleport(i, j, this->gameCore); // create object
                                   
                                   if((resourceHandle->getTextureResource(TELEPORT))==NULL)  // texture isn't in memory yet?
                                       resourceHandle->loadTextureResource(TELEPORT, "test.tga");  // load it!
 
-                                  teleport->setId(num);                // set its id
-                                  data[i][j] = teleport;               // attach it on level
-                                  this->teleports.push_back(teleport); // push teleport info on vector
+                                  (dynamic_cast<PTeleport*>(data[i][j]))->setId(num);                // set its id
+                              //    data[i][j] = teleport;               // attach it on level
+                                  this->teleports.push_back(dynamic_cast<PTeleport*>(data[i][j])); // push teleport info on vector
                               }
                               
                               switch(num)
@@ -477,6 +518,57 @@ namespace PacGame
                                       data[i][j]->add(p);
                                       second_matrix[i][j] = BOMB;
                                       break; 
+                                      
+                                      
+                                  // those number tells onewayfloor orientation
+                                  // next section readns second matrix in file, but creates objects with given metadata, and not only appends
+                                  case LEFT:  // left
+                                      data[i][j] = new POnewayFloor(this->gameCore);
+                                      dynamic_cast<POnewayFloor*>(data[i][j])->setDirection(Aliases::left);
+                                   //   data[i][j]->add(p);
+                                      
+                                      if((resourceHandle->getTextureResource(11))==NULL)  // texture isn't in memory yet?
+                                          resourceHandle->loadTextureResource(11, "onewayfloor.tga");  // load it!
+                                      
+                                      second_matrix[i][j] = 8;
+                                      data[i][j]->add(NULL);
+                                      break;
+                                      
+                                  case RIGHT:  // right
+                                      data[i][j] = new POnewayFloor(this->gameCore);
+                                      dynamic_cast<POnewayFloor*>(data[i][j])->setDirection(Aliases::right);
+                                  //    data[i][j]->add(p);
+                                      
+                                      if((resourceHandle->getTextureResource(11))==NULL)  // texture isn't in memory yet?
+                                          resourceHandle->loadTextureResource(11, "onewayfloor.tga");  // load it!
+                                      
+                                      second_matrix[i][j] = 9;
+                                      data[i][j]->add(NULL);
+                                      break;
+                                      
+                                  case UP:  //up
+                                      data[i][j] = new POnewayFloor(this->gameCore);
+                                      dynamic_cast<POnewayFloor*>(data[i][j])->setDirection(Aliases::up);
+                                  //    data[i][j]->add(p);
+                                      
+                                      if((resourceHandle->getTextureResource(11))==NULL)  // texture isn't in memory yet?
+                                          resourceHandle->loadTextureResource(11, "onewayfloor.tga");  // load it!
+                                      
+                                      second_matrix[i][j] = 10;
+                                      data[i][j]->add(NULL);
+                                      break;
+                                      
+                                  case DOWN: // down
+                                      data[i][j] = new POnewayFloor(this->gameCore);
+                                      dynamic_cast<POnewayFloor*>(data[i][j])->setDirection(Aliases::down);
+                                 //     data[i][j]->add(p);
+                                      
+                                      if((resourceHandle->getTextureResource(11))==NULL)  // texture isn't in memory yet?
+                                          resourceHandle->loadTextureResource(11, "onewayfloor.tga");  // load it!
+                                      
+                                      second_matrix[i][j] = 11;
+                                      data[i][j]->add(NULL);
+                                      break;
                                       
                                   default:   // in
                                       data[i][j]->add(NULL);
@@ -617,13 +709,6 @@ namespace PacGame
               return this->player;
           }
 
-           /**************************************************************
-           * Function returns pointer to renderer object
-           **************************************************************/
-        /*  PRenderer* PLevel::getRendererHandle()
-          {
-              return this->renderer;
-          }*/
 
           /**************************************************************
            * Function returns pointer to renderer object
@@ -633,13 +718,6 @@ namespace PacGame
               return this->endgameFlag;
           }
           
-           /**************************************************************
-           * Function sets renderer object to level
-           **************************************************************/          
-         /* void PLevel::setRenderer(PRenderer *renderer)
-          {
-              this->renderer = renderer;
-          }*/
           
           /**************************************************************
            * Function initiates level
@@ -664,14 +742,9 @@ namespace PacGame
               else
                   Messages::initMessage("Game core", true);
               
-              /// tmp !!!
-//              this->gameCore->getResources()->loadTextures();
-              
               // temporary, dump state
               this->print();
               
-
-             // test.add(&data[0][0]);
               return true; // everything went ok
           }
           
@@ -702,13 +775,8 @@ namespace PacGame
                                   glPopMatrix();
                               }
                       }
-                  //    cout<<'|'<<endl;
                   }
-             //     cout<<setfill('-')<<setw(73)<<"-"<<endl;  // prints line
-              
-
-              glPopMatrix();
-              
+              glPopMatrix();  
           }
           
           /**************************************************************

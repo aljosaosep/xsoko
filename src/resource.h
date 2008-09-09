@@ -10,7 +10,7 @@
 
 #include "renderer/texture.h"
 
-#define ELEMENTS_TEXTURES 11
+#define ELEMENTS_TEXTURES 12
 
 using namespace PacGame::RenderMaschine;
 

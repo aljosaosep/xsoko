@@ -26,6 +26,7 @@
         <itemPath>src/zip/unzip.h</itemPath>
         <itemPath>src/zip/zipfile.h</itemPath>
       </logicalFolder>
+      <itemPath>src/camera.h</itemPath>
       <itemPath>src/CommonStructures.h</itemPath>
       <itemPath>src/core.h</itemPath>
       <itemPath>src/game.h</itemPath>
@@ -71,6 +72,7 @@
         <itemPath>src/zip/unzip.c</itemPath>
         <itemPath>src/zip/zipfile.cpp</itemPath>
       </logicalFolder>
+      <itemPath>src/camera.cpp</itemPath>
       <itemPath>src/CommonStructures.cpp</itemPath>
       <itemPath>src/core.cpp</itemPath>
       <itemPath>src/game-init.cpp</itemPath>
@@ -122,6 +124,12 @@
         <itemTool>1</itemTool>
       </item>
       <item path="src/CommonStructures.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/camera.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/camera.h">
         <itemTool>3</itemTool>
       </item>
       <item path="src/core.cpp">
@@ -340,6 +348,12 @@
       <item path="src/CommonStructures.h">
         <itemTool>3</itemTool>
       </item>
+      <item path="src/camera.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/camera.h">
+        <itemTool>3</itemTool>
+      </item>
       <item path="src/core.cpp">
         <itemTool>1</itemTool>
       </item>
@@ -552,6 +566,12 @@
         <itemTool>1</itemTool>
       </item>
       <item path="src/CommonStructures.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/camera.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/camera.h">
         <itemTool>3</itemTool>
       </item>
       <item path="src/core.cpp">
@@ -771,6 +791,12 @@
         <itemTool>1</itemTool>
       </item>
       <item path="src/CommonStructures.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/camera.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/camera.h">
         <itemTool>3</itemTool>
       </item>
       <item path="src/core.cpp">
