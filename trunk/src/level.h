@@ -75,7 +75,6 @@ namespace PacGame
                   unsigned width, height;       // level dimensions
                   PPlayer *player;              // player instance 
                   vector<PCubeHolder*> holds;           // vector contains all cube holders in level; it helps to determine when level is finished
-                //  PRenderer *renderer;
                   PCore *gameCore;             // game core object
                   PResourceManager *resourceHandle; // shortcut to resources
                   bool endgameFlag;
@@ -104,10 +103,6 @@ namespace PacGame
                   inline bool checkPosition(ifstream &file); // checks if position is valid and moves file pointer
                   inline PTeleport* returnTeleport(int id); // returns teleports addres, that contains given id
                   PPlayer* getPlayerHandle();
-               //   PRenderer* getRendererHandle();
-                  
-                  // setters
-               //   void setRenderer(PRenderer *renderer);
                   
                   // getters
                   bool getEndgameFlag();
