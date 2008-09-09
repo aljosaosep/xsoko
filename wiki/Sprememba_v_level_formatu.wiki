@@ -118,6 +118,7 @@ Ce kdo med programiranjem ugotovi, da z temi id-ji kaj ne stima, naj prosim popr
 
 Spodobi se in pravicno je, da se v kodi uporabljajo naslednji makri(da bo lazje berljivo):
 
+{{{
 // MATRIKA 1
 #define FLOOR 0 
 #define S_WALL 1 //  (PSolidWall)
@@ -145,11 +146,13 @@ Spodobi se in pravicno je, da se v kodi uporabljajo naslednji makri(da bo lazje 
 #define OW_CUBE_D 6 // (POnewayCube)
 #define OW_CUBE_TEX 9
 #define BOMB 7 // (PBomb)
+}}}
 
 Testni level
 
 Naredil sem nek tesni level v beleznici, ki prikazuje kaksen je format levela:
 
+{{{
 12 7
 1 1 1 1 4 4 4 1 1 1 1 1
 1 3 3 1 1 4 1 0 0 0 0 1
@@ -170,6 +173,7 @@ Naredil sem nek tesni level v beleznici, ki prikazuje kaksen je format levela:
 2
 10 11
 11 10
+}}}
 ----
 
 
