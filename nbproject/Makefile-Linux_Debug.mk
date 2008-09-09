@@ -27,12 +27,14 @@ OBJECTDIR=build/Linux_Debug/GNU-Linux-x86
 OBJECTFILES= \
 	${OBJECTDIR}/src/zip/zlib/infback.o \
 	${OBJECTDIR}/src/zip/ioapi.o \
+	${OBJECTDIR}/src/camera.o \
 	${OBJECTDIR}/src/zip/zlib/compress.o \
 	${OBJECTDIR}/src/game.o \
 	${OBJECTDIR}/src/zip/zlib/deflate.o \
 	${OBJECTDIR}/src/session.o \
 	${OBJECTDIR}/src/zip/unzip.o \
 	${OBJECTDIR}/src/zip/zlib/crc32.o \
+	${OBJECTDIR}/src/resource.o \
 	${OBJECTDIR}/src/input.o \
 	${OBJECTDIR}/src/main.o \
 	${OBJECTDIR}/src/zip/zlib/gzio.o \
@@ -50,6 +52,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/src/zip/zlib/trees.o \
 	${OBJECTDIR}/src/messages.o \
 	${OBJECTDIR}/src/game-render.o \
+	${OBJECTDIR}/src/core.o \
 	${OBJECTDIR}/src/io.o \
 	${OBJECTDIR}/src/renderer/renderer-texture.o \
 	${OBJECTDIR}/src/game-init.o \
@@ -85,6 +88,10 @@ ${OBJECTDIR}/src/zip/ioapi.o: src/zip/ioapi.c
 	${MKDIR} -p ${OBJECTDIR}/src/zip
 	$(COMPILE.c) -g -o ${OBJECTDIR}/src/zip/ioapi.o src/zip/ioapi.c
 
+${OBJECTDIR}/src/camera.o: src/camera.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	$(COMPILE.cc) -g -Wall -o ${OBJECTDIR}/src/camera.o src/camera.cpp
+
 ${OBJECTDIR}/src/zip/zlib/compress.o: src/zip/zlib/compress.c 
 	${MKDIR} -p ${OBJECTDIR}/src/zip/zlib
 	$(COMPILE.c) -g -o ${OBJECTDIR}/src/zip/zlib/compress.o src/zip/zlib/compress.c
@@ -108,6 +115,10 @@ ${OBJECTDIR}/src/zip/unzip.o: src/zip/unzip.c
 ${OBJECTDIR}/src/zip/zlib/crc32.o: src/zip/zlib/crc32.c 
 	${MKDIR} -p ${OBJECTDIR}/src/zip/zlib
 	$(COMPILE.c) -g -o ${OBJECTDIR}/src/zip/zlib/crc32.o src/zip/zlib/crc32.c
+
+${OBJECTDIR}/src/resource.o: src/resource.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	$(COMPILE.cc) -g -Wall -o ${OBJECTDIR}/src/resource.o src/resource.cpp
 
 ${OBJECTDIR}/src/input.o: src/input.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
@@ -176,6 +187,10 @@ ${OBJECTDIR}/src/messages.o: src/messages.cpp
 ${OBJECTDIR}/src/game-render.o: src/game-render.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
 	$(COMPILE.cc) -g -Wall -o ${OBJECTDIR}/src/game-render.o src/game-render.cpp
+
+${OBJECTDIR}/src/core.o: src/core.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	$(COMPILE.cc) -g -Wall -o ${OBJECTDIR}/src/core.o src/core.cpp
 
 ${OBJECTDIR}/src/io.o: src/io.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src

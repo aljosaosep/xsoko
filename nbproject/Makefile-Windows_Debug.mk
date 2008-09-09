@@ -12,21 +12,22 @@ MKDIR=mkdir
 CP=cp
 CCADMIN=CCadmin
 RANLIB=ranlib
-CC=
-CCC=
-CXX=
+CC=gcc
+CCC=g++
+CXX=g++
 FC=
 
 # Include project Makefile
 include Makefile
 
 # Object Directory
-OBJECTDIR=build/Windows_Debug/Cygwin-Windows
+OBJECTDIR=build/Windows_Debug/GNU-Windows
 
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/src/zip/zlib/infback.o \
 	${OBJECTDIR}/src/zip/ioapi.o \
+	${OBJECTDIR}/src/camera.o \
 	${OBJECTDIR}/src/zip/zlib/compress.o \
 	${OBJECTDIR}/src/game.o \
 	${OBJECTDIR}/src/zip/zlib/deflate.o \
@@ -73,11 +74,11 @@ FFLAGS=
 LDLIBSOPTIONS=-lglfw -lopengl32 -lglu32
 
 # Build Targets
-.build-conf: ${BUILD_SUBPROJECTS} dist/Windows_Debug/Cygwin-Windows/trunk.exe
+.build-conf: ${BUILD_SUBPROJECTS} dist/Windows_Debug/GNU-Windows/trunk.exe
 
-dist/Windows_Debug/Cygwin-Windows/trunk.exe: ${OBJECTFILES}
-	${MKDIR} -p dist/Windows_Debug/Cygwin-Windows
-	${LINK.cc} -o dist/Windows_Debug/Cygwin-Windows/trunk ${OBJECTFILES} ${LDLIBSOPTIONS} 
+dist/Windows_Debug/GNU-Windows/trunk.exe: ${OBJECTFILES}
+	${MKDIR} -p dist/Windows_Debug/GNU-Windows
+	${LINK.cc} -o dist/Windows_Debug/GNU-Windows/trunk ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
 ${OBJECTDIR}/src/zip/zlib/infback.o: src/zip/zlib/infback.c 
 	${MKDIR} -p ${OBJECTDIR}/src/zip/zlib
@@ -86,6 +87,10 @@ ${OBJECTDIR}/src/zip/zlib/infback.o: src/zip/zlib/infback.c
 ${OBJECTDIR}/src/zip/ioapi.o: src/zip/ioapi.c 
 	${MKDIR} -p ${OBJECTDIR}/src/zip
 	$(COMPILE.c) -g -o ${OBJECTDIR}/src/zip/ioapi.o src/zip/ioapi.c
+
+${OBJECTDIR}/src/camera.o: src/camera.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	$(COMPILE.cc) -g -Wall -o ${OBJECTDIR}/src/camera.o src/camera.cpp
 
 ${OBJECTDIR}/src/zip/zlib/compress.o: src/zip/zlib/compress.c 
 	${MKDIR} -p ${OBJECTDIR}/src/zip/zlib
@@ -217,7 +222,7 @@ ${OBJECTDIR}/src/renderer/renderer-core.o: src/renderer/renderer-core.cpp
 # Clean Targets
 .clean-conf:
 	${RM} -r build/Windows_Debug
-	${RM} dist/Windows_Debug/Cygwin-Windows/trunk.exe
+	${RM} dist/Windows_Debug/GNU-Windows/trunk.exe
 
 # Subprojects
 .clean-subprojects:
