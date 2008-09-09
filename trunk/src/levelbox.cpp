@@ -102,9 +102,8 @@ namespace PacGame
         void PTeleport::draw()
         {
             glColor4f(0.0, 0.0, 1.0, 0.4);
-            glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(4));
-            this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, 0.0);
-            
+            glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(10));
+            this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, 0.0);   
         }
         
         void PTeleport::print()
@@ -169,7 +168,7 @@ namespace PacGame
                         glRotatef(-90.0, 0.0, 0.0, 1.0);
                         break;
             }
-            glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(10));
+            glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(4));
             this->core->getRenderer()->drawFloor(0.0, 0.0, 1.0);
         }
         
@@ -206,7 +205,7 @@ namespace PacGame
         void PSolidWall::draw()
         {
             glColor3f(0.9, 0.9, 0.9);
-            glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(2));
+            glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(1));
             this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, 0.0);
         }
         
@@ -256,7 +255,7 @@ namespace PacGame
         void PBridge::draw()
         {
             glColor4f(1.0, 1.0, 1.0, 0.5);
-            glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(5));
+            glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(3));
             this->core->getRenderer()->drawFloor(0.0, 0.0, 1.0);
 
         }
@@ -309,7 +308,7 @@ namespace PacGame
         void PCubeHolder::draw()
         {
             glColor3f(0.3, 0.0, 0.0);
-            glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(9));
+            glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(8));
             this->core->getRenderer()->drawFloor(0.0, 0.0, 1.0);
         }
         
@@ -346,7 +345,7 @@ namespace PacGame
         void PCube::draw()
         {
             glColor3f(1.0, 1.0, 1.0);
-            glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(9));
+            glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(8));
             this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, 0.0);
         }
         
@@ -387,7 +386,7 @@ namespace PacGame
                         glRotatef(-90.0, 0.0, 0.0, 1.0);
                         break;
             }
-            glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(10));
+            glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(9));
             this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, 0.0);
         }
         

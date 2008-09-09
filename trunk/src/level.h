@@ -29,29 +29,37 @@ using namespace PacGame::RenderMaschine;
 
 // MATRIKA 1
 #define FLOOR 0 
-#define OW_FLOOR 1 // (POneWayFloor)
-#define S_WALL 2 //  (PSolidWall)
-#define U_WALL 3 // (PUnsolidWall)
-#define TELEPORT 4 // (PTeleport)
-#define BRIDGE 5 // (PBridge)
-#define VOID 6 // (PVoid) 
-#define CUBE_PLACE 7
+#define S_WALL 1 //  (PSolidWall)
+#define U_WALL 2 // (PUnsolidWall)
+#define BRIDGE 3 // (PBridge)
+#define VOID 4 // (PVoid) 
+#define CUBE_PLACE 5
+#define OW_FLOOR_TEX 4
+#define OW_FLOOR_L 6 // (POneWayFloor)
+#define OW_FLOOR_R 7 // (POneWayFloor)
+#define OW_FLOOR_U 8 // (POneWayFloor)
+#define OW_FLOOR_D 9 // (POneWayFloor)
+#define TELEPORT 10 // (PTeleport)
+#define TELEPORT_TEX 6
 
 // MATRIKA 2
 #define NO_CHILD 0
 #define PLAYER 1 // (PPlayer)
+#define PLAYER_TEX 7
 #define CUBE 2 // (PCube)
+#define CUBE_TEX 8
 #define OW_CUBE_L 3 // (POnewayCube)
 #define OW_CUBE_R 4 // (POnewayCube)
 #define OW_CUBE_U 5 // (POnewayCube)
 #define OW_CUBE_D 6 // (POnewayCube)
+#define OW_CUBE_TEX 9
 #define BOMB 7 // (PBomb)
 
 // ID za smer enosmerne kocke  
-#define LEFT 8
+/*#define LEFT 8
 #define RIGHT 9
 #define UP 10 
-#define DOWN 11
+#define DOWN 11*/
 
 namespace PacGame
 {
