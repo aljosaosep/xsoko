@@ -93,7 +93,7 @@ namespace PacGame
           {
           private:
           public:
-              PSolidWall(PCore *core) { this->id = 2; this->core = core; }
+              PSolidWall(PCore *core) { this->id = 1; this->core = core; }
               void draw();
               bool initialize();
               void print();             
@@ -111,7 +111,7 @@ namespace PacGame
           {
           private:
           public:
-              PUnsolidWall(PCore *core) { this->id = 3; this->core = core; }
+              PUnsolidWall(PCore *core) { this->id = 2; this->core = core; }
               void draw();
               bool initialize();
               void print();              
@@ -133,8 +133,8 @@ namespace PacGame
               
           public:
               PTeleport(PCore *core) { this->id = 4; this->core = core; }
-              PTeleport(int id, PCore *core) : teleport_id(id) { this->id = 4; this->core = core; }
-              PTeleport(int i, int j, PCore *core) { this->i=i; this->j = j; this->id=4; this->core = core; }
+              PTeleport(int id, PCore *core) : teleport_id(id) {  this->core = core; }
+              PTeleport(int i, int j, PCore *core, unsigned int o_id) { this->i=i; this->j = j; this->core = core; this->id = o_id; }
               
               // setters
               void setId(int id);
@@ -161,7 +161,7 @@ namespace PacGame
           {
           private:
           public:
-              PBridge(PCore *core) { this->id = 5; this->core = core; }
+              PBridge(PCore *core) { this->id = 3; this->core = core; }
               void draw();
               bool initialize();
               void print();             
@@ -179,7 +179,7 @@ namespace PacGame
           {
           private:
           public:
-              PVoid() { this->id = 6; }
+              PVoid() { this->id = 4; }
               void draw();
               bool initialize();
               void print();             
@@ -215,7 +215,7 @@ namespace PacGame
           {
           private:
           public:
-              PCubeHolder(PCore *core)  { this->id = 7; this->core = core; }
+              PCubeHolder(PCore *core)  { this->id = 5; this->core = core; }
               void draw();
               bool initialize();
               void print();              
@@ -234,7 +234,7 @@ namespace PacGame
           private:
               Aliases::PDirection dir; // tells in wich way os cube orientated
           public:
-              POnewayFloor(PCore *core) { this->id = 1; this->core = core; }
+              POnewayFloor(PCore *core, unsigned short id) { this->id = 1; this->core = core; this->id = id; }
               void draw();
               bool initialize();
               void print();             

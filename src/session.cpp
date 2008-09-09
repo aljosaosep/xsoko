@@ -54,6 +54,7 @@ namespace PacGame
               //  glRotatef(angle, 1.0, 1.0, 1.0);
                 
                 glRotatef(-90.0, 0.0, 0.0, 1.0);
+
                 this->level->draw();
               
                 glfwSwapBuffers();
