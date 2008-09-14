@@ -37,14 +37,10 @@ naredi ravno obratno kot obstojeca funkcija za lovdanje stopenj).
 == Implementacija ostalih sokoban add-onov (torej gameplaya, ki se ni implementiran) == 
 ==== prioriteta: srednja ====
 ==== trenutno dela: Aljosa ====
-==== zeljen datum implementacije: 1.9. 2008 ====
-==== status: 65% ====
+==== zadnji datum implementacije: 20.9. 2008 (verjetno bo prej)====
+==== status: 95% ====
 ==== quick summary: ====
-Ce kdo zeli, lahko implementira se kak objekt oz. feauture, ni pa
-nujno, ker kar zadeva gameplay, so cilji za verzijo 0.5 ze
-izpopolnjeni. ce bo kdo to delal, naj pove, ker se moram v tem primeru
-razpisat kako se gameplay tule programira(treba je poznat nekaj
-razredov in delo z njimi) 
+Manjka le se bombardiranje, pa se to je ze skoraj koncano.
 
 ----
 
