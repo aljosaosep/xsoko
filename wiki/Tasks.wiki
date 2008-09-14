@@ -3,8 +3,8 @@
 == Audio sistem == 
 ==== prioriteta: visoka ====
 ==== trenutno dela: Jernej Haložan ====
-==== datum implementacije: 15.9. 2008 ====
-==== status: nacrtovanje, analiza, priprava ====
+==== datum implementacije: 30.9. 2008 (prestavljeno iz 15.9.) ====
+==== status: 25 % ====
 ==== API: OpenAL ====
 ==== quick summary: ====
 Opis + info na [http://groups.google.com/group/xsoko/browse_thread/thread/b0821ffd80b25adb xsoko-discuss] 
