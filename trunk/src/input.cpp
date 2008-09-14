@@ -46,6 +46,11 @@ namespace PacGame
                 Messages::infoMessage("Key space pressed, dumping...");                
                 this->level->print();              
             }
+            else if((glfwGetKey('D') == GLFW_PRESS) && (glfwGetKey('D') == GLFW_RELEASE))
+            {
+                this->getLevel()->addDroppedBomb(this->getLevel()->getPlayerHandle()->getI(), this->getLevel()->getPlayerHandle()->getJ());
+           //     this->bombDropTime = glfwGetTime();
+            }
             
             // camera values; if you need to move camera, uncomment this code
       /*      else if((glfwGetKey('W') == GLFW_PRESS) && (glfwGetKey('W') == GLFW_RELEASE))
@@ -87,5 +92,10 @@ namespace PacGame
         {
             return this->level;
         }
+        
+     /*   double PInputSystem::getBombDropTime()
+        {
+            return this->bombDropTime;
+        }*/
     }
 }

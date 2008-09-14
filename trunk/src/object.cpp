@@ -14,6 +14,7 @@
 
 #include <iostream>
 #include "object.h"
+#include "zip/zlib/zconf.in.h"
 
 using namespace std;
 
@@ -124,6 +125,5 @@ namespace PacGame
           {
               root->object = NULL;     // set pointer to NULL
           }
-          
       }
 }

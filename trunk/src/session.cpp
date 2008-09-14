@@ -6,9 +6,8 @@
  */
 
 #include "session.h"
-
-
-#include "session.h"
+#include <cstdio>
+#include <cmath>
 
 namespace PacGame
 {
@@ -32,7 +31,53 @@ namespace PacGame
                 // calculate time elapsed, and the amount by which stuff rotates
                 double current_time = glfwGetTime(),
                 delta_rotate = (current_time - old_time) * rotations_per_tick * 360;
+                
+                if(this->level->getDroppedBombLen() != 0)  // are there any bombs to trigger?
+                {
+                    // apparently they are!
+                    if(round(current_time-this->level->getFirstDroppedBomb()->dropTime) == 3)  // is it time to trigger bomb yet?
+                    {
+                      //  if(this->level->)
+                        cout<<endl;
+                        cout<<"current: "<<current_time<<endl;
+                        cout<<"drop: "<<this->level->getFirstDroppedBomb()->dropTime<<endl;
+                        cout<<"KABOOOOOOOOOOOM!!!!"<<endl;
+                        cout<<endl;
+                        
+                        cout<<"PLayer: "<<this->level->getPlayerHandle()->getI()<<' '<<this->level->getPlayerHandle()->getJ()<<endl;
+                        
+                        // check bomb surrounding fields
+                        cout<<"check at: "<<level->getFirstDroppedBomb()->i-1<<' '<<level->getFirstDroppedBomb()->j<<endl;
+                        this->level->checkAndApplyBombBlast(level->getFirstDroppedBomb()->i-1, level->getFirstDroppedBomb()->j);
+                        
+                        
+                        cout<<"check at: "<<level->getFirstDroppedBomb()->i+1<<' '<<level->getFirstDroppedBomb()->j<<endl;                       
+                        this->level->checkAndApplyBombBlast(level->getFirstDroppedBomb()->i+1, level->getFirstDroppedBomb()->j);
+                        
+                         cout<<"check at: "<<level->getFirstDroppedBomb()->i<<' '<<level->getFirstDroppedBomb()->j-1<<endl;  
+                        this->level->checkAndApplyBombBlast(level->getFirstDroppedBomb()->i, level->getFirstDroppedBomb()->j-1);
+                        
+                            cout<<"check at: "<<level->getFirstDroppedBomb()->i<<' '<<level->getFirstDroppedBomb()->j+1<<endl;                      
+                        this->level->checkAndApplyBombBlast(level->getFirstDroppedBomb()->i, level->getFirstDroppedBomb()->j+1);
+                        
+                        this->level->removeFirstDroppedBomb();
+                    }
+                }
+                
+                
+/*                if(round(current_time-input->getBombDropTime()) == 3)
+                {
+                    cout<<endl;
+                    cout<<"current: "<<current_time<<endl;
+//                    cout<<"drop: "<<input->getBombDropTime()<<endl;
+                    cout<<"KABOOOOOOOOOOOM!!!!"<<endl;
+                    cout<<endl;
+                }*/
+                
+           //                     cout<<"Cas:"<<current_time-old_time<<endl;
                 old_time = current_time;
+                
+
                 
                 // is game over? or level done?
                 if(this->level->getEndgameFlag())
@@ -40,6 +85,7 @@ namespace PacGame
                 
                 // check for input every time
                 input->process();
+
 
                 // clear the buffer
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

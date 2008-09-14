@@ -288,7 +288,7 @@ namespace PacGame
               void draw();
               bool initialize();
               void print();
-              short isPlayerMovePossible()  { return 0; }
+              short isPlayerMovePossible();
           };
       }
 }
