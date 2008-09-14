@@ -20,13 +20,16 @@ namespace PacGame
     {
         class PInputSystem
         {
-        private:
+        private: 
             PLevel *level;    // level object
+      //      double bombDropTime;
+
 
         public:
+            
             // constructors
-            PInputSystem(PLevel *level) : level(level) {}
-            PInputSystem() : level(NULL) {}
+            PInputSystem(PLevel *level) : level(level) { }
+            PInputSystem() : level(NULL){ }
             
             // process function
             void process();
@@ -36,6 +39,7 @@ namespace PacGame
             
             // getters
             PLevel* getLevel() const;
+       //     double getBombDropTime();
         }; 
     }
 }

@@ -102,7 +102,7 @@ namespace PacGame
         void PTeleport::draw()
         {
             glColor4f(0.0, 0.0, 1.0, 0.4);
-            glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(10));
+            glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(6));
             this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, 0.0);   
         }
         
@@ -230,7 +230,9 @@ namespace PacGame
         
         void PUnsolidWall::draw()
         {
-
+            glColor3f(0.7, 0.6, 0.6);
+            glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(2));
+            this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, 0.0);
         }
         
         void PUnsolidWall::print()
@@ -333,12 +335,6 @@ namespace PacGame
         // TODO: implement
         bool PCube::initialize()
         {
-          /*  this->texture.setPath("test.tga");
-            if(!this->texture.makeTgaTexture(true))
-            {
-                Messages::errorMessage("Cube texture error!");
-                return false;
-            }*/
             return true;
         }
         
@@ -416,7 +412,9 @@ namespace PacGame
         
         void PBomb::draw()
         {
-
+            glColor3f(1.0, 1.0, 1.0);
+            glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(10));
+            this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, 0.0);
         }
         
         void PBomb::print()
@@ -424,13 +422,10 @@ namespace PacGame
             cout<<"|  B  ";
         } 
               
-     /*   short POnewayFloor::isPlayerMovePossible() 
+        short PBomb::isPlayerMovePossible() 
         {
-            /// tmp
-            return f;
-        }*/
-        
-
+            return 4;
+        }
 
     }
 }

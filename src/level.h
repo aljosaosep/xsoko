@@ -16,6 +16,7 @@
 
 #include <string>
 #include <vector>
+#include <deque>
 #include "object.h"
 #include "CommonStructures.h"
 #include "player.h"
@@ -54,6 +55,7 @@ using namespace PacGame::RenderMaschine;
 #define OW_CUBE_D 6 // (POnewayCube)
 #define OW_CUBE_TEX 9
 #define BOMB 7 // (PBomb)
+#define BOMB_TEX 10
 
 // ID za smer enosmerne kocke  
 /*#define LEFT 8
@@ -66,6 +68,15 @@ namespace PacGame
 
       namespace GameClasses
       {
+                // move to gameclasses!
+                   struct PDroppedBomb
+                  {
+                      double dropTime;
+                      int i, j;
+
+                      PDroppedBomb(int i, int j) : dropTime(glfwGetTime()), i(i), j(j) {}
+                  };
+                  
                /**********************************************************
                * PLevel
                *
@@ -86,6 +97,8 @@ namespace PacGame
                   PCore *gameCore;             // game core object
                   PResourceManager *resourceHandle; // shortcut to resources
                   bool endgameFlag;
+                  
+                  vector<PDroppedBomb*> bombs;
                  
               public:
                   PLevel(string filename) : filename(filename),  width(0), height(0), player(NULL),  gameCore(new PCore), resourceHandle(this->gameCore->getResources()), endgameFlag(false) {} // default constructor
@@ -114,6 +127,14 @@ namespace PacGame
                   
                   // getters
                   bool getEndgameFlag();
+                  
+                  // bomb relared
+                  void addDroppedBomb(int i, int j);
+                  int getDroppedBombLen();
+                  PDroppedBomb* getFirstDroppedBomb();
+                  void removeFirstDroppedBomb();
+                  void checkAndApplyBombBlast(int i, int j);
+               //   void popBomb();
 
                   // functions to override
                   void draw();  // draws whole level

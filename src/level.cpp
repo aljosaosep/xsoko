@@ -165,6 +165,7 @@ namespace PacGame
                   int it = (dynamic_cast<PTeleport*>(data[i2][j2]))->getChildTeleport()->getI(), 
                           jt = (dynamic_cast<PTeleport*>(data[i2][j2]))->getChildTeleport()->getJ();
                   
+                  
                   if(data[it][jt]->returnFirstChild()!=NULL) // if there is object alredy on teleport
                   {
                       if(this->moveObject(dir, dynamic_cast<PLevelObject*>(data[it][jt]->returnFirstChild())))  // try to move it
@@ -216,6 +217,18 @@ namespace PacGame
                           }
                       }
                   } 
+                  else if(data[i2][j2]->returnFirstChild()->isPlayerMovePossible() == 4) // there is a bomb
+                  {
+                    //  cout<<"idproblem"<<endl;
+                      if(obj->getId()==1) // is object a player ?
+                      {
+                      //    data[i2][j2]->releaseFirstChild(); // release picking bomb object
+                          data[i2][j2]->releaseList();
+                          this->player->incBombs();  // increase bombs
+                          reattachNode(i, j, i2, j2, obj);   // move
+                          cout<<"St. bomb:"<<this->player->getBombs()<<endl;
+                      }
+                  }
               }    
           /*    else if(1)
               {
@@ -225,7 +238,6 @@ namespace PacGame
               // CONDITIONALLY POSSIBLE MOVE - ONEWAY FLOOR    // T O D O    FFIIIXX
               else if((data[i2][j2]->isPlayerMovePossible()==5) && (dir ==  (dynamic_cast<POnewayFloor*>(data[i2][j2])->getDirection())))  // move is conditionally possible; we check children
               {
-                  cout<<"passed"<<endl;
                   if(data[i2][j2]->returnFirstChild() == NULL)  // move is possible since there are no children
                   {
                       reattachNode(i, j, i2, j2, obj);   // so we do it ;)
@@ -259,6 +271,17 @@ namespace PacGame
                           }
                       }
                   } 
+                  else if(data[i2][j2]->returnFirstChild()->isPlayerMovePossible() == 4) // there is a bomb
+                  {
+                    //  cout<<"idproblem"<<endl;
+                      if(obj->getId()==1) // is object a player ?
+                      {
+                      //    data[i2][j2]->releaseFirstChild(); // release picking bomb object
+                          data[i2][j2]->releaseList();
+                          this->player->incBombs();  // increase bombs
+                          reattachNode(i, j, i2, j2, obj);   // move
+                      }
+                  }
               }
              
               
@@ -290,6 +313,7 @@ namespace PacGame
                       }
                   }   
               }
+
               
               // is there empty space?
               else if(data[i2][j2]->returnFirstChild()==NULL)
@@ -380,8 +404,8 @@ namespace PacGame
                               {
                                   data[i][j] = new PTeleport(i, j, this->gameCore, num); // create object
                                   
-                                  if((resourceHandle->getTextureResource(TELEPORT))==NULL)  // texture isn't in memory yet?
-                                      resourceHandle->loadTextureResource(TELEPORT, "test.tga");  // load it!
+                                  if((resourceHandle->getTextureResource(TELEPORT_TEX))==NULL)  // texture isn't in memory yet?
+                                      resourceHandle->loadTextureResource(TELEPORT_TEX, "test.tga");  // load it!
 
                                   (dynamic_cast<PTeleport*>(data[i][j]))->setId(num);                // set its id
                             //      (dynamic_cast<PTeleport*>(data[i][j]))->
@@ -412,6 +436,10 @@ namespace PacGame
                                       
                                   case U_WALL:
                                       data[i][j] = new PUnsolidWall(this->gameCore);
+                                      
+                                      if((resourceHandle->getTextureResource(U_WALL))==NULL)
+                                          resourceHandle->loadTextureResource(U_WALL, "unsolidwall.tga"); 
+                                      
                                       break; 
                                       
                                   case BRIDGE:
@@ -570,6 +598,10 @@ namespace PacGame
                                   case BOMB:
                                       p = new PBomb(i, j, this->gameCore);
                                       data[i][j]->add(p);
+                                      
+                                      if((resourceHandle->getTextureResource(BOMB_TEX))==NULL)  // texture isn't in memory yet?
+                                               resourceHandle->loadTextureResource(BOMB_TEX, "bomb.tga");  // load it!
+                                      
                                       second_matrix[i][j] = BOMB;
                                       break; 
 
@@ -868,6 +900,52 @@ namespace PacGame
               }
               Messages::infoMessage("Level data successfully released from memory.");              
           }
+          
+           /**************************************************************
+           * Dropped Bombs
+           * functions manages them
+           **************************************************************/ 
+          void PLevel::addDroppedBomb(int i, int j)
+          {
+              this->bombs.push_back(new PDroppedBomb(i, j));
+          }
+          
+          int PLevel::getDroppedBombLen()
+          {
+              return this->bombs.size();
+          }
+          
+          PDroppedBomb* PLevel::getFirstDroppedBomb()
+          {
+              return this->bombs[0];
+          }
+          
+          void PLevel::removeFirstDroppedBomb()
+          {
+              this->bombs.erase(this->bombs.begin());
+          }
+          
+          void PLevel::checkAndApplyBombBlast(int i, int j)
+          {
+            
+              cout<<"ckeckin..."<<endl;
+
+              if(data[i][j]->returnFirstChild() != NULL)
+              {
+                  cout<<"obj id: "<<dynamic_cast<PLevelObject*>(this->data[i][j]->returnFirstChild())->getId()<<endl;
+                  
+                  if((dynamic_cast<PLevelObject*>(this->data[i][j]->returnFirstChild())->getId())==2)  // is there unsolidWall ?
+                  {
+                      // yes - it is - destroy wall
+                      data[i][j]->releaseFirstChild();
+                      data[i][j]->attachToRoot(NULL);
+                  } 
+              }
+              else
+                  cout<<"field "<<i<<' '<<j<<' '<<"has no children!"<<endl;
+          }
+          
+    //      void PLevel::
  
           /**************************************************************
            * Destructor
@@ -877,6 +955,8 @@ namespace PacGame
           {
               this->releaseLevel();
           }
+          
+          
           
           
           short PLevel::isPlayerMovePossible() { return 0; }  // blind function, just for overwrtie; DO NOT attempt to implement it and escpecially,
