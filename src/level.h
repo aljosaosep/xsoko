@@ -31,37 +31,39 @@ using namespace PacGame::RenderMaschine;
 // MATRIKA 1
 #define FLOOR 0 
 #define S_WALL 1 //  (PSolidWall)
-#define U_WALL 2 // (PUnsolidWall)
-#define BRIDGE 3 // (PBridge)
-#define VOID 4 // (PVoid) 
-#define CUBE_PLACE 5
-#define OW_FLOOR_TEX 4
-#define OW_FLOOR_L 6 // (POneWayFloor)
-#define OW_FLOOR_R 7 // (POneWayFloor)
-#define OW_FLOOR_U 8 // (POneWayFloor)
-#define OW_FLOOR_D 9 // (POneWayFloor)
-#define TELEPORT 10 // (PTeleport)
-#define TELEPORT_TEX 6
+#define BRIDGE 2 // (PBridge)
+#define VOID 3 // (PVoid) 
+#define CUBE_PLACE 4
+#define OW_FLOOR_L 5 // (POneWayFloor)
+#define OW_FLOOR_R 6 // (POneWayFloor)
+#define OW_FLOOR_U 7 // (POneWayFloor)
+#define OW_FLOOR_D 8 // (POneWayFloor)
+#define TELEPORT 9 // (PTeleport)
+
 
 // MATRIKA 2
 #define NO_CHILD 0
 #define PLAYER 1 // (PPlayer)
-#define PLAYER_TEX 7
 #define CUBE 2 // (PCube)
-#define CUBE_TEX 8
 #define OW_CUBE_L 3 // (POnewayCube)
 #define OW_CUBE_R 4 // (POnewayCube)
 #define OW_CUBE_U 5 // (POnewayCube)
 #define OW_CUBE_D 6 // (POnewayCube)
-#define OW_CUBE_TEX 9
 #define BOMB 7 // (PBomb)
-#define BOMB_TEX 10
+#define U_WALL 8 // (PUnsolidWall)
 
-// ID za smer enosmerne kocke  
-/*#define LEFT 8
-#define RIGHT 9
-#define UP 10 
-#define DOWN 11*/
+
+#define FLOOR_TEX 0
+#define S_WALL_TEX 1 
+#define BRIDGE_TEX 2 
+#define CUBE_PLACE_TEX 3
+#define OW_FLOOR_TEX 4
+#define TELEPORT_TEX 5
+#define PLAYER_TEX 6
+#define CUBE_TEX 7
+#define OW_CUBE_TEX 8
+#define BOMB_TEX 9
+#define U_WALL_TEX 10
 
 namespace PacGame
 {
