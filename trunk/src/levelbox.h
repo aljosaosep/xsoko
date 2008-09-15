@@ -16,6 +16,43 @@
 #include "CommonStructures.h"
 #include "core.h"
 
+// MATRIKA 1
+#define FLOOR 0 
+#define S_WALL 1 //  (PSolidWall)
+#define BRIDGE 2 // (PBridge)
+#define VOID 3 // (PVoid) 
+#define CUBE_PLACE 4
+#define OW_FLOOR_L 5 // (POneWayFloor)
+#define OW_FLOOR_R 6 // (POneWayFloor)
+#define OW_FLOOR_U 7 // (POneWayFloor)
+#define OW_FLOOR_D 8 // (POneWayFloor)
+#define TELEPORT 9 // (PTeleport)
+
+
+// MATRIKA 2
+#define NO_CHILD 0
+#define PLAYER 1 // (PPlayer)
+#define CUBE 2 // (PCube)
+#define OW_CUBE_L 3 // (POnewayCube)
+#define OW_CUBE_R 4 // (POnewayCube)
+#define OW_CUBE_U 5 // (POnewayCube)
+#define OW_CUBE_D 6 // (POnewayCube)
+#define BOMB 7 // (PBomb)
+#define U_WALL 8 // (PUnsolidWall)
+
+
+#define FLOOR_TEX 0
+#define S_WALL_TEX 1 
+#define BRIDGE_TEX 2 
+#define CUBE_PLACE_TEX 3
+#define OW_FLOOR_TEX 4
+#define TELEPORT_TEX 5
+#define PLAYER_TEX 6
+#define CUBE_TEX 7
+#define OW_CUBE_TEX 8
+#define BOMB_TEX 9
+#define U_WALL_TEX 10
+
 
 using namespace PacGame::RenderMaschine;
 
@@ -111,7 +148,7 @@ namespace PacGame
           {
           private:
           public:
-              PUnsolidWall(PCore *core) { this->id = 2; this->core = core; }
+              PUnsolidWall(PCore *core) { this->id = 8; this->core = core; }
               void draw();
               bool initialize();
               void print();              
@@ -132,6 +169,7 @@ namespace PacGame
               PTeleport *childTeleport;
               
           public:
+              // ID OF 4 CERTAINTLY IS NOT OK
               PTeleport(PCore *core) { this->id = 4; this->core = core; }
               PTeleport(int id, PCore *core) : teleport_id(id) {  this->core = core; }
               PTeleport(int i, int j, PCore *core, unsigned int o_id) { this->i=i; this->j = j; this->core = core; this->id = o_id; }
@@ -161,7 +199,7 @@ namespace PacGame
           {
           private:
           public:
-              PBridge(PCore *core) { this->id = 3; this->core = core; }
+              PBridge(PCore *core) { this->id = 2; this->core = core; }
               void draw();
               bool initialize();
               void print();             
@@ -179,7 +217,7 @@ namespace PacGame
           {
           private:
           public:
-              PVoid() { this->id = 4; }
+              PVoid() { this->id = 3; }
               void draw();
               bool initialize();
               void print();             
@@ -215,7 +253,7 @@ namespace PacGame
           {
           private:
           public:
-              PCubeHolder(PCore *core)  { this->id = 5; this->core = core; }
+              PCubeHolder(PCore *core)  { this->id = 4; this->core = core; }
               void draw();
               bool initialize();
               void print();              

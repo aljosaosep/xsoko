@@ -102,7 +102,7 @@ namespace PacGame
         void PTeleport::draw()
         {
             glColor4f(0.0, 0.0, 1.0, 0.4);
-            glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(6));
+            glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(TELEPORT_TEX));
             this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, 0.0);   
         }
         
@@ -129,7 +129,7 @@ namespace PacGame
         void PFloor::draw()
         {
             glColor3f(0.5, 0.5, 0.4);
-            glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(0));
+            glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(FLOOR_TEX));
             this->core->getRenderer()->drawFloor(0.0, 0.0, 1.0);
         }
         
@@ -168,7 +168,7 @@ namespace PacGame
                         glRotatef(-90.0, 0.0, 0.0, 1.0);
                         break;
             }
-            glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(4));
+            glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(OW_FLOOR_TEX));
             this->core->getRenderer()->drawFloor(0.0, 0.0, 1.0);
         }
         
@@ -205,7 +205,7 @@ namespace PacGame
         void PSolidWall::draw()
         {
             glColor3f(0.9, 0.9, 0.9);
-            glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(1));
+            glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(S_WALL_TEX));
             this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, 0.0);
         }
         
@@ -231,7 +231,7 @@ namespace PacGame
         void PUnsolidWall::draw()
         {
             glColor3f(0.7, 0.6, 0.6);
-            glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(2));
+            glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(U_WALL_TEX));
             this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, 0.0);
         }
         
@@ -257,7 +257,7 @@ namespace PacGame
         void PBridge::draw()
         {
             glColor4f(1.0, 1.0, 1.0, 0.5);
-            glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(3));
+            glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(BRIDGE_TEX));
             this->core->getRenderer()->drawFloor(0.0, 0.0, 1.0);
 
         }
@@ -310,7 +310,7 @@ namespace PacGame
         void PCubeHolder::draw()
         {
             glColor3f(0.3, 0.0, 0.0);
-            glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(8));
+            glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(CUBE_TEX));
             this->core->getRenderer()->drawFloor(0.0, 0.0, 1.0);
         }
         
@@ -341,7 +341,7 @@ namespace PacGame
         void PCube::draw()
         {
             glColor3f(1.0, 1.0, 1.0);
-            glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(8));
+            glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(CUBE_TEX));
             this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, 0.0);
         }
         
@@ -382,7 +382,7 @@ namespace PacGame
                         glRotatef(-90.0, 0.0, 0.0, 1.0);
                         break;
             }
-            glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(9));
+            glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(OW_CUBE_TEX));
             this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, 0.0);
         }
         
@@ -413,7 +413,7 @@ namespace PacGame
         void PBomb::draw()
         {
             glColor3f(1.0, 1.0, 1.0);
-            glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(10));
+            glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(BOMB_TEX));
             this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, 0.0);
         }
         

@@ -400,7 +400,7 @@ namespace PacGame
                           if(num!=-1)  // we check if data is valid
                           {
                               // teleport case
-                              if(num > 9) // if it is > 11, then it is an teleport id
+                              if(num >= 9) // if it is > 11, then it is an teleport id
                               {
                                   data[i][j] = new PTeleport(i, j, this->gameCore, num); // create object
                                   
@@ -418,8 +418,8 @@ namespace PacGame
                                   case FLOOR:
                                       data[i][j] = new PFloor(this->gameCore);
                                       
-                                      if((resourceHandle->getTextureResource(FLOOR))==NULL)  // texture isn't in memory yet?
-                                            resourceHandle->loadTextureResource(FLOOR, "floor.tga");  // load it!
+                                      if((resourceHandle->getTextureResource(FLOOR_TEX))==NULL)  // texture isn't in memory yet?
+                                            resourceHandle->loadTextureResource(FLOOR_TEX, "floor.tga");  // load it!
                                       
                                       break;
                                       
@@ -429,11 +429,11 @@ namespace PacGame
                                       
                                   case S_WALL:
                                       data[i][j] = new PSolidWall(this->gameCore);   
-                                      if((resourceHandle->getTextureResource(S_WALL))==NULL)
-                                          resourceHandle->loadTextureResource(S_WALL, "wall.tga"); 
+                                      if((resourceHandle->getTextureResource(S_WALL_TEX))==NULL)
+                                          resourceHandle->loadTextureResource(S_WALL_TEX, "wall.tga"); 
 
                                       break;
-                                      
+/*                                      
                                   case U_WALL:
                                       data[i][j] = new PUnsolidWall(this->gameCore);
                                       
@@ -441,12 +441,12 @@ namespace PacGame
                                           resourceHandle->loadTextureResource(U_WALL, "unsolidwall.tga"); 
                                       
                                       break; 
-                                      
+ */                                     
                                   case BRIDGE:
                                       data[i][j] = new PBridge(this->gameCore);
                                       
-                                      if((resourceHandle->getTextureResource(BRIDGE))==NULL)  // texture isn't in memory yet?
-                                            resourceHandle->loadTextureResource(BRIDGE, "bridge.tga");  // load it!
+                                      if((resourceHandle->getTextureResource(BRIDGE_TEX))==NULL)  // texture isn't in memory yet?
+                                            resourceHandle->loadTextureResource(BRIDGE_TEX, "bridge.tga");  // load it!
                                       
                                       break;  
                                       
@@ -460,7 +460,7 @@ namespace PacGame
                                       break;    
                                       
                                   case OW_FLOOR_L:
-                                      data[i][j] = new POnewayFloor(this->gameCore, 6);
+                                      data[i][j] = new POnewayFloor(this->gameCore, 5);
                                       dynamic_cast<POnewayFloor*>(data[i][j])->setDirection(Aliases::left);
                                    //   data[i][j]->add(p);
                                       
@@ -472,7 +472,7 @@ namespace PacGame
                                       break;
                                       
                                   case OW_FLOOR_R:
-                                      data[i][j] = new POnewayFloor(this->gameCore, 7);
+                                      data[i][j] = new POnewayFloor(this->gameCore, 6);
                                       dynamic_cast<POnewayFloor*>(data[i][j])->setDirection(Aliases::right);
                                   //    data[i][j]->add(p);
                                       
@@ -485,7 +485,7 @@ namespace PacGame
                                       
                                       
                                   case OW_FLOOR_U:
-                                      data[i][j] = new POnewayFloor(this->gameCore, 8);
+                                      data[i][j] = new POnewayFloor(this->gameCore, 7);
                                       dynamic_cast<POnewayFloor*>(data[i][j])->setDirection(Aliases::up);
                                   //    data[i][j]->add(p);
                                       
@@ -497,7 +497,7 @@ namespace PacGame
                                       break;
                                       
                                   case OW_FLOOR_D:
-                                      data[i][j] = new POnewayFloor(this->gameCore, 9);
+                                      data[i][j] = new POnewayFloor(this->gameCore, 8);
                                       dynamic_cast<POnewayFloor*>(data[i][j])->setDirection(Aliases::down);
                                  //     data[i][j]->add(p);
                                       
@@ -603,6 +603,16 @@ namespace PacGame
                                                resourceHandle->loadTextureResource(BOMB_TEX, "bomb.tga");  // load it!
                                       
                                       second_matrix[i][j] = BOMB;
+                                      break; 
+                                      
+                                  case U_WALL:
+                                      p = new PUnsolidWall(this->gameCore);
+                                      data[i][j]->add(p);
+                                      
+                                      if((resourceHandle->getTextureResource(U_WALL_TEX))==NULL)
+                                          resourceHandle->loadTextureResource(U_WALL_TEX, "unsolidwall.tga"); 
+                                      
+                                      second_matrix[i][j] = U_WALL;
                                       break; 
 
                                       
@@ -934,10 +944,10 @@ namespace PacGame
               {
                   cout<<"obj id: "<<dynamic_cast<PLevelObject*>(this->data[i][j]->returnFirstChild())->getId()<<endl;
                   
-                  if((dynamic_cast<PLevelObject*>(this->data[i][j]->returnFirstChild())->getId())==2)  // is there unsolidWall ?
+                  if((dynamic_cast<PLevelObject*>(this->data[i][j]->returnFirstChild())->getId())==U_WALL)  // is there unsolidWall ?
                   {
                       // yes - it is - destroy wall
-                      data[i][j]->releaseFirstChild();
+                      data[i][j]->releaseList();
                       data[i][j]->attachToRoot(NULL);
                   } 
               }
