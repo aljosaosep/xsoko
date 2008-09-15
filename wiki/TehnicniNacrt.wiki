@@ -215,25 +215,26 @@ Spodobi se in pravicno je, da se v kodi uporabljajo naslednji makri(da bo lazje 
 Naredil sem nek tesni level v beleznici, ki prikazuje kaksen je format levela:
 {{{
 12 7
-1 1 1 1 4 4 4 1 1 1 1 1
-1 3 3 1 1 4 1 0 0 0 0 1
-1 0 0 0 0 1 0 0 0 0 0 1
-1 0 0 0 0 0 0 0 0 0 0 1
-1 10 0 0 0 0 0 0 3 3 1 1
-1 0 5 5 5 5 0 0 6 6 11 1
+1 1 1 1 3 3 3 1 1 1 1 1
+1 2 2 1 1 3 1 0 0 0 11 1
+1 0 0 7 0 1 0 0 0 0 0 1
+1 0 0 7 0 6 0 0 0 0 0 1
+1 9 0 0 0 0 0 0 2 2 1 1
+1 0 4 4 4 4 0 0 5 5 10 1
 1 1 1 1 1 1 1 1 1 1 1 1
 +
 0 0 0 0 0 0 0 0 0 0 0 0
 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 4 0 0 0 0 2 5 0 0 0
-0 0 0 0 0 2 0 0 0 3 0 0
+0 7 4 0 0 0 0 2 5 0 0 0
+0 7 0 0 0 2 0 0 0 3 8 0
 0 0 6 6 0 0 0 0 0 0 0 0
 0 0 0 0 0 0 0 1 0 0 0 0
 0 0 0 0 0 0 0 0 0 0 0 0
 +
-2
+3
+9 10
 10 11
-11 10
+11 9
 }}}
 
 Najprej to: presledki med stevilkami so obvezni!
