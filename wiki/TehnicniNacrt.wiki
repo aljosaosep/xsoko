@@ -194,7 +194,7 @@ Spodobi se in pravicno je, da se v kodi uporabljajo naslednji makri(da bo lazje 
 #define OW_CUBE_U 5 // (POnewayCube)
 #define OW_CUBE_D 6 // (POnewayCube)
 #define BOMB 7 // (PBomb)
-#define U_WALL 2 // (PUnsolidWall)
+#define U_WALL 8 // (PUnsolidWall)
 
 
 #define FLOOR_TEX 0
