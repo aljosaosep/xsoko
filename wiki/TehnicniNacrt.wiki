@@ -145,15 +145,14 @@ while(niFertik())
 
     * Tla -- 0 (PFloor) ...F
     * Neprebojni zid -- 1 (PSolidWall) ...SW
-    * Prebojni zid -- 2 (PUnsolidWall) ...USW
-    * Most -- 3 (PBridge) ...B
-    * Nic/Prepad -- 4 (PVoid) ...VOID
-    * Prostor za kocko 5 (PCubeHolder) ...CH 
-    * enosmerna tla (POneWayFloor) LEVO 6
-    * enosmerna tla (POneWayFloor) DESNO 7
-    * enosmerna tla (POneWayFloor) GOR 8
-    * enosmerna tla (POneWayFloor) DOL 9
-    * teleport in njegov id (PTeleport) >= 10
+    * Most -- 2 (PBridge) ...B
+    * Nic/Prepad -- 3 (PVoid) ...VOID
+    * Prostor za kocko 4 (PCubeHolder) ...CH 
+    * enosmerna tla (POneWayFloor) LEVO 5
+    * enosmerna tla (POneWayFloor) DESNO 6
+    * enosmerna tla (POneWayFloor) GOR 7
+    * enosmerna tla (POneWayFloor) DOL 8
+    * teleport in njegov id (PTeleport) >= 9
 
 *druga matrika:*
 
@@ -165,6 +164,7 @@ while(niFertik())
     * Enosmerna kocka gor -- 5 (POnewayCube) ...OWC
     * Enosmerna kocka dol -- 6 (POnewayCube) ...OWC
     * Bomba -- 7 (PBomb) ...B
+    * Prebojni zid -- 8 (PUnsolidWall) ...USW
 
 Ce kdo med programiranjem ugotovi, da z temi id-ji kaj ne stima, naj prosim popravi wiki, in nekam na grupo napise, da nekaj ne stima in zakaj ne stima!
 Naceloma spreminjanje tega ni zazeljeno; ce se bo spreminjalo, naj bo razlog res dober!
@@ -175,30 +175,39 @@ Spodobi se in pravicno je, da se v kodi uporabljajo naslednji makri(da bo lazje 
 // MATRIKA 1
 #define FLOOR 0 
 #define S_WALL 1 //  (PSolidWall)
-#define U_WALL 2 // (PUnsolidWall)
-#define BRIDGE 3 // (PBridge)
-#define VOID 4 // (PVoid) 
-#define CUBE_PLACE 5
-#define OW_FLOOR_TEX 4
-#define OW_FLOOR_L 6 // (POneWayFloor)
-#define OW_FLOOR_R 7 // (POneWayFloor)
-#define OW_FLOOR_U 8 // (POneWayFloor)
-#define OW_FLOOR_D 9 // (POneWayFloor)
-#define TELEPORT 10 // (PTeleport)
-#define TELEPORT_TEX 6
+#define BRIDGE 2 // (PBridge)
+#define VOID 3 // (PVoid) 
+#define CUBE_PLACE 4
+#define OW_FLOOR_L 5 // (POneWayFloor)
+#define OW_FLOOR_R 6 // (POneWayFloor)
+#define OW_FLOOR_U 7 // (POneWayFloor)
+#define OW_FLOOR_D 8 // (POneWayFloor)
+#define TELEPORT 9 // (PTeleport)
+
 
 // MATRIKA 2
 #define NO_CHILD 0
 #define PLAYER 1 // (PPlayer)
-#define PLAYER_TEX 7
 #define CUBE 2 // (PCube)
-#define CUBE_TEX 8
 #define OW_CUBE_L 3 // (POnewayCube)
 #define OW_CUBE_R 4 // (POnewayCube)
 #define OW_CUBE_U 5 // (POnewayCube)
 #define OW_CUBE_D 6 // (POnewayCube)
-#define OW_CUBE_TEX 9
 #define BOMB 7 // (PBomb)
+#define U_WALL 2 // (PUnsolidWall)
+
+
+#define FLOOR_TEX 0
+#define S_WALL_TEX 1 
+#define BRIDGE_TEX 2 
+#define CUBE_PLACE_TEX 3
+#define OW_FLOOR_TEX 4
+#define TELEPORT_TEX 5
+#define PLAYER_TEX 6
+#define CUBE_TEX 7
+#define OW_CUBE_TEX 8
+#define BOMB_TEX 9
+#define U_WALL_TEX 10
 }}}
 
 *Testni level*
