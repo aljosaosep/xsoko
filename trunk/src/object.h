@@ -62,6 +62,7 @@ namespace PacGame
                void releaseList();      // releases this objects children from memory
                PObject* returnFirstChild() const;  // returns first child
                void releaseFirstChild(); // releases first child from memory; WARNING: if there are more children, others are lost!
+               void releaseFirstChildObject();
                void unlinkFirstChild();  // destroys connection with first child; WARNING: if there are more children, others are lost!
                
                // etc
