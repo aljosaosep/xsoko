@@ -14,6 +14,9 @@
 #include "object.h"
 
 
+#include "object.h"
+
+
 #include <typeinfo>
 #include <vector>
 #include <string>
@@ -223,7 +226,8 @@ namespace PacGame
                       if(obj->getId()==1) // is object a player ?
                       {
                       //    data[i2][j2]->releaseFirstChild(); // release picking bomb object
-                          data[i2][j2]->releaseList();
+                      //    data[i2][j2]->unlinkFirstChild();
+                          data[i2][j2]->releaseFirstChildObject();
                           this->player->incBombs();  // increase bombs
                           reattachNode(i, j, i2, j2, obj);   // move
                           cout<<"St. bomb:"<<this->player->getBombs()<<endl;
@@ -942,17 +946,15 @@ namespace PacGame
 
               if(data[i][j]->returnFirstChild() != NULL)
               {
-                  cout<<"obj id: "<<dynamic_cast<PLevelObject*>(this->data[i][j]->returnFirstChild())->getId()<<endl;
                   
                   if((dynamic_cast<PLevelObject*>(this->data[i][j]->returnFirstChild())->getId())==U_WALL)  // is there unsolidWall ?
                   {
-                      // yes - it is - destroy wall
-                      data[i][j]->releaseList();
-                      data[i][j]->attachToRoot(NULL);
+
+                      data[i][j]->releaseFirstChildObject();
+
+
                   } 
               }
-              else
-                  cout<<"field "<<i<<' '<<j<<' '<<"has no children!"<<endl;
           }
           
     //      void PLevel::
@@ -965,9 +967,6 @@ namespace PacGame
           {
               this->releaseLevel();
           }
-          
-          
-          
           
           short PLevel::isPlayerMovePossible() { return 0; }  // blind function, just for overwrtie; DO NOT attempt to implement it and escpecially,
                                                               // do not use it in LEVEL class context!
