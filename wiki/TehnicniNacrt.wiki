@@ -6,6 +6,8 @@
  # Orodja, knjižnjice
  # Glavne procedure
  # Level format
+ # Gameplay
+ # Resource Managment
 ----
 
 = 1. Uvod =
@@ -322,3 +324,201 @@ Vrednosti, ki jih vrne otrok elementa na matriki
 || 0 || absolutno nemogoc premik ||
 || 1 || absolutno mogoc premik ||
 || 2 || kocka - poskusi premaknit! ||
+
+
+
+
+= 6. Resource Managment =
+
+Torej, skrajni čas je, da se razpišem o resource managmentu za xSoko, ker je ta del pomemben pri implementaciji audio podsistema. 
+Trenutno xSoko potrebuje le resource v obliki textur(to naj bi se z audio sistemom razširilo), zato bom delovanje opisal na podlagi upravljanja textur.
+
+== 6.1 PTexture razred ==
+
+PTexture razred je načeloma enostavna zadeva, še enostavnejše pa je delo z njo. 
+
+*Pomembni člani*
+   * filename (string)  --- pot do slikovne datoteke v zipu
+   * texture (PTextureImage)  --- struktura, ki vsebuje kazalec na vsebino slike, višino, širini in id texture
+
+*Pomembne metode*
+   * loadTGA (na podlagi poti zloada TGA sliko v pomnilnik)
+   * generateTexture*, makeTgaTexture (zgenerira texturo)
+   * getTexId (vrne id texture, ki je unikaten za vsako texturo)
+
+
+Delo z PTexture:
+{{{
+// tako ustvarimo dinamičen objekt za našo teksturo
+PTexture *floor = new PTexture("floor.tga");
+
+// z to metodo naenkrat naložimo sliko v pomnilnik in zgeneriramo texturo; struktura dobi unikatni id
+floor->makeTGATexture(true);
+
+/********* kako določimo, katero texturo uporabimo pri risanju? **************/
+// odgovor se skriva v id-ju.
+// recimo, da imamo metodo drawCube(), ki zna izrisati navadno kocko; če ji ne bomo določili barve ali texture posebej, bo bela
+// lahko pa ji določimo texturo z funkcijo void glBindTexture(	GLenum target, GLuint texture);
+// target naj bo GL_TEXTURE_2D,  texture pa je id texture!
+// primer:
+
+glBindTexture(GL_TEXTURE_2D, floor->getTexId()); // določimo texturo floor prek njenega id
+drawCube(); // izrišemo kocko; nanjo je "prilepljenja" textura floor
+
+// pa recimo, da želimo izrisati še eno kocko z texturo wall(recimo, da jo imamo)
+// to naredimo tako:
+glBindTexture(GL_TEXTURE_2D, wall->getTexId()); // pozor! predpostavljam, da smo naredili tex. wall, kot prej floor
+drawCube(); // izrišemo kocko; nanjo je "prilepljenja" textura wall
+}}}
+
+Tako torej delamo z PTexture; smisel managerja pa je avtomatiziranje dela z PTexture.
+Zato najprej naredimo še razred PTextureResource, ki delo z texturami še poenostavi.
+
+== 6.2 PTextureResource ==
+
+Namen: razred naj preko metode load() postori vse. Metoda load:
+
+{{{
+        bool PTextureResource::load()
+        {
+            // create new object for texture
+            this->texture = new PTexture(this->filename); // create object
+            //  this->texture->setPath(filename);
+            if(!this->texture->makeTgaTexture(true))  // create texture(generate)
+            {
+                cout<<"Error loading "<<this->filename<<endl;  // failed
+                delete texture;  // delete object from memory
+                return false;
+            }
+            
+            return true; // ok :)
+        }
+}}}
+
+Kot vidite, naredi dinamični objekt, nastavi pot do texture(ki je tudi član tega razreda), naredi TGA texturo, če pride do problema, jo pobriše in vrne false.
+Delo z tem razredom je še enostavnejše:
+{{{
+PTextureResource wall = new PTextureResource("wall.tga");
+wall->load();
+...
+wall->getId();
+drawNeki();
+...
+}}}
+
+Zdaj potrebujemo le še razred, ki vsebuje kazalce do vseh mogočih in nemogočih resourcev in metode ki čimbolj avtomatizirajo delo z resurci.
+Ta razred je PResourceManager.
+
+== 6.3 PResourceManager ==
+
+Kot že omenjeno, iz tega razreda mora biti dosopen vsak resource.
+Lahko damo kazalec na resource v razred ročno, npr. 
+
+{{{
+public:
+  PTextureResource *wall; // individualna textura
+}}}
+
+
+ali kup textur spravimo v tabelo in delamo le z offsetom.
+
+{{{
+  PTextureResource *textures[];  // tabela textur
+}}}
+
+Do kazalcev dostopam z metodami, ki sem jih spisal za dostop do textur:
+{{{
+bool loadTextureResource(PTextureResource **res, string file);
+bool loadTextureResource(int offset, string file);
+
+unsigned getTextureTesourceId(int offset);
+}}}
+
+Pa recimo, da želim narediti objekt za steno. Mogoča sta 2 načina.
+
+1. Individualni
+{{{
+PResourceManager resources;
+
+resources.loadTextureResource(&wall, "wall.tga");
+...
+resources.wall->getId(); // dostop
+...
+}}}
+
+2. Preko offseta; kazalec je v tabeli
+{{{
+resources.loadTextureResource(0, "wall.tga"); // pozor! ne smemo povoziti obstoječega indeksa
+
+...
+resources.getTextureResourceId(0); // dostop: preko offseta v tabeli
+...
+}}}  
+
+
+Za konec:
+To ni nek super duper resource hendling, je tak osnovni in za to igro zadostuje.
+Moj način upravljanja z resourcni ni najbolj človeku prijazen, tvoje metode so lahko bolj kul, vsekakor pa je potrebno, da narediš nek interface za dostop do zvočnih resourcev.
+Jaz imam texture za objekte za levele v tabeli: (vem število)
+
+{{{
+...
+        class PResourceManager
+        {
+        private:
+            PTextureResource *textures[ELEMENTS_TEXTURES];
+...
+}}}
+
+Pozor! Kazalci so (morajo!) biti po defaultu na NULL!!!! 
+Ko loadam stopnjo, zloadam texturo, če je potrebno:
+
+{{{
+...
+#define FLOOR_TEX 0
+#define S_WALL_TEX 1 
+#define BRIDGE_TEX 2 
+#define CUBE_PLACE_TEX 3
+#define OW_FLOOR_TEX 4
+#define TELEPORT_TEX 5
+#define PLAYER_TEX 6
+#define CUBE_TEX 7
+#define OW_CUBE_TEX 8
+#define BOMB_TEX 9
+#define U_WALL_TEX 10
+....
+...
+...
+                              switch(num)  // if it is, we create suitable object
+                              {
+                                  case FLOOR:
+                                      data[i][j] = new PFloor(this->gameCore);
+                                      
+                                      if((resourceHandle->getTextureResource(FLOOR_TEX))==NULL)  // texture isn't in memory yet?
+                                            resourceHandle->loadTextureResource(FLOOR_TEX, "floor.tga");  // load it!
+                                      
+                                      break;
+}}}
+
+Dostop do texture:
+{{{
+        void PFloor::draw()
+        {
+            glColor3f(0.5, 0.5, 0.4);
+            glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(FLOOR_TEX));
+            this->core->getRenderer()->drawFloor(0.0, 0.0, 1.0);
+        }
+}}}
+
+Podobno bi rad naložil prek ResourceManagerja tudi zvok in enostavno dostopal do njega.
+
+
+p.s pisanje dokumentacije sux!
+
+
+
+
+
+
+
+
