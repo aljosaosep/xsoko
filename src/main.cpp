@@ -48,25 +48,13 @@ int main(int argc, char *argv[])
     
     // input object
     PInputSystem input(test); 
-    
-
-    // sets renderer to level
- //   test->setRenderer(renderer);
 
     // make session
     PGameSession *testsession = new PGameSession(test, &input);
 
     // loads session
     pacgame.loadSession(testsession);
-    
-   /* if(!renderer->init())
-    {
-        PacGame::Messages::initMessage("Renderer", false);
-        return false;
-    }
-    else
-        PacGame::Messages::initMessage("Renderer", true);  */      
-    
+
     // run game
     pacgame.run();
 

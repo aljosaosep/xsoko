@@ -52,32 +52,24 @@ using namespace PacGame::RenderMaschine;
 #define BOMB 7 // (PBomb)
 #define U_WALL 8 // (PUnsolidWall)
 
-
-#define FLOOR_TEX 0
-#define S_WALL_TEX 1 
-#define BRIDGE_TEX 2 
-#define CUBE_PLACE_TEX 3
-#define OW_FLOOR_TEX 4
-#define TELEPORT_TEX 5
-#define PLAYER_TEX 6
-#define CUBE_TEX 7
-#define OW_CUBE_TEX 8
-#define BOMB_TEX 9
-#define U_WALL_TEX 10
+// id's of resourcev for objects
+#define FLOOR_RES 0
+#define S_WALL_RES 1 
+#define BRIDGE_RES 2 
+#define CUBE_PLACE_RES 3
+#define OW_FLOOR_RES 4
+#define TELEPORT_RES 5
+#define PLAYER_RES 6
+#define CUBE_RES 7
+#define OW_CUBE_RES 8
+#define BOMB_RES 9
+#define U_WALL_RES 10
 
 namespace PacGame
 {
 
       namespace GameClasses
       {
-                // move to gameclasses!
-                   struct PDroppedBomb
-                  {
-                      double dropTime;
-                      int i, j;
-
-                      PDroppedBomb(int i, int j) : dropTime(glfwGetTime()), i(i), j(j) {}
-                  };
                   
                /**********************************************************
                * PLevel
@@ -100,7 +92,7 @@ namespace PacGame
                   PResourceManager *resourceHandle; // shortcut to resources
                   bool endgameFlag;
                   
-                  vector<PDroppedBomb*> bombs;
+                  vector<PDroppedBomb*> bombs;   // list of currently dropped bombs
                  
               public:
                   PLevel(string filename) : filename(filename),  width(0), height(0), player(NULL),  gameCore(new PCore), resourceHandle(this->gameCore->getResources()), endgameFlag(false) {} // default constructor
@@ -130,13 +122,12 @@ namespace PacGame
                   // getters
                   bool getEndgameFlag();
                   
-                  // bomb relared
+                  // bomb related
                   void addDroppedBomb(int i, int j);
                   int getDroppedBombLen();
                   PDroppedBomb* getFirstDroppedBomb();
                   void removeFirstDroppedBomb();
                   void checkAndApplyBombBlast(int i, int j);
-               //   void popBomb();
 
                   // functions to override
                   void draw();  // draws whole level

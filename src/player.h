@@ -52,11 +52,9 @@ namespace PacGame
 
                   // to override
                   void draw();
-                  bool initialize();
                   void print();
                   
                   short isPlayerMovePossible() { return 0; }
-               //   bool onMoveProcess(PDirection dir, PLevelObject* data[][30], int i, int j);
           };
       }
 }

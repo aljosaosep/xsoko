@@ -16,10 +16,6 @@ namespace PacGame
         void PGameSession::mainLoop()
         {
             Messages::infoMessage("Entering main loop...");
-            /*
-             * ALL CODE IN THIS FUNCTION IS HERE JUST FOR TESTING PURPOSES
-             *
-             */
             
             // the time of the previous frame
             double old_time = glfwGetTime();   
@@ -64,17 +60,6 @@ namespace PacGame
                     }
                 }
                 
-                
-/*                if(round(current_time-input->getBombDropTime()) == 3)
-                {
-                    cout<<endl;
-                    cout<<"current: "<<current_time<<endl;
-//                    cout<<"drop: "<<input->getBombDropTime()<<endl;
-                    cout<<"KABOOOOOOOOOOOM!!!!"<<endl;
-                    cout<<endl;
-                }*/
-                
-           //                     cout<<"Cas:"<<current_time-old_time<<endl;
                 old_time = current_time;
                 
 
@@ -109,11 +94,7 @@ namespace PacGame
         }
         
         bool PGameSession::initialize()
-        {
-            // set renderer to game session
-        //    this->setRenderer();
-
-            
+        {    
             return true;
         }
         
@@ -149,10 +130,6 @@ namespace PacGame
         //    level->initialize();
         }
         
-        /*void PGameSession::setRenderer()
-        {
-            this->renderer = level->getRendererHandle();
-        }*/
         
         void PGameSession::setInput(PInputSystem *input)
         {
@@ -182,10 +159,5 @@ namespace PacGame
         {
             return this->score;
         }
-        
-        /*PRenderer *PGameSession::getRendererHandle()
-        {
-            return this->renderer;
-        }*/
     }
 }

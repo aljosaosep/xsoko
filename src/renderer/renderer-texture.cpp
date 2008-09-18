@@ -9,6 +9,7 @@
  * Changes:
  * Aljosa 2008
  * Jernej Skrabec June 19 2008
+ * Aljosa Osep September 18 2008
 */
 
 #include "texture.h"
@@ -18,9 +19,6 @@ namespace PacGame
 {
       namespace RenderMaschine
       {
-              // constructors
-          //PTexture::PTexture() {}
-          
           PTexture::PTexture(string _filename)
           {
               type = GL_RGBA;  // sets texture type
@@ -38,18 +36,6 @@ namespace PacGame
                   makeTgaTexture(filter);
               else
                   Messages::errorMessage("Unknown image format type, bad texture class initialization! Blame developers for this!");
-
-              // gen
-    /*	  switch(type)
-              {
-              case "tga":
-                      makeTgaTexture(filter);
-                      break;
-
-              default:
-                      msg.errorMessage("Unknown image format type, bad texture class initialization! Blame developers for this!");
-                      break;
-              }*/
           }
 
           PTexture::~PTexture()
@@ -70,8 +56,7 @@ namespace PacGame
               GLubyte	header[6];						// first 6 bits
               unsigned	bytesPerPixel;						// number of bytes per pixel in tga image
               int	imageSize;						// store image size
-              unsigned	temp;							
-    //	  unsigned	type  = GL_RGBA; 	
+              unsigned	temp;								
 
               ZipFile zFile("data/textura.zip"); // open zip file
               zFile.openFile(filename.c_str());  // open file
@@ -94,11 +79,11 @@ namespace PacGame
                   }
               }
 
-              texture.width  = header[1] * 256 + header[0];				// get width (highbyte*256+lowbyte)
-              texture.height = header[3] * 256 + header[2];				// get height	(highbyte*256+lowbyte)
+              this->width  = header[1] * 256 + header[0];				// get width (highbyte*256+lowbyte)
+              this->height = header[3] * 256 + header[2];				// get height	(highbyte*256+lowbyte)
 
-              if(texture.width	<=0 ||						// width and height must be > 0
-                     texture.height	<=0 ||						
+              if(this->width	<=0 ||						// width and height must be > 0
+                     this->height	<=0 ||						
                      (header[4]!=24 && header[4]!=32))				// 24 or 32 bit
               {
                   Messages::errorMessage("Texture isn't 32 or 24 bit OR texture width or height isn't greater than zero :D");
@@ -106,19 +91,19 @@ namespace PacGame
                   return false;
               } 
 
-              texture.bpp	= header[4];						// grab The TGA's Bits Per Pixel (24 or 32)
-              bytesPerPixel	= texture.bpp/8;					// divide By 8 To Get The Bytes Per Pixel
-              imageSize		= texture.width*texture.height*bytesPerPixel;	// Calculate The Memory Required 
+              this->bpp	= header[4];						// grab The TGA's Bits Per Pixel (24 or 32)
+              bytesPerPixel	= this->bpp/8;					// divide By 8 To Get The Bytes Per Pixel
+              imageSize		= this->width*this->height*bytesPerPixel;	// Calculate The Memory Required 
 
-              texture.imageData=(GLubyte *)malloc(imageSize);			// reserve memory to store TGA data
+              this->imageData=(GLubyte *)malloc(imageSize);			// reserve memory to store TGA data
 
-              if(texture.imageData==NULL ||					// storage memory exist... ?
-                      zFile.readFile(texture.imageData, imageSize)!=imageSize)	// Does The Image Size Match The Memory Reserved?
+              if(this->imageData==NULL ||					// storage memory exist... ?
+                      zFile.readFile(this->imageData, imageSize)!=imageSize)	// Does The Image Size Match The Memory Reserved?
               {
-                  if(texture.imageData!=NULL)					// release
+                  if(this->imageData!=NULL)					// release
                   {
                       Messages::errorMessage("TGA image data is empty. Releasing memory...");
-                      free(texture.imageData);	
+                      free(this->imageData);	
                   }
 
                   Messages::errorUnknown();							
@@ -128,9 +113,9 @@ namespace PacGame
 
               for(int i=0; i<imageSize; i+=bytesPerPixel)	// Swaps The 1st And 3rd Bytes, R and B
               {
-                  temp=texture.imageData[i];					
-                  texture.imageData[i] = texture.imageData[i + 2];		
-                  texture.imageData[i + 2] = temp;				
+                  temp=this->imageData[i];					
+                  this->imageData[i] = this->imageData[i + 2];		
+                  this->imageData[i + 2] = temp;				
               }
 
               zFile.closeZip();
@@ -140,15 +125,14 @@ namespace PacGame
 
           void PTexture::generateTextureMipmap()
           {
-              PTextureImage *texPtr  = &texture;
               // TEXTURE BUILDING SECTION
-              glGenTextures(1, &texPtr[0].texID);					// Generate texture IDs
+              glGenTextures(1, &this->texID);					// Generate texture IDs
               // MipMap filtering
-              glBindTexture(GL_TEXTURE_2D, texPtr[0].texID);
+              glBindTexture(GL_TEXTURE_2D, this->texID);
               glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
               glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_NEAREST); 
 
-              if (texPtr[0].bpp==24)							// if tga is 24 bit
+              if (this->bpp==24) // 24 bpp means, we have alpha channel		
               {
                   Messages::initMessage("TGA texture/Alpha channel", false);
                   type=GL_RGB;							// type je GL_RGB
@@ -156,21 +140,19 @@ namespace PacGame
               else
                   Messages::initMessage("TGA texture/Alpha channel", true);
 
-              gluBuild2DMipmaps(GL_TEXTURE_2D, type, texPtr[0].width, texPtr[0].height, type, GL_UNSIGNED_BYTE, texPtr[0].imageData);
+              gluBuild2DMipmaps(GL_TEXTURE_2D, type, this->width, this->height, type, GL_UNSIGNED_BYTE, this->imageData);
               Messages::infoMessage("Texture was successfully generated, mipmap filtering.");
-
           }
 
           void PTexture::generateTextureLinear()
           {
-              PTextureImage *texPtr  = &texture;
               // TEXTURE BUILDING SECTION
-              glGenTextures(1, &texPtr[0].texID);					// Generate texture IDs
-              glBindTexture(GL_TEXTURE_2D, texPtr[0].texID);				// binf texture
+              glGenTextures(1, &this->texID);					// Generate texture IDs
+              glBindTexture(GL_TEXTURE_2D, this->texID);				// binf texture
               glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);	// Linear 
               glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);	
 
-              if (texPtr[0].bpp==24)							// if tga is 24 bit
+              if (this->bpp==24)	// 24 bpp means, we have alpha channel	
               {
                   Messages::initMessage("TGA texture/Alpha channel", false);
                   type=GL_RGB;							// type je GL_RGB
@@ -178,23 +160,22 @@ namespace PacGame
               else
                   Messages::initMessage("TGA texture/Alpha channel", true);
 
-              glTexImage2D(GL_TEXTURE_2D, 0, type, texPtr[0].width, texPtr[0].height, 0, type, GL_UNSIGNED_BYTE, texPtr[0].imageData);
+              glTexImage2D(GL_TEXTURE_2D, 0, type, this->width, this->height, 0, type, GL_UNSIGNED_BYTE, this->imageData);
               Messages::infoMessage("Texture was successfully generated, linear filtering.");
-
           }
 
           bool PTexture::makeTgaTexture(bool mipmap)
           {
-              if(!loadTGA())
+              if(!loadTGA())  // first, me must load tga
               {
                   Messages::infoMessage("Texture creation failed.");
                   return false;
               }
 
-              if(mipmap)
-                  generateTextureMipmap();
+              if(mipmap)   // if we are successful, we generate texture; we have two possibilities...
+                  generateTextureMipmap();    // mipmap filtering
               else
-                  generateTextureLinear();
+                  generateTextureLinear();    // or linear filtering
 
               Messages::infoMessage("Texture created, ready for use.");
               cout<<endl<<endl;
@@ -203,14 +184,19 @@ namespace PacGame
           }
 
           // getters
-          unsigned PTexture::getTexID()
+          unsigned PTexture::getId()
           {
-              return texture.texID;
+              return this->texID;   // returns id of textyre
+          }
+          
+          string PTexture::getFilename() const
+          {
+              return this->filename;
           }
           
           void PTexture::release()
           {
-              free(texture.imageData);
+              free(this->imageData);  // releases tga data from memory
           }
       }
 }

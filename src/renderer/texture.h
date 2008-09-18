@@ -2,7 +2,7 @@
  * File:   texture.h
  * Author: aljosa
  *
- * Created on September 5, 2008, 11:46 AM
+ * Mdified on September 5, 2008, 11:46 AM
  */
 
 #ifndef _TEXTURE_H
@@ -31,15 +31,19 @@ namespace PacGame
         class PTexture
         {
         private:
-            string filename;
+            string filename;   // texture filename
 
-            unsigned type; //  = GL_RGBA;
-            PTextureImage texture;
-
+            GLubyte	*imageData;	// data 
+            unsigned bpp;		// Image Color Depth In Bits Per Pixel
+            unsigned width;		// Image Width
+            unsigned height;		// Image Height
+            unsigned texID;	
+            unsigned type;   // texture type: GL_RGB or GL_RGBA
+            
         public:
-                // constructor
+            // constructor
             PTexture() {}
-            PTexture(string _filename);  // does it work? 16.3.08
+            PTexture(string _filename);  
             PTexture(string _filename, string type, bool filter);
             ~PTexture();
 
@@ -50,15 +54,15 @@ namespace PacGame
             bool makeTgaTexture(bool mipmap);
 
             // getters
-            unsigned getTexID();
+            unsigned getId();
+            string getFilename() const;
             
             // setters
             void setPath(string filename);  
-            void release();  // WARNING: TEXTURE RELEASE ISNT IMPLEMENTET AT THE MOMENT(SEP 08)
+            void release();  
     };
   }
 }
-
 
 #endif	/* _TEXTURE_H */
 

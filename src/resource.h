@@ -18,7 +18,7 @@ namespace PacGame
 {
     namespace GameClasses
     {
-        class PTextureResource
+     /*   class PTextureResource
         {
         private:
             string filename;
@@ -37,21 +37,21 @@ namespace PacGame
             bool load();
             unsigned getId();
             void release();
-        };
+        };*/
             
         
         class PResourceManager
         {
         private:
-            PTextureResource *textures[ELEMENTS_TEXTURES];
+            PTexture *textures[ELEMENTS_TEXTURES];
             
         public:
             PResourceManager();
             ~PResourceManager();
-            bool loadTextureResource(PTextureResource **res, string file);
+            bool loadTextureResource(PTexture **res, string file);
             bool loadTextureResource(int offset, string file);
             
-            PTextureResource* getTextureResource(int offset);
+            PTexture* getTextureResource(int offset);
             unsigned getTextureTesourceId(int offset);
 
             void release();

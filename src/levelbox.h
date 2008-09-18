@@ -40,18 +40,18 @@
 #define BOMB 7 // (PBomb)
 #define U_WALL 8 // (PUnsolidWall)
 
-
-#define FLOOR_TEX 0
-#define S_WALL_TEX 1 
-#define BRIDGE_TEX 2 
-#define CUBE_PLACE_TEX 3
-#define OW_FLOOR_TEX 4
-#define TELEPORT_TEX 5
-#define PLAYER_TEX 6
-#define CUBE_TEX 7
-#define OW_CUBE_TEX 8
-#define BOMB_TEX 9
-#define U_WALL_TEX 10
+// id's of resourcev for objects
+#define FLOOR_RES 0
+#define S_WALL_RES 1 
+#define BRIDGE_RES 2 
+#define CUBE_PLACE_RES 3
+#define OW_FLOOR_RES 4
+#define TELEPORT_RES 5
+#define PLAYER_RES 6
+#define CUBE_RES 7
+#define OW_CUBE_RES 8
+#define BOMB_RES 9
+#define U_WALL_RES 10
 
 
 using namespace PacGame::RenderMaschine;
@@ -72,15 +72,12 @@ namespace PacGame
           {
           protected:
               int i, j;     // represents indexes of element on level matrix
-           //   PTexture texture;  // represents texture of object
               unsigned short id; // number, that represents object in file
               PCore *core;
 
           public:
-              PLevelObject() : i(0), j(0), id(0) {}// constructors
-           //   PLevelObject(unsigned short id) : id(id) {}                
+              PLevelObject() : i(0), j(0), id(0) {}// constructors          
               PLevelObject(unsigned i, unsigned j) : i(i), j(j) {}
-           //   PLevelObject(unsigned i, unsigned j, unsigned short id) : i(i), j(j), id(id) {}
              
 
               // setters
@@ -91,12 +88,11 @@ namespace PacGame
               // getters
               int getI() const;
               int getJ() const;
-              //void getIndex(unsigned &i, unsigned &j);
               unsigned short getId() const;
 
               // virtual functions to override
               virtual void draw()=0;        // code that draws object
-              virtual bool initialize()=0;  // code that initiates objects properties
+              bool initialize() { return true; }  // override
               virtual void print()=0;       // object's console dump            
               virtual short isPlayerMovePossible()=0;
           };
@@ -114,7 +110,6 @@ namespace PacGame
           public:
               PFloor(PCore *core) { this->id = 0; this->core = core; }
               void draw();
-              bool initialize();
               void print();             
               short isPlayerMovePossible() ;
           };
@@ -132,7 +127,6 @@ namespace PacGame
           public:
               PSolidWall(PCore *core) { this->id = 1; this->core = core; }
               void draw();
-              bool initialize();
               void print();             
               short isPlayerMovePossible() ;
           };
@@ -150,7 +144,6 @@ namespace PacGame
           public:
               PUnsolidWall(PCore *core) { this->id = 8; this->core = core; }
               void draw();
-              bool initialize();
               void print();              
               short isPlayerMovePossible() ;
           };
@@ -169,8 +162,7 @@ namespace PacGame
               PTeleport *childTeleport;
               
           public:
-              // ID OF 4 CERTAINTLY IS NOT OK
-              PTeleport(PCore *core) { this->id = 4; this->core = core; }
+              // constructor
               PTeleport(int id, PCore *core) : teleport_id(id) {  this->core = core; }
               PTeleport(int i, int j, PCore *core, unsigned int o_id) { this->i=i; this->j = j; this->core = core; this->id = o_id; }
               
@@ -183,7 +175,6 @@ namespace PacGame
               PTeleport* getChildTeleport() const;
               
               void draw();
-              bool initialize();
               void print();             
               short isPlayerMovePossible() ;
           };
@@ -201,7 +192,6 @@ namespace PacGame
           public:
               PBridge(PCore *core) { this->id = 2; this->core = core; }
               void draw();
-              bool initialize();
               void print();             
               short isPlayerMovePossible() ;
           };
@@ -219,7 +209,6 @@ namespace PacGame
           public:
               PVoid() { this->id = 3; }
               void draw();
-              bool initialize();
               void print();             
               short isPlayerMovePossible() ;
           };
@@ -237,7 +226,6 @@ namespace PacGame
           public:
               PCube(int i, int j, PCore *core) { this->i=i; this->j = j; this->id=2; this->core = core; }
               void draw();
-              bool initialize();
               void print();             
               short isPlayerMovePossible(); //  { return 0; }
           };
@@ -255,7 +243,6 @@ namespace PacGame
           public:
               PCubeHolder(PCore *core)  { this->id = 4; this->core = core; }
               void draw();
-              bool initialize();
               void print();              
               short isPlayerMovePossible() ;
           };
@@ -274,7 +261,6 @@ namespace PacGame
           public:
               POnewayFloor(PCore *core, unsigned short id) { this->id = 1; this->core = core; this->id = id; }
               void draw();
-              bool initialize();
               void print();             
               short isPlayerMovePossible() ;
               
@@ -301,9 +287,7 @@ namespace PacGame
 
           public:            
               POnewayCube(Aliases::PDirection dir, int i, int j, unsigned short id, PCore *core) : dir(dir) { this->i=i; this->j = j; this->core = core; this->id=id; }
-           //   POnewayCube() {}
               void draw();
-              bool initialize();
               void print();        
               short isPlayerMovePossible();
               
@@ -324,7 +308,6 @@ namespace PacGame
           public:
               PBomb(int i, int j, PCore *core){ this->i=i; this->j = j; this->id = 7; this->core = core; }
               void draw();
-              bool initialize();
               void print();
               short isPlayerMovePossible();
           };

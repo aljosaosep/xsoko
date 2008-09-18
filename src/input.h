@@ -22,9 +22,7 @@ namespace PacGame
         {
         private: 
             PLevel *level;    // level object
-      //      double bombDropTime;
-
-
+            
         public:
             
             // constructors
@@ -39,7 +37,6 @@ namespace PacGame
             
             // getters
             PLevel* getLevel() const;
-       //     double getBombDropTime();
         }; 
     }
 }

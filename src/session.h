@@ -25,10 +25,8 @@ namespace PacGame
             PPlayer *player;           
             unsigned score;
             
-        //    PRenderer *renderer; 
             PInputSystem *input;
-            unsigned moves;
-        //    bool isGameRunning;    
+            unsigned moves;  
             double rotations_per_tick;
             
         public:
@@ -40,14 +38,11 @@ namespace PacGame
             bool run();
             bool initialize();
             void mainLoop();
-            //PRenderer* getRendererHandle();
             
             // setters
             void setLevel(PLevel *level);
             void setScore(unsigned score);
             void setInput(PInputSystem *input);
-            //void setRenderer();
-          //  void setGameEnd();
             
             // getters
             PLevel *getLevel() const;
