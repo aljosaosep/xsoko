@@ -10,7 +10,7 @@ namespace PacGame
         /******************************
          * PTextureResource class
          *****************************/
-        PTextureResource::~PTextureResource()
+/*        PTextureResource::~PTextureResource()
         {
             this->release();
         }
@@ -43,7 +43,7 @@ namespace PacGame
             if(!this->texture->makeTgaTexture(true))  // create texture(generate)
             {
                 cout<<"Error loading "<<this->filename<<endl;  // failed
-                delete [] texture;  // delete object from memory
+                delete texture;  // delete object from memory
                 return false;
             }
             
@@ -53,7 +53,7 @@ namespace PacGame
         unsigned PTextureResource::getId()
         {
             return this->texture->getTexID();
-        }
+        }*/
         
         /******************************
          * PTextureManager resources
@@ -68,11 +68,14 @@ namespace PacGame
             this->release();
         }
         
-        bool PResourceManager::loadTextureResource(PTextureResource **res, string file)
+        bool PResourceManager::loadTextureResource(PTexture **res, string file)
         {
-            *res = new PTextureResource(file);
-            if(!(*res)->load())
+            *res = new PTexture(file);
+            
+            if(!(*res)->makeTgaTexture(true))
+       //     if(!(*res)->load())
             {
+                cout<<"Error loading "<<(*res)->getFilename()<<endl;  // failed
                 (*res)->release();
                 delete [] (*res);
                 (*res) = NULL;
@@ -84,9 +87,10 @@ namespace PacGame
         
         bool PResourceManager::loadTextureResource(int offset, string file)
         {
-            textures[offset] = new PTextureResource(file);
-            if(!((textures[offset])->load()))
+            textures[offset] = new PTexture(file);
+            if(!((textures[offset])->makeTgaTexture(true)))
             {
+                cout<<"Error loading "<<textures[offset]->getFilename()<<endl;  // failed
                 (textures[offset])->release();
                 delete [] textures[offset];
                 textures[offset] = NULL;
@@ -97,7 +101,7 @@ namespace PacGame
         }
         
         // getters
-        PTextureResource* PResourceManager::getTextureResource(int offset)
+        PTexture* PResourceManager::getTextureResource(int offset)
         {
             return this->textures[offset];
         }

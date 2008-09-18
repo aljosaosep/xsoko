@@ -19,7 +19,6 @@ namespace PacGame
       {
               PPlayer::PPlayer(PCore *core) //  constructor
               { 
-                 // this->renderer = renderer;
                   this->core = core;
                   this->id = 1;
               } 
@@ -28,7 +27,6 @@ namespace PacGame
               {
                    this->i = i;
                    this->j = j;
-                 //  this->renderer = renderer; 
                    this->core = core;
                    this->id = 1;
               }
@@ -64,13 +62,7 @@ namespace PacGame
                     this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, 0.0);
                       // TODO
               }
-
-              bool PPlayer::initialize()
-              {
-                      // TODO
-                      return 0;
-              }
-
+              
               void PPlayer::print()
               {
                   cout<<"|_PLYR";

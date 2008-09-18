@@ -72,7 +72,6 @@ namespace PacGame
                virtual void print();    // print into console    
                                                 //	 string texFilename;
            protected:
-               // PTexture texture(string texFilename);
                PVector2D position;  // position of object in OpenGL space, z coord is ignored
            };
       }

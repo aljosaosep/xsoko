@@ -26,26 +26,18 @@ namespace PacGame
           {
               left, right, up, down
           };
-        
       }
 
       namespace Structures
       {
-            /**********************************************************
-             * PTextureImage
-             *
-             * Holds data for texture
-             * --------------------------------------------------------
-             * Aljosa 2007
-             *********************************************************/
-            struct PTextureImage								
-            {
-                GLubyte	*imageData;						// data 
-                unsigned bpp;							// Image Color Depth In Bits Per Pixel.
-                unsigned width;							// Image Width
-                unsigned height;							// Image Height
-                unsigned texID;							// Texture ID Used To Select A Texture
-            };
+          // structure used to describe bomb state, when bomb is dropped
+          struct PDroppedBomb
+          {
+              double dropTime;  // time bomb has been dropped
+              int i, j;  // index of bomb
+
+              PDroppedBomb(int i, int j) : dropTime(glfwGetTime()), i(i), j(j) {}  // constructor
+          };
       }
       
       namespace Functions
