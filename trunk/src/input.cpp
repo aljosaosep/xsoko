@@ -8,6 +8,8 @@
 #include "input.h"
 #include "level.h"
 
+using namespace PacGame::GameClasses::GameObjects;
+
 namespace PacGame
 {
     namespace GameClasses

@@ -13,6 +13,7 @@
 #define	__SESSION_H
 
 using namespace PacGame::RenderMaschine;
+using namespace PacGame::GameClasses::GameObjects;
 
 namespace PacGame
 {
