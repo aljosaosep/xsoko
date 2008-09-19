@@ -17,6 +17,8 @@ namespace PacGame
 {
       namespace GameClasses
       {
+          namespace GameObjects
+          {
               PPlayer::PPlayer(PCore *core) //  constructor
               { 
                   this->core = core;
@@ -66,6 +68,7 @@ namespace PacGame
               void PPlayer::print()
               {
                   cout<<"|_PLYR";
-              }
+              }              
+          }
       }
 }

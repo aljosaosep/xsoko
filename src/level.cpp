@@ -11,12 +11,9 @@
  * Aljosa 2008
  */
 
-#include "object.h"
 
 
 #include "object.h"
-
-
 #include <typeinfo>
 #include <vector>
 #include <string>
@@ -27,7 +24,7 @@
 #include "level.h"
 
 using namespace std;
-using namespace PacGame::GameClasses;
+using namespace PacGame::GameClasses::GameObjects;
 
 namespace PacGame
 {
@@ -437,15 +434,7 @@ namespace PacGame
                                           resourceHandle->loadTextureResource(S_WALL_RES, "wall.tga"); 
 
                                       break;
-/*                                      
-                                  case U_WALL:
-                                      data[i][j] = new PUnsolidWall(this->gameCore);
                                       
-                                      if((resourceHandle->getTextureResource(U_WALL))==NULL)
-                                          resourceHandle->loadTextureResource(U_WALL, "unsolidwall.tga"); 
-                                      
-                                      break; 
- */                                     
                                   case BRIDGE:
                                       data[i][j] = new PBridge(this->gameCore);
                                       
@@ -761,8 +750,7 @@ namespace PacGame
           {
               return this->player;
           }
-
-
+  
           /**************************************************************
            * Function returns pointer to renderer object
            **************************************************************/

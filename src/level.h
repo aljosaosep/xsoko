@@ -22,7 +22,7 @@
 #include "player.h"
 #include "core.h"
 
-using namespace PacGame::GameClasses;
+using namespace PacGame::GameClasses::GameObjects;
 using namespace PacGame::Functions;
 using namespace PacGame::Aliases;
 using namespace PacGame::RenderMaschine;

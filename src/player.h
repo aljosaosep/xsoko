@@ -23,20 +23,22 @@ namespace PacGame
 {
       namespace GameClasses
       {
-           /**********************************************************
-           * PPlayer
-           *
-           * Represents player entity
-           * --------------------------------------------------------
-           * Aljosa 2008
-           * ********************************************************/
-          class PPlayer : public PLevelObject
+          namespace GameObjects
           {
-          private:
+               /**********************************************************
+               * PPlayer
+               *
+               * Represents player entity
+               * --------------------------------------------------------
+               * Aljosa 2008
+               * ********************************************************/
+              class PPlayer : public PLevelObject
+              {
+              private:
            //       int score;   
                   unsigned bombs;
 
-          public:
+              public:
                   // constructors
                   PPlayer(PCore *core);
                   PPlayer(int i, int j, PCore *core);
@@ -53,12 +55,12 @@ namespace PacGame
                   // to override
                   void draw();
                   void print();
-                  
+
                   short isPlayerMovePossible() { return 0; }
-          };
+              };              
+          }
       }
 }
-
 
 #endif	/* _PLAYER_H */
 
