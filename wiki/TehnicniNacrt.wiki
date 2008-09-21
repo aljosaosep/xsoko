@@ -167,6 +167,12 @@ while(niFertik())
     * Enosmerna kocka dol -- 6 (POnewayCube) ...OWC
     * Bomba -- 7 (PBomb) ...B
     * Prebojni zid -- 8 (PUnsolidWall) ...USW
+ 
+    * Detonirana bomba -- 9 (PDetonatedBomb)
+
+Opozotilo: PDetonatedBomb ni pomembna za level editor, tako da, skrabec, ti si lahko predstavljas da tega ni.
+PDetonatedBomb je pomembna samo za gameplay in se lahko na stopnji pojavi le med igro, ko igralec odvrze nekam bombo. Na zacetku ne more obstajati.
+
 
 Ce kdo med programiranjem ugotovi, da z temi id-ji kaj ne stima, naj prosim popravi wiki, in nekam na grupo napise, da nekaj ne stima in zakaj ne stima!
 Naceloma spreminjanje tega ni zazeljeno; ce se bo spreminjalo, naj bo razlog res dober!
@@ -514,8 +520,6 @@ Podobno bi rad naložil prek ResourceManagerja tudi zvok in enostavno dostopal d
 
 
 p.s pisanje dokumentacije sux!
-
-
 
 
 
