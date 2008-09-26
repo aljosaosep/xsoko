@@ -300,7 +300,7 @@ namespace PacGame
                /**********************************************************
                * PBomb
                *
-               * Represents bomb that can destroy unsolid wall
+               * Represents bomb that we pick up
                * --------------------------------------------------------
                * Aljosa 2008
                * ********************************************************/ 
@@ -312,7 +312,25 @@ namespace PacGame
                   void draw();
                   void print();
                   short isPlayerMovePossible();
-              };              
+              }; 
+
+               /**********************************************************
+               * PDetonaedBomb
+               *
+               * Represents bomb that can destroy unsolid wall
+               * --------------------------------------------------------
+               * Aljosa 2008
+               * ********************************************************/ 
+              class PDetonatedBomb : public PLevelObject
+              {
+              private:
+              public:
+                  PDetonatedBomb(PCore *core){ this->id = 9; this->core = core; }
+                  void draw();
+                  void print();
+                  short isPlayerMovePossible();
+              }; 
+              
           }
       }
 }

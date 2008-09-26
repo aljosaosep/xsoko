@@ -23,6 +23,7 @@ namespace PacGame
               { 
                   this->core = core;
                   this->id = 1;
+                  this->bombs = 0;
               } 
               
               PPlayer::PPlayer(int i, int j, PCore *core)
@@ -31,6 +32,7 @@ namespace PacGame
                    this->j = j;
                    this->core = core;
                    this->id = 1;
+                   this->bombs = 0;
               }
 
               // setters
@@ -54,6 +56,11 @@ namespace PacGame
               void PPlayer::incBombs()
               {
                       bombs++;
+              }
+              
+              void PPlayer::decBombs()
+              {
+                  this->bombs--;
               }
 
               // ===== FUNCTIONS TO OVERRIDE ===== //
