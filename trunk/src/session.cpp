@@ -5,6 +5,9 @@
  * Created on July 18, 2008, 12:16 AM
  */
 
+#include "level.h"
+
+
 #include "session.h"
 #include <cstdio>
 #include <cmath>
@@ -19,10 +22,13 @@ namespace PacGame
         {
             Messages::infoMessage("Entering main loop...");
             
+            
             // the time of the previous frame
             double old_time = glfwGetTime();   
             float angle = 0.0;
             
+            
+           
             // game official begins here! this is so called main game loop
             while(1/*this->isGameRunning*/)
             {
@@ -34,28 +40,11 @@ namespace PacGame
                 {
                     // apparently they are!
                     if(round(current_time-this->level->getFirstDroppedBomb()->dropTime) == 3)  // is it time to trigger bomb yet?
-                    {
-                      //  if(this->level->)
-                        cout<<endl;
-                        cout<<"current: "<<current_time<<endl;
-                        cout<<"drop: "<<this->level->getFirstDroppedBomb()->dropTime<<endl;
-                        cout<<"KABOOOOOOOOOOOM!!!!"<<endl;
-                        cout<<endl;
-                        
-                        cout<<"PLayer: "<<this->level->getPlayerHandle()->getI()<<' '<<this->level->getPlayerHandle()->getJ()<<endl;
-                        
+                    {    
                         // check bomb surrounding fields
-                        cout<<"check at: "<<level->getFirstDroppedBomb()->i-1<<' '<<level->getFirstDroppedBomb()->j<<endl;
                         this->level->checkAndApplyBombBlast(level->getFirstDroppedBomb()->i-1, level->getFirstDroppedBomb()->j);
-                        
-                        
-                        cout<<"check at: "<<level->getFirstDroppedBomb()->i+1<<' '<<level->getFirstDroppedBomb()->j<<endl;                       
                         this->level->checkAndApplyBombBlast(level->getFirstDroppedBomb()->i+1, level->getFirstDroppedBomb()->j);
-                        
-                         cout<<"check at: "<<level->getFirstDroppedBomb()->i<<' '<<level->getFirstDroppedBomb()->j-1<<endl;  
                         this->level->checkAndApplyBombBlast(level->getFirstDroppedBomb()->i, level->getFirstDroppedBomb()->j-1);
-                        
-                            cout<<"check at: "<<level->getFirstDroppedBomb()->i<<' '<<level->getFirstDroppedBomb()->j+1<<endl;                      
                         this->level->checkAndApplyBombBlast(level->getFirstDroppedBomb()->i, level->getFirstDroppedBomb()->j+1);
                         
                         this->level->removeFirstDroppedBomb();
@@ -63,8 +52,6 @@ namespace PacGame
                 }
                 
                 old_time = current_time;
-                
-
                 
                 // is game over? or level done?
                 if(this->level->getEndgameFlag())
@@ -80,8 +67,9 @@ namespace PacGame
 
                 // gluLookAt (0.0, 0.0, 5.0, 0.0, 0.0, -5.0, 0.0, 1.0, 0.0);
                 // moves camera
-       //         glTranslatef(this->renderer->getCameraX(), this->renderer->getCameraY(), this->renderer->getCameraZ());
-                glTranslatef(-10.0, 6.0, -25.0);                
+                glTranslatef(this->level->getGameCoreHandle()->getRenderer()->getCameraX(), this->level->getGameCoreHandle()->getRenderer()->getCameraY(), this->level->getGameCoreHandle()->getRenderer()->getCameraZ());
+             //   glTranslatef(-10.0, 6.0, -25.0);    
+          //      this->level->getGameCoreHandle()->getRenderer()->getCameraX()
                 // this->renderer->drawCube(0.0, 0.0, 0.5, angle);
                 
               //  glRotatef(angle, 1.0, 1.0, 1.0);

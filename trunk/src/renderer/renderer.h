@@ -42,7 +42,7 @@ namespace PacGame
         float lightPosition[4];  
 
         // material properties
-      //  float matAmbient[4];
+     //   float matAmbient[4];
       //  float matDiffuse[4];
 
         // camera

@@ -18,28 +18,6 @@ namespace PacGame
 {
     namespace GameClasses
     {
-     /*   class PTextureResource
-        {
-        private:
-            string filename;
-            PTexture *texture;
- 
-        public:
-            PTextureResource(string filename) : filename(filename) {}
-            PTextureResource() : texture(NULL) {}
-            ~PTextureResource();
-            
-            // setters
-            void setTexture(PTexture *tex);
-            void setFilename(string filename);
-            
-            // other
-            bool load();
-            unsigned getId();
-            void release();
-        };*/
-            
-        
         class PResourceManager
         {
         private:

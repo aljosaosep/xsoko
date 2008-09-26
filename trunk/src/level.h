@@ -51,6 +51,7 @@ using namespace PacGame::RenderMaschine;
 #define OW_CUBE_D 6 // (POnewayCube)
 #define BOMB 7 // (PBomb)
 #define U_WALL 8 // (PUnsolidWall)
+#define DET_BOMB 9
 
 // id's of resourcev for objects
 #define FLOOR_RES 0
@@ -92,10 +93,12 @@ namespace PacGame
                   PResourceManager *resourceHandle; // shortcut to resources
                   bool endgameFlag;
                   
+                  PDirection lastDirection;  // direction player is facing according to last move
+                  
                   vector<PDroppedBomb*> bombs;   // list of currently dropped bombs
                  
               public:
-                  PLevel(string filename) : filename(filename),  width(0), height(0), player(NULL),  gameCore(new PCore), resourceHandle(this->gameCore->getResources()), endgameFlag(false) {} // default constructor
+                  PLevel(string filename) : filename(filename),  width(0), height(0), player(NULL),  gameCore(new PCore), resourceHandle(this->gameCore->getResources()), endgameFlag(false), lastDirection(Aliases::up) {} // default constructor
                   virtual ~PLevel();
                   
                   // print
@@ -118,6 +121,7 @@ namespace PacGame
                   inline bool checkPosition(ifstream &file); // checks if position is valid and moves file pointer
                   inline PTeleport* returnTeleport(int id); // returns teleports addres, that contains given id
                   PPlayer* getPlayerHandle();
+                  PCore* getGameCoreHandle();
                   
                   // getters
                   bool getEndgameFlag();
@@ -128,6 +132,7 @@ namespace PacGame
                   PDroppedBomb* getFirstDroppedBomb();
                   void removeFirstDroppedBomb();
                   void checkAndApplyBombBlast(int i, int j);
+              //    void setDetonatedBomb(int i, int j);
 
                   // functions to override
                   void draw();  // draws whole level

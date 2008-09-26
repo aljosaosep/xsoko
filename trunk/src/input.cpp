@@ -5,6 +5,9 @@
  * Created on July 20, 2008, 5:50 PM
  */
 
+#include "level.h"
+
+
 #include "input.h"
 #include "level.h"
 
@@ -17,7 +20,7 @@ namespace PacGame
         void PInputSystem::process()
         {
             // gets renderer handle, for camera
-            // PRenderer *rn = this->level->getRendererHandle();
+             PRenderer *rn = this->level->getGameCoreHandle()->getRenderer();
             
             glfwEnable(GLFW_STICKY_KEYS);  // enables sticky keys
             
@@ -45,11 +48,16 @@ namespace PacGame
             }
             else if((glfwGetKey('D') == GLFW_PRESS) && (glfwGetKey('D') == GLFW_RELEASE))
             {
-                this->getLevel()->addDroppedBomb(this->getLevel()->getPlayerHandle()->getI(), this->getLevel()->getPlayerHandle()->getJ());
+                if(this->level->getPlayerHandle()->getBombs() > 0)
+                {
+                    this->level->addDroppedBomb(this->getLevel()->getPlayerHandle()->getI(), this->getLevel()->getPlayerHandle()->getJ());
+                    this->level->getPlayerHandle()->decBombs();
+                }
+              //  this->level->setDetonatedBomb()
             }
             
             // camera values; if you need to move camera, uncomment this code
-      /*      else if((glfwGetKey('W') == GLFW_PRESS) && (glfwGetKey('W') == GLFW_RELEASE))
+            else if((glfwGetKey('W') == GLFW_PRESS) && (glfwGetKey('W') == GLFW_RELEASE))
             {              
                 rn->setCameraY(rn->getCameraY()-0.9);           
             }
@@ -62,7 +70,7 @@ namespace PacGame
             {              
                 rn->setCameraX(rn->getCameraX()-0.9);           
             }
-            else if((glfwGetKey('D') == GLFW_PRESS) && (glfwGetKey('D') == GLFW_RELEASE))
+            else if((glfwGetKey('F') == GLFW_PRESS) && (glfwGetKey('F') == GLFW_RELEASE))
             {              
                 rn->setCameraX(rn->getCameraX()+0.9);           
             }
@@ -74,7 +82,7 @@ namespace PacGame
             else if((glfwGetKey('Z') == GLFW_PRESS) && (glfwGetKey('Z') == GLFW_RELEASE))
             {              
                 rn->setCameraZ(rn->getCameraZ()+0.9);           
-            }*/
+            }
         }
         
         // setters

@@ -1,4 +1,4 @@
-/*
+/**
  * Codename: xSoko
  * File: level.h
  *
@@ -815,6 +815,21 @@ namespace PacGame
                                   data[i][j]->draw();  // otherwise, print object
                                   glPopMatrix();
                               }
+                          
+                          // draw activated bombs, if there are any
+                          if(this->bombs.size()>0)
+                          {
+                              for(int i=0; i<bombs.size(); i++)
+                              {
+                                  
+                                  glPushMatrix();
+                                  glTranslatef(this->bombs[i]->i*2.0, this->bombs[i]->j*2.0, 0.0);
+                                  glColor3f(1.0, 0.0, 0.0);
+                                  glBindTexture(GL_TEXTURE_2D, this->resourceHandle->getTextureTesourceId(BOMB_RES));
+                                  this->gameCore->getRenderer()->drawCube(0.0, 0.0, 0.5, 25.0);
+                                  glPopMatrix();
+                              }
+                          }
                       }
                   }
               glPopMatrix();  
@@ -929,9 +944,6 @@ namespace PacGame
           
           void PLevel::checkAndApplyBombBlast(int i, int j)
           {
-            
-              cout<<"ckeckin..."<<endl;
-
               if(data[i][j]->returnFirstChild() != NULL)
               {
                   
@@ -945,7 +957,23 @@ namespace PacGame
               }
           }
           
+          
+       /*   void PLevel::setDetonatedBomb(int i, int j)
+          {
+              PDetonatedBomb *db = new PDetonatedBomb(this->gameCore);
+              if(data[i][j]->returnFirstChild()==NULL)
+                  data[i][j]->attachToRoot(db);
+              
+          }*/
+          
     //      void PLevel::
+          
+          
+          ///// temporary?
+          PCore* PLevel::getGameCoreHandle()
+          {
+              return this->gameCore;
+          }
  
           /**************************************************************
            * Destructor
@@ -955,6 +983,7 @@ namespace PacGame
           {
               this->releaseLevel();
           }
+          
           
           short PLevel::isPlayerMovePossible() { return 0; }  // blind function, just for overwrtie; DO NOT attempt to implement it and escpecially,
                                                               // do not use it in LEVEL class context!

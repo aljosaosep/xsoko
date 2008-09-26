@@ -111,7 +111,7 @@ namespace PacGame
              *****************************************/	
             void PFloor::draw()
             {
-                glColor3f(0.5, 0.5, 0.4);
+                glColor3f(1.0, 1.0, 1.0);
                 glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(FLOOR_RES));
                 this->core->getRenderer()->drawFloor(0.0, 0.0, 1.0);
             }
@@ -130,7 +130,7 @@ namespace PacGame
              *****************************************/	       
             void POnewayFloor::draw()
             {
-                glColor3f(0.5, 0.5, 0.4);
+                glColor3f(1.0, 1.0, 1.0);
                 switch(this->dir)
                 {
                         case Aliases::left:
@@ -174,7 +174,7 @@ namespace PacGame
              *****************************************/	    
             void PSolidWall::draw()
             {
-                glColor3f(0.9, 0.9, 0.9);
+                glColor3f(0.9, 0.87, 0.87);
                 glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(S_WALL_RES));
                 this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, 0.0);
             }
@@ -213,7 +213,7 @@ namespace PacGame
              *****************************************/	 
             void PBridge::draw()
             {
-                glColor4f(1.0, 1.0, 1.0, 0.5);
+                glColor4f(1.0, 1.0, 1.0, 0.8);
                 glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(BRIDGE_RES));
                 this->core->getRenderer()->drawFloor(0.0, 0.0, 1.0);
 
@@ -249,7 +249,7 @@ namespace PacGame
              *****************************************/	   
             void PCubeHolder::draw()
             {
-                glColor3f(0.3, 0.0, 0.0);
+                glColor3f(1.0, 0.4, 0.4);
                 glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(CUBE_RES));
                 this->core->getRenderer()->drawFloor(0.0, 0.0, 1.0);
             }
@@ -346,7 +346,29 @@ namespace PacGame
             short PBomb::isPlayerMovePossible() 
             {
                 return 4;
-            }        
+            } 
+            
+            /*****************************************
+             PDetonatedBomb methods
+             *****************************************/
+            void PDetonatedBomb::draw()
+            {
+                glColor3f(1.0, 0.0, 0.0);
+                glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(BOMB_RES));
+                this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, 0.0);
+            }
+            
+            void PDetonatedBomb::print()
+            {
+                cout<<"| D_B ";
+            }
+            
+            short PDetonatedBomb::isPlayerMovePossible()
+            {
+                return 0;
+            }
+            
+            
         }
     }
 }

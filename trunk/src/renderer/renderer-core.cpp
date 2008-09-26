@@ -21,13 +21,13 @@ namespace PacGame
           PRenderer::PRenderer() //: cameraX(-10.0), cameraY(6.0), cameraZ(-25.0)
           {
               // light properties
-              lightAmbient[0] = 0.3, lightAmbient[1] = 0.5, lightAmbient[2] = 0.8, lightAmbient[3] = 1.0; 
-              lightDiffuse[0] = 0.25, lightDiffuse[1] = 0.25, lightDiffuse[2] = 0.25, lightDiffuse[3] = 1.0;
-              lightPosition[0] = 0.0, lightPosition[1] = 0.0, lightPosition[2] = 1.0, lightPosition[3] = 1.0;   
+              lightAmbient[0] = 0.1, lightAmbient[1] = 0.1, lightAmbient[2] = 0.1, lightAmbient[3] = 1.0; 
+              lightDiffuse[0] = 1.0, lightDiffuse[1] = 1.0, lightDiffuse[2] = 1.0, lightDiffuse[3] = 1.0;
+              lightPosition[0] = 1.0, lightPosition[1] = 1.0, lightPosition[2] = 0.0, lightPosition[3] = 1.0;   
               
               // material properties
-           //   matAmbient[0] = 1.0, matAmbient[1] = 1.0, matAmbient[2] = 1.0, matAmbient[3] = 1.0;
-           //   matDiffuse[0] = 1.0, matDiffuse[1] = 1.0, matDiffuse[2] = 1.0, matDiffuse[3] = 1.0;
+         //     matAmbient[0] = 1.0, matAmbient[1] = 1.0, matAmbient[2] = 1.0, matAmbient[3] = 1.0;
+         //     matDiffuse[0] = 1.0, matDiffuse[1] = 1.0, matDiffuse[2] = 1.0, matDiffuse[3] = 1.0;
               
               // camera
               this->cameraX = -10.0f; 
@@ -102,17 +102,24 @@ namespace PacGame
               // texture
               glEnable(GL_TEXTURE_2D);
               
+
+              
               // material related
- //             glMaterialfv(GL_FRONT, GL_AMBIENT, matAmbient);
- //             glMaterialfv(GL_FRONT, GL_DIFFUSE, matDiffuse);
+          //    glMaterialfv(GL_FRONT, GL_AMBIENT, matAmbient);
+        //      glMaterialfv(GL_FRONT, GL_DIFFUSE, matDiffuse);
               
               // light related
               glLightfv(GL_LIGHT0, GL_AMBIENT, lightAmbient);
               glLightfv(GL_LIGHT0, GL_DIFFUSE, lightDiffuse);
               glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);                    
               glEnable(GL_LIGHT0);
+
+
               glEnable(GL_COLOR_MATERIAL);
-            //  glEnable(GL_CULL_FACE); // do not calculate inside of polys
+              glColorMaterial ( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE ) ;
+         //     glMateriali(GL_FRONT_AND_BACK, GL_SHININESS, 0.0);
+
+          //    glEnable(GL_CULL_FACE); // do not calculate inside of polys
               
               // blending
               glEnable(GL_BLEND);

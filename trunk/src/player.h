@@ -1,4 +1,10 @@
-/* 
+//!  A test class. 
+/*!
+  A more elaborate class description.
+*/
+
+
+/*! 
  * File:   player.h
  * Author: jernej
  * Desc: Includes player class definition
@@ -51,6 +57,8 @@ namespace PacGame
 
                   // increase +1
                   void incBombs();
+                  // decrease -1
+                  void decBombs(); 
 
                   // to override
                   void draw();
