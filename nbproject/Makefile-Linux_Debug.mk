@@ -71,14 +71,14 @@ CXXFLAGS=
 FFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-lglfw -lGL -lGLU -lXxf86vm -lm -lXrandr -lglfw
+LDLIBSOPTIONS=-lglfw -lGL -lGLU -lalut -lopenal
 
 # Build Targets
-.build-conf: ${BUILD_SUBPROJECTS} dist/Linux_Debug/GNU-Linux-x86/trunk
+.build-conf: ${BUILD_SUBPROJECTS} dist/Linux_Debug/GNU-Linux-x86/xsoko
 
-dist/Linux_Debug/GNU-Linux-x86/trunk: ${OBJECTFILES}
+dist/Linux_Debug/GNU-Linux-x86/xsoko: ${OBJECTFILES}
 	${MKDIR} -p dist/Linux_Debug/GNU-Linux-x86
-	${LINK.cc} -o dist/Linux_Debug/GNU-Linux-x86/trunk ${OBJECTFILES} ${LDLIBSOPTIONS} 
+	${LINK.cc} -o dist/Linux_Debug/GNU-Linux-x86/xsoko ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
 ${OBJECTDIR}/src/zip/zlib/infback.o: src/zip/zlib/infback.c 
 	${MKDIR} -p ${OBJECTDIR}/src/zip/zlib
@@ -222,7 +222,7 @@ ${OBJECTDIR}/src/renderer/renderer-core.o: src/renderer/renderer-core.cpp
 # Clean Targets
 .clean-conf:
 	${RM} -r build/Linux_Debug
-	${RM} dist/Linux_Debug/GNU-Linux-x86/trunk
+	${RM} dist/Linux_Debug/GNU-Linux-x86/xsoko
 
 # Subprojects
 .clean-subprojects:
