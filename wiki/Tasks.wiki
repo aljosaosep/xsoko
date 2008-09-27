@@ -57,8 +57,8 @@ Vmesnik za delo z resourci(slikami, zvocnimi datotekami, ...)
 == Level editor == 
 ==== prioriteta: zelo visoka ====
 ==== trenutno dela: Jernej Skrabec ====
-==== zeljen datum implementacije: 1 mesec nazaj ====
-==== status: Narejen GUI ====
+==== datum implementacije: 27. 9. 2008 ====
+==== status: Narejena osnovna verzija ====
 ==== quick summary: ====
 Mislim, da opis ni potreben.
 
