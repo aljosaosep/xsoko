@@ -11,9 +11,7 @@
  */
 
 #include "game.h"
-
-
-#include "game.h"
+#include <AL/alut.h>6
 
 using namespace PacGame;
 
@@ -32,12 +30,16 @@ namespace PacGame
                   windowWidth = _width;
                   windowHeight = _height;
                   windowTitle = _title;
+                  
+                  alutInit (NULL, NULL); // inicializacija ALUT in OpenAL API
+                  alGetError(); // počisti napake
           }
 
           // destructor
           PGame::~PGame()
           {
                   terminateGLFW();
+                  alutExit ();
           }
           
           // input

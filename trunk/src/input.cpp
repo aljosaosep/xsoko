@@ -10,6 +10,7 @@
 
 #include "input.h"
 #include "level.h"
+#include <AL/alut.h>
 
 using namespace PacGame::GameClasses::GameObjects;
 
@@ -52,6 +53,20 @@ namespace PacGame
                 {
                     this->level->addDroppedBomb(this->getLevel()->getPlayerHandle()->getI(), this->getLevel()->getPlayerHandle()->getJ());
                     this->level->getPlayerHandle()->decBombs();
+                    
+                    // vsekaj zvok
+                    ALuint helloBuffer, helloSource;
+                    ALenum error;
+                    helloBuffer = alutCreateBufferFromFile("sound/bombtiq.wav");
+                    if (helloBuffer == AL_NONE)
+                    {
+                        error = alutGetError();
+                        cout << "Napaka: " << alutGetErrorString(error) << endl;
+                    }
+                    alGenSources (1, &helloSource);
+                    alSourcei (helloSource, AL_BUFFER, helloBuffer);
+                    alSourcePlay (helloSource);
+                    
                 }
               //  this->level->setDetonatedBomb()
             }
