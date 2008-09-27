@@ -552,10 +552,6 @@
             <linkerLibLibItem>glfw</linkerLibLibItem>
             <linkerLibLibItem>GL</linkerLibLibItem>
             <linkerLibLibItem>GLU</linkerLibLibItem>
-            <linkerLibLibItem>Xxf86vm</linkerLibLibItem>
-            <linkerLibLibItem>m</linkerLibLibItem>
-            <linkerLibLibItem>Xrandr</linkerLibLibItem>
-            <linkerLibLibItem>glfw</linkerLibLibItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>
