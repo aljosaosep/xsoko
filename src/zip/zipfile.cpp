@@ -79,7 +79,7 @@ bool ZipFile::isFileOpened(){
 int ZipFile::getFileSize(){
     if(opened){
         unz_file_info file_info;
-        if(unzGetCurrentFileInfo(zipf,&file_info,NULL,0,NULL,0,NULL,0)==UNZ_OK)
+        if(unzGetCurrentFileInfo(zipf,&file_info,0,0,0,0,0,0)==UNZ_OK)
             return file_info.uncompressed_size;
         else
             return UNZ_ERRNO;
