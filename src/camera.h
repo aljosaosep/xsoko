@@ -8,8 +8,8 @@
  * www.UltimateGameProgramming.com
  */
 
-#ifndef _CAMERA_H
-#define	_CAMERA_H
+#ifndef __CAMERA_H
+#define	__CAMERA_H
 
 #include <cmath>
 #include "vector.h"

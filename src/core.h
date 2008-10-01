@@ -5,11 +5,12 @@
  * Created on August 26, 2008, 8:58 PM
  */
 
-#ifndef _CORE_H
-#define	_CORE_H
+#ifndef __CORE_H
+#define	__CORE_H
 
 #include "renderer/renderer.h"
 #include "resource.h"
+#include "camera.h"
 
 namespace PacGame
 {
@@ -20,6 +21,7 @@ namespace PacGame
         private:
             PRenderer *renderer; // renderer instance
             PResourceManager *resources;
+            PCamera *camera;
             
         public:
             PCore(); // constructor
@@ -31,6 +33,7 @@ namespace PacGame
             // getters
             PRenderer *getRenderer();
             PResourceManager *getResources();
+            PCamera *getCamera();
             
             // release
             void release();

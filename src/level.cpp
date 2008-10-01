@@ -918,6 +918,17 @@ namespace PacGame
               Messages::infoMessage("Level data successfully released from memory.");              
           }
           
+          
+          unsigned PLevel::getWidth()
+          {
+              return this->width;
+          }
+          
+          unsigned PLevel::getHeight()
+          {
+              return this->height;
+          }
+          
            /**************************************************************
            * Dropped Bombs
            * functions manages them
