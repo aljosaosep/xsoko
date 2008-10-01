@@ -11,7 +11,7 @@
  */
 
 #include "game.h"
-#include <AL/alut.h>6
+#include <AL/alut.h>
 
 using namespace PacGame;
 

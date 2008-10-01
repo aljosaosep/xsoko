@@ -21,6 +21,7 @@ namespace PacGame
         {
             this->renderer = new PacGame::RenderMaschine::PRenderer;
             this->resources = new PResourceManager();
+            this->camera = new PCamera;
         }
         
         /*****************************************************************
@@ -41,7 +42,7 @@ namespace PacGame
             // delete renderer
             if(renderer!=NULL)
             {
-                delete [] renderer;
+                delete renderer;
                 this->renderer = NULL;
             }
           
@@ -49,8 +50,14 @@ namespace PacGame
             if(resources!=NULL)
             {
                 this->resources->release();
-                delete [] resources;
+                delete resources;
                 this->resources = NULL;
+            }
+            
+            if(camera!=NULL)
+            {
+                delete camera;
+                this->camera = NULL;
             }
         }
         
@@ -86,5 +93,9 @@ namespace PacGame
             return this->resources;
         }
         
+        PCamera *PCore::getCamera()
+        {
+            return this->camera;
+        }
     }
 }

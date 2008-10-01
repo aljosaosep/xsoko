@@ -27,6 +27,10 @@ namespace PacGame
             double old_time = glfwGetTime();   
             float angle = 0.0;
             
+            float width=(float)this->level->getWidth()-1, height=(float)this->level->getHeight()-1;
+            
+            float bigger = width > height ? width : height;
+            
             
            
             // game official begins here! this is so called main game loop
@@ -64,16 +68,33 @@ namespace PacGame
                 // clear the buffer
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
                 glLoadIdentity(); // reset view matrix
+                
+                                
 
+                             //   this->level->getGameCoreHandle()->getCamera()->up.
+                this->camera->setCamera(PVector3D(10.0, 0.0, 100.0),PVector3D(0.0, 0.0, 0.0), PVector3D(0.0, 1.0, 0.0));
+                
+        /*        gluLookAt(this->camera->view.getCoordX(), this->camera->view.getCoordY(), this->camera->view.getCoordZ(), 
+                        this->camera->position.getCoordX(), this->camera->position.getCoordY(), this->camera->position.getCoordZ(), 
+                        this->camera->up.getCoordX(), this->camera->up.getCoordY(), this->camera->up.getCoordZ());*/
+                
+            //    this->level->
+       //         cout<<"w: "<<(float)this->level->getWidth()-1<<endl;
+      //          cout<<"h: "<<-((float)this->level->getHeight()-1)<<endl;                
+                gluLookAt(height,-width, 2*bigger+6, height,-width, 0.0, 0.0,1.0,0.0);
                 // gluLookAt (0.0, 0.0, 5.0, 0.0, 0.0, -5.0, 0.0, 1.0, 0.0);
                 // moves camera
-                glTranslatef(this->level->getGameCoreHandle()->getRenderer()->getCameraX(), this->level->getGameCoreHandle()->getRenderer()->getCameraY(), this->level->getGameCoreHandle()->getRenderer()->getCameraZ());
+              //  glTranslatef(this->level->getGameCoreHandle()->getRenderer()->getCameraX(), this->level->getGameCoreHandle()->getRenderer()->getCameraY(), this->level->getGameCoreHandle()->getRenderer()->getCameraZ());
+
              //   glTranslatef(-10.0, 6.0, -25.0);    
           //      this->level->getGameCoreHandle()->getRenderer()->getCameraX()
                 // this->renderer->drawCube(0.0, 0.0, 0.5, angle);
                 
               //  glRotatef(angle, 1.0, 1.0, 1.0);
-                
+//
+          //      glColor3f(1.0, 0.0,0.0);
+         //       this->level->getGameCoreHandle()->getRenderer()->drawCube(0.0,0.0,8.0,0.0);
+             
                 glRotatef(-90.0, 0.0, 0.0, 1.0);
 
                 this->level->draw();

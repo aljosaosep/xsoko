@@ -23,7 +23,8 @@ namespace PacGame
         {
         private:
             PLevel *level; 
-            PPlayer *player;           
+            PPlayer *player;   
+            PCamera *camera;
             unsigned score;
             
             PInputSystem *input;
@@ -32,8 +33,8 @@ namespace PacGame
             
         public:
             // constructors
-            PGameSession(PLevel *level, PInputSystem *input) : level(level), input(input), moves(0),  rotations_per_tick(0.1) {}
-            PGameSession() : level(NULL), player(NULL), input(NULL),  moves(0),rotations_per_tick(0.1)   {}
+            PGameSession(PLevel *level, PInputSystem *input) : level(level), camera(level->getGameCoreHandle()->getCamera()), input(input), moves(0),  rotations_per_tick(0.1) {}
+            PGameSession() : level(NULL), player(NULL), camera(NULL), input(NULL),  moves(0),rotations_per_tick(0.1)   {}
             
             // methods
             bool run();
