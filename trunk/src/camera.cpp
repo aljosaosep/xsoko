@@ -27,9 +27,6 @@
  * Thank you!
  */
 
-#include "camera.h"
-
-
 #include "vector.h"
 #include "camera.h"
 
@@ -46,7 +43,7 @@ namespace PacGame
         }
         
         // move camera
-   /*     void PCamera::moveCamera(float direction)
+        void PCamera::moveCamera(float direction)
         {
             PVector3D lookDirection;  // direction we're looking at
             
@@ -120,11 +117,24 @@ namespace PacGame
 	// Last we add the new rotations to the old view to correctly rotate the camera.
 	xView = xPos + xNewLookDirection;
 	yView = yPos + yNewLookDirection;
-	zView = zPos + zNewLookDirection;
+	zView = zPos + zNewLookDirection;*/
             
 
             
             
-        }*/
+        }
+        
+        void PCamera::fitCameraToLevel(int width, int height)
+        {
+            width --;
+            height --;
+            
+
+            float bigger = (width > height ? width : height) + 1;  // tmp 
+            
+            this->position.setCoordinates(height, -width, 0.0);
+            this->view.setCoordinates(height, -width,  2*bigger+6);
+            this->up.setCoordinates(0.0, 1.0, 0.0);
+        }
     }
 }

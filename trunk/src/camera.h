@@ -49,6 +49,7 @@ namespace PacGame
             void setCamera(PVector3D view, PVector3D position, PVector3D up);
             void moveCamera(float direction);
             void rotateCamera(float angle, PVector3D speed);
+            void fitCameraToLevel(int width, int height);
             
             PVector3D position;
             PVector3D view;
