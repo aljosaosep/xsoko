@@ -33,7 +33,7 @@ namespace PacGame
         private:
             string filename;   // texture filename
 
-            GLubyte	*imageData;	// data 
+            GLubyte *imageData;	// data 
             unsigned bpp;		// Image Color Depth In Bits Per Pixel
             unsigned width;		// Image Width
             unsigned height;		// Image Height

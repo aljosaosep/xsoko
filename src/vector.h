@@ -5,8 +5,8 @@
  * Modified:
 */
 
-#ifndef __VECTOR_2D_H
-#define __VECTOR_2D_H
+#ifndef __VECTOR_H
+#define __VECTOR_H
 
 #include <iostream>
 
@@ -22,74 +22,43 @@ namespace PacGame
            * --------------------------------------------------------
            * Aljosa 2007 - 2008
            * ********************************************************/
-          class PVector2D
+          class PVector3D
           {
           protected:
-                  float x, y;  // x and y position in the space
+                  float x, y, z;  // x and y position in the space
+                  
           public:
                   // constructors
-                  PVector2D();
-                  PVector2D(float _x, float _y);
-                 // PVector2D(const PVector2D &vec);  // copy constructor
+                  PVector3D() : x(0), y(0), z(0) {} 
+                  PVector3D(float x, float y, float z) : x(x), y(y), z(z) {} 
+                  PVector3D(const PVector3D &vec) : x(vec.x), y(vec.y), z(vec.z) {}   // copy constructor
 
                   // setters
-                  void setCoordinates(float _x, float _y);
-                  void setCoordX(float _x);
-                  void setCoordY(float _y);
+                  void setCoordinates(float x, float y, float z);
+                  void setCoordinates(const PVector3D vec);
+                  void setCoordX(float x);
+                  void setCoordY(float y);
+                  void setCoordZ(float z);                  
 
                   // getters
                   float getCoordX();
                   float getCoordY();
-                  void getCoordinates(float &_x, float &_y);
+                  float getCoordZ();                  
 
                   // print
                   virtual void printCoordinates();
 
                   // operators
-/*		  PVector2D operator + (PVector2D _vector);
-                  PVector2D operator - (PVector2D _vector);
-                  PVector2D operator * (PVector2D _vector);
-                  PVector2D operator / (PVector2D _vector);*/
-
-                  PVector2D operator = (PVector2D _vector);
-
-
-        //	  PVector2D operator ++ (PVector2D _vector);
-                 // PVector2D operator^ (PVector2D _vector); // dot product
-
-          };
-          
-          class PVector3D : public PVector2D
-          {
-          private:
-              float z;
-              
-          public:
-             // constructors
-                  PVector3D();
-                  PVector3D(float _x, float _y, float _z);
-                 // PVector2D(const PVector2D &vec);  // copy constructor
-
-                  // setters
-                  void setCoordinates(float _x, float _y, float _z);
-                  void setCoordinates(const PVector3D _vec);
-                  void setCoordZ(float _z);
-
-                  // getters
-                  float getCoordZ();
-
-                  // print
-                  void printCoordinates();
+                  PVector3D operator = (PVector3D vector);
                   
-                  // operators
-                  PVector3D operator = (PVector3D _vector);
-                  
-		  PVector3D operator + (PVector3D _vector);
-                  PVector3D operator - (PVector3D _vector);
-                  PVector3D operator * (PVector3D _vector);
+		  PVector3D operator + (PVector3D vector);
+                  PVector3D operator - (PVector3D vector);
+                  PVector3D operator * (PVector3D vector);
                   PVector3D operator * (const float scalar);
-         //         PVector2D operator / (PVector2D _vector);
+         //         PVector2D operator / (PVector2D vector);
+
           };
+
       }
 }
 

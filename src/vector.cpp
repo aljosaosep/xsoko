@@ -1,15 +1,13 @@
-
-#include "vector.h"
-
 /*
  * codename: xSoko
  *
  * Summary:
  * todo
  *
- * Author: Aljosa Osep 2007
+ * Author: Aljosa Osep 2008
  * Modified:
 */
+
 #include "vector.h"
 
 namespace PacGame
@@ -17,149 +15,51 @@ namespace PacGame
       namespace GameClasses
       {
           /********************************
-           * vector 2D
-           *
-           ********************************/
-          // constructors
-          PVector2D::PVector2D() 
-          {
-              this->setCoordinates(0.0, 0.0);
-          }
-
-          PVector2D::PVector2D(float _x, float _y)
-          {
-                  x = _x;
-                  y = _y;
-          }
-
-          // setters
-          void PVector2D::setCoordinates(float _x, float _y)
-          {
-                  x = _x;
-                  y = _y;
-          }
-
-          void PVector2D::setCoordX(float _x)
-          {
-                  x = _x;
-          }
-
-          void PVector2D::setCoordY(float _y)
-          {
-                  y = _y;
-          }
-
-          // getters
-          float PVector2D::getCoordX()
-          {
-                  return x;
-          }
-
-          float PVector2D::getCoordY()
-          {
-                  return y;
-          }
-          void PVector2D::getCoordinates(float &_x, float &_y)
-          {
-                  _x = x;
-                  _y = y;
-          }
-
-          // print
-          void PVector2D::printCoordinates()
-          {
-              cout<<"\nCoordinates:\n x:"<<x<<" y:"<<y<<endl;
-          }
-
-          // operators overloading
-          // addition
-/*	  PVector2D PVector2D::operator + (PVector2D _vector)
-          {
-                  PVector2D _tmpvec;
-                  _tmpvec.x = x + _vector.x;
-                  _tmpvec.y = y + _vector.y;
-
-                  return _tmpvec;
-          }
-
-          // substraction
-          PVector2D PVector2D::operator - (PVector2D _vector)
-          {
-                  PVector2D _tmpvec;
-                  _tmpvec.x = x - _vector.x;
-                  _tmpvec.y = y - _vector.y;
-
-                  return _tmpvec;
-          }
-
-          // substraction
-          PVector2D PVector2D::operator * (PVector2D _vector)
-          {
-                  PVector2D _tmpvec;
-                  _tmpvec.x = x * _vector.x;
-                  _tmpvec.y = y * _vector.y;
-
-                  return _tmpvec;
-          }
-
-          // division
-          PVector2D PVector2D::operator / (PVector2D _vector)
-          {
-                  PVector2D _tmpvec;
-                  _tmpvec.x = x / _vector.x;
-                  _tmpvec.y = y / _vector.y;
-
-                  return _tmpvec;
-          }*/
-
-          // PVector2D &operator = (const PVector2D &_vector)
-          PVector2D PVector2D::operator = (const PVector2D _vector)
-          {
-                  this->x = _vector.x;
-                  this->y = _vector.y;
-
-                  return *this;
-          }
-          
-          
-          
-          /********************************
            * vector 3D
            *
            ********************************/
-          PVector3D::PVector3D() 
-          {
-              this->setCoordinates(0.0, 0.0, 0.0);
-          }  // default constructor
-          
-          PVector3D::PVector3D(float _x, float _y, float _z)
-          {
-              this->x = _x;
-              this->y = _y;
-              this->z = _z;
-          }
-          
+
           // setters
-          void PVector3D::setCoordZ(float _z)
+          void PVector3D::setCoordinates(float x, float y, float z)
           {
-              this->z = _z;
+                  this->x = x;
+                  this->y = y;
+                  this->z = z;                  
+          }
+
+          void PVector3D::setCoordX(float x)
+          {
+                  this->x = x;
+          }
+
+          void PVector3D::setCoordY(float _y)
+          {
+                  this->y = y;
           }
           
-          void PVector3D::setCoordinates(float _x, float _y, float _z)
+          void PVector3D::setCoordZ(float z)
           {
-              this->x = _x;
-              this->y = _y;
-              this->z = _z;
+              this->z = z;
           }
           
-          void PVector3D::setCoordinates(const PVector3D _vec)
+          void PVector3D::setCoordinates(const PVector3D vec)
           {
-              this->x = _vec.x;
-              this->y = _vec.y;
-              this->z = _vec.z;
+              this->x = vec.x;
+              this->y = vec.y;
+              this->z = vec.z;
           }
           
           // getters
+          float PVector3D::getCoordX()
+          {
+              return this->x;
+          }
+
+          float PVector3D::getCoordY()
+          {
+              return this->y;
+          }
+          
           float PVector3D::getCoordZ()
           {
               return this->z;
@@ -172,38 +72,38 @@ namespace PacGame
           }
           
           // operators
-          PVector3D PVector3D::operator= (const PVector3D _vector)
+          PVector3D PVector3D::operator= (const PVector3D vector)
           {
-                  this->x = _vector.x;
-                  this->y = _vector.y;
-                  this->z = _vector.z;
+                  this->x = vector.x;
+                  this->y = vector.y;
+                  this->z = vector.z;
 
                   return *this;
           }
           
-          PVector3D PVector3D::operator+ (const PVector3D _vector)
+          PVector3D PVector3D::operator+ (const PVector3D vector)
           {
-              this->x += _vector.x;
-              this->y += _vector.y;
-              this->z += _vector.z;
+              this->x += vector.x;
+              this->y += vector.y;
+              this->z += vector.z;
               
               return *this;
           }
           
-          PVector3D PVector3D::operator- (const PVector3D _vector)
+          PVector3D PVector3D::operator- (const PVector3D vector)
           {
-              this->x -= _vector.x;
-              this->y -= _vector.y;
-              this->z -= _vector.z;
+              this->x -= vector.x;
+              this->y -= vector.y;
+              this->z -= vector.z;
               
               return *this;
           }
   
-          PVector3D PVector3D::operator* (const PVector3D _vector)
+          PVector3D PVector3D::operator* (const PVector3D vector)
           {
-              this->x *= _vector.x;
-              this->y *= _vector.y;
-              this->z *= _vector.z;
+              this->x *= vector.x;
+              this->y *= vector.y;
+              this->z *= vector.z;
               
               return *this;
           }

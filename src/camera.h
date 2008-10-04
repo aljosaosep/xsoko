@@ -19,6 +19,7 @@
 #define LEFT 0.1
 #define RIGHT -0.1
 
+
 namespace PacGame
 {
     namespace GameClasses
@@ -27,7 +28,7 @@ namespace PacGame
         {
         private:
         public:
-            void setCamera(PVector3D position, PVector3D view, PVector3D up);
+            void setCamera(PVector3D view, PVector3D position, PVector3D up);
             void moveCamera(float direction);
             void rotateCamera(float angle, PVector3D speed);
             

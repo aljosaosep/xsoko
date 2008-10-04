@@ -21,40 +21,23 @@ namespace PacGame
         void PGameSession::mainLoop()
         {
             Messages::infoMessage("Entering main loop...");
-            
-            
             // the time of the previous frame
             double old_time = glfwGetTime();   
-            float angle = 0.0;
             
-            float width=(float)this->level->getWidth()-1, height=(float)this->level->getHeight()-1;
+            float width=(float)this->level->getWidth()-1, height=(float)this->level->getHeight()-1; // tmp
             
-            float bigger = width > height ? width : height;
+            float bigger = width > height ? width : height;  // tmp
             
+            unsigned frames = 0;
             
-           
-            // game official begins here! this is so called main game loop
             while(1/*this->isGameRunning*/)
             {
                 // calculate time elapsed, and the amount by which stuff rotates
                 double current_time = glfwGetTime(),
                 delta_rotate = (current_time - old_time) * rotations_per_tick * 360;
                 
-                if(this->level->getDroppedBombLen() != 0)  // are there any bombs to trigger?
-                {
-                    // apparently they are!
-                    if(round(current_time-this->level->getFirstDroppedBomb()->dropTime) == 3)  // is it time to trigger bomb yet?
-                    {    
-                        // check bomb surrounding fields
-                        this->level->checkAndApplyBombBlast(level->getFirstDroppedBomb()->i-1, level->getFirstDroppedBomb()->j);
-                        this->level->checkAndApplyBombBlast(level->getFirstDroppedBomb()->i+1, level->getFirstDroppedBomb()->j);
-                        this->level->checkAndApplyBombBlast(level->getFirstDroppedBomb()->i, level->getFirstDroppedBomb()->j-1);
-                        this->level->checkAndApplyBombBlast(level->getFirstDroppedBomb()->i, level->getFirstDroppedBomb()->j+1);
-                        
-                        this->level->removeFirstDroppedBomb();
-                    }
-                }
-                
+              cout<<"FPS: "<<(double) frames /  old_time<<endl;
+                this->level->processBombs(current_time);
                 old_time = current_time;
                 
                 // is game over? or level done?
@@ -62,45 +45,24 @@ namespace PacGame
                     break;
                 
                 // check for input every time
-                input->process();
-
+                this->input->process();
 
                 // clear the buffer
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
                 glLoadIdentity(); // reset view matrix
-                
-                                
 
-                             //   this->level->getGameCoreHandle()->getCamera()->up.
-                this->camera->setCamera(PVector3D(10.0, 0.0, 100.0),PVector3D(0.0, 0.0, 0.0), PVector3D(0.0, 1.0, 0.0));
-                
-        /*        gluLookAt(this->camera->view.getCoordX(), this->camera->view.getCoordY(), this->camera->view.getCoordZ(), 
+                this->camera->setCamera(PVector3D(height, -width,  2*bigger+6),PVector3D(height,-width, 0.0), PVector3D(0.0, 1.0, 0.0));
+
+                gluLookAt(this->camera->view.getCoordX(), this->camera->view.getCoordY(), this->camera->view.getCoordZ(), 
                         this->camera->position.getCoordX(), this->camera->position.getCoordY(), this->camera->position.getCoordZ(), 
-                        this->camera->up.getCoordX(), this->camera->up.getCoordY(), this->camera->up.getCoordZ());*/
-                
-            //    this->level->
-       //         cout<<"w: "<<(float)this->level->getWidth()-1<<endl;
-      //          cout<<"h: "<<-((float)this->level->getHeight()-1)<<endl;                
-                gluLookAt(height,-width, 2*bigger+6, height,-width, 0.0, 0.0,1.0,0.0);
-                // gluLookAt (0.0, 0.0, 5.0, 0.0, 0.0, -5.0, 0.0, 1.0, 0.0);
-                // moves camera
-              //  glTranslatef(this->level->getGameCoreHandle()->getRenderer()->getCameraX(), this->level->getGameCoreHandle()->getRenderer()->getCameraY(), this->level->getGameCoreHandle()->getRenderer()->getCameraZ());
+                        this->camera->up.getCoordX(), this->camera->up.getCoordY(), this->camera->up.getCoordZ());
 
-             //   glTranslatef(-10.0, 6.0, -25.0);    
-          //      this->level->getGameCoreHandle()->getRenderer()->getCameraX()
-                // this->renderer->drawCube(0.0, 0.0, 0.5, angle);
-                
-              //  glRotatef(angle, 1.0, 1.0, 1.0);
-//
-          //      glColor3f(1.0, 0.0,0.0);
-         //       this->level->getGameCoreHandle()->getRenderer()->drawCube(0.0,0.0,8.0,0.0);
-             
                 glRotatef(-90.0, 0.0, 0.0, 1.0);
 
                 this->level->draw();
+                frames ++;
               
                 glfwSwapBuffers();
-                angle+=delta_rotate;
             }
         }
         
