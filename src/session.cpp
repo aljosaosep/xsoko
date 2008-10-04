@@ -42,11 +42,9 @@ namespace PacGame
             // the time of the previous frame
             double old_time = glfwGetTime();   
             
-            float width=(float)this->level->getWidth()-1, height=(float)this->level->getHeight()-1; // tmp
-            
-            float bigger = width > height ? width : height;  // tmp
-            
             unsigned frames = 0;
+            
+            this->camera->fitCameraToLevel(this->level->getWidth(), this->level->getHeight());
             
             while(1/*this->isGameRunning*/)
             {
@@ -68,9 +66,7 @@ namespace PacGame
                 // clear the buffer
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
                 glLoadIdentity(); // reset view matrix
-
-                this->camera->setCamera(PVector3D(height, -width,  2*bigger+6),PVector3D(height,-width, 0.0), PVector3D(0.0, 1.0, 0.0));
-
+                  
                 gluLookAt(this->camera->view.getCoordX(), this->camera->view.getCoordY(), this->camera->view.getCoordZ(), 
                         this->camera->position.getCoordX(), this->camera->position.getCoordY(), this->camera->position.getCoordZ(), 
                         this->camera->up.getCoordX(), this->camera->up.getCoordY(), this->camera->up.getCoordZ());
@@ -86,6 +82,7 @@ namespace PacGame
         
         bool PGameSession::initialize()
         {    
+            
             return true;
         }
         
@@ -96,13 +93,13 @@ namespace PacGame
                 return false;
             
             // next, we initiate session
-            if(!this->initialize())
+     /*       if(!this->initialize())
             {
                 Messages::initMessage("Game session", false);
                 return false;
             }
             else
-                Messages::initMessage("Game session", true);
+                Messages::initMessage("Game session", true);*/
             
             
             // at last(but not at least;)), we trigger main loop
