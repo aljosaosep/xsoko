@@ -5,12 +5,14 @@
  * Created on July 18, 2008, 11:42 AM
  */
 
-#include "level.h"
-#include "renderer/renderer.h"
-#include "input.h"
+
 
 #ifndef __SESSION_H
 #define	__SESSION_H
+
+#include "level.h"
+#include "renderer/renderer.h"
+#include "input.h"
 
 using namespace PacGame::RenderMaschine;
 using namespace PacGame::GameClasses::GameObjects;

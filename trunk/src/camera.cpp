@@ -20,7 +20,7 @@ namespace PacGame
     namespace GameClasses
     {
         // setter
-        void PCamera::setCamera(PVector3D position, PVector3D view, PVector3D up)
+        void PCamera::setCamera(PVector3D view, PVector3D position, PVector3D up)
         {
             this->position = position;
             this->view = view;
@@ -28,7 +28,7 @@ namespace PacGame
         }
         
         // move camera
-        void PCamera::moveCamera(float direction)
+   /*     void PCamera::moveCamera(float direction)
         {
             PVector3D lookDirection;  // direction we're looking at
             
@@ -103,10 +103,10 @@ namespace PacGame
 	xView = xPos + xNewLookDirection;
 	yView = yPos + yNewLookDirection;
 	zView = zPos + zNewLookDirection;
-            */
+            
 
             
             
-        }
+        }*/
     }
 }

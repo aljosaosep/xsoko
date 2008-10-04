@@ -130,11 +130,8 @@ namespace PacGame
                   
                   // bomb related
                   void addDroppedBomb(int i, int j);
-                  int getDroppedBombLen();
-                  PDroppedBomb* getFirstDroppedBomb();
-                  void removeFirstDroppedBomb();
                   void checkAndApplyBombBlast(int i, int j);
-              //    void setDetonatedBomb(int i, int j);
+                  void processBombs(double current_time);
 
                   // functions to override
                   void draw();  // draws whole level

@@ -51,7 +51,7 @@ namespace PacGame
            public:
                // constructors
                PObject();
-               PObject(float x, float y);
+//               PObject(float x, float y);
                                                        
                virtual ~PObject();
                // linked list
@@ -72,7 +72,7 @@ namespace PacGame
                virtual void print();    // print into console    
                                                 //	 string texFilename;
            protected:
-               PVector2D position;  // position of object in OpenGL space, z coord is ignored
+//               PVector2D position;  // position of object in OpenGL space, z coord is ignored
            };
       }
 }

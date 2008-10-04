@@ -28,11 +28,11 @@ namespace PacGame
               root = NULL; // initiates linked list
           }  
 
-          PObject::PObject(float x, float y)
+  /*        PObject::PObject(float x, float y)
           {
               root = NULL;			 // initiates linked list
               position.setCoordinates(x, y);  // set vector coordinates	
-          }
+          }*/
 
 
           PObject::~PObject()
@@ -43,7 +43,7 @@ namespace PacGame
           void PObject::print()
           {
               cout<<"=========== OBJECT INFO =============="<<endl;
-              this->position.printCoordinates();
+//              this->position.printCoordinates();
               cout<<"======================================"<<endl;
           }
 

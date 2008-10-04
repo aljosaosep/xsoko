@@ -144,15 +144,23 @@ namespace PacGame
            *****************************************************************/
           inline bool PLevel::checkAndApply(int i2, int j2, PLevelObject *obj, PDirection dir)
           {
-
               // i2 and j2 are indexes of field, we re checking; so if on field with idexes i2 and j2 is empty
               // (has nothing attached to it), then we move our object(obj) to i2, j2
               
+              // checks if indexes are valible; it prevents index-out-of-range error
+              if((unsigned)i2 >  (this->width-1)|| i2<0 || (unsigned)j2 > (this->height-1) || j2<0)
+              {
+                  Messages::errorIndexOutOfRange();
+                  return false;
+              }
+              
               int i = obj->getI(), j = obj->getJ(); // gets source object indexes, object, that we're moving
+              cout<<"indexes: "<<i<<' '<<j<<endl;
               
               // is move absolutely possible?
               if(data[i2][j2]->isPlayerMovePossible()==1)  // it is!
               {
+                  cout<<"move possible = 1: direct reattach"<<endl;
                   reattachNode(i, j, i2, j2, obj);  // so we just do it ;) we move object from indexes i, j to i2, j2
                   return true;
               }
@@ -160,22 +168,33 @@ namespace PacGame
               //////// TELEPORT
               else if(data[i2][j2]->isPlayerMovePossible()==3)  
               {
+                  cout<<"Teleport: "<<endl;
                   // it - I index of dest teleport
                   // jt-  J index of dest teleport
                   int it = (dynamic_cast<PTeleport*>(data[i2][j2]))->getChildTeleport()->getI(), 
                           jt = (dynamic_cast<PTeleport*>(data[i2][j2]))->getChildTeleport()->getJ();
                   
+                  cout<<"Child Teleport indexes: "<<it<<' '<<jt<<endl;
+                  
                   
                   if(data[it][jt]->returnFirstChild()!=NULL) // if there is object alredy on teleport
                   {
+                      // code prevents crashing, if player attempts to teleport object to tepelport, where is
+                      // player currently located
+                      if(dynamic_cast<PLevelObject*>(data[it][jt]->returnFirstChild())->getId() == 1)
+                          return false;
+                      
+                      cout<<"First Teleport child not null! Attempting to move: ... "<<it<<' '<<jt<<endl;
                       if(this->moveObject(dir, dynamic_cast<PLevelObject*>(data[it][jt]->returnFirstChild())))  // try to move it
                       {
+                          cout<<"Object on teleport moved. Reattaching node ... "<<it<<' '<<jt<<endl;
                           reattachNode(i, j, it, jt, obj);   //  then move player to teleport
                           return true;
                       }
                   }
                   else  // there is no object attached to teleport, that's ok
                   {
+                      cout<<"Cool, no object on teleport, so beam me up scotty!"<<it<<' '<<jt<<endl;
                       reattachNode(i, j, it, jt, obj);  // so we just move player to dest teleport ;)
                       return true;
                   }
@@ -184,8 +203,10 @@ namespace PacGame
               // CONDITIONALLY POSSIBLE MOVES
               else if(data[i2][j2]->isPlayerMovePossible()==2)  // move is conditionally possible; we check children
               {
+                  cout<<"Conditially possible move."<<endl;
                   if(data[i2][j2]->returnFirstChild() == NULL)  // move is possible since there are no children
                   {
+                      cout<<"It seems that dest has no children, so I will directly reattach node."<<endl;
                       reattachNode(i, j, i2, j2, obj);   // so we do it ;)
                       return true;
                   }
@@ -194,9 +215,11 @@ namespace PacGame
                   else if(data[i2][j2]->returnFirstChild()->isPlayerMovePossible() == 2 && (obj->getId()==1))  // there is cube on the field, we attemt to move it
                                                                                                               // but we can move it only, if obj is player(do it has id=1)
                   {
+                      cout<<"Hell, there is someting there, attempting to move..."<<endl;
                       // CUBE-MOVE CODE GOES HERE
                       if(this->moveObject(dir, dynamic_cast<PLevelObject*>(data[i2][j2]->returnFirstChild())))
                       {
+                          cout<<"Obj moved, now I am reattaching..."<<endl;
                           reattachNode(i, j, i2, j2, obj);   // it is, we move object
                           return true;   
                       }
@@ -206,12 +229,13 @@ namespace PacGame
                   else if(data[i2][j2]->returnFirstChild()->isPlayerMovePossible() == 3 && (obj->getId()==1))  // there is cube on the field, we attemt to move it
                                                                                                               // but we can move it only, if obj is player(do it has id=1)
                   { 
+                      cout<<"Hell, there is someting there, oneway cube, attempting to move..."<<endl;
                       if(dynamic_cast<POnewayCube*>(data[i2][j2]->returnFirstChild())->getDirection()==dir)
                       {
                           // CUBE-MOVE CODE GOES HERE
                           if(this->moveObject(dir, dynamic_cast<PLevelObject*>(data[i2][j2]->returnFirstChild())))
                           {
-
+                            cout<<"Obj moved, now I am reattaching..."<<endl;
                               reattachNode(i, j, i2, j2, obj);   // it is, we move object
                               return true;   
                           }
@@ -819,7 +843,7 @@ namespace PacGame
                           // draw activated bombs, if there are any
                           if(this->bombs.size()>0)
                           {
-                              for(int i=0; i<bombs.size(); i++)
+                              for(unsigned i=0; i<bombs.size(); i++)
                               {
                                   
                                   glPushMatrix();
@@ -933,24 +957,29 @@ namespace PacGame
            * Dropped Bombs
            * functions manages them
            **************************************************************/ 
+          void PLevel::processBombs(double current_time)
+          {
+                if(this->bombs.size() != 0)  // are there any bombs to trigger?
+                {
+                    // get addres of bomb that was released first(is first in the list)
+                    PDroppedBomb* firstDroppedBomb = this->bombs[0];
+                    // apparently they are!
+                    if(round(current_time-firstDroppedBomb->dropTime) == 3)  // is it time to trigger bomb yet?
+                    {    
+                        // check bomb surrounding fields
+                        this->checkAndApplyBombBlast(firstDroppedBomb->i-1, firstDroppedBomb->j);
+                        this->checkAndApplyBombBlast(firstDroppedBomb->i+1, firstDroppedBomb->j);
+                        this->checkAndApplyBombBlast(firstDroppedBomb->i, firstDroppedBomb->j-1);
+                        this->checkAndApplyBombBlast(firstDroppedBomb->i, firstDroppedBomb->j+1);
+                        
+                        // remove first dropped bomb
+                        this->bombs.erase(this->bombs.begin());
+                    }
+                }              
+          }
           void PLevel::addDroppedBomb(int i, int j)
           {
               this->bombs.push_back(new PDroppedBomb(i, j));
-          }
-          
-          int PLevel::getDroppedBombLen()
-          {
-              return this->bombs.size();
-          }
-          
-          PDroppedBomb* PLevel::getFirstDroppedBomb()
-          {
-              return this->bombs[0];
-          }
-          
-          void PLevel::removeFirstDroppedBomb()
-          {
-              this->bombs.erase(this->bombs.begin());
           }
           
           void PLevel::checkAndApplyBombBlast(int i, int j)
@@ -960,24 +989,10 @@ namespace PacGame
                   
                   if((dynamic_cast<PLevelObject*>(this->data[i][j]->returnFirstChild())->getId())==U_WALL)  // is there unsolidWall ?
                   {
-
                       data[i][j]->releaseFirstChildObject();
-
-
                   } 
               }
           }
-          
-          
-       /*   void PLevel::setDetonatedBomb(int i, int j)
-          {
-              PDetonatedBomb *db = new PDetonatedBomb(this->gameCore);
-              if(data[i][j]->returnFirstChild()==NULL)
-                  data[i][j]->attachToRoot(db);
-              
-          }*/
-          
-    //      void PLevel::
           
           
           ///// temporary?
