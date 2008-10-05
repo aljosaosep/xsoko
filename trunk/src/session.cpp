@@ -160,14 +160,27 @@ namespace PacGame
                 //glfwDisable(GLFW_MOUSE_CURSOR);
                 glResizeWnd(width,height);
                 
-                mainWin = new Window(width/2 - 67, height/2 - 65, 135, 130);
-                Button* btn = new Button(30, 40, 75, 25, "Run Game");
+                mainWin = new Window(width/2 - 67, height/2 - 82, 135, 165);
+                Button* btn = new Button(30, 40, 75, 25, "Campaing");
                 btn->onClick = &runAction;
                 mainWin->AddComponent(btn);
+                
+                btn = new Button(30, 75, 75, 25, "Freeplay");
+                btn->onClick = &fpShow;
+                mainWin->AddComponent(btn);
 
-                btn = new Button(30, 75, 75, 25, "Exit");
+                btn = new Button(30, 110, 75, 25, "Exit");
                 btn->onClick = &closeAction;
-                mainWin->AddComponent(btn); 
+                mainWin->AddComponent(btn);
+                
+                Window* fpWin = new Window(width/2 - 67, height/2 - 82, 135, 165);
+                fpWin->setVisible(false);
+                fpWin->AddComponent(new Text(30,40,"Soon!"));
+                btn = new Button(30,110,75,25,"Close");
+                btn->onClick = &fpClose;
+                fpWin->AddComponent(btn);
+                
+                mainWin->AddChildWindow(fpWin);
 
                 setMainWindow(mainWin);
                 
@@ -179,7 +192,15 @@ namespace PacGame
             if(!initSuccess)
                 return false;
             
+            double lastTime = glfwGetTime();
+            int fps = 0;
             while(!canQuit){
+                if(glfwGetTime()-lastTime>=1){
+                    cout << "FPS: " << fps << endl;
+                    fps = 0;
+                    lastTime = glfwGetTime();
+                } else
+                    fps++;
                 // clear the buffer
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
                 glLoadIdentity();
@@ -229,6 +250,10 @@ namespace PacGame
             glDepthFunc(GL_LESS);    	             // The Type Of Depth Test To Do
             
             setCallBacks();
+        }
+        
+        Window* PGuiSession::getMainWindow(){
+            return mainWin;
         }
         
         PGuiSession::~PGuiSession(){

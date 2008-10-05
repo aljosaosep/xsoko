@@ -16,6 +16,8 @@ using namespace PacGame::GameClasses;
   extern void SetGuiSession(PGuiSession* session);
   extern void closeAction();
   extern void runAction();
+  extern void fpShow();
+  extern void fpClose();
 
 #endif	/* _GUI_H */
 

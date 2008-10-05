@@ -86,6 +86,7 @@ namespace PacGame
             bool run();
             void Quit();
             void LoadLevel(string levelPath);
+            Window* getMainWindow();
             ~PGuiSession();
         };
     }

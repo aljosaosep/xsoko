@@ -83,7 +83,7 @@ namespace PacGame
                     }
                     alGenSources (1, &helloSource);
                     alSourcei (helloSource, AL_BUFFER, helloBuffer);
-                    //alSourcePlay (helloSource);
+                    alSourcePlay (helloSource);
                     
                 }
               //  this->level->setDetonatedBomb()
