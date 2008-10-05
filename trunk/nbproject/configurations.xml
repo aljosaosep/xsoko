@@ -4,6 +4,10 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <logicalFolder name="f3" displayName="gui" projectFiles="true">
+        <itemPath>src/gui/gui.h</itemPath>
+        <itemPath>src/gui/win.h</itemPath>
+      </logicalFolder>
       <logicalFolder name="f1" displayName="renderer" projectFiles="true">
         <itemPath>src/renderer/renderer.h</itemPath>
         <itemPath>src/renderer/texture.h</itemPath>
@@ -49,6 +53,10 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <logicalFolder name="f3" displayName="gui" projectFiles="true">
+        <itemPath>src/gui/gui.cpp</itemPath>
+        <itemPath>src/gui/win.cpp</itemPath>
+      </logicalFolder>
       <logicalFolder name="f1" displayName="renderer" projectFiles="true">
         <itemPath>src/renderer/renderer-core.cpp</itemPath>
         <itemPath>src/renderer/renderer-texture.cpp</itemPath>
@@ -148,6 +156,18 @@
         <itemTool>1</itemTool>
       </item>
       <item path="src/game.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/gui/gui.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/gui.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/gui/win.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/win.h">
         <itemTool>3</itemTool>
       </item>
       <item path="src/input.cpp">
@@ -372,6 +392,18 @@
       <item path="src/game.h">
         <itemTool>3</itemTool>
       </item>
+      <item path="src/gui/gui.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/gui.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/gui/win.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/win.h">
+        <itemTool>3</itemTool>
+      </item>
       <item path="src/input.cpp">
         <itemTool>1</itemTool>
       </item>
@@ -588,6 +620,18 @@
         <itemTool>1</itemTool>
       </item>
       <item path="src/game.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/gui/gui.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/gui.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/gui/win.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/win.h">
         <itemTool>3</itemTool>
       </item>
       <item path="src/input.cpp">
@@ -813,6 +857,18 @@
         <itemTool>1</itemTool>
       </item>
       <item path="src/game.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/gui/gui.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/gui.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="src/gui/win.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/win.h">
         <itemTool>3</itemTool>
       </item>
       <item path="src/input.cpp">

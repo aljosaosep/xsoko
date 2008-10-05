@@ -75,7 +75,7 @@ namespace PacGame
           }*/
 
           // methods
-          void PGame::loadSession(PGameSession *session)
+          void PGame::loadSession(PGuiSession *session)
           {
               this->session = session;
           }
@@ -88,6 +88,11 @@ namespace PacGame
         /*  PRenderer* PGame::getRendererHandle()
           {
               return this->session->getRendererHandle();
+          }*/
+          
+          /*void PGame::getSize(int &width, int &height){
+              width = windowWidth;
+              height = windowHeight;
           }*/
           
           bool PGame::run()

@@ -21,6 +21,7 @@
  * Author: aljosa
  *
  * Created on July 18, 2008, 11:42 AM
+ * Changed by Jernej, 5. 10. 2008
  */
 
 #ifndef __SESSION_H
@@ -29,6 +30,7 @@
 #include "level.h"
 #include "renderer/renderer.h"
 #include "input.h"
+#include "gui/win.h"
 
 using namespace PacGame::RenderMaschine;
 using namespace PacGame::GameClasses::GameObjects;
@@ -67,6 +69,22 @@ namespace PacGame
             // getters
             PLevel *getLevel() const;
             unsigned getScore() const; 
+        };
+        
+        class PGuiSession{
+        private:
+            bool initSuccess;
+            bool canQuit;
+            Window* mainWin;
+            
+            void setCallBacks();
+            void removeCallBacks();            
+        public:
+            PGuiSession(int width, int height);
+            bool run();
+            void Quit();
+            void LoadLevel(string levelPath);
+            ~PGuiSession();
         };
     }
 }

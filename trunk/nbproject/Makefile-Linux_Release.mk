@@ -27,12 +27,15 @@ OBJECTDIR=build/Linux_Release/GNU-Linux-x86
 OBJECTFILES= \
 	${OBJECTDIR}/src/zip/zlib/infback.o \
 	${OBJECTDIR}/src/zip/ioapi.o \
+	${OBJECTDIR}/src/gui/gui.o \
+	${OBJECTDIR}/src/camera.o \
 	${OBJECTDIR}/src/zip/zlib/compress.o \
 	${OBJECTDIR}/src/game.o \
 	${OBJECTDIR}/src/zip/zlib/deflate.o \
 	${OBJECTDIR}/src/session.o \
 	${OBJECTDIR}/src/zip/unzip.o \
 	${OBJECTDIR}/src/zip/zlib/crc32.o \
+	${OBJECTDIR}/src/resource.o \
 	${OBJECTDIR}/src/input.o \
 	${OBJECTDIR}/src/main.o \
 	${OBJECTDIR}/src/zip/zlib/gzio.o \
@@ -50,6 +53,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/src/zip/zlib/trees.o \
 	${OBJECTDIR}/src/messages.o \
 	${OBJECTDIR}/src/game-render.o \
+	${OBJECTDIR}/src/core.o \
+	${OBJECTDIR}/src/gui/win.o \
 	${OBJECTDIR}/src/io.o \
 	${OBJECTDIR}/src/renderer/renderer-texture.o \
 	${OBJECTDIR}/src/game-init.o \
@@ -71,11 +76,11 @@ FFLAGS=
 LDLIBSOPTIONS=-lglfw -lGL -lGLU -lXxf86vm -lm -lXrandr
 
 # Build Targets
-.build-conf: ${BUILD_SUBPROJECTS} dist/Linux_Release/GNU-Linux-x86/trunk
+.build-conf: ${BUILD_SUBPROJECTS} dist/Linux_Release/GNU-Linux-x86/xsoko
 
-dist/Linux_Release/GNU-Linux-x86/trunk: ${OBJECTFILES}
+dist/Linux_Release/GNU-Linux-x86/xsoko: ${OBJECTFILES}
 	${MKDIR} -p dist/Linux_Release/GNU-Linux-x86
-	${LINK.cc} -o dist/Linux_Release/GNU-Linux-x86/trunk ${OBJECTFILES} ${LDLIBSOPTIONS} 
+	${LINK.cc} -o dist/Linux_Release/GNU-Linux-x86/xsoko ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
 ${OBJECTDIR}/src/zip/zlib/infback.o: src/zip/zlib/infback.c 
 	${MKDIR} -p ${OBJECTDIR}/src/zip/zlib
@@ -84,6 +89,14 @@ ${OBJECTDIR}/src/zip/zlib/infback.o: src/zip/zlib/infback.c
 ${OBJECTDIR}/src/zip/ioapi.o: src/zip/ioapi.c 
 	${MKDIR} -p ${OBJECTDIR}/src/zip
 	$(COMPILE.c) -O2 -o ${OBJECTDIR}/src/zip/ioapi.o src/zip/ioapi.c
+
+${OBJECTDIR}/src/gui/gui.o: src/gui/gui.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src/gui
+	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/src/gui/gui.o src/gui/gui.cpp
+
+${OBJECTDIR}/src/camera.o: src/camera.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/src/camera.o src/camera.cpp
 
 ${OBJECTDIR}/src/zip/zlib/compress.o: src/zip/zlib/compress.c 
 	${MKDIR} -p ${OBJECTDIR}/src/zip/zlib
@@ -108,6 +121,10 @@ ${OBJECTDIR}/src/zip/unzip.o: src/zip/unzip.c
 ${OBJECTDIR}/src/zip/zlib/crc32.o: src/zip/zlib/crc32.c 
 	${MKDIR} -p ${OBJECTDIR}/src/zip/zlib
 	$(COMPILE.c) -O2 -o ${OBJECTDIR}/src/zip/zlib/crc32.o src/zip/zlib/crc32.c
+
+${OBJECTDIR}/src/resource.o: src/resource.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/src/resource.o src/resource.cpp
 
 ${OBJECTDIR}/src/input.o: src/input.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
@@ -177,6 +194,14 @@ ${OBJECTDIR}/src/game-render.o: src/game-render.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
 	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/src/game-render.o src/game-render.cpp
 
+${OBJECTDIR}/src/core.o: src/core.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/src/core.o src/core.cpp
+
+${OBJECTDIR}/src/gui/win.o: src/gui/win.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src/gui
+	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/src/gui/win.o src/gui/win.cpp
+
 ${OBJECTDIR}/src/io.o: src/io.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
 	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/src/io.o src/io.cpp
@@ -207,7 +232,7 @@ ${OBJECTDIR}/src/renderer/renderer-core.o: src/renderer/renderer-core.cpp
 # Clean Targets
 .clean-conf:
 	${RM} -r build/Linux_Release
-	${RM} dist/Linux_Release/GNU-Linux-x86/trunk
+	${RM} dist/Linux_Release/GNU-Linux-x86/xsoko
 
 # Subprojects
 .clean-subprojects:

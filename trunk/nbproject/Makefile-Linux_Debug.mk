@@ -27,6 +27,7 @@ OBJECTDIR=build/Linux_Debug/GNU-Linux-x86
 OBJECTFILES= \
 	${OBJECTDIR}/src/zip/zlib/infback.o \
 	${OBJECTDIR}/src/zip/ioapi.o \
+	${OBJECTDIR}/src/gui/gui.o \
 	${OBJECTDIR}/src/camera.o \
 	${OBJECTDIR}/src/zip/zlib/compress.o \
 	${OBJECTDIR}/src/game.o \
@@ -53,6 +54,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/src/messages.o \
 	${OBJECTDIR}/src/game-render.o \
 	${OBJECTDIR}/src/core.o \
+	${OBJECTDIR}/src/gui/win.o \
 	${OBJECTDIR}/src/io.o \
 	${OBJECTDIR}/src/renderer/renderer-texture.o \
 	${OBJECTDIR}/src/game-init.o \
@@ -87,6 +89,10 @@ ${OBJECTDIR}/src/zip/zlib/infback.o: src/zip/zlib/infback.c
 ${OBJECTDIR}/src/zip/ioapi.o: src/zip/ioapi.c 
 	${MKDIR} -p ${OBJECTDIR}/src/zip
 	$(COMPILE.c) -g -o ${OBJECTDIR}/src/zip/ioapi.o src/zip/ioapi.c
+
+${OBJECTDIR}/src/gui/gui.o: src/gui/gui.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src/gui
+	$(COMPILE.cc) -g -Wall -o ${OBJECTDIR}/src/gui/gui.o src/gui/gui.cpp
 
 ${OBJECTDIR}/src/camera.o: src/camera.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
@@ -191,6 +197,10 @@ ${OBJECTDIR}/src/game-render.o: src/game-render.cpp
 ${OBJECTDIR}/src/core.o: src/core.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
 	$(COMPILE.cc) -g -Wall -o ${OBJECTDIR}/src/core.o src/core.cpp
+
+${OBJECTDIR}/src/gui/win.o: src/gui/win.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src/gui
+	$(COMPILE.cc) -g -Wall -o ${OBJECTDIR}/src/gui/win.o src/gui/win.cpp
 
 ${OBJECTDIR}/src/io.o: src/io.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
