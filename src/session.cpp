@@ -180,6 +180,7 @@ namespace PacGame
             while(!canQuit){
                 // clear the buffer
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+                glLoadIdentity();
                 // draw the figure
                 RenderGUI();
                 glfwSwapBuffers();
@@ -206,13 +207,24 @@ namespace PacGame
         void PGuiSession::LoadLevel(string levelPath){
             removeCallBacks();
             
-            PLevel* level = new PLevel(levelPath);
+            //Move to better place
+            glMatrixMode(GL_PROJECTION);						// Select The Projection Matrix
+            glLoadIdentity();							// Reset The Projection Matrix
+            // Calculate The Aspect Ratio Of The Window
+            gluPerspective(45.0f,(float)640/480,0.1f,100.0f);
+            glMatrixMode(GL_MODELVIEW);						// Select The Modelview Matrix
+            glLoadIdentity();
+            
+            PLevel level(levelPath);
             // input object
-            PInputSystem input(level); 
+            PInputSystem input(&level); 
             // make session
-            PGameSession levelSession(level, &input);
+            PGameSession levelSession(&level, &input);
             levelSession.run();
-            delete level;
+            
+            glClearDepth(1.0);                       // Depth Buffer Setup
+            glEnable(GL_DEPTH_TEST);                 // Enable Depth Buffer
+            glDepthFunc(GL_LESS);    	             // The Type Of Depth Test To Do
             
             setCallBacks();
         }
