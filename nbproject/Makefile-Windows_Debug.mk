@@ -12,21 +12,22 @@ MKDIR=mkdir
 CP=cp
 CCADMIN=CCadmin
 RANLIB=ranlib
-CC=gcc
-CCC=g++
-CXX=g++
+CC=
+CCC=
+CXX=
 FC=
 
 # Include project Makefile
 include Makefile
 
 # Object Directory
-OBJECTDIR=build/Windows_Debug/GNU-Windows
+OBJECTDIR=build/Windows_Debug/Cygwin-Windows
 
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/src/zip/zlib/infback.o \
 	${OBJECTDIR}/src/zip/ioapi.o \
+	${OBJECTDIR}/src/gui/gui.o \
 	${OBJECTDIR}/src/camera.o \
 	${OBJECTDIR}/src/zip/zlib/compress.o \
 	${OBJECTDIR}/src/game.o \
@@ -53,6 +54,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/src/messages.o \
 	${OBJECTDIR}/src/game-render.o \
 	${OBJECTDIR}/src/core.o \
+	${OBJECTDIR}/src/gui/win.o \
 	${OBJECTDIR}/src/io.o \
 	${OBJECTDIR}/src/renderer/renderer-texture.o \
 	${OBJECTDIR}/src/game-init.o \
@@ -74,11 +76,11 @@ FFLAGS=
 LDLIBSOPTIONS=-lglfw -lopengl32 -lglu32
 
 # Build Targets
-.build-conf: ${BUILD_SUBPROJECTS} dist/Windows_Debug/GNU-Windows/trunk.exe
+.build-conf: ${BUILD_SUBPROJECTS} dist/Windows_Debug/Cygwin-Windows/xsoko.exe
 
-dist/Windows_Debug/GNU-Windows/trunk.exe: ${OBJECTFILES}
-	${MKDIR} -p dist/Windows_Debug/GNU-Windows
-	${LINK.cc} -o dist/Windows_Debug/GNU-Windows/trunk ${OBJECTFILES} ${LDLIBSOPTIONS} 
+dist/Windows_Debug/Cygwin-Windows/xsoko.exe: ${OBJECTFILES}
+	${MKDIR} -p dist/Windows_Debug/Cygwin-Windows
+	${LINK.cc} -o dist/Windows_Debug/Cygwin-Windows/xsoko ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
 ${OBJECTDIR}/src/zip/zlib/infback.o: src/zip/zlib/infback.c 
 	${MKDIR} -p ${OBJECTDIR}/src/zip/zlib
@@ -87,6 +89,10 @@ ${OBJECTDIR}/src/zip/zlib/infback.o: src/zip/zlib/infback.c
 ${OBJECTDIR}/src/zip/ioapi.o: src/zip/ioapi.c 
 	${MKDIR} -p ${OBJECTDIR}/src/zip
 	$(COMPILE.c) -g -o ${OBJECTDIR}/src/zip/ioapi.o src/zip/ioapi.c
+
+${OBJECTDIR}/src/gui/gui.o: src/gui/gui.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src/gui
+	$(COMPILE.cc) -g -Wall -o ${OBJECTDIR}/src/gui/gui.o src/gui/gui.cpp
 
 ${OBJECTDIR}/src/camera.o: src/camera.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
@@ -192,6 +198,10 @@ ${OBJECTDIR}/src/core.o: src/core.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
 	$(COMPILE.cc) -g -Wall -o ${OBJECTDIR}/src/core.o src/core.cpp
 
+${OBJECTDIR}/src/gui/win.o: src/gui/win.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src/gui
+	$(COMPILE.cc) -g -Wall -o ${OBJECTDIR}/src/gui/win.o src/gui/win.cpp
+
 ${OBJECTDIR}/src/io.o: src/io.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
 	$(COMPILE.cc) -g -Wall -o ${OBJECTDIR}/src/io.o src/io.cpp
@@ -222,7 +232,7 @@ ${OBJECTDIR}/src/renderer/renderer-core.o: src/renderer/renderer-core.cpp
 # Clean Targets
 .clean-conf:
 	${RM} -r build/Windows_Debug
-	${RM} dist/Windows_Debug/GNU-Windows/trunk.exe
+	${RM} dist/Windows_Debug/Cygwin-Windows/xsoko.exe
 
 # Subprojects
 .clean-subprojects:

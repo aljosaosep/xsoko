@@ -26,6 +26,7 @@
  * Author: Aljosa Osep 2007
  * Changes:
  * Aljosa May 28 2008
+ * Jernej October 5 2008
  */
 
 #ifndef __GAME_H
@@ -55,7 +56,7 @@ namespace PacGame
               int windowWidth, windowHeight;
               string windowTitle;
              // PLevel *currentLevel;  
-              PGameSession *session;  // pointer to current game class
+              PGuiSession *session;  // pointer to current game class
               //PRenderer *renderer;
          //     PInputSystem input;
 
@@ -82,9 +83,12 @@ namespace PacGame
               void setWindowTitle(string _title);
             //  void setRenderer();
               
+              //getters
+              //void getSize(int &width,int &height);
+              
               
                   
-              void loadSession(PGameSession *session);
+              void loadSession(PGuiSession *session);
 
               /*******************************************
                * processKey()

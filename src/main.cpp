@@ -26,6 +26,7 @@
  * Author: Aljosa Osep 2007
  * Changes:
  * Aljosa May 28 2008
+ * Jernej October 5 2008
  */
 
 #include <cstdlib>
@@ -53,7 +54,7 @@ int main(int argc, char *argv[])
     }
     
     // level object
-    PLevel *test = new PLevel("data/testlevel.lvl");
+    //PLevel *test = new PLevel("data/testlevel.lvl");
     /*test->initialize();
     if (test->saveStateToFile("test.txt"))
     {
@@ -65,13 +66,13 @@ int main(int argc, char *argv[])
 //    PRenderer *renderer = new PRenderer;
     
     // input object
-    PInputSystem input(test); 
+    //PInputSystem input(test); 
 
     // make session
-    PGameSession *testsession = new PGameSession(test, &input);
+    //PGameSession *testsession = new PGameSession(test, &input);
 
     // loads session
-    pacgame.loadSession(testsession);
+    pacgame.loadSession(new PGuiSession(640,480));
 
     // run game
     pacgame.run();

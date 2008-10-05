@@ -27,6 +27,7 @@
 
 
 #include "session.h"
+#include "gui/gui.h"
 #include <cstdio>
 #include <cmath>
 
@@ -146,6 +147,80 @@ namespace PacGame
         unsigned PGameSession::getScore() const
         {
             return this->score;
+        }
+        
+        PGuiSession::PGuiSession(int width, int height){
+            initSuccess = false;
+            if(InitGUI("data/GUI.tga","data/font.tga")){
+                canQuit = false;
+                setCallBacks();
+                SetGuiSession(this);
+                //glfwDisable(GLFW_MOUSE_CURSOR);
+                glResizeWnd(width,height);
+                
+                mainWin = new Window(width/2 - 67, height/2 - 65, 135, 130);
+                Button* btn = new Button(30, 40, 75, 25, "Run Game");
+                btn->onClick = &runAction;
+                mainWin->AddComponent(btn);
+
+                btn = new Button(30, 75, 75, 25, "Exit");
+                btn->onClick = &closeAction;
+                mainWin->AddComponent(btn); 
+
+                setMainWindow(mainWin);
+                
+                initSuccess = true;
+            }
+        }
+        
+        bool PGuiSession::run(){
+            if(!initSuccess)
+                return false;
+            
+            while(!canQuit){
+                // clear the buffer
+                glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+                // draw the figure
+                RenderGUI();
+                glfwSwapBuffers();
+            }
+            return true;
+        }
+        
+        void PGuiSession::setCallBacks(){
+            glfwSetMouseButtonCallback(onMouseClick);
+            glfwSetMousePosCallback(onMouseMove);
+            glfwSetWindowSizeCallback(glResizeWnd);
+        }
+        
+        void PGuiSession::removeCallBacks(){
+            glfwSetMouseButtonCallback(NULL);
+            glfwSetMousePosCallback(NULL);
+            glfwSetWindowSizeCallback(NULL);
+        }
+        
+        void PGuiSession::Quit(){
+            canQuit = true;
+        }
+        
+        void PGuiSession::LoadLevel(string levelPath){
+            removeCallBacks();
+            
+            PLevel* level = new PLevel(levelPath);
+            // input object
+            PInputSystem input(level); 
+            // make session
+            PGameSession levelSession(level, &input);
+            levelSession.run();
+            delete level;
+            
+            setCallBacks();
+        }
+        
+        PGuiSession::~PGuiSession(){
+            DestroyGUI();
+            removeCallBacks();
+            glfwEnable(GLFW_MOUSE_CURSOR);
         }
     }
 }
