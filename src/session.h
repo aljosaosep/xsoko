@@ -21,7 +21,7 @@
  * Author: aljosa
  *
  * Created on July 18, 2008, 11:42 AM
- * Changed by Jernej, 5. 10. 2008
+ * Changed by Jernej, October 5, 2008
  */
 
 #ifndef __SESSION_H
@@ -76,6 +76,8 @@ namespace PacGame
             bool initSuccess;
             bool canQuit;
             Window* mainWin;
+            PGameSession levelSession;
+            PInputSystem input;
             
             void setCallBacks();
             void removeCallBacks();            
