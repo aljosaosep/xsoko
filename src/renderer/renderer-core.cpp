@@ -48,9 +48,9 @@ namespace PacGame
          //     matDiffuse[0] = 1.0, matDiffuse[1] = 1.0, matDiffuse[2] = 1.0, matDiffuse[3] = 1.0;
               
               // camera
-              this->cameraX = -10.0f; 
-              this->cameraY = 6.0f; 
-              this->cameraZ = -25.0;
+//              this->cameraX = -10.0f; 
+//              this->cameraY = 6.0f; 
+ //             this->cameraZ = -25.0;
           }
           
            /********************************************
@@ -62,44 +62,6 @@ namespace PacGame
               return this->lightPosition;  
           }
           
-          
-          /********************************************
-           * Camera setters
-           * 
-           ********************************************/
-          void PRenderer::setCameraX(float value)
-          {
-              this->cameraX = value;
-          }
-          
-          void PRenderer::setCameraY(float value)
-          {
-              this->cameraY = value;
-          }
-          
-          void PRenderer::setCameraZ(float value)
-          {
-              this->cameraZ = value;
-          }
-          
-          /********************************************
-           * Camera getters
-           * 
-           ********************************************/
-          float PRenderer::getCameraX() const
-          {
-              return this->cameraX;
-          }
-          
-          float PRenderer::getCameraY() const
-          {
-              return this->cameraY;
-          }
-          
-          float PRenderer::getCameraZ() const
-          {
-              return this->cameraZ;
-          }
           
           /********************************************
            * init()
@@ -144,6 +106,15 @@ namespace PacGame
               glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
               
               return true;
+          }
+          
+          void PRenderer::deinit()
+          {
+              glDisable(GL_LIGHTING);
+              glDisable(GL_DEPTH_TEST);	// Enables Depth Testing
+              glDisable(GL_TEXTURE_2D);
+              glDisable(GL_COLOR_MATERIAL);
+              glDisable(GL_BLEND);
           }
 
           /********************************************

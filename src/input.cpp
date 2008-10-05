@@ -24,10 +24,7 @@
  */
 
 #include "level.h"
-
-
 #include "input.h"
-#include "level.h"
 #include <AL/alut.h>
 
 using namespace PacGame::GameClasses::GameObjects;
@@ -39,7 +36,7 @@ namespace PacGame
         void PInputSystem::process()
         {
             // gets renderer handle, for camera
-             PRenderer *rn = this->level->getGameCoreHandle()->getRenderer();
+//             PRenderer *rn = this->level->getGameCoreHandle()->getRenderer();
             
             glfwEnable(GLFW_STICKY_KEYS);  // enables sticky keys
             
@@ -90,32 +87,32 @@ namespace PacGame
             }
             
             // camera values; if you need to move camera, uncomment this code
-            else if((glfwGetKey('W') == GLFW_PRESS) && (glfwGetKey('W') == GLFW_RELEASE))
+  /*          else if((glfwGetKey('W') == GLFW_PRESS) && (glfwGetKey('W') == GLFW_RELEASE))
             {              
-                rn->setCameraY(rn->getCameraY()-0.9);           
+         
             }
             else if((glfwGetKey('S') == GLFW_PRESS) && (glfwGetKey('S') == GLFW_RELEASE))
             {              
-                rn->setCameraY(rn->getCameraY()+0.9);           
+          
             }
             
             else if((glfwGetKey('A') == GLFW_PRESS) && (glfwGetKey('A') == GLFW_RELEASE))
             {              
-                rn->setCameraX(rn->getCameraX()-0.9);           
+           
             }
             else if((glfwGetKey('F') == GLFW_PRESS) && (glfwGetKey('F') == GLFW_RELEASE))
             {              
-                rn->setCameraX(rn->getCameraX()+0.9);           
+     
             }
             
             else if((glfwGetKey('Q') == GLFW_PRESS) && (glfwGetKey('Q') == GLFW_RELEASE))
             {              
-                rn->setCameraZ(rn->getCameraZ()-0.9);           
+         
             }
             else if((glfwGetKey('Z') == GLFW_PRESS) && (glfwGetKey('Z') == GLFW_RELEASE))
             {              
-                rn->setCameraZ(rn->getCameraZ()+0.9);           
-            }
+        
+            } */
         }
         
         // setters

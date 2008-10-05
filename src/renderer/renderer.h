@@ -63,28 +63,16 @@ namespace PacGame
      //   float matAmbient[4];
       //  float matDiffuse[4];
 
-        // camera
-        float cameraX;
-        float cameraY; 
-        float cameraZ;
-
     public:
         // constructor
         PRenderer();
 
         // system functions
         bool init();
+        void deinit();
 
         // getters
-        float getCameraX() const;
-        float getCameraY() const;
-        float getCameraZ() const;
         float* getLightPosition();
-
-        // setters
-        void setCameraX(float value);
-        void setCameraY(float value);            
-        void setCameraZ(float value);
 
         // functions that are drawing stuff
         void drawBackground();
