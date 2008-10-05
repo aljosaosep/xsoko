@@ -116,6 +116,7 @@ namespace PacGame
         {
             this->level = level;
             this->player = level->getPlayerHandle();
+            this->camera = level->getGameCoreHandle()->getCamera();
         //    level->initialize();
         }
         
@@ -155,6 +156,7 @@ namespace PacGame
                 canQuit = false;
                 setCallBacks();
                 SetGuiSession(this);
+                levelSession.setInput(&input);
                 //glfwDisable(GLFW_MOUSE_CURSOR);
                 glResizeWnd(width,height);
                 
@@ -217,9 +219,9 @@ namespace PacGame
             
             PLevel level(levelPath);
             // input object
-            PInputSystem input(&level); 
+            input.setLevel(&level);
             // make session
-            PGameSession levelSession(&level, &input);
+            levelSession.setLevel(&level);
             levelSession.run();
             
             glClearDepth(1.0);                       // Depth Buffer Setup

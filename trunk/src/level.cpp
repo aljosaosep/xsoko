@@ -49,7 +49,7 @@ namespace PacGame
       namespace GameClasses
       {
           // globals
-           PVoid *globalVoid = new PVoid; 
+           //PVoid *globalVoid = new PVoid; 
  
            /*****************************************
            PLevel methods
@@ -131,7 +131,7 @@ namespace PacGame
                   if(obj->getId() == 1)
                   {
                       delete data[i][j];
-                      data[i][j] = globalVoid;
+                      data[i][j] = new PVoid;
                   }
               }
               obj->setIndex(i2, j2);
