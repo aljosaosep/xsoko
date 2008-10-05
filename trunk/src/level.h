@@ -100,15 +100,15 @@ namespace PacGame
               class PLevel : public PObject
               {
               private:
-                  string filename;              // level filename
+                  string filename;                   // level filename
                   PLevelObject* data[30][30];        // actual level data
-                  int second_matrix[30][30];        // presentation of second matrix with id
-                  vector<PTeleport*> teleports; // vector of teleport pointers
-                  unsigned width, height;       // level dimensions
-                  PPlayer *player;              // player instance 
-                  vector<PCubeHolder*> holds;           // vector contains all cube holders in level; it helps to determine when level is finished
-                  PCore *gameCore;             // game core object
-                  PResourceManager *resourceHandle; // shortcut to resources
+                  int second_matrix[30][30];         // presentation of second matrix with id
+                  vector<PTeleport*> teleports;      // vector of teleport pointers
+                  unsigned width, height;            // level dimensions
+                  PPlayer *player;                   // player instance 
+                  vector<PCubeHolder*> holds;        // vector contains all cube holders in level; it helps to determine when level is finished
+                  PCore *gameCore;                   // game core object
+                  PResourceManager *resourceHandle;  // shortcut to resources
                   bool endgameFlag;
                   
            //       PDirection lastDirection;  // direction player is facing according to last move

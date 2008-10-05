@@ -1025,6 +1025,7 @@ namespace PacGame
            **************************************************************/ 
           PLevel::~PLevel()
           {
+              this->gameCore->deinit();
               this->releaseLevel();
           }
           

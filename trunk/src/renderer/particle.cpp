@@ -16,49 +16,33 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+
 /* 
- * File:   core.h
+ * File:   particle.h
  * Author: aljosa
+ * 
+ * desc: basic class for particle effects implementation
  *
- * Created on August 26, 2008, 8:58 PM
+ * Created on October 5, 2008, 11:11 AM
  */
 
-#ifndef __CORE_H
-#define	__CORE_H
-
-#include "renderer/renderer.h"
-#include "resource.h"
-#include "camera.h"
+#include "particle.h"
 
 namespace PacGame
 {
-    namespace GameClasses
+    namespace RenderMaschine
     {
-        class PCore
+        void PParticleEngine::init()
         {
-        private:
-            PRenderer *renderer; // renderer instance
-            PResourceManager *resources;
-            PCamera *camera;
-            
-        public:
-            PCore(); // constructor
-            ~PCore(); // destructor
-            
-            // init
-            bool init();
-            void deinit();
-            
-            // getters
-            PRenderer *getRenderer();
-            PResourceManager *getResources();
-            PCamera *getCamera();
-            
-            // release
-            void release();
-            
-        };
+         
+            for(int i=0; i<MAX_PARTICLES; i++)
+            {
+                this->particles[i].active = true;   // set all particles live at beginning
+                this->particles[i].life = 1.0;      // all particles has full life at beginning
+                this->particles[i].fade = (rand()%100 / 1000) + 0.003;   // very little random value; how fast particle fades out
+                /// set color!
+           //     this->particles[i].vector.
+            }
+        }
     }
 }
-
-#endif	/* _CORE_H */

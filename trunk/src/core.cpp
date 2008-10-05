@@ -80,8 +80,8 @@ namespace PacGame
         }
         
         /*****************************************************************
-         * release()
-         * Cleans core systems from memory
+         * init()
+         * initiates core
          *****************************************************************/ 
         bool PCore::init()
         {
@@ -96,6 +96,16 @@ namespace PacGame
                 Messages::initMessage("Renderer", true);
             
             return true; // if everything is ok, return true
+        }
+        
+         /*****************************************************************
+         * deinit()
+         * deinitiates core
+         *****************************************************************/ 
+        void PCore::deinit()
+        {
+            if(this->renderer!=NULL)
+                this->renderer->deinit();
         }
         
         /*****************************************************************
