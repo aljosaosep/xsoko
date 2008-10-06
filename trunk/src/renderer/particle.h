@@ -33,6 +33,8 @@
 #define MAX_PARTICLES 100
 
 #include "../vector.h"
+#include <cstdio>
+#include <ctime>
 
 using namespace PacGame::GameClasses;
 

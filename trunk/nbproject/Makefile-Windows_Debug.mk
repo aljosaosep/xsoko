@@ -59,6 +59,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/src/renderer/renderer-texture.o \
 	${OBJECTDIR}/src/game-init.o \
 	${OBJECTDIR}/src/CommonStructures.o \
+	${OBJECTDIR}/src/renderer/particle.o \
 	${OBJECTDIR}/src/levelbox.o \
 	${OBJECTDIR}/src/renderer/renderer-core.o
 
@@ -217,6 +218,10 @@ ${OBJECTDIR}/src/game-init.o: src/game-init.cpp
 ${OBJECTDIR}/src/CommonStructures.o: src/CommonStructures.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
 	$(COMPILE.cc) -g -Wall -o ${OBJECTDIR}/src/CommonStructures.o src/CommonStructures.cpp
+
+${OBJECTDIR}/src/renderer/particle.o: src/renderer/particle.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src/renderer
+	$(COMPILE.cc) -g -Wall -o ${OBJECTDIR}/src/renderer/particle.o src/renderer/particle.cpp
 
 ${OBJECTDIR}/src/levelbox.o: src/levelbox.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src

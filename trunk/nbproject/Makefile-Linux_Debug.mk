@@ -59,6 +59,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/src/renderer/renderer-texture.o \
 	${OBJECTDIR}/src/game-init.o \
 	${OBJECTDIR}/src/CommonStructures.o \
+	${OBJECTDIR}/src/renderer/particle.o \
 	${OBJECTDIR}/src/levelbox.o \
 	${OBJECTDIR}/src/renderer/renderer-core.o
 
@@ -73,14 +74,14 @@ CXXFLAGS=
 FFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-lglfw -lGL -lGLU -lalut -lopenal
+LDLIBSOPTIONS=-lglfw -lGL -lGLU -lalut -lopenal -lXrandr -lXxf86vm -lm
 
 # Build Targets
-.build-conf: ${BUILD_SUBPROJECTS} dist/Linux_Debug/GNU-Linux-x86/xsoko
+.build-conf: ${BUILD_SUBPROJECTS} dist/Linux_Debug/GNU-Linux-x86/trunk
 
-dist/Linux_Debug/GNU-Linux-x86/xsoko: ${OBJECTFILES}
+dist/Linux_Debug/GNU-Linux-x86/trunk: ${OBJECTFILES}
 	${MKDIR} -p dist/Linux_Debug/GNU-Linux-x86
-	${LINK.cc} -o dist/Linux_Debug/GNU-Linux-x86/xsoko ${OBJECTFILES} ${LDLIBSOPTIONS} 
+	${LINK.cc} -o dist/Linux_Debug/GNU-Linux-x86/trunk ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
 ${OBJECTDIR}/src/zip/zlib/infback.o: src/zip/zlib/infback.c 
 	${MKDIR} -p ${OBJECTDIR}/src/zip/zlib
@@ -218,6 +219,10 @@ ${OBJECTDIR}/src/CommonStructures.o: src/CommonStructures.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
 	$(COMPILE.cc) -g -Wall -o ${OBJECTDIR}/src/CommonStructures.o src/CommonStructures.cpp
 
+${OBJECTDIR}/src/renderer/particle.o: src/renderer/particle.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src/renderer
+	$(COMPILE.cc) -g -Wall -o ${OBJECTDIR}/src/renderer/particle.o src/renderer/particle.cpp
+
 ${OBJECTDIR}/src/levelbox.o: src/levelbox.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
 	$(COMPILE.cc) -g -Wall -o ${OBJECTDIR}/src/levelbox.o src/levelbox.cpp
@@ -232,7 +237,7 @@ ${OBJECTDIR}/src/renderer/renderer-core.o: src/renderer/renderer-core.cpp
 # Clean Targets
 .clean-conf:
 	${RM} -r build/Linux_Debug
-	${RM} dist/Linux_Debug/GNU-Linux-x86/xsoko
+	${RM} dist/Linux_Debug/GNU-Linux-x86/trunk
 
 # Subprojects
 .clean-subprojects:

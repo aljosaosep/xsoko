@@ -34,6 +34,7 @@ namespace PacGame
     {
         void PParticleEngine::init()
         {
+            srand(time(NULL));
          
             for(int i=0; i<MAX_PARTICLES; i++)
             {
@@ -41,8 +42,23 @@ namespace PacGame
                 this->particles[i].life = 1.0;      // all particles has full life at beginning
                 this->particles[i].fade = (rand()%100 / 1000) + 0.003;   // very little random value; how fast particle fades out
                 /// set color!
-           //     this->particles[i].vector.
+                this->particles[i].vector.setCoordX((rand()%50 - 26)*10);   // set motion vector, coord x
+                this->particles[i].vector.setCoordY((rand()%50 - 26)*10);   // set motion vector, coord y
+                this->particles[i].vector.setCoordZ((rand()%50 - 26)*10);   // set motion vector, coord z
+                
+                this->particles[i].gravity.setCoordX(0.0);  // no gravity in X dir at begginning
+                this->particles[i].gravity.setCoordX(-0.8); // slight Y-negative gravity
+                this->particles[i].gravity.setCoordX(0.0);  // no gravity in Z dir at beginning
             }
+        }
+        
+        bool PParticleEngine::process()
+        {
+            if(particles[i].active == true)
+            {
+                
+            }
+            return true;
         }
     }
 }
