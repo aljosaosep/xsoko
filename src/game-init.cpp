@@ -60,14 +60,7 @@ namespace PacGame
               Messages::initMessage("OpenGL window", true);  // prints out success
 
               glfwSetWindowTitle(this->windowTitle.c_str()); // temporary
-
-          // set the projection matrix to a normal frustum with a max depth of 50
-    /*          glMatrixMode(GL_PROJECTION);
-              glLoadIdentity();
-              float aspectRatio = ((float)windowHeight) / windowWidth;
-              glFrustum(.5, -.5, -.5 * aspectRatio, .5 * aspectRatio, 1, 50);
-              glMatrixMode(GL_MODELVIEW);*/
-
+              
               glMatrixMode(GL_PROJECTION);						// Select The Projection Matrix
               glLoadIdentity();                                                         // Reset The Projection Matrix
               // Calculate The Aspect Ratio Of The Window
@@ -75,9 +68,6 @@ namespace PacGame
               glMatrixMode(GL_MODELVIEW);						// Select The Modelview Matrix
               glLoadIdentity();
 
-              // initiates renderer
-           /*   if(!this->getRendererHandle()->init())
-                  return false;*/
 
 //                      glfwSetKeyCallback(&PacGame::GameClasses::PGame::processKey); // sets keyboard input callback
               Messages::initMessage("Game", true);

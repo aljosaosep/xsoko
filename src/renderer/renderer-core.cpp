@@ -69,6 +69,9 @@ namespace PacGame
            ********************************************/
           bool PRenderer::init()
           {
+
+              
+              
               glEnable(GL_LIGHTING);
               
               glClearColor(0.0f, 0.0f, 0.0f, 0.0f);// Black Background

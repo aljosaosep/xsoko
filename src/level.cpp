@@ -359,14 +359,14 @@ namespace PacGame
 
               
               // is there empty space?
-              else if(data[i2][j2]->returnFirstChild()==NULL)
-              {
+          //    else if(data[i2][j2]->returnFirstChild()==NULL)
+        //      {
                   // yes! game over, haha!
               /*    cout<<"Is not a bug, you fall into space - or you pushed cube into space, so it's game over!!!! :p"<<endl;
                   data[i][j]->attachToRoot(NULL);  // we make cube or player vanish
                  // delete [] this->player;   // todo: delete player obj without segmentation fault!
                   this->endgameFlag = true;  // and we make game end */
-              }
+      //        }
               
               return false; // to avoid warning
           }
@@ -415,7 +415,7 @@ namespace PacGame
               int tmsize; // teleport matrix size
               PObject *p = NULL; // our pobject pointer; for creating dynamic objects
               ifstream level; // file handle
-              level.open(this->filename.c_str());  // opens level
+              level.open(this->filename.c_str(), ios::in);  // opens level
               
               if(!level.good())  // checks if file is properly open
               {
@@ -755,34 +755,6 @@ namespace PacGame
                   return false;
               }
               
-              
-              /*for (unsigned i=0; i<this->width; i++)
-              {
-                  for (unsigned j=0; j<this->height; j++) {
-                      cout << data[i][j]->getId() << " ";
-                  }
-                  cout << endl;
-              }
-              
-              cout << endl;
-              
-              for (unsigned i=0; i<this->width; i++)
-              {
-                  for (unsigned j=0; j<this->height; j++) {
-                      cout << second_matrix[i][j] << " ";
-                  }
-                  cout << endl;
-              }
-              
-              for(int i=0; i<teleports.size(); i++)
-              {
-                  PTeleport* tmp = teleports.at(i);
-                  PTeleport* child = tmp->getChildTeleport();
-                  
-                  cout << tmp->getId() << " " << child->getId() << endl;
-              }
-              
-              return true;*/
           }
           
            /**************************************************************
