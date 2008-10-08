@@ -71,11 +71,14 @@ int main(int argc, char *argv[])
     // make session
     //PGameSession *testsession = new PGameSession(test, &input);
 
+    PGuiSession* guiSession = new PGuiSession(640,480);
     // loads session
-    pacgame.loadSession(new PGuiSession(640,480));
+    pacgame.loadSession(guiSession);
 
     // run game
     pacgame.run();
+    
+    delete guiSession;
 
     return 0;
 }
