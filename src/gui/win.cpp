@@ -1,3 +1,6 @@
+
+#include "win.h"
+
 #include "win.h"
 #include <iostream>
 #include <stdlib.h>
@@ -195,7 +198,7 @@ void Container::onMouseDown(){
         parent = parent->getParent();
     }
 
-    for(int i=0;i<components.size();i++)
+    for(unsigned i=0;i<components.size();i++)
     {
       Size size = components[i]->getSize();
       Position pos = components[i]->getPosition();
@@ -305,7 +308,7 @@ void Window::Render()
       glEnd();
 
       glTranslatef(0, 0, 0.02);      
-      for(int i=0;i<components.size();i++){
+      for(unsigned i=0;i<components.size();i++){
         components[i]->Render();
       }
 
@@ -316,7 +319,7 @@ void Window::Render()
     // draw the child windows
     glPushMatrix();
       glTranslatef(0, 0, 0.1);
-      for(int i=0;i<childwindows.size();i++)
+      for(unsigned i=0;i<childwindows.size();i++)
         childwindows[i]->Render();
     glPopMatrix();
   }
@@ -538,11 +541,294 @@ void Panel::Render()
     
     glPushMatrix();
     glTranslatef(x,-y,0.02);
-    for(int i=0;i<components.size();i++){
+    for(unsigned i=0;i<components.size();i++){
         components[i]->Render();
       }
     glPopMatrix();
   }
+}
+
+// ListBox 
+
+/*------------------------------------------------------------------*
+ *  initialise a panel                                              *
+ *------------------------------------------------------------------*/
+ListBox::ListBox(int x, int y, int width, int height) : Component(x,y,width,height)
+{
+    selected = -1;
+    onClick = NULL;
+    upPressed = false;
+    downPressed = false;
+    drawIndex = 0;
+    canShow = (height-4) / 16;
+}
+
+
+/*------------------------------------------------------------------*
+ *  Render the Panel                                                *
+ *------------------------------------------------------------------*/
+void ListBox::Render()
+{
+  if(visible)
+  {
+    glBegin(GL_QUADS);
+      // top of panel.
+      glTexCoord2f((float)10/128, (float)33/128); glVertex2f(x+2, -y);
+      glTexCoord2f((float)10/128, (float)32/128); glVertex2f(x+2, -y-2);
+      glTexCoord2f((float)37/128, (float)32/128); glVertex2f(x+2+(width-4), -y-2);
+      glTexCoord2f((float)37/128, (float)33/128); glVertex2f(x+2+(width-4), -y);
+
+      // left side of panel.
+      glTexCoord2f((float)38/128, (float)61/128); glVertex2f(x, -y);
+      glTexCoord2f((float)38/128, (float)34/128); glVertex2f(x, -y-height+2);
+      glTexCoord2f((float)39/128, (float)34/128); glVertex2f(x+2, -y-height+2);
+      glTexCoord2f((float)39/128, (float)61/128); glVertex2f(x+2, -y);
+
+      // middle of panel.
+      glTexCoord2f((float)18/128, (float)54/128); glVertex2f(x+2, -y-2);
+      glTexCoord2f((float)18/128, (float)42/128); glVertex2f(x+2, -y-height+2);
+      glTexCoord2f((float)30/128, (float)42/128); glVertex2f(x+2+(width-4), -y-height+2);
+      glTexCoord2f((float)30/128, (float)54/128); glVertex2f(x+2+(width-4), -y-2);
+
+      // right side of panel.
+      glTexCoord2f((float) 8/128, (float)61/128); glVertex2f(x+width-2, -y);
+      glTexCoord2f((float) 8/128, (float)34/128); glVertex2f(x+width-2, -y-height+2);
+      glTexCoord2f((float) 9/128, (float)34/128); glVertex2f(x+width, -y-height+2);
+      glTexCoord2f((float) 9/128, (float)61/128); glVertex2f(x+width, -y);
+
+      // bottom middle of panel.
+      glTexCoord2f((float)10/128, (float)62/128); glVertex2f(x+2, -y-height+2);
+      glTexCoord2f((float)10/128, (float)63/128); glVertex2f(x+2, -y-height);
+      glTexCoord2f((float)37/128, (float)63/128); glVertex2f(x+2+(width-2), -y-height);
+      glTexCoord2f((float)37/128, (float)62/128); glVertex2f(x+2+(width-2), -y-height+2);      
+
+    glEnd();
+    
+    glTranslatef(0,0,0.02);    
+    int limit = (canShow<items.size()) ? canShow : items.size();
+    for(unsigned i=0;i<limit;i++){
+        if(selected == i+drawIndex)
+            drawSelected(x+2,y+2+(i*16),width-20,items.at(i+drawIndex));
+        else
+            glWrite(x+5,-y-17-(i*16),items.at(i+drawIndex));
+    }
+    
+    drawButton(x+width-18,y+2,upPressed,true);
+    drawButton(x+width-18,y+height-18,downPressed,false);
+    glBegin(GL_QUADS);
+          glTexCoord2f((float) 8/128, (float)61/128); glVertex2f(x+width-10, -y-18);
+          glTexCoord2f((float) 8/128, (float)34/128); glVertex2f(x+width-10, -y-height+18);
+          glTexCoord2f((float) 9/128, (float)34/128); glVertex2f(x+width-9, -y-height+18);
+          glTexCoord2f((float) 9/128, (float)61/128); glVertex2f(x+width-9, -y-18);
+    glEnd();
+    if(items.size() > canShow){
+        float length = (float)(height - 34) / (items.size() - canShow + 1);
+        float dy = length * drawIndex + length/2;
+        glTranslatef(0,0,0.02);
+        glBegin(GL_QUADS);
+          glTexCoord2f((float)101/128, (float)63/128); glVertex2f(x+width-17, -y-dy-9);
+          glTexCoord2f((float)101/128, (float)50/128); glVertex2f(x+width-17, -y-dy-25);
+          glTexCoord2f((float)88/128, (float)50/128); glVertex2f(x+width-1,-y-dy-25);
+          glTexCoord2f((float)88/128, (float)63/128); glVertex2f(x+width-1, -y-dy-9);
+        glEnd();
+    }
+  }
+}
+
+void ListBox::onMouseDown(){
+    // recalculate coordinates relative to window
+    int mouseX = wmouse.x - x;
+    int mouseY = mHeight - wmouse.y - 26 - y;
+    Component* parent = this->parent;
+    while(parent != NULL){
+        Position loc = parent->getPosition();
+        mouseX -= loc.x;
+        mouseY -= loc.y;
+        parent = parent->getParent();
+    }
+    
+    if(mouseX >= 2 && mouseX <= width-18){
+        int index = (mouseY-2) / 16 + drawIndex;
+        if(index < items.size()){
+            selected = index;
+        }
+    }
+    if(mouseX >= width-18){
+        if(mouseY >= 2 && mouseY <= 18){
+            upPressed = true;
+        }
+        if(mouseY >= height-18){
+            downPressed = true;
+        }
+    } else
+        if(this->onClick != NULL){
+            onClick(items.at(selected));
+        }
+}
+
+void ListBox::onMouseUp(){
+    if(upPressed){
+        if(drawIndex > 0)
+            drawIndex--;
+        upPressed= false;
+    }
+    if(downPressed){
+        if(drawIndex+canShow < items.size())
+            drawIndex++;
+        downPressed= false;
+    }
+}
+
+string  ListBox::getSelectedItem(){
+    return items.at(selected);
+}
+
+void ListBox::drawButton(int x, int y,bool pressed,bool upArrow)
+{
+  if (pressed) 
+  {
+    glBegin(GL_QUADS);
+      // left side
+      glTexCoord2f((float)57/128, (float)95/128); glVertex2f(x, -y);
+      glTexCoord2f((float)57/128, (float)70/128); glVertex2f(x, -y-16);
+      glTexCoord2f((float)62/128, (float)70/128); glVertex2f(x+6,-y-16);
+      glTexCoord2f((float)62/128, (float)95/128); glVertex2f(x+6, -y);
+
+      // middle
+      glTexCoord2f((float)62/128, (float)95/128); glVertex2f(x+6, -y);
+      glTexCoord2f((float)62/128, (float)70/128); glVertex2f(x+6, -y-16);
+      glTexCoord2f((float)66/128, (float)70/128); glVertex2f(x+10, -y-16);
+      glTexCoord2f((float)66/128, (float)95/128); glVertex2f(x+10, -y);
+
+      // right side
+      glTexCoord2f((float)66/128, (float)95/128); glVertex2f(x+10, -y);
+      glTexCoord2f((float)66/128, (float)70/128); glVertex2f(x+10, -y-16);
+      glTexCoord2f((float)71/128, (float)70/128); glVertex2f(x+16, -y-16);
+      glTexCoord2f((float)71/128, (float)95/128); glVertex2f(x+16, -y);
+    glEnd();
+    glTranslatef(0,0,0.2);
+    if(upArrow){
+        glBegin(GL_QUADS);
+        glTexCoord2f((float)117/128, (float)63/128); glVertex2f(x+1, -y-1);
+        glTexCoord2f((float)117/128, (float)50/128); glVertex2f(x+1, -y-17);
+        glTexCoord2f((float)104/128, (float)50/128); glVertex2f(x+17,-y-17);
+        glTexCoord2f((float)104/128, (float)63/128); glVertex2f(x+17, -y-1);
+      glEnd();
+    }
+    else {
+        glBegin(GL_QUADS);
+          glTexCoord2f((float)104/128, (float)50/128); glVertex2f(x+1, -y-1);
+          glTexCoord2f((float)104/128, (float)63/128); glVertex2f(x+1, -y-17);
+          glTexCoord2f((float)117/128, (float)63/128); glVertex2f(x+17,-y-17);
+          glTexCoord2f((float)117/128, (float)50/128); glVertex2f(x+17, -y-1);
+        glEnd();
+    }
+  }
+  else
+  {
+    glBegin(GL_QUADS);
+      // left side
+      glTexCoord2f((float)41/128, (float)95/128); glVertex2f(x, -y);
+      glTexCoord2f((float)41/128, (float)70/128); glVertex2f(x, -y-16);
+      glTexCoord2f((float)46/128, (float)70/128); glVertex2f(x+6,-y-16);
+      glTexCoord2f((float)46/128, (float)95/128); glVertex2f(x+6, -y);
+
+      // middle
+      glTexCoord2f((float)46/128, (float)95/128); glVertex2f(x+6, -y);
+      glTexCoord2f((float)46/128, (float)70/128); glVertex2f(x+6, -y-16);
+      glTexCoord2f((float)50/128, (float)70/128); glVertex2f(x+10, -y-16);
+      glTexCoord2f((float)50/128, (float)95/128); glVertex2f(x+10, -y);
+
+      // right side
+      glTexCoord2f((float)50/128, (float)95/128); glVertex2f(x+10, -y);
+      glTexCoord2f((float)50/128, (float)70/128); glVertex2f(x+10, -y-16);
+      glTexCoord2f((float)55/128, (float)70/128); glVertex2f(x+16, -y-16);
+      glTexCoord2f((float)55/128, (float)95/128); glVertex2f(x+16, -y);
+    glEnd();
+    glTranslatef(0,0,0.2);
+    if(upArrow){
+      glBegin(GL_QUADS);
+        glTexCoord2f((float)117/128, (float)63/128); glVertex2f(x, -y);
+        glTexCoord2f((float)117/128, (float)50/128); glVertex2f(x, -y-16);
+        glTexCoord2f((float)104/128, (float)50/128); glVertex2f(x+16,-y-16);
+        glTexCoord2f((float)104/128, (float)63/128); glVertex2f(x+16, -y);
+      glEnd();
+    } 
+    else {
+        glBegin(GL_QUADS);
+          glTexCoord2f((float)104/128, (float)50/128); glVertex2f(x, -y);
+          glTexCoord2f((float)104/128, (float)63/128); glVertex2f(x, -y-16);
+          glTexCoord2f((float)117/128, (float)63/128); glVertex2f(x+16,-y-16);
+          glTexCoord2f((float)117/128, (float)50/128); glVertex2f(x+16, -y);
+        glEnd();
+    }
+  }
+}
+
+void ListBox::drawSelected(int x, int y,int width,string item){
+    glTranslatef(0,0,0.02);
+    glBegin(GL_QUADS);
+      // top left corner of panel.
+      glTexCoord2f((float) 8/128, (float)64/128); glVertex2f(x, -y);
+      glTexCoord2f((float) 8/128, (float)54/128); glVertex2f(x, -y-10);
+      glTexCoord2f((float)18/128, (float)54/128); glVertex2f(x+10, -y-10);
+      glTexCoord2f((float)18/128, (float)64/128); glVertex2f(x+10, -y);
+
+      // top of panel.
+      glTexCoord2f((float)18/128, (float)64/128); glVertex2f(x+10, -y);
+      glTexCoord2f((float)18/128, (float)54/128); glVertex2f(x+10, -y-10);
+      glTexCoord2f((float)30/128, (float)54/128); glVertex2f(x+10+(width-20), -y-10);
+      glTexCoord2f((float)30/128, (float)64/128); glVertex2f(x+10+(width-20), -y);
+
+      // top right corder of panel.
+      glTexCoord2f((float)30/128, (float)64/128); glVertex2f(x+width-10, -y);
+      glTexCoord2f((float)30/128, (float)54/128); glVertex2f(x+width-10, -y-10);
+      glTexCoord2f((float)40/128, (float)54/128); glVertex2f(x+width, -y-10);
+      glTexCoord2f((float)40/128, (float)64/128); glVertex2f(x+width, -y);
+
+      // left side of panel.
+      glTexCoord2f((float) 8/128, (float)54/128); glVertex2f(x, -y-10);
+      glTexCoord2f((float) 8/128, (float)42/128); glVertex2f(x, -y-16+10);
+      glTexCoord2f((float)18/128, (float)42/128); glVertex2f(x+10, -y-16+10);
+      glTexCoord2f((float)18/128, (float)54/128); glVertex2f(x+10, -y-10);
+
+      // right side of panel.
+      glTexCoord2f((float)30/128, (float)54/128); glVertex2f(x+width-10, -y-10);
+      glTexCoord2f((float)30/128, (float)42/128); glVertex2f(x+width-10, -y-16+10);
+      glTexCoord2f((float)40/128, (float)42/128); glVertex2f(x+width, -y-16+10);
+      glTexCoord2f((float)40/128, (float)54/128); glVertex2f(x+width, -y-10);
+
+      // bottom left corner of panel.
+      glTexCoord2f((float) 8/128, (float)42/128); glVertex2f(x, -y-16+10);
+      glTexCoord2f((float) 8/128, (float)32/128); glVertex2f(x, -y-16);
+      glTexCoord2f((float)18/128, (float)32/128); glVertex2f(x+10, -y-16);
+      glTexCoord2f((float)18/128, (float)42/128); glVertex2f(x+10, -y-16+10);
+
+      // bottom middle of panel.
+      glTexCoord2f((float)18/128, (float)42/128); glVertex2f(x+10, -y-16+10);
+      glTexCoord2f((float)18/128, (float)32/128); glVertex2f(x+10, -y-16);
+      glTexCoord2f((float)30/128, (float)32/128); glVertex2f(x+10+(width-20), -y-16);
+      glTexCoord2f((float)30/128, (float)42/128); glVertex2f(x+10+(width-20), -y-16+10);
+
+      // bottom right corner of panel.
+      glTexCoord2f((float)30/128, (float)42/128); glVertex2f(x+width-10, -y-16+10);
+      glTexCoord2f((float)30/128, (float)32/128); glVertex2f(x+width-10, -y-16);
+      glTexCoord2f((float)40/128, (float)32/128); glVertex2f(x+width, -y-16);
+      glTexCoord2f((float)40/128, (float)42/128); glVertex2f(x+width, -y-16+10);
+
+    glEnd();
+    
+    glWrite(x+4,-y-16,item);
+}
+
+void ListBox::addItem(string item){
+    items.push_back(item);
+    if(items.size() == 1){
+        selected = 0;
+        if(this->onClick != NULL){
+            onClick(item);
+        }
+    }
 }
 
 // TCheckbox 
@@ -649,7 +935,7 @@ bool RadioButton::isChecked(){
 void RadioButton::setChecked(bool checked){
     if(checked && group != NULL){
         vector<RadioButton*>* radioButtons = group->getRadioButtons();
-        for(int i=0;i<radioButtons->size();i++) {
+        for(unsigned i=0;i<radioButtons->size();i++) {
             radioButtons->at(i)->checked = false;
         }
     }
@@ -675,7 +961,7 @@ void RadioButtonGroup::addToGroup(RadioButton* radioButton){
 }
 
 void RadioButtonGroup::removeFromGroup(RadioButton* radioButton){
-    for(int i=0;i<radioButtons.size();i++) {
+    for(unsigned i=0;i<radioButtons.size();i++) {
         if(radioButtons[i] == radioButton)
             radioButtons.erase(radioButtons.begin() + i);
     }
@@ -766,7 +1052,7 @@ bool onMouseDown(Window* wnd)
 
   // First check child windows since they can be on top.
   vector<Window*>* chWins = wnd->getChildWindows();
-  for(int i=0;i<chWins->size();i++)
+  for(unsigned i=0;i<chWins->size();i++)
       if (chWins->at(i)->isVisible()){
         wndClick = onMouseDown(chWins->at(i));
         if (wndClick)

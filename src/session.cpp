@@ -16,6 +16,9 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "gui/win.h"
+
+
 /* 
  * File:   session.cpp
  * Author: aljosa
@@ -30,6 +33,9 @@
 #include "gui/gui.h"
 #include <cstdio>
 #include <cmath>
+#include <sys/types.h>
+#include <dirent.h>
+
 
 
 
@@ -173,10 +179,29 @@ namespace PacGame
                 btn->onClick = &closeAction;
                 mainWin->AddComponent(btn);
                 
-                Window* fpWin = new Window(width/2 - 67, height/2 - 82, 135, 165);
+                Window* fpWin = new Window(width/2 - 67, height/2 - 82, 220, 141);
                 fpWin->setVisible(false);
-                fpWin->AddComponent(new Text(30,40,"Soon!"));
-                btn = new Button(30,110,75,25,"Close");
+
+                ListBox* list = new ListBox(10,40,115,68);
+                list->onClick = &fpListBoxSelect;
+                DIR *dp;
+                struct dirent *dirp;
+                if((dp  = opendir("data")) != NULL) {
+                    while ((dirp = readdir(dp)) != NULL) {
+                        string filename = string(dirp->d_name);
+                        int index = filename.find_last_of('.');
+                        if(index > -1 && filename.compare(index+1,3,"lvl")==0)
+                            list->addItem(filename.substr(0,index));
+                    }
+                }                
+                closedir(dp);
+
+                
+                fpWin->AddComponent(list);
+                btn = new Button(135,40,75,25,"Play");
+                btn->onClick = &fpPlay;
+                fpWin->AddComponent(btn);
+                btn = new Button(135,70,75,25,"Back");
                 btn->onClick = &fpClose;
                 fpWin->AddComponent(btn);
                 

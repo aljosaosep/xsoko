@@ -83,6 +83,26 @@ public:
     void Render();
 };
 
+class ListBox: public Component{
+private:
+    vector<string> items;
+    int selected;
+    int drawIndex;
+    int canShow;
+    bool upPressed;
+    bool downPressed;
+    void drawSelected(int x, int y,int width,string item);
+    void drawButton(int x, int y,bool pressed,bool upArrow);
+public:
+    void (*onClick)(string selectedItem);
+    ListBox(int x, int y, int width, int height);
+    void addItem(string item);
+    string getSelectedItem();
+    void Render();
+    void onMouseDown();
+    void onMouseUp();
+};
+
 class CheckBox: public Component{
 private:
     bool checked;

@@ -18,6 +18,8 @@ using namespace PacGame::GameClasses;
   extern void runAction();
   extern void fpShow();
   extern void fpClose();
+  extern void fpPlay();
+  extern void fpListBoxSelect(string selected);
 
 #endif	/* _GUI_H */
 
