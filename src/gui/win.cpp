@@ -211,6 +211,12 @@ void Container::onMouseDown(){
     }
 }
 
+Container::~Container(){
+    for(int i=0;i<components.size();i++){
+        delete components.at(i);
+    }
+}
+
 /*------------------------------------------------------------------*
  *  initialise window and setup defaults                            *
  *------------------------------------------------------------------*/
@@ -374,6 +380,12 @@ float  Window::getZOrder(){
 
 void  Window::setZOrder(float zorder){
     this->zorder = zorder;
+}
+
+Window::~Window(){
+    for(int i=0;i<childwindows.size();i++){
+        delete childwindows.at(i);
+    }
 }
 
 // TButton 

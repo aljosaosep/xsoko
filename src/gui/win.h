@@ -51,6 +51,7 @@ public:
     Container(int x, int y, int width, int height);
     void AddComponent(Component* component);
     void onMouseDown();
+    ~Container();
 };
 
 class Button : public Component{
@@ -156,6 +157,7 @@ public:
     void setAlpha(float alpha);
     void Render();
     void onMouseDown();
+    ~Window();
 };
 
 extern  bool InitGUI(const char* guiTextureFileName,const char* fontTextureFileName);
