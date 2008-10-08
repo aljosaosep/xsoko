@@ -282,10 +282,10 @@ namespace PacGame
         }
         
         PGuiSession::~PGuiSession(){
-            delete mainWin;
             DestroyGUI();
             removeCallBacks();
             glfwEnable(GLFW_MOUSE_CURSOR);
+            delete mainWin;
         }
     }
 }
