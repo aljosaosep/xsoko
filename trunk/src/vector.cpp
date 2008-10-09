@@ -134,6 +134,16 @@ namespace PacGame
               
               return *this;
           }
+
+          PVector3D PVector3D::operator /(const float scalar)
+          {
+              this->x /= scalar;
+              this->y /= scalar;
+              this->z /= scalar;
+              
+              return *this;
+          }
+          
           
       }
 }
