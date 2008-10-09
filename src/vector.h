@@ -73,7 +73,7 @@ namespace PacGame
                   PVector3D operator - (PVector3D vector);
                   PVector3D operator * (PVector3D vector);
                   PVector3D operator * (const float scalar);
-         //         PVector2D operator / (PVector2D vector);
+                  PVector3D operator / (const float scalar);
 
           };
 

@@ -30,11 +30,12 @@
 #ifndef __PARTICLE_H
 #define	__PARTICLE_H
 
-#define MAX_PARTICLES 100
+#define MAX_PARTICLES 1000
 
 #include "../vector.h"
 #include <cstdio>
 #include <ctime>
+#include <GL/glfw.h>
 
 using namespace PacGame::GameClasses;
 
@@ -58,7 +59,7 @@ namespace PacGame
             };
             
             float slowdown;
-            float xpseed, yspeed;
+            float xspeed, yspeed;
             float delay;
             float zoom;
             
