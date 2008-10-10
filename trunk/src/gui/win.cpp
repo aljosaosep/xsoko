@@ -113,9 +113,9 @@ bool BuildFont()
         if(glfwLoadTexture2D(fontTextureFileName, GLFW_ORIGIN_UL_BIT)){
            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+           return BuildFont();
         } else
             return false;
-        return BuildFont();
     }
 
 // Component
@@ -1017,13 +1017,13 @@ void RenderGUI()
 {
   if(mainWin == NULL)
       return;
-    
+
   glMatrixMode(GL_PROJECTION);  // Change Matrix Mode to Projection
   glLoadIdentity();             // Reset View
   glOrtho(0, mWidth, 0, mHeight, 0, 100);
   glMatrixMode(GL_MODELVIEW);   // Change Projection to Matrix Mode
   glLoadIdentity();
-
+          
   glTranslatef(0, 0, -1);
   glEnable(GL_TEXTURE_2D);
   mainWin->Render();                 // draw the main window and it will draw child windows
@@ -1042,11 +1042,11 @@ void RenderGUI()
   glDisable(GL_TEXTURE_2D);
   glDisable(GL_BLEND);
 
-  glMatrixMode(GL_PROJECTION);  // Change Matrix Mode to Projection
+  /*glMatrixMode(GL_PROJECTION);  // Change Matrix Mode to Projection
   glLoadIdentity();             // Reset View
   gluPerspective(45.0, mWidth/mHeight, 1.0, 100.0);
   glMatrixMode(GL_MODELVIEW);   // Change Projection to Matrix Mode
-  glLoadIdentity();
+  glLoadIdentity();*/
 }
 
 /*------------------------------------------------------------------*

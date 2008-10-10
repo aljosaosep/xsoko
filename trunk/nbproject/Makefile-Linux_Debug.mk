@@ -27,8 +27,8 @@ OBJECTDIR=build/Linux_Debug/GNU-Linux-x86
 OBJECTFILES= \
 	${OBJECTDIR}/src/zip/zlib/infback.o \
 	${OBJECTDIR}/src/zip/ioapi.o \
-	${OBJECTDIR}/src/gui/gui.o \
 	${OBJECTDIR}/src/camera.o \
+	${OBJECTDIR}/src/gui/gui.o \
 	${OBJECTDIR}/src/zip/zlib/compress.o \
 	${OBJECTDIR}/src/game.o \
 	${OBJECTDIR}/src/zip/zlib/deflate.o \
@@ -59,7 +59,6 @@ OBJECTFILES= \
 	${OBJECTDIR}/src/renderer/renderer-texture.o \
 	${OBJECTDIR}/src/game-init.o \
 	${OBJECTDIR}/src/CommonStructures.o \
-	${OBJECTDIR}/src/renderer/particle.o \
 	${OBJECTDIR}/src/levelbox.o \
 	${OBJECTDIR}/src/renderer/renderer-core.o
 
@@ -74,14 +73,14 @@ CXXFLAGS=
 FFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-lglfw -lGL -lGLU -lalut -lopenal -lXrandr -lXxf86vm -lm
+LDLIBSOPTIONS=-lglfw -lGL -lGLU -lalut -lopenal -lboost_filesystem
 
 # Build Targets
-.build-conf: ${BUILD_SUBPROJECTS} dist/Linux_Debug/GNU-Linux-x86/trunk
+.build-conf: ${BUILD_SUBPROJECTS} dist/Linux_Debug/GNU-Linux-x86/xsoko
 
-dist/Linux_Debug/GNU-Linux-x86/trunk: ${OBJECTFILES}
+dist/Linux_Debug/GNU-Linux-x86/xsoko: ${OBJECTFILES}
 	${MKDIR} -p dist/Linux_Debug/GNU-Linux-x86
-	${LINK.cc} -o dist/Linux_Debug/GNU-Linux-x86/trunk ${OBJECTFILES} ${LDLIBSOPTIONS} 
+	${LINK.cc} -o dist/Linux_Debug/GNU-Linux-x86/xsoko ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
 ${OBJECTDIR}/src/zip/zlib/infback.o: src/zip/zlib/infback.c 
 	${MKDIR} -p ${OBJECTDIR}/src/zip/zlib
@@ -91,13 +90,13 @@ ${OBJECTDIR}/src/zip/ioapi.o: src/zip/ioapi.c
 	${MKDIR} -p ${OBJECTDIR}/src/zip
 	$(COMPILE.c) -g -o ${OBJECTDIR}/src/zip/ioapi.o src/zip/ioapi.c
 
-${OBJECTDIR}/src/gui/gui.o: src/gui/gui.cpp 
-	${MKDIR} -p ${OBJECTDIR}/src/gui
-	$(COMPILE.cc) -g -Wall -o ${OBJECTDIR}/src/gui/gui.o src/gui/gui.cpp
-
 ${OBJECTDIR}/src/camera.o: src/camera.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
 	$(COMPILE.cc) -g -Wall -o ${OBJECTDIR}/src/camera.o src/camera.cpp
+
+${OBJECTDIR}/src/gui/gui.o: src/gui/gui.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src/gui
+	$(COMPILE.cc) -g -Wall -o ${OBJECTDIR}/src/gui/gui.o src/gui/gui.cpp
 
 ${OBJECTDIR}/src/zip/zlib/compress.o: src/zip/zlib/compress.c 
 	${MKDIR} -p ${OBJECTDIR}/src/zip/zlib
@@ -219,10 +218,6 @@ ${OBJECTDIR}/src/CommonStructures.o: src/CommonStructures.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
 	$(COMPILE.cc) -g -Wall -o ${OBJECTDIR}/src/CommonStructures.o src/CommonStructures.cpp
 
-${OBJECTDIR}/src/renderer/particle.o: src/renderer/particle.cpp 
-	${MKDIR} -p ${OBJECTDIR}/src/renderer
-	$(COMPILE.cc) -g -Wall -o ${OBJECTDIR}/src/renderer/particle.o src/renderer/particle.cpp
-
 ${OBJECTDIR}/src/levelbox.o: src/levelbox.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
 	$(COMPILE.cc) -g -Wall -o ${OBJECTDIR}/src/levelbox.o src/levelbox.cpp
@@ -237,7 +232,7 @@ ${OBJECTDIR}/src/renderer/renderer-core.o: src/renderer/renderer-core.cpp
 # Clean Targets
 .clean-conf:
 	${RM} -r build/Linux_Debug
-	${RM} dist/Linux_Debug/GNU-Linux-x86/trunk
+	${RM} dist/Linux_Debug/GNU-Linux-x86/xsoko
 
 # Subprojects
 .clean-subprojects:

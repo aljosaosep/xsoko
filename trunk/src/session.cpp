@@ -33,11 +33,9 @@
 #include "gui/gui.h"
 #include <cstdio>
 #include <cmath>
-#include <sys/types.h>
-#include <dirent.h>
+#include <boost/filesystem.hpp>
 
-
-
+using namespace boost::filesystem;
 
 namespace PacGame
 {
@@ -184,18 +182,17 @@ namespace PacGame
 
                 ListBox* list = new ListBox(10,40,115,68);
                 list->onClick = &fpListBoxSelect;
-                DIR *dp;
-                struct dirent *dirp;
-                if((dp  = opendir("data")) != NULL) {
-                    while ((dirp = readdir(dp)) != NULL) {
-                        string filename = string(dirp->d_name);
-                        int index = filename.find_last_of('.');
-                        if(index > -1 && filename.compare(index+1,3,"lvl")==0)
-                            list->addItem(filename.substr(0,index));
-                    }
-                }                
-                closedir(dp);
-
+                
+                path dir_path("data");
+                directory_iterator end_itr; // default construction yields past-the-end
+                for (directory_iterator itr(dir_path);itr != end_itr; ++itr )
+                {
+                  if ( !is_directory(itr->status()) && extension(itr->path()) == ".lvl" )
+                  {
+                      string filename = itr->leaf();
+                      list->addItem(filename.substr(0,filename.find_last_of('.')));
+                  }
+                }
                 
                 fpWin->AddComponent(list);
                 btn = new Button(135,40,75,25,"Play");
@@ -229,6 +226,7 @@ namespace PacGame
                 // clear the buffer
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
                 glLoadIdentity();
+                glTranslatef(0, 0, -4);
                 // draw the figure
                 RenderGUI();
                 glfwSwapBuffers();
@@ -255,11 +253,11 @@ namespace PacGame
         void PGuiSession::LoadLevel(string levelPath){
             removeCallBacks();
             
-            //Move to better place
+            //move to better place
             glMatrixMode(GL_PROJECTION);						// Select The Projection Matrix
-            glLoadIdentity();							// Reset The Projection Matrix
+            glLoadIdentity();                                                         // Reset The Projection Matrix
             // Calculate The Aspect Ratio Of The Window
-            gluPerspective(45.0f,(float)640/480,0.1f,100.0f);
+            gluPerspective(45.0f,640.0f/480,0.1f,100.0f);
             glMatrixMode(GL_MODELVIEW);						// Select The Modelview Matrix
             glLoadIdentity();
             
