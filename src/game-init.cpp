@@ -61,12 +61,12 @@ namespace PacGame
 
               glfwSetWindowTitle(this->windowTitle.c_str()); // temporary
               
-              glMatrixMode(GL_PROJECTION);						// Select The Projection Matrix
+              /*glMatrixMode(GL_PROJECTION);						// Select The Projection Matrix
               glLoadIdentity();                                                         // Reset The Projection Matrix
               // Calculate The Aspect Ratio Of The Window
               gluPerspective(45.0f,(float)windowWidth/(float)windowHeight,0.1f,100.0f);
               glMatrixMode(GL_MODELVIEW);						// Select The Modelview Matrix
-              glLoadIdentity();
+              glLoadIdentity();*/
 
 
 //                      glfwSetKeyCallback(&PacGame::GameClasses::PGame::processKey); // sets keyboard input callback

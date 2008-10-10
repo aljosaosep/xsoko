@@ -586,6 +586,7 @@
             <linkerLibLibItem>GLU</linkerLibLibItem>
             <linkerLibLibItem>alut</linkerLibLibItem>
             <linkerLibLibItem>openal</linkerLibLibItem>
+            <linkerLibLibItem>boost_filesystem</linkerLibLibItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>

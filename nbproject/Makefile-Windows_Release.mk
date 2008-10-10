@@ -27,8 +27,8 @@ OBJECTDIR=build/Windows_Release/GNU-Windows
 OBJECTFILES= \
 	${OBJECTDIR}/src/zip/zlib/infback.o \
 	${OBJECTDIR}/src/zip/ioapi.o \
-	${OBJECTDIR}/src/gui/gui.o \
 	${OBJECTDIR}/src/camera.o \
+	${OBJECTDIR}/src/gui/gui.o \
 	${OBJECTDIR}/src/zip/zlib/compress.o \
 	${OBJECTDIR}/src/game.o \
 	${OBJECTDIR}/src/zip/zlib/deflate.o \
@@ -90,13 +90,13 @@ ${OBJECTDIR}/src/zip/ioapi.o: src/zip/ioapi.c
 	${MKDIR} -p ${OBJECTDIR}/src/zip
 	$(COMPILE.c) -O2 -o ${OBJECTDIR}/src/zip/ioapi.o src/zip/ioapi.c
 
-${OBJECTDIR}/src/gui/gui.o: src/gui/gui.cpp 
-	${MKDIR} -p ${OBJECTDIR}/src/gui
-	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/src/gui/gui.o src/gui/gui.cpp
-
 ${OBJECTDIR}/src/camera.o: src/camera.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
 	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/src/camera.o src/camera.cpp
+
+${OBJECTDIR}/src/gui/gui.o: src/gui/gui.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src/gui
+	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/src/gui/gui.o src/gui/gui.cpp
 
 ${OBJECTDIR}/src/zip/zlib/compress.o: src/zip/zlib/compress.c 
 	${MKDIR} -p ${OBJECTDIR}/src/zip/zlib
