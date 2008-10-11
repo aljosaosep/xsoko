@@ -14,12 +14,9 @@
 using namespace PacGame::GameClasses;
 
   extern void SetGuiSession(PGuiSession* session);
-  extern void closeAction();
-  extern void runAction();
-  extern void fpShow();
-  extern void fpClose();
-  extern void fpPlay();
-  extern void fpListBoxSelect(string selected);
+  extern void SetGameSession(PGameSession* session);
+  extern Window* createMainMenu();
+  extern Window* createGameMenu();
 
 #endif	/* _GUI_H */
 

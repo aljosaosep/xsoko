@@ -757,6 +757,18 @@ namespace PacGame
               
           }
           
+          /**************************************************************
+           * Function which reset level data 
+           **************************************************************/
+          void PLevel::reset()
+          {
+              releaseLevel();
+              teleports.clear();
+              holds.clear();
+              endgameFlag = false;
+              loadLevelFromFile();
+          }
+          
            /**************************************************************
            * Function returns pointer to player in level
            **************************************************************/
@@ -929,6 +941,7 @@ namespace PacGame
                       data[i][j] = NULL; 
                   }
               }
+              delete player;
               Messages::infoMessage("Level data successfully released from memory.");              
           }
           

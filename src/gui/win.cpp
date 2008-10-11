@@ -277,10 +277,10 @@ void Window::Render()
         glTexCoord2f((float)6/128, 1-(float)27/128);  glVertex2f(6, -27);
 
         // draw the main body of the window
-        glTexCoord2f((float) 9/128, (float)96/128);     glVertex2f(6, 0);
+        glTexCoord2f((float) 9/128, (float)96/128);     glVertex2f(6, -27);
         glTexCoord2f((float) 9/128, (float)64/128);     glVertex2f(6, 25-height);
         glTexCoord2f((float)39/128, (float)64/128);     glVertex2f(width-7, 25-height);
-        glTexCoord2f((float)39/128, (float)96/128);     glVertex2f(width-7, 0);
+        glTexCoord2f((float)39/128, (float)96/128);     glVertex2f(width-7, -27);
 
         // right side of window.
         glTexCoord2f(1-(float)7/128, 1-(float)27/128);glVertex2f(width-7, -27);
@@ -1025,7 +1025,8 @@ void RenderGUI()
   glLoadIdentity();
           
   glTranslatef(0, 0, -1);
-  glEnable(GL_TEXTURE_2D);
+  //glEnable(GL_TEXTURE_2D);
+  glBindTexture(GL_TEXTURE_2D,guiTexture);
   mainWin->Render();                 // draw the main window and it will draw child windows
   
   //draw the mouse
@@ -1039,7 +1040,7 @@ void RenderGUI()
     glTexCoord2f((float)72/128, (float)32/128); glVertex3i(wmouse.x+32, wmouse.y-32, 1);
     glTexCoord2f((float)41/128, (float)32/128); glVertex3i(wmouse.x,    wmouse.y-32, 1);
   glEnd();
-  glDisable(GL_TEXTURE_2D);
+  //glDisable(GL_TEXTURE_2D);
   glDisable(GL_BLEND);
 
   /*glMatrixMode(GL_PROJECTION);  // Change Matrix Mode to Projection

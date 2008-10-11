@@ -42,21 +42,24 @@ namespace PacGame
         {
         private: 
             PLevel *level;    // level object
+            bool visible;
             
         public:
             
             // constructors
-            PInputSystem(PLevel *level) : level(level) { }
-            PInputSystem() : level(NULL){ }
+            PInputSystem(PLevel *level) : level(level), visible(false) { }
+            PInputSystem() : level(NULL), visible(false) { }
             
             // process function
             void process();
             
             // setters
             void setLevel(PLevel *level);
+            void setGameMenuVisible(bool visible);
             
             // getters
             PLevel* getLevel() const;
+            bool isGameMenuVisible();
         }; 
     }
 }
