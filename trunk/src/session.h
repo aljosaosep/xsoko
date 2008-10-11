@@ -50,16 +50,20 @@ namespace PacGame
             PInputSystem *input;
             unsigned moves;  
             double rotations_per_tick;
-            
+            Window* gameWin;
+            bool forceQuit;
         public:
-            // constructors
-            PGameSession(PLevel *level, PInputSystem *input) : level(level), camera(level->getGameCoreHandle()->getCamera()), input(input), moves(0),  rotations_per_tick(0.1) {}
-            PGameSession() : level(NULL), player(NULL), camera(NULL), input(NULL),  moves(0),rotations_per_tick(0.1)   {}
+            // constructors & destructor
+            PGameSession(PLevel *level, PInputSystem *input);
+            PGameSession();
+            ~PGameSession();
             
             // methods
             bool run();
             bool initialize();
             void mainLoop();
+            void Quit();
+            void resetLevel();
             
             // setters
             void setLevel(PLevel *level);
