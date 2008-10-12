@@ -41,49 +41,55 @@ namespace PacGame
             glfwEnable(GLFW_STICKY_KEYS);  // enables sticky keys
             
             // in next lines, we check if some keys has been pressed
-            if((glfwGetKey(GLFW_KEY_UP) == GLFW_PRESS) && (glfwGetKey(GLFW_KEY_UP) == GLFW_RELEASE))  // checks up key
-            {
-                this->level->moveObject(Aliases::up, this->level->getPlayerHandle());  // move object player up
-            }
-            else if((glfwGetKey(GLFW_KEY_DOWN) == GLFW_PRESS) && (glfwGetKey(GLFW_KEY_DOWN) == GLFW_RELEASE)) // checks down key
-            {
-                this->level->moveObject(Aliases::down, this->level->getPlayerHandle()); // move object player down             
-            }
-            else if((glfwGetKey(GLFW_KEY_LEFT) == GLFW_PRESS) && (glfwGetKey(GLFW_KEY_LEFT) == GLFW_RELEASE)) // checks left key
-            {
-                this->level->moveObject(Aliases::left, this->level->getPlayerHandle()); // move object player left             
-            }
-            else if((glfwGetKey(GLFW_KEY_RIGHT) == GLFW_PRESS) && (glfwGetKey(GLFW_KEY_RIGHT) == GLFW_RELEASE)) // checks right key
-            {
-                this->level->moveObject(Aliases::right, this->level->getPlayerHandle()); // move object player right                  
-            }
-            else if((glfwGetKey(GLFW_KEY_SPACE) == GLFW_PRESS) && (glfwGetKey(GLFW_KEY_SPACE) == GLFW_RELEASE))
-            {
-                Messages::infoMessage("Key space pressed, dumping...");                
-                this->level->print();              
-            }
-            else if((glfwGetKey('D') == GLFW_PRESS) && (glfwGetKey('D') == GLFW_RELEASE))
-            {
-                if(this->level->getPlayerHandle()->getBombs() > 0)
+            if(!visible){
+                if((glfwGetKey(GLFW_KEY_UP) == GLFW_PRESS) && (glfwGetKey(GLFW_KEY_UP) == GLFW_RELEASE))  // checks up key
                 {
-                    this->level->addDroppedBomb(this->getLevel()->getPlayerHandle()->getI(), this->getLevel()->getPlayerHandle()->getJ());
-                    this->level->getPlayerHandle()->decBombs();
-                    
-                    // vsekaj zvok
-                    ALuint helloBuffer, helloSource;
-                    ALenum error;
-                    helloBuffer = alutCreateBufferFromFile("sound/bombtiq.wav");
-                    if (helloBuffer == AL_NONE)
-                    {
-                        error = alutGetError();
-                        cout << "Napaka: " << alutGetErrorString(error) << endl;
-                    }
-                    alGenSources (1, &helloSource);
-                    alSourcei (helloSource, AL_BUFFER, helloBuffer);
-                    alSourcePlay (helloSource);
-                    
+                    this->level->moveObject(Aliases::up, this->level->getPlayerHandle());  // move object player up
                 }
-              //  this->level->setDetonatedBomb()
+                else if((glfwGetKey(GLFW_KEY_DOWN) == GLFW_PRESS) && (glfwGetKey(GLFW_KEY_DOWN) == GLFW_RELEASE)) // checks down key
+                {
+                    this->level->moveObject(Aliases::down, this->level->getPlayerHandle()); // move object player down             
+                }
+                else if((glfwGetKey(GLFW_KEY_LEFT) == GLFW_PRESS) && (glfwGetKey(GLFW_KEY_LEFT) == GLFW_RELEASE)) // checks left key
+                {
+                    this->level->moveObject(Aliases::left, this->level->getPlayerHandle()); // move object player left             
+                }
+                else if((glfwGetKey(GLFW_KEY_RIGHT) == GLFW_PRESS) && (glfwGetKey(GLFW_KEY_RIGHT) == GLFW_RELEASE)) // checks right key
+                {
+                    this->level->moveObject(Aliases::right, this->level->getPlayerHandle()); // move object player right                  
+                }
+                else if((glfwGetKey(GLFW_KEY_SPACE) == GLFW_PRESS) && (glfwGetKey(GLFW_KEY_SPACE) == GLFW_RELEASE))
+                {
+                    Messages::infoMessage("Key space pressed, dumping...");                
+                    this->level->print();              
+                }
+                else if((glfwGetKey('D') == GLFW_PRESS) && (glfwGetKey('D') == GLFW_RELEASE))
+                {
+                    if(this->level->getPlayerHandle()->getBombs() > 0)
+                    {
+                        this->level->addDroppedBomb(this->getLevel()->getPlayerHandle()->getI(), this->getLevel()->getPlayerHandle()->getJ());
+                        this->level->getPlayerHandle()->decBombs();
+
+                        // vsekaj zvok
+                        ALuint helloBuffer, helloSource;
+                        ALenum error;
+                        helloBuffer = alutCreateBufferFromFile("sound/bombtiq.wav");
+                        if (helloBuffer == AL_NONE)
+                        {
+                            error = alutGetError();
+                            cout << "Napaka: " << alutGetErrorString(error) << endl;
+                        }
+                        alGenSources (1, &helloSource);
+                        alSourcei (helloSource, AL_BUFFER, helloBuffer);
+                        alSourcePlay (helloSource);
+
+                    }
+                  //  this->level->setDetonatedBomb()
+                }
+            }
+            if((glfwGetKey(GLFW_KEY_ESC) == GLFW_PRESS) && (glfwGetKey(GLFW_KEY_ESC) == GLFW_RELEASE))
+            {
+                visible = !visible;
             }
             
             // camera values; if you need to move camera, uncomment this code
@@ -125,6 +131,14 @@ namespace PacGame
         PLevel* PInputSystem::getLevel() const
         {
             return this->level;
+        }
+        
+        void PInputSystem::setGameMenuVisible(bool visible){
+            this->visible = visible;
+        }
+        
+        bool PInputSystem::isGameMenuVisible(){
+            return visible;
         }
     }
 }
