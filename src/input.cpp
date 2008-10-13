@@ -67,21 +67,24 @@ namespace PacGame
                 {
                     if(this->level->getPlayerHandle()->getBombs() > 0)
                     {
-                        this->level->addDroppedBomb(this->getLevel()->getPlayerHandle()->getI(), this->getLevel()->getPlayerHandle()->getJ());
-                        this->level->getPlayerHandle()->decBombs();
-
-                        // vsekaj zvok
-                        ALuint helloBuffer, helloSource;
-                        ALenum error;
-                        helloBuffer = alutCreateBufferFromFile("sound/bombtiq.wav");
-                        if (helloBuffer == AL_NONE)
+                        if(this->level->addDroppedBomb(this->getLevel()->getPlayerHandle()->getI(), this->getLevel()->getPlayerHandle()->getJ()))
                         {
-                            error = alutGetError();
-                            cout << "Napaka: " << alutGetErrorString(error) << endl;
+                    //        this->level->
+                            this->level->getPlayerHandle()->decBombs();
+
+                            // vsekaj zvok
+                            ALuint helloBuffer, helloSource;
+                            ALenum error;
+                            helloBuffer = alutCreateBufferFromFile("sound/bombtiq.wav");
+                            if (helloBuffer == AL_NONE)
+                            {
+                                error = alutGetError();
+                                cout << "Napaka: " << alutGetErrorString(error) << endl;
+                            }
+                            alGenSources (1, &helloSource);
+                            alSourcei (helloSource, AL_BUFFER, helloBuffer);
+                            alSourcePlay (helloSource);
                         }
-                        alGenSources (1, &helloSource);
-                        alSourcei (helloSource, AL_BUFFER, helloBuffer);
-                        alSourcePlay (helloSource);
 
                     }
                   //  this->level->setDetonatedBomb()

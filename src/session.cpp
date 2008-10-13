@@ -37,6 +37,7 @@
 
 #include "session.h"
 #include "gui/gui.h"
+#include "renderer/particle.h"
 #include <cstdio>
 #include <cmath>
 //#include <boost/filesystem.hpp>
@@ -62,6 +63,10 @@ namespace PacGame
             unsigned frames = 0;
             
             this->camera->fitCameraToLevel(this->level->getWidth(), this->level->getHeight());
+            
+            RenderMaschine::PParticleEngine particles;
+            
+            
             
             while(1/*this->isGameRunning*/)
             {
@@ -91,6 +96,29 @@ namespace PacGame
                 glRotatef(-90.0, 0.0, 0.0, 1.0);
 
                 this->level->draw();
+            //             glTranslatef(1.0,0.0, -3.0);
+            //    glPushMatrix();
+              //  glDisable(GL_LIGHTING);
+           //     glColor3f(1.0,0.0,0.0);
+             //                   particles.process();
+
+            /*    glPointSize(10.0);
+                glBegin(GL_POINTS);
+                glColor3f(1.0, 0.0,0.0);
+                glVertex3f(0.8,0.8,0.0);
+              //                  glVertex3f(0.3,1.7,0.0);
+            //    glColor3f(0.0, 1.0,0.0);                
+            //    glVertex3f(0.5,0.0,0.0);
+           //     glColor3f(0.0, 0.0,1.0);                
+                glVertex3f(0.0,0.5,0.0);
+                
+                
+                glEnd();*/
+             //   glPopMatrix();
+             //   this->level->getGameCoreHandle()->getRenderer()->drawCube(0.0,0.0,1.0,0.0);
+                
+           //     glDisable(GL_LIGHTING);
+          //      particles.process();
                 
                 if(this->input->isGameMenuVisible()){
                     glDisable(GL_LIGHTING);
@@ -101,6 +129,10 @@ namespace PacGame
                     // Calculate The Aspect Ratio Of The Window
                     gluPerspective(45.0f,640.0f/480,0.1f,100.0f);
                     glMatrixMode(GL_MODELVIEW);						// Select The Modelview Matrix
+                    
+                    // Aljosa: two lines that follows are blend-gui-to-game fix ;)
+                    glEnable(GL_DEPTH_TEST);    // after drawing GUI, enable depth test
+                    glEnable(GL_BLEND);         // and blending
                     //glLoadIdentity();
                 }
                 frames ++;
