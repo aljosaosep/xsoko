@@ -69,7 +69,7 @@ using namespace PacGame::RenderMaschine;
 #define OW_CUBE_D 6 // (POnewayCube)
 #define BOMB 7 // (PBomb)
 #define U_WALL 8 // (PUnsolidWall)
-#define DET_BOMB 9
+#define D_BOMB 9 // (PDetonatedBomb)
 
 // id's of resourcev for objects
 #define FLOOR_RES 0
@@ -148,7 +148,7 @@ namespace PacGame
                   unsigned getHeight();
                   
                   // bomb related
-                  void addDroppedBomb(int i, int j);
+                  bool addDroppedBomb(int i, int j);
                   void checkAndApplyBombBlast(int i, int j);
                   void processBombs(double current_time);
 

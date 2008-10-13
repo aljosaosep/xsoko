@@ -980,9 +980,17 @@ namespace PacGame
                     }
                 }              
           }
-          void PLevel::addDroppedBomb(int i, int j)
+          bool PLevel::addDroppedBomb(int i, int j)
           {
-              this->bombs.push_back(new PDroppedBomb(i, j));
+          //    if(data[i][j]->returnFirstChild() == NULL)
+           //   {
+            //      cout<<"I can attach bomb here ;)"<<endl;
+            //      data[i][j]->attachToRoot(new PacGame::GameClasses::GameObjects::PDetonatedBomb());
+                  this->bombs.push_back(new PDroppedBomb(i, j));
+                  
+                  return true;
+           //   }
+          //    return false;
           }
           
           void PLevel::checkAndApplyBombBlast(int i, int j)

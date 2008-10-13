@@ -369,24 +369,17 @@ namespace PacGame
             /*****************************************
              PDetonatedBomb methods
              *****************************************/
-            void PDetonatedBomb::draw()
-            {
-                glColor3f(1.0, 0.0, 0.0);
-                glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(BOMB_RES));
-                this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, 0.0);
-            }
+            void PDetonatedBomb::draw() { /* override */ }
             
             void PDetonatedBomb::print()
             {
                 cout<<"| D_B ";
             }
             
-            short PDetonatedBomb::isPlayerMovePossible()
-            {
-                return 0;
-            }
-            
-            
+            short PDetonatedBomb::isPlayerMovePossible() 
+            { 
+                return 0; 
+            } 
         }
     }
 }

@@ -57,6 +57,7 @@
 #define OW_CUBE_D 6 // (POnewayCube)
 #define BOMB 7 // (PBomb)
 #define U_WALL 8 // (PUnsolidWall)
+#define D_BOMB 9 // (PDetonatedBomb)
 
 // id's of resourcev for objects
 #define FLOOR_RES 0
@@ -128,7 +129,7 @@ namespace PacGame
               {
               private:
               public:
-                  PFloor(PCore *core) { this->id = 0; this->core = core; }
+                  PFloor(PCore *core) { this->id = FLOOR; this->core = core; }
                   void draw();
                   void print();             
                   short isPlayerMovePossible() ;
@@ -145,7 +146,7 @@ namespace PacGame
               {
               private:
               public:
-                  PSolidWall(PCore *core) { this->id = 1; this->core = core; }
+                  PSolidWall(PCore *core) { this->id = S_WALL; this->core = core; }
                   void draw();
                   void print();             
                   short isPlayerMovePossible() ;
@@ -162,7 +163,7 @@ namespace PacGame
               {
               private:
               public:
-                  PUnsolidWall(PCore *core) { this->id = 8; this->core = core; }
+                  PUnsolidWall(PCore *core) { this->id = U_WALL; this->core = core; }
                   void draw();
                   void print();              
                   short isPlayerMovePossible() ;
@@ -210,7 +211,7 @@ namespace PacGame
               {
               private:
               public:
-                  PBridge(PCore *core) { this->id = 2; this->core = core; }
+                  PBridge(PCore *core) { this->id = BRIDGE; this->core = core; }
                   void draw();
                   void print();             
                   short isPlayerMovePossible() ;
@@ -227,7 +228,7 @@ namespace PacGame
               {
               private:
               public:
-                  PVoid() { this->id = 3; }
+                  PVoid() { this->id = VOID; }
                   void draw();
                   void print();             
                   short isPlayerMovePossible() ;
@@ -244,7 +245,7 @@ namespace PacGame
               {
               private:
               public:
-                  PCube(int i, int j, PCore *core) { this->i=i; this->j = j; this->id=2; this->core = core; }
+                  PCube(int i, int j, PCore *core) { this->i=i; this->j = j; this->id=CUBE; this->core = core; }
                   void draw();
                   void print();             
                   short isPlayerMovePossible(); //  { return 0; }
@@ -326,7 +327,7 @@ namespace PacGame
               {
               private:
               public:
-                  PBomb(int i, int j, PCore *core){ this->i=i; this->j = j; this->id = 7; this->core = core; }
+                  PBomb(int i, int j, PCore *core){ this->i=i; this->j = j; this->id = BOMB; this->core = core; }
                   void draw();
                   void print();
                   short isPlayerMovePossible();
@@ -343,7 +344,7 @@ namespace PacGame
               {
               private:
               public:
-                  PDetonatedBomb(PCore *core){ this->id = 9; this->core = core; }
+                  PDetonatedBomb(){ this->id = D_BOMB;  }
                   void draw();
                   void print();
                   short isPlayerMovePossible();
