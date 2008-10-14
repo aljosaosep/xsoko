@@ -54,6 +54,11 @@ namespace PacGame
             {
                     this->j = j;
             }
+            
+            void PLevelObject::toogleBombActivity()
+            {
+                this->containsActiveBomb == false ? this->containsActiveBomb = true : this->containsActiveBomb = false;
+            }
 
             int PLevelObject::getI() const  // i index getter
             {
@@ -63,6 +68,11 @@ namespace PacGame
             int PLevelObject::getJ() const  // j index getter
             {
                     return this->j;
+            }
+            
+            bool PLevelObject::isActiveBomb() const
+            {
+                return this->containsActiveBomb;
             }
 
             unsigned short PLevelObject::getId() const
