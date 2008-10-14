@@ -74,7 +74,7 @@ namespace PacGame
                 double current_time = glfwGetTime(),
                 delta_rotate = (current_time - old_time) * rotations_per_tick * 360;
                 
-              cout<<"FPS: "<<(double) frames /  old_time<<endl;
+         //     cout<<"FPS: "<<(double) frames /  old_time<<endl;
                 this->level->processBombs(current_time);
                 old_time = current_time;
                 

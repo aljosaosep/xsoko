@@ -94,21 +94,24 @@ namespace PacGame
               protected:
                   int i, j;     // represents indexes of element on level matrix
                   unsigned short id; // number, that represents object in file
+                  bool containsActiveBomb;
                   PCore *core;
 
               public:
-                  PLevelObject() : i(0), j(0), id(0) {}// constructors          
-                  PLevelObject(unsigned i, unsigned j) : i(i), j(j) {}
+                  PLevelObject() : i(0), j(0), id(0), containsActiveBomb(0) {}// constructors          
+                  PLevelObject(unsigned i, unsigned j) : i(i), j(j), containsActiveBomb(0) {}
 
 
                   // setters
                   void setIndex(int i, int j);
                   void setI(int i);
                   void setJ(int j);
+                  void toogleBombActivity();
 
                   // getters
                   int getI() const;
                   int getJ() const;
+                  bool isActiveBomb() const;
                   unsigned short getId() const;
 
                   // virtual functions to override

@@ -219,7 +219,7 @@ namespace PacGame
               }  /// END OF TELEPORT SECTION
 
               // CONDITIONALLY POSSIBLE MOVES
-              else if(data[i2][j2]->isPlayerMovePossible()==2)  // move is conditionally possible; we check children
+              else if(data[i2][j2]->isPlayerMovePossible()==2  && (!data[i2][j2]->isActiveBomb()))  // move is conditionally possible; we check children
               {
                   cout<<"Conditially possible move."<<endl;
                   if(data[i2][j2]->returnFirstChild() == NULL)  // move is possible since there are no children
@@ -874,9 +874,12 @@ namespace PacGame
 
                   for(unsigned j=0; j<this->height; j++)
                   {
-                      PObject *obj = data[i][j]->returnFirstChild(); 
+                      PLevelObject *obj = dynamic_cast<PLevelObject*>(data[i][j]->returnFirstChild()); 
                       if(obj!=NULL) // if there is boject binded
+                      {
                           obj->print(); // prints it
+                     //     cout<<"ACTIVE BOMB: "<<obj->isActiveBomb()<<false;
+                      }
                       else
                           if(data[i][j]!=NULL)
                             
@@ -977,20 +980,22 @@ namespace PacGame
                         
                         // remove first dropped bomb
                         this->bombs.erase(this->bombs.begin());
+                        data[firstDroppedBomb->i][firstDroppedBomb->j]->toogleBombActivity();
                     }
                 }              
           }
+          
           bool PLevel::addDroppedBomb(int i, int j)
           {
-          //    if(data[i][j]->returnFirstChild() == NULL)
-           //   {
-            //      cout<<"I can attach bomb here ;)"<<endl;
+              if(!data[i][j]->isActiveBomb())
+              {
+                  cout<<"I can attach bomb here ;)"<<endl;
             //      data[i][j]->attachToRoot(new PacGame::GameClasses::GameObjects::PDetonatedBomb());
+                  data[i][j]->toogleBombActivity();
                   this->bombs.push_back(new PDroppedBomb(i, j));
-                  
                   return true;
-           //   }
-          //    return false;
+              }
+              return false;
           }
           
           void PLevel::checkAndApplyBombBlast(int i, int j)

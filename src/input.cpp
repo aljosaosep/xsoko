@@ -71,6 +71,8 @@ namespace PacGame
                         {
                     //        this->level->
                             this->level->getPlayerHandle()->decBombs();
+                            
+                            
 
                             // vsekaj zvok
                             ALuint helloBuffer, helloSource;
