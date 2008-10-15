@@ -50,7 +50,7 @@ namespace PacGame
                   this->x = x;
           }
 
-          void PVector3D::setCoordY(float _y)
+          void PVector3D::setCoordY(float y)
           {
                   this->y = y;
           }

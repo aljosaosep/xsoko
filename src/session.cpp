@@ -64,7 +64,7 @@ namespace PacGame
             
             this->camera->fitCameraToLevel(this->level->getWidth(), this->level->getHeight());
             
-            RenderMaschine::PParticleEngine particles;
+        //    RenderMaschine::PParticleEngine particles(0.0, 0.0, -0.7);
             
             
             
@@ -96,11 +96,11 @@ namespace PacGame
                 glRotatef(-90.0, 0.0, 0.0, 1.0);
 
                 this->level->draw();
-            //             glTranslatef(1.0,0.0, -3.0);
+       //                  glTranslatef(0.0,0.0, -1.0);
             //    glPushMatrix();
               //  glDisable(GL_LIGHTING);
            //     glColor3f(1.0,0.0,0.0);
-             //                   particles.process();
+                      //          particles.process();
 
             /*    glPointSize(10.0);
                 glBegin(GL_POINTS);

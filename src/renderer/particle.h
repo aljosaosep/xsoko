@@ -30,7 +30,7 @@
 #ifndef __PARTICLE_H
 #define	__PARTICLE_H
 
-#define MAX_PARTICLES 1000
+#define MAX_PARTICLES 700
 
 #include "../vector.h"
 #include <cstdio>
@@ -67,8 +67,10 @@ namespace PacGame
             
         public:
             PParticleEngine();          // constructor
+            PParticleEngine(float ox, float oy, float oz);          // constructor            
             
-            void init();                // initialization
+            void init(float ox, float oy, float oz);                // initialization
+            void setOrgin(float x, float y, float z);
             
             bool process();             // process - main particle function
         };
