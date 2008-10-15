@@ -40,6 +40,7 @@
 #include <iomanip>
 
 #include "level.h"
+#include "renderer/particle.h"
 
 using namespace std;
 using namespace PacGame::GameClasses::GameObjects;
@@ -1000,6 +1001,8 @@ namespace PacGame
           
           void PLevel::checkAndApplyBombBlast(int i, int j)
           {
+              PacGame::RenderMaschine::PParticleEngine particle(i*2.0, j*2.0, 0.5);
+              particle.process();
               if(data[i][j]->returnFirstChild() != NULL)
               {
                   
