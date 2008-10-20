@@ -50,83 +50,129 @@ namespace PacGame
         {
             srand(time(NULL));
             
-            this->slowdown = 2.0;
-            this->xspeed = 0.0;
-            this->yspeed = 0.0;
-      //      this->zoom = -40.0;
+            this->origin.setCoordinates(ox, oy, oz);
+                        
+            this->PARTICLE_SIZE = 0.5;
+            this->INITIAL_SPREAD = 100;
+            this->SPEED_DECAY = 0.00005;
             
-         
-            for(int i=0; i<MAX_PARTICLES; i++)
+            // make all particles DEAD
+            for(int i=0; i<NUM_PARTICLES; i++)
             {
-                this->particles[i].position.setCoordinates(ox, oy, oz);
-
-                this->particles[i].active = true;   // set all particles live at beginning
-                this->particles[i].life = 1.0;      // all particles has full life at beginning
-                this->particles[i].fade = float(rand()%100) / 1000.0 + 0.003;   // very little random value; how fast particle fades out
-                
-                /// set color!
-                particles[i].r = 1.0;//(rand()%10)/10;
-                particles[i].g = (rand()%10)/10;
-                particles[i].b = (rand()%10)/10;
-                
-                this->particles[i].vector.setCoordinates((rand()%50 - 26)*10,(rand()%50 - 26)*10,(rand()%50 - 26)*10);
-                
-            /*    this->particles[i].vector.setCoordX((rand()%50 - 26)*10);   // set motion vector, coord x
-                this->particles[i].vector.setCoordY((rand()%50 - 26)*10);   // set motion vector, coord y
-                this->particles[i].vector.setCoordZ((rand()%50 - 26)*10);   // set motion vector, coord z */
-                
-                this->particles[i].gravity.setCoordX(0.0);  // no gravity in X dir at begginning
-                this->particles[i].gravity.setCoordX(-0.8); // slight Y-negative gravity
-                this->particles[i].gravity.setCoordX(0.0);  // no gravity in Z dir at beginning
+         //       this->particles[i].position.setCoordinates(ox, oy, oz); // add. by aljosa
+                this->particles[i].life = 0.0;
+                this->particles[i].r = 1.0;
+                this->particles[i].b = 0.0;
             }
         }
         
         void PParticleEngine::setOrgin(float x, float y, float z)
         {
-            for(int i=0; i<MAX_PARTICLES; this->particles[i++].position.setCoordinates(x, y, z));      
+            for(int i=0; i<NUM_PARTICLES; this->particles[i++].position.setCoordinates(x, y, z));      
         }
         
-        bool PParticleEngine::process()
+        void PParticleEngine::process(float ticks)
         {
-            for(int i=0; i<MAX_PARTICLES; i++)
+ /*           
+              int MaxSpread,MaxParticles,Index;
+  float Spread,Angle;  */
+  
+            int maxSpread, maxParticles;
+            float spread, angle;
+            
+            maxSpread = this->INITIAL_SPREAD;
+            maxParticles = NUM_PARTICLES/2;
+
+            for(int i=0; i<maxParticles; i++)
             {
-                if(particles[i].active == true)
+                // if particle is alive and well
+                if(this->particles[i].life > 0.0)
                 {
-                    PVector3D currentParticlePos = particles[i].position;
-                    cout<<"particle pos: "<<particles[i].position.getCoordX()<<' '<<particles[i].position.getCoordY()<<' '<<particles[i].position.getCoordZ()<<' '<<endl;
-                    cout<<"fade:" <<particles[i].fade<<endl;
-                    cout<<"life:" <<particles[i].life<<endl;
-            //        glPointSize(10.0);
-                    glPushMatrix();
-                    glTranslatef(0.0, 0.0, 0.0);
-                        glPointSize(2.0);
-                        glBegin(GL_POINTS);
-                            glColor4f(1.0, (float((rand()%10))/10.0), (float((rand()%10))/10.0), particles[i].life);
-                            glVertex3f(currentParticlePos.getCoordX(),currentParticlePos.getCoordY(),currentParticlePos.getCoordZ());
-                        glEnd();
-                    glPopMatrix();
+              //      this->particles[i].position = this->particles[i].position + (this->particles[i].vector * ticks);
                     
-                    particles[i].position = particles[i].position + particles[i].vector/(slowdown*1500);	
-
-                    particles[i].vector = particles[i].vector + particles[i].gravity;
+                    this->particles[i].position.x += (this->particles[i].vector.x * ticks);
+                    this->particles[i].position.y += (this->particles[i].vector.y * ticks);
+                     this->particles[i].position.z += (this->particles[i].vector.z * ticks);   
+                     
+                  //                       cout<<endl<<"position after pos update: ";
+               //     this->particles[i].position.printCoordinates();
                     
-                    particles[i].life -= particles[i].fade;      // we take a little of life away
+                    this->particles[i].vector.z -= (this->SPEED_DECAY * ticks);
                     
-                    if(particles[i].life < 0.0)
+                  //  this->particles[i].vector.setCoordZ(this->particles[i].vector.getCoordZ() - this->decaySpeed);
+                    
+                    // bounce particle from floor
+                    if(this->particles[i].position.x > -10.0 && this->particles[i].position.x < 10.0 &&
+                        this->particles[i].position.z > -10.0 && this->particles[i].position.z < 10.0)
                     {
-                        particles[i].active = false;
-                       
-          /*              particles[i].life = 1.0;
-                        particles[i].fade = float(rand()%100) / 1000.0 + 0.003;
-
-                        particles[i].vector.setCoordX(this->xspeed + float((rand()%60)-32.0));
-                        particles[i].vector.setCoordX(this->yspeed + float((rand()%60)-32.0));   
-                        particles[i].vector.setCoordZ(float((rand()%60)-30.0));                */   
+                        if(this->particles[i].position.y < this->PARTICLE_SIZE)
+                        {
+                            this->particles[i].position.y = this->PARTICLE_SIZE;
+                            this->particles[i].life -= 0.01;
+                            this->particles[i].vector.y *= (-0.06);
+                        }
                     }
                     
+                    this->particles[i].life -= (0.001 * ticks);
+                }
+                else  // spawn a new particle
+                {
+
+                    // reset position
+                    this->particles[i].position.setCoordinates(0.0, this->PARTICLE_SIZE, 0.0); 
+                    
+                    spread = (float)(rand()%maxSpread)/10000;
+                    angle = (float)(rand()%157)/100; // quarter of circle
+
+                    this->particles[i].vector.x = cos(angle)*spread;
+                    this->particles[i].vector.z = cos(angle)*spread;
+
+                    // randomly reverse x and z vec
+                    if(rand()%2)
+                        this->particles[i].vector.x = -this->particles[i].vector.x;
+
+                    if(rand()%2)
+                        this->particles[i].vector.z = -this->particles[i].vector.z;   
+
+                    // set initial speed
+                    this->particles[i].vector.y = (float)(rand()%500)/10000;
+
+             //       cout<<endl<<"vector initiated as: ";
+             //       this->particles[i].vector.printCoordinates();
+            //        cout<<endl;
+
+                    // get random life and color
+                    this->particles[i].life = (float)(rand()%100)/100.0;
+                    this->particles[i].g = 0.2 + ((float)(rand()%50)/100);
+
+               //     this->particles[i].position.setCoordY(this->particleSize);
+             //       this->particles[i].position.setCoord     
                 }
             }
-            return true;
+            
+            glPushMatrix();
+            glDisable(GL_LIGHTING);
+            glTranslatef(this->origin.x, this->origin.y, this->origin.z );
+                    
+            // draw particles
+            for(int i=0; i<maxParticles; i++)
+            {
+             //   cout<<endl<<"particle pos:"<<this->particles[i].position.getCoordX()<<' '<<this->particles[i].position.getCoordY()<<' '<<this->particles[i].position.getCoordZ()<<endl;
+            //    cout<<endl<<"position at drawing: ";
+          //      this->particles[i].position.printCoordinates();
+         //       cout<<endl;
+                glPointSize(3.0);
+                glPushMatrix();
+                    glColor4f(this->particles[i].r, this->particles[i].g, this->particles[i].b, this->particles[i].life);
+                    glTranslatef(this->particles[i].position.getCoordX(), this->particles[i].position.getCoordY(), this->particles[i].position.getCoordZ());
+                    glBegin(GL_POINTS);
+                        glVertex3f(0.0,0.0,0.0);
+                    glEnd();
+
+                glPopMatrix();
+            }
+            glEnable(GL_LIGHTING);
+            glPopMatrix();
         }
     }
 }

@@ -1001,8 +1001,9 @@ namespace PacGame
           
           void PLevel::checkAndApplyBombBlast(int i, int j)
           {
-              PacGame::RenderMaschine::PParticleEngine particle(i*2.0, j*2.0, 0.5);
-              particle.process();
+       //       PacGame::RenderMaschine::PParticleEngine particle(i*2.0, j*2.0, -10.0);
+        //      (10.05, -11.4, 29.3);
+        //      particle.process(100);
               if(data[i][j]->returnFirstChild() != NULL)
               {
                   

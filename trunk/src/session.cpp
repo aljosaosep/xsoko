@@ -64,7 +64,7 @@ namespace PacGame
             
             this->camera->fitCameraToLevel(this->level->getWidth(), this->level->getHeight());
             
-        //    RenderMaschine::PParticleEngine particles(0.0, 0.0, -0.7);
+            RenderMaschine::PParticleEngine particles(5.0, 7.0, 9.0);
             
             
             
@@ -89,36 +89,18 @@ namespace PacGame
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
                 glLoadIdentity(); // reset view matrix
                   
-                gluLookAt(this->camera->view.getCoordX(), this->camera->view.getCoordY(), this->camera->view.getCoordZ(), 
+               gluLookAt(this->camera->view.getCoordX(), this->camera->view.getCoordY(), this->camera->view.getCoordZ(), 
                         this->camera->position.getCoordX(), this->camera->position.getCoordY(), this->camera->position.getCoordZ(), 
                         this->camera->up.getCoordX(), this->camera->up.getCoordY(), this->camera->up.getCoordZ());
 
                 glRotatef(-90.0, 0.0, 0.0, 1.0);
 
                 this->level->draw();
-       //                  glTranslatef(0.0,0.0, -1.0);
-            //    glPushMatrix();
-              //  glDisable(GL_LIGHTING);
-           //     glColor3f(1.0,0.0,0.0);
-                      //          particles.process();
+ 
+                   particles.process(delta_rotate*10);
 
-            /*    glPointSize(10.0);
-                glBegin(GL_POINTS);
-                glColor3f(1.0, 0.0,0.0);
-                glVertex3f(0.8,0.8,0.0);
-              //                  glVertex3f(0.3,1.7,0.0);
-            //    glColor3f(0.0, 1.0,0.0);                
-            //    glVertex3f(0.5,0.0,0.0);
-           //     glColor3f(0.0, 0.0,1.0);                
-                glVertex3f(0.0,0.5,0.0);
                 
-                
-                glEnd();*/
-             //   glPopMatrix();
-             //   this->level->getGameCoreHandle()->getRenderer()->drawCube(0.0,0.0,1.0,0.0);
-                
-           //     glDisable(GL_LIGHTING);
-          //      particles.process();
+
                 
                 if(this->input->isGameMenuVisible()){
                     glDisable(GL_LIGHTING);
