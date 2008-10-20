@@ -42,7 +42,7 @@ namespace PacGame
            * ********************************************************/
           class PVector3D
           {
-          protected:
+          public:
                   float x, y, z;  // x and y position in the space
                   
           public:

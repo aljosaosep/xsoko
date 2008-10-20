@@ -30,12 +30,13 @@
 #ifndef __PARTICLE_H
 #define	__PARTICLE_H
 
-#define MAX_PARTICLES 700
+#define NUM_PARTICLES 3000
 
 #include "../vector.h"
 #include <cstdio>
 #include <ctime>
 #include <GL/glfw.h>
+#include <cmath>
 
 using namespace PacGame::GameClasses;
 
@@ -47,23 +48,28 @@ namespace PacGame
         {
         protected:
             // one-particle structure
-            struct particle
+            struct particleSprite
             {
-                bool active;            // is particle active
-                float life;             // how much life is particle got
-                float fade;             // fade variable
-                float r, g, b;          // color
                 PVector3D position;     // particle position
                 PVector3D vector;       // direction and speed vector
-                PVector3D gravity;      // particle gravity
+                float r, g, b, life;          // color                
             };
             
-            float slowdown;
+            float PARTICLE_SIZE;
+            int INITIAL_SPREAD;
+            float SPEED_DECAY;
+            
+            PVector3D origin;
+            
+     /*       float currentSpread;
+            float angle;*/
+            
+     /*       float slowdown;
             float xspeed, yspeed;
             float delay;
-            float zoom;
+            float zoom; */
             
-            particle particles[MAX_PARTICLES];      // particle list
+            particleSprite particles[NUM_PARTICLES];      // particle list
             
         public:
             PParticleEngine();          // constructor
@@ -72,7 +78,7 @@ namespace PacGame
             void init(float ox, float oy, float oz);                // initialization
             void setOrgin(float x, float y, float z);
             
-            bool process();             // process - main particle function
+            void process(float ticks);             // process - main particle function
         };
         
     }
