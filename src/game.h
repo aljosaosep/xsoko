@@ -57,12 +57,9 @@ namespace PacGame
               string windowTitle;
              // PLevel *currentLevel;  
               PGuiSession *session;  // pointer to current game class
-              //PRenderer *renderer;
-         //     PInputSystem input;
 
           public:
               // variables
-              //PRenderer renderer;
 
               // prototypes
               // constructors
@@ -76,17 +73,11 @@ namespace PacGame
               bool run();
               bool initGame();
               void terminateGLFW();
-           //   PRenderer *getRendererHandle();
 
               // setters
               void setWindow(int _width, int _height);
               void setWindowTitle(string _title);
             //  void setRenderer();
-              
-              //getters
-              //void getSize(int &width,int &height);
-              
-              
                   
               void loadSession(PGuiSession *session);
 
@@ -98,7 +89,7 @@ namespace PacGame
                * Jernej Skrabec
                * modified by Aljosa
                *******************************************/
-              static void GLFWCALL processKey(int key, int action); 
+        //      static void GLFWCALL processKey(int key, int action); 
           };       
       }       
 }

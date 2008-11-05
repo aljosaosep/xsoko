@@ -27,16 +27,18 @@
 #define	_TEXTURE_H
 
 #include <GL/glfw.h>
-#include <stdio.h>
+#include <cstdio>
+#include <cstring> // for memcmp() func
 #include <string>
+#include <cstdlib>
 #include "../CommonStructures.h"
 #include "../messages.h"
 
+using namespace std;
 using namespace PacGame::Structures;
 
 namespace PacGame
 {
-
   namespace RenderMaschine
   {
         /**********************************************************

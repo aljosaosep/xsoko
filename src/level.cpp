@@ -38,6 +38,7 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
+#include <cstdlib>
 
 #include "level.h"
 #include "renderer/particle.h"
