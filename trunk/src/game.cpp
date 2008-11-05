@@ -59,41 +59,12 @@ namespace PacGame
                   terminateGLFW();
                   alutExit ();
           }
-          
-          // input
-           /*******************************************
-           * processKey()
-           * function implementation; function takes action 
-           * based on key that is pressed
-           * ------------------------------------
-           * Jernej Skrabec 08
-           * modified Aljosa 08
-           *******************************************/   
-         /* void GLFWCALL PGame::processKey(int key, int action)
-          {   
-
-          }*/
 
           // methods
           void PGame::loadSession(PGuiSession *session)
           {
               this->session = session;
           }
-          
-        /*  void PGame::setRenderer()
-          {
-              this->session->getRendererHandle()
-          }*/
-          
-        /*  PRenderer* PGame::getRendererHandle()
-          {
-              return this->session->getRendererHandle();
-          }*/
-          
-          /*void PGame::getSize(int &width, int &height){
-              width = windowWidth;
-              height = windowHeight;
-          }*/
           
           bool PGame::run()
           {

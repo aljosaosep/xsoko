@@ -16,14 +16,6 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "gui/gui.h"
-
-
-#include "gui/win.h"
-
-
-#include "gui/win.h"
-
 
 /* 
  * File:   session.cpp
@@ -33,15 +25,14 @@
  */
 
 #include "level.h"
-
-
+#include "gui/win.h"
 #include "session.h"
 #include "gui/gui.h"
 #include "renderer/particle.h"
 #include <cstdio>
 #include <cmath>
-//#include <boost/filesystem.hpp>
 
+//#include <boost/filesystem.hpp>
 //using namespace boost::filesystem;
 
 namespace PacGame
@@ -65,9 +56,7 @@ namespace PacGame
             this->camera->fitCameraToLevel(this->level->getWidth(), this->level->getHeight());
             
             RenderMaschine::PParticleEngine particles(5.0, 7.0, 9.0);
-            
-            
-            
+             
             while(1/*this->isGameRunning*/)
             {
                 // calculate time elapsed, and the amount by which stuff rotates
@@ -97,10 +86,7 @@ namespace PacGame
 
                 this->level->draw();
  
-                   particles.process(delta_rotate*10);
-
-                
-
+                particles.process(delta_rotate*10);
                 
                 if(this->input->isGameMenuVisible()){
                     glDisable(GL_LIGHTING);

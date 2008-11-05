@@ -44,7 +44,7 @@ using namespace PacGame::RenderMaschine;
 int main(int argc, char *argv[])
 {
     // game and window creation
-    PGame pacgame(640, 480, "xSoko project");
+    PGame pacgame(800, 600, "xSoko project");
  
     // game initialization
     if(!pacgame.initGame())
@@ -53,25 +53,7 @@ int main(int argc, char *argv[])
         return -1;
     }
     
-    // level object
-    //PLevel *test = new PLevel("data/testlevel.lvl");
-    /*test->initialize();
-    if (test->saveStateToFile("test.txt"))
-    {
-        cout << "Zapis stopnje v datoteko uspel!" << endl;
-    } else {
-        cout << "Napaka pri zapisu stopnje v datoteko!" << endl;
-    }*/
-    // renderer object
-//    PRenderer *renderer = new PRenderer;
-    
-    // input object
-    //PInputSystem input(test); 
-
-    // make session
-    //PGameSession *testsession = new PGameSession(test, &input);
-
-    PGuiSession* guiSession = new PGuiSession(640,480);
+    PGuiSession* guiSession = new PGuiSession(800,600);
     // loads session
     pacgame.loadSession(guiSession);
 
@@ -79,6 +61,5 @@ int main(int argc, char *argv[])
     pacgame.run();
     
     delete guiSession;
-
     return 0;
 }
