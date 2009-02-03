@@ -130,10 +130,11 @@ namespace PacGame
                   inline bool isLevelDone(); // checks if all cubes are in places
                   
                   // level data manipulation
-                  bool loadLevelFromFile(); // loads level from txt file into structure, stores level widthm height into class properties
+                  bool reloadLevel();
+                  bool loadLevelFromFile(string Filename); // loads level from txt file into structure, stores level widthm height into class properties
                   bool saveStateToFile(string filename);   // exports level state to file
                   void releaseLevel(); // released level from memory
-                  void reset();
+                  bool reset();
                   
                   // level toolkit functions
                   inline int returnNumberFromFile(ifstream &file); // returns number from file and moves file pointer

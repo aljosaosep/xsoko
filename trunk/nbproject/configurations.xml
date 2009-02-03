@@ -5,7 +5,7 @@
                    displayName="Header Files"
                    projectFiles="true">
       <logicalFolder name="f3" displayName="gui" projectFiles="true">
-        <itemPath>src/gui/gui.h</itemPath>
+        <itemPath>src/gui/fonts.h</itemPath>
         <itemPath>src/gui/win.h</itemPath>
       </logicalFolder>
       <logicalFolder name="f1" displayName="renderer" projectFiles="true">
@@ -55,7 +55,7 @@
                    displayName="Source Files"
                    projectFiles="true">
       <logicalFolder name="f3" displayName="gui" projectFiles="true">
-        <itemPath>src/gui/gui.cpp</itemPath>
+        <itemPath>src/gui/fonts.cpp</itemPath>
         <itemPath>src/gui/win.cpp</itemPath>
       </logicalFolder>
       <logicalFolder name="f1" displayName="renderer" projectFiles="true">
@@ -160,10 +160,10 @@
       <item path="src/game.h">
         <itemTool>3</itemTool>
       </item>
-      <item path="src/gui/gui.cpp">
+      <item path="src/gui/fonts.cpp">
         <itemTool>1</itemTool>
       </item>
-      <item path="src/gui/gui.h">
+      <item path="src/gui/fonts.h">
         <itemTool>3</itemTool>
       </item>
       <item path="src/gui/win.cpp">
@@ -400,10 +400,10 @@
       <item path="src/game.h">
         <itemTool>3</itemTool>
       </item>
-      <item path="src/gui/gui.cpp">
+      <item path="src/gui/fonts.cpp">
         <itemTool>1</itemTool>
       </item>
-      <item path="src/gui/gui.h">
+      <item path="src/gui/fonts.h">
         <itemTool>3</itemTool>
       </item>
       <item path="src/gui/win.cpp">
@@ -601,6 +601,9 @@
             <linkerLibLibItem>alut</linkerLibLibItem>
             <linkerLibLibItem>openal</linkerLibLibItem>
             <linkerLibLibItem>boost_filesystem</linkerLibLibItem>
+            <linkerLibLibItem>m</linkerLibLibItem>
+            <linkerLibLibItem>Xxf86vm</linkerLibLibItem>
+            <linkerLibLibItem>Xrandr</linkerLibLibItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>
@@ -637,10 +640,10 @@
       <item path="src/game.h">
         <itemTool>3</itemTool>
       </item>
-      <item path="src/gui/gui.cpp">
+      <item path="src/gui/fonts.cpp">
         <itemTool>1</itemTool>
       </item>
-      <item path="src/gui/gui.h">
+      <item path="src/gui/fonts.h">
         <itemTool>3</itemTool>
       </item>
       <item path="src/gui/win.cpp">
@@ -844,6 +847,7 @@
             <linkerLibLibItem>Xxf86vm</linkerLibLibItem>
             <linkerLibLibItem>m</linkerLibLibItem>
             <linkerLibLibItem>Xrandr</linkerLibLibItem>
+            <linkerLibLibItem>openal</linkerLibLibItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>
@@ -880,10 +884,10 @@
       <item path="src/game.h">
         <itemTool>3</itemTool>
       </item>
-      <item path="src/gui/gui.cpp">
+      <item path="src/gui/fonts.cpp">
         <itemTool>1</itemTool>
       </item>
-      <item path="src/gui/gui.h">
+      <item path="src/gui/fonts.h">
         <itemTool>3</itemTool>
       </item>
       <item path="src/gui/win.cpp">

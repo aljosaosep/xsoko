@@ -56,7 +56,7 @@ namespace PacGame
               int windowWidth, windowHeight;
               string windowTitle;
              // PLevel *currentLevel;  
-              PGuiSession *session;  // pointer to current game class
+              PGameSession *session;  // pointer to current game class
 
           public:
               // variables
@@ -79,7 +79,7 @@ namespace PacGame
               void setWindowTitle(string _title);
             //  void setRenderer();
                   
-              void loadSession(PGuiSession *session);
+              void loadSession(PGameSession *session);
 
               /*******************************************
                * processKey()

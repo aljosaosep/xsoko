@@ -412,7 +412,7 @@ namespace PacGame
            * variable into level class
            **************************************************************/
           // function is work in progress, started by Aljosa june 29, 2008
-          bool PLevel::loadLevelFromFile()
+          bool PLevel::reloadLevel()
           {
               int tmsize; // teleport matrix size
               PObject *p = NULL; // our pobject pointer; for creating dynamic objects
@@ -762,13 +762,13 @@ namespace PacGame
           /**************************************************************
            * Function which reset level data 
            **************************************************************/
-          void PLevel::reset()
+          bool PLevel::reset()
           {
               releaseLevel();
               teleports.clear();
               holds.clear();
               endgameFlag = false;
-              loadLevelFromFile();
+              return reloadLevel();
           }
           
            /**************************************************************
@@ -795,7 +795,7 @@ namespace PacGame
           bool PLevel::initialize()
           {
               //data = new
-              if(!this->loadLevelFromFile())
+              if(!this->reloadLevel())
               {
                   Messages::errorMessage("Level loading from file failed.");
                   return 0;
@@ -861,6 +861,12 @@ namespace PacGame
                       }
                   }
               glPopMatrix();  
+          }
+          
+          bool PLevel::loadLevelFromFile(string filename){
+              this->filename = filename;
+              this->endgameFlag = false;
+              return reset();
           }
           
           /**************************************************************
