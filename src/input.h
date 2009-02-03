@@ -31,6 +31,7 @@
 
 #include <GL/glfw.h>
 #include "level.h"
+#include "gui/win.h"
 
 using namespace PacGame::GameClasses::GameObjects;
 
@@ -42,24 +43,26 @@ namespace PacGame
         {
         private: 
             PLevel *level;    // level object
-            bool visible;
-            
+            //Window* win;
+            bool menuVisible;
         public:
             
             // constructors
-            PInputSystem(PLevel *level) : level(level), visible(false) { }
-            PInputSystem() : level(NULL), visible(false) { }
+            PInputSystem(PLevel *level/*,Window* gameMenu*/) : level(level), menuVisible(false)/*, win(gameMenu)*/ { }
+            PInputSystem() : level(NULL), menuVisible(false)/*, win(NULL)*/ { }
             
             // process function
             void process();
             
             // setters
             void setLevel(PLevel *level);
+            //void setGameMenu(Window* gameMenu);
             void setGameMenuVisible(bool visible);
+            bool isGameMenuVisible();
             
             // getters
             PLevel* getLevel() const;
-            bool isGameMenuVisible();
+            //bool isGameMenuVisible();
         }; 
     }
 }

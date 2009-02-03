@@ -1,122 +1,10 @@
 
+#include <GL/gl.h>
+#include <GL/glfw.h>
 #include "win.h"
-
-#include "win.h"
-#include <iostream>
 #include <stdlib.h>
 
-    struct Mouse {
-        int x, y;
-    //    int button; // 1=left, 2=right, 3=middle
-    };
-
-    struct MouseDrag{
-        bool drag;     // window draggin enabled
-        int x,y;   // X and Y coords when drag started
-        Window* window;
-    };
-
-    Component* compPressed;
-    MouseDrag mouseDrag;
-    GLuint fontList;          // font display list
-    
-    GLuint guiTexture;      // the GUI texture
-    GLuint fontTexture;      // the font texture
-    Mouse wmouse;
-    
-    int mWidth, mHeight;
-    Window* mainWin = NULL;
-    
-
-    using namespace std;
-    
-    void DestroyGUI(){
-        glDeleteLists(fontList,256);
-        GLuint tex[2];
-        tex[0] = guiTexture;
-        tex[1] = fontTexture;
-        glDeleteTextures(2, tex);
-        fontTexture = guiTexture = 0;
-    }
-    
-// Write
-
-void glWrite(int x,int y, string text)
-{
-  glBindTexture(GL_TEXTURE_2D, fontTexture);
-  glPushMatrix();
-    glTranslatef(x, y, 0.02);
-    glListBase(fontList);
-    glCallLists(text.length(), GL_BYTE, text.c_str());
-  glPopMatrix();
-  glBindTexture(GL_TEXTURE_2D, guiTexture);
-}
-    
-// Window 
-
-/*------------------------------------------------------------------*
- *  Procedure to create the font display list                       *
- *------------------------------------------------------------------*/
-bool BuildFont()
-{
-  FILE *fontFile = fopen("data/font.fnt","rb");
-  if(fontFile == NULL)
-    return false;
-  
-  unsigned char fontWidth[256];
-  if(fread(fontWidth,1,sizeof(fontWidth),fontFile)!=sizeof(fontWidth)){
-      fclose(fontFile);
-      return false;
-  }
-  fclose(fontFile);
-
-  // create the font display list
-  fontList = glGenLists(256);               // Storage For 128 Characters
-  for(int i=0;i<256;i++)
-  {
-    GLfloat x = (float)(i % 16) / 16;	     		// X Position Of Current Character
-    GLfloat y = (float)(i / 16) / 16;	     		// Y Position Of Current Character
-    glNewList(fontList+i, GL_COMPILE);       // Start Building A List
-    glBegin(GL_QUADS);
-      GLfloat xs = (16.0f-fontWidth[i])/2.0f/256.0f;
-      glTexCoord2f(x+xs,1.0f-y-0.0625f);                                            glVertex2i(0, 0);
-      glTexCoord2f(x+xs + (GLfloat)fontWidth[i]/256.0f + 1.0f/512.0f, 1.0f-y-0.0625f);  glVertex2i(fontWidth[i], 0);
-      glTexCoord2f(x+xs + (GLfloat)fontWidth[i]/256.0f + 1.0f/512.0f, 1.0f-y);         glVertex2i(fontWidth[i], 16);
-      glTexCoord2f(x+xs,1.0f-y);                                                   glVertex2i(0, 16);
-    glEnd();
-    glTranslatef(fontWidth[i], 0, 0);
-    glEndList();
-  }
-  return true;
-}
-
-    bool InitGUI(const char* guiTextureFileName,const char* fontTextureFileName){
-          glClearColor(0.0, 0.0, 0.0, 0.0); 	   // Black Background
-          glShadeModel(GL_SMOOTH);                 // Enables Smooth Color Shading
-          glClearDepth(1.0);                       // Depth Buffer Setup
-          glEnable(GL_DEPTH_TEST);                 // Enable Depth Buffer
-          glDepthFunc(GL_LESS);		           // The Type Of Depth Test To Do
-
-          glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);   //Realy Nice perspective calculations
-
-          glEnable(GL_TEXTURE_2D);
-
-        glGenTextures(1,&guiTexture);
-        glBindTexture(GL_TEXTURE_2D,guiTexture);
-        if(glfwLoadTexture2D(guiTextureFileName, GLFW_ORIGIN_UL_BIT)){
-           glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-           glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-        } else
-            return false;
-        glGenTextures(1,&fontTexture);
-        glBindTexture(GL_TEXTURE_2D,fontTexture);
-        if(glfwLoadTexture2D(fontTextureFileName, GLFW_ORIGIN_UL_BIT)){
-           glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-           glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-           return BuildFont();
-        } else
-            return false;
-    }
+using namespace std;
 
 // Component
 
@@ -143,7 +31,7 @@ Size Component::getSize(){
     return size;
 }
 
-Component* Component::getParent(){
+Container* Component::getParent(){
     return parent;
 }
 
@@ -165,32 +53,69 @@ void Component::setVisible(bool visible){
     this->visible = visible;
 }
 
-void Component::setParent(Component* parent){
+void Component::setParent(Container* parent){
     this->parent = parent;
+}
+
+void Component::setName(const string& name){
+    this->name = name;
+}
+
+string Component::getName(){
+    return name;
+}
+
+void Component::setSkin(GLuint texIndex){
+    this->texIndex = texIndex;
 }
 
 //Container
 
-Container::Container(int x, int y, int width, int height) :
-Component(x,y,width,height) {}
-
-/*------------------------------------------------------------------*
- *  Adds a new component onto container                             *
- *------------------------------------------------------------------*/
+Container::Container(int x, int y, int width, int height)
+{
+    this->x = x;
+    this->y = y;
+    this->width = width;
+    this->height = height;
+    this->visible = true;
+    this->parent = NULL;
+    compPressed = NULL;
+}
 
 void Container::AddComponent(Component* component){
     component->setParent(this);
     components.push_back(component);
 }
 
-void Container::onMouseDown(){
+void Container::AddContainer(Container* container){
+    container->setParent(this);
+    containers.push_back(container);
+}
+
+bool Container::isInArea(Position p, Size s, int x, int y){
+    if ((x > p.x) && (x < p.x + s.width)&&
+       (y > p.y) && (y < p.y + s.height))
+        return true;
+    else 
+        return false;
+}
+
+void Container::setSkin(GLuint texIndex){
+    this->texIndex = texIndex;
+    for(unsigned i=0;i<components.size();i++)
+        components[i]->setSkin(texIndex);
+    for(unsigned i=0;i<containers.size();i++)
+        containers[i]->setSkin(texIndex);
+}
+
+void Container::onMouseDown(int mx, int my){
     if(!visible)
         return;
     
     // recalculate coordinates relative to window
-    int mouseX = wmouse.x - x;
-    int mouseY = mHeight - wmouse.y - 26 - y;
-    Component* parent = this->parent;
+    int mouseX = mx - x;
+    int mouseY = my - 26 - y;
+    Container* parent = this->parent;
     while(parent != NULL){
         Position loc = parent->getPosition();
         mouseX -= loc.x;
@@ -200,20 +125,78 @@ void Container::onMouseDown(){
 
     for(unsigned i=0;i<components.size();i++)
     {
-      Size size = components[i]->getSize();
-      Position pos = components[i]->getPosition();
-      if ((mouseX > pos.x) && (mouseX < pos.x + size.width))
-        if ((mouseY > pos.y) && (mouseY < pos.y + size.height))
+        if (isInArea(components[i]->getPosition(),components[i]->getSize(),mouseX,mouseY))
         {
             compPressed = components[i];
-            compPressed->onMouseDown();
+            compPressed->onMouseDown(mx,my);
+            break;
+        }
+    }
+    for(unsigned i=0;i<containers.size();i++)
+    {
+        if (isInArea(containers[i]->getPosition(),containers[i]->getSize(),mouseX,mouseY))
+        {
+            containers[i]->onMouseDown(mx,my);
+            break;
         }
     }
 }
 
+void Container::onMouseUp(int mx, int my){
+    if(compPressed != NULL){
+        compPressed->onMouseUp();
+        compPressed = NULL;
+    }
+    for(unsigned i=0;i<containers.size();i++)
+        containers[i]->onMouseUp(mx,my);
+}
+
+Position Container::getPosition(){
+    Position pos;
+    pos.x = this->x;
+    pos.y = this->y;
+    return pos;
+}
+
+Size Container::getSize(){
+    Size size;
+    size.width = this->width;
+    size.height = this->height;
+    return size;
+}
+
+Container* Container::getParent(){
+    return parent;
+}
+
+void Container::setPosition(int x, int y){
+    this->x = x;
+    this->y = y;
+}
+
+void Container::setSize(int width, int height){
+    this->width = width;
+    this->height = height;
+}
+
+bool Container::isVisible(){
+    return this->visible;
+}
+
+void Container::setVisible(bool visible){
+    this->visible = visible;
+}
+
+void Container::setParent(Container* parent){
+    this->parent = parent;
+}
+
 Container::~Container(){
-    for(int i=0;i<components.size();i++){
-        delete components.at(i);
+    for(unsigned i=0;i<components.size();i++){
+        delete components[i];
+    }
+    for(unsigned i=0;i<containers.size();i++){
+        delete containers[i];
     }
 }
 
@@ -225,15 +208,11 @@ Window::Window(int wX, int wY, int wWidth, int wHeight) : Container(wX,wY,wWidth
   zorder = 0;         // used if you specifically want to set a window higher
   visible = true;     // start off visible
   alpha = 0.9;        // defult for alpha bl}ing
+  onScreenResize();
+  mouseDrag.drag = false;
+  mouseDrag.x = 0;
+  mouseDrag.y = 0;
 };
-
-/*------------------------------------------------------------------*
- *  Adds a new child window                                         *
- *------------------------------------------------------------------*/
-void Window::AddChildWindow(Window* child)
-{
-    childwindows.push_back(child);
-}
 
 /*------------------------------------------------------------------*
  *  Render the window. Calls render button, child windows ...       *
@@ -242,14 +221,14 @@ void Window::Render()
 {
   if (visible)
   {
-    glBindTexture(GL_TEXTURE_2D, guiTexture);
+    glBindTexture(GL_TEXTURE_2D, texIndex);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
     glColor4f(1.0, 1.0, 1.0, alpha);
 
     glPushMatrix();
-      glTranslatef(x, mHeight - 26 -y , zorder);
+      glTranslatef(x, screenHeight - 26 -y , zorder);
       glBegin(GL_QUADS);
         // top left corner of window.
         glTexCoord2f( 0, 1);        glVertex2f(0, 0);
@@ -317,51 +296,55 @@ void Window::Render()
       for(unsigned i=0;i<components.size();i++){
         components[i]->Render();
       }
+      for(unsigned i=0;i<containers.size();i++){
+        containers[i]->Render();
+      }
 
     glPopMatrix();
     glBlendFunc(GL_ONE,GL_ONE);
     glDisable(GL_BLEND);
-
-    // draw the child windows
-    glPushMatrix();
-      glTranslatef(0, 0, 0.1);
-      for(unsigned i=0;i<childwindows.size();i++)
-        childwindows[i]->Render();
-    glPopMatrix();
   }
 }
 
-vector<Window*>* Window::getChildWindows(){
-    return &childwindows;
+void Window::onMouseUp(int mx, int my){
+    if(mouseDrag.drag){
+        mouseDrag.drag = false;
+        return;
+    }
+    Container::onMouseUp(mx,my);
 }
 
-void Window::onMouseDown(){
+void Window::onMouseMove(int mx, int my){
+  if (mouseDrag.drag) 
+  {
+    x = mouseDrag.x + mx;
+    y = mouseDrag.y + my;
+  }
+}
+
+void Window::onMouseDown(int mx, int my){
     if(!visible)
         return;
     
-    int mouseX   = wmouse.x;
-    int mouseY   = mHeight - wmouse.y - 26;
-    
     // Test to see if user clicked on window close icon
-    if ((mouseX > x + width-22) && (mouseX < x + width-6))
-      if ((mouseY > y+8) && (mouseY < y + 24))
+    if ((mx > x + width-22) && (mx < x + width-6))
+      if ((my - 26 > y+8) && (my - 26 < y + 24))
       {
         setVisible(false);
         return;
       }
 
     // Test to see if user clicked in caption bar
-    if ((mouseX > x) && (mouseX < x + width))
-      if ((mouseY > y+1) && (mouseY < y + 26))
+    if ((mx > x) && (mx < x + width))
+      if ((my - 26 > y+1) && (my - 26 < y + 26))
       {
         mouseDrag.drag = true;
-        mouseDrag.x    = x - wmouse.x;
-        mouseDrag.y    = y - (mHeight - wmouse.y);
-        mouseDrag.window =  this;
+        mouseDrag.x    = x - mx;
+        mouseDrag.y    = y - my;
         return;
       }
     
-    Container::onMouseDown();
+    Container::onMouseDown(mx,my);
 }
 
 float Window::getAlpha(){
@@ -382,10 +365,9 @@ void  Window::setZOrder(float zorder){
     this->zorder = zorder;
 }
 
-Window::~Window(){
-    for(int i=0;i<childwindows.size();i++){
-        delete childwindows.at(i);
-    }
+void Window::onScreenResize(){
+    int temp;
+    glfwGetWindowSize(&temp,&screenHeight);
 }
 
 // TButton 
@@ -397,7 +379,12 @@ Button::Button(int x, int y, int width, int height, string caption) : Component(
 {
   this->pressed = false;
   this->caption = caption;
-  this->onClick = NULL;
+  this->action = NULL;
+  fnt = Font::getInstance("font");
+}
+
+Button::~Button(){
+    Font::destroyInstance(fnt);
 }
 
 
@@ -430,7 +417,7 @@ void Button::Render()
       glTexCoord2f((float)71/128, (float)95/128); glVertex2f(x+width, -y);
     glEnd();
 
-    glWrite(x + 1 + (width - caption.length()*6) / 2, -y-21, caption);
+    fnt->writeText(x + 1 + (width - caption.length()*6) / 2, -y-21, caption);
   }
   else
   {
@@ -454,18 +441,19 @@ void Button::Render()
       glTexCoord2f((float)55/128, (float)95/128); glVertex2f(x+width, -y);
     glEnd();
 
-    glWrite(x + (width-caption.length()*6) / 2, -y-20, caption);
+    fnt->writeText(x + (width-caption.length()*6) / 2, -y-20, caption);
   }
+    glBindTexture(GL_TEXTURE_2D,texIndex);
 }
 
-void Button::onMouseDown(){
+void Button::onMouseDown(int mx, int my){
     pressed = true;
 }
 
 void Button::onMouseUp(){
     pressed = false;
-    if(onClick != NULL)
-        onClick();
+    if(action != NULL)
+        action->onAction(this);
 }
 
 string Button::getCaption(){
@@ -474,6 +462,10 @@ string Button::getCaption(){
 
 void Button::setCaption(const string& caption){
     this->caption = caption;
+}
+
+void Button::setAction(ButtonClick* action){
+    this->action = action;
 }
 
 // TPanel 
@@ -553,6 +545,9 @@ void Panel::Render()
     
     glPushMatrix();
     glTranslatef(x,-y,0.02);
+    for(unsigned i=0;i<containers.size();i++){
+        containers[i]->Render();
+      }
     for(unsigned i=0;i<components.size();i++){
         components[i]->Render();
       }
@@ -568,13 +563,21 @@ void Panel::Render()
 ListBox::ListBox(int x, int y, int width, int height) : Component(x,y,width,height)
 {
     selected = -1;
-    onClick = NULL;
+    action = NULL;
     upPressed = false;
     downPressed = false;
     drawIndex = 0;
     canShow = (height-4) / 16;
+    fnt = Font::getInstance("font");
 }
 
+ListBox::~ListBox(){
+    Font::destroyInstance(fnt);
+}
+
+void ListBox::setAction(ListBoxClick* action){
+    this->action = action;
+}
 
 /*------------------------------------------------------------------*
  *  Render the Panel                                                *
@@ -617,12 +620,14 @@ void ListBox::Render()
     glEnd();
     
     glTranslatef(0,0,0.02);    
-    int limit = (canShow<items.size()) ? canShow : items.size();
+    unsigned limit = (canShow<items.size()) ? canShow : items.size();
     for(unsigned i=0;i<limit;i++){
         if(selected == i+drawIndex)
             drawSelected(x+2,y+2+(i*16),width-20,items.at(i+drawIndex));
-        else
-            glWrite(x+5,-y-17-(i*16),items.at(i+drawIndex));
+        else {
+            fnt->writeText(x+5,-y-17-(i*16),items.at(i+drawIndex));
+            glBindTexture(GL_TEXTURE_2D,texIndex);
+        }
     }
     
     drawButton(x+width-18,y+2,upPressed,true);
@@ -647,11 +652,11 @@ void ListBox::Render()
   }
 }
 
-void ListBox::onMouseDown(){
+void ListBox::onMouseDown(int mx, int my){
     // recalculate coordinates relative to window
-    int mouseX = wmouse.x - x;
-    int mouseY = mHeight - wmouse.y - 26 - y;
-    Component* parent = this->parent;
+    int mouseX = mx - x;
+    int mouseY = my - 26 - y;
+    Container* parent = this->parent;
     while(parent != NULL){
         Position loc = parent->getPosition();
         mouseX -= loc.x;
@@ -659,8 +664,11 @@ void ListBox::onMouseDown(){
         parent = parent->getParent();
     }
     
+    //int mouseX = mx;
+    //int mouseY = my - 26;
+    
     if(mouseX >= 2 && mouseX <= width-18){
-        int index = (mouseY-2) / 16 + drawIndex;
+        unsigned index = (mouseY-2) / 16 + drawIndex;
         if(index < items.size()){
             selected = index;
         }
@@ -673,8 +681,8 @@ void ListBox::onMouseDown(){
             downPressed = true;
         }
     } else
-        if(this->onClick != NULL){
-            onClick(items.at(selected));
+        if(action != NULL){
+            action->onAction(this,items.at(selected));
         }
 }
 
@@ -830,15 +838,16 @@ void ListBox::drawSelected(int x, int y,int width,string item){
 
     glEnd();
     
-    glWrite(x+4,-y-16,item);
+    fnt->writeText(x+4,-y-16,item);
+    glBindTexture(GL_TEXTURE_2D,texIndex);
 }
 
 void ListBox::addItem(string item){
     items.push_back(item);
     if(items.size() == 1){
         selected = 0;
-        if(this->onClick != NULL){
-            onClick(item);
+        if(this->action != NULL){
+            action->onAction(this,item);
         }
     }
 }
@@ -851,6 +860,11 @@ void ListBox::addItem(string item){
 CheckBox::CheckBox(int x,int y,bool checked) : Component(x,y,16,16)
 {
   this->checked = false;
+  action = NULL;
+}
+
+void CheckBox::setAction(SelectionClick* action){
+    this->action = action;
 }
 
 
@@ -883,8 +897,10 @@ void CheckBox::Render()
   }
 }
 
-void CheckBox::onMouseDown(){
+void CheckBox::onMouseDown(int mx, int my){
     checked = !checked;
+    if(action != NULL)
+        action->onAction(this,checked);
 }
 
 bool CheckBox::isChecked(){
@@ -905,8 +921,12 @@ RadioButton::RadioButton(int x, int y,RadioButtonGroup* group,bool checked) : Co
   this->group = group;
   group->addToGroup(this);
   setChecked(checked);
+  action = NULL;
 }
 
+void RadioButton::setAction(SelectionClick* action){
+    this->action = action;
+}
 
 /*------------------------------------------------------------------*
  *  Render Radio Button                                             *
@@ -936,8 +956,11 @@ void RadioButton::Render()
   }
 }
 
-void RadioButton::onMouseDown(){
+void RadioButton::onMouseDown(int mx, int my){
     setChecked(true);
+    if(action != NULL){
+        action->onAction(this,true);
+    }
 }
 
 bool RadioButton::isChecked(){
@@ -991,6 +1014,11 @@ vector<RadioButton*>* RadioButtonGroup::getRadioButtons(){
 Text::Text(int x,int y,string text) : Component(x,y,6*text.length(),16)
 {
   caption = text;
+  fnt = Font::getInstance("font");
+}
+
+Text::~Text(){
+    Font::destroyInstance(fnt);
 }
 
 /*------------------------------------------------------------------*
@@ -998,8 +1026,10 @@ Text::Text(int x,int y,string text) : Component(x,y,6*text.length(),16)
  *------------------------------------------------------------------*/
 void Text::Render()
 {
-    if(visible)
-        glWrite(x, -y-16, caption);
+    if(visible){
+        fnt->writeText(x, -y-16, caption);
+        glBindTexture(GL_TEXTURE_2D,texIndex);
+    }
 }
 
 string Text::getText(){
@@ -1010,24 +1040,66 @@ void Text::setText(const string& text){
     caption = text;
 }
 
+Gui::~Gui(){
+    glDeleteTextures(1,&texIndex);
+    texIndex = 0;
+}
+
+Gui::Gui(const char* guiTextureFileName){
+      glClearColor(0.0, 0.0, 0.0, 0.0); 	   // Black Background
+      glShadeModel(GL_SMOOTH);                 // Enables Smooth Color Shading
+      glClearDepth(1.0);                       // Depth Buffer Setup
+      glEnable(GL_DEPTH_TEST);                 // Enable Depth Buffer
+      glDepthFunc(GL_LESS);		           // The Type Of Depth Test To Do
+
+      glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);   //Realy Nice perspective calculations
+
+      glEnable(GL_TEXTURE_2D);
+
+    glGenTextures(1,&texIndex);
+    glBindTexture(GL_TEXTURE_2D,texIndex);
+    if(glfwLoadTexture2D(guiTextureFileName, GLFW_ORIGIN_UL_BIT)){
+       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+       glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+    }
+
+    glfwGetWindowSize(&wndWidth,&wndHeight);
+}
+
 /*------------------------------------------------------------------*
  *  Procedure to render the GUI                                     *
  *------------------------------------------------------------------*/
-void RenderGUI()
+void Gui::Render()
 {
-  if(mainWin == NULL)
-      return;
-
+  if(!processed){
+      switch(click){
+        case GLFW_PRESS:
+            onMouseDown();
+            break;
+        case GLFW_RELEASE:
+            for(unsigned i=0;i<windows.size();i++)
+                windows[i]->onMouseUp(mouseX,mouseY);
+            break;
+      }
+      processed = true;
+  }
+  if(moved){
+      for(unsigned i=0;i<windows.size();i++)
+          windows[i]->onMouseMove(mouseX,mouseY);
+      moved = false;
+  }
+    
   glMatrixMode(GL_PROJECTION);  // Change Matrix Mode to Projection
   glLoadIdentity();             // Reset View
-  glOrtho(0, mWidth, 0, mHeight, 0, 100);
+  glOrtho(0, wndWidth, 0, wndHeight, 0, 100);
   glMatrixMode(GL_MODELVIEW);   // Change Projection to Matrix Mode
   glLoadIdentity();
           
   glTranslatef(0, 0, -1);
   //glEnable(GL_TEXTURE_2D);
-  glBindTexture(GL_TEXTURE_2D,guiTexture);
-  mainWin->Render();                 // draw the main window and it will draw child windows
+  glBindTexture(GL_TEXTURE_2D,texIndex);
+  for(unsigned i=0;i<windows.size();i++)
+          windows[i]->Render();
   
   //draw the mouse
   glEnable(GL_BLEND);
@@ -1035,109 +1107,88 @@ void RenderGUI()
   glEnable(GL_TEXTURE_2D);
   glColor4f(1,1,1,1);
   glBegin(GL_QUADS);
-    glTexCoord2f((float)41/128, (float)64/128); glVertex3i(wmouse.x,    wmouse.y, 1);
-    glTexCoord2f((float)72/128, (float)64/128); glVertex3i(wmouse.x+32, wmouse.y, 1);
-    glTexCoord2f((float)72/128, (float)32/128); glVertex3i(wmouse.x+32, wmouse.y-32, 1);
-    glTexCoord2f((float)41/128, (float)32/128); glVertex3i(wmouse.x,    wmouse.y-32, 1);
+    glTexCoord2f((float)41/128, (float)64/128); glVertex3i(mouseX,    wndHeight - mouseY, 1);
+    glTexCoord2f((float)72/128, (float)64/128); glVertex3i(mouseX+32, wndHeight - mouseY, 1);
+    glTexCoord2f((float)72/128, (float)32/128); glVertex3i(mouseX+32, wndHeight - mouseY-32, 1);
+    glTexCoord2f((float)41/128, (float)32/128); glVertex3i(mouseX,    wndHeight - mouseY-32, 1);
   glEnd();
-  //glDisable(GL_TEXTURE_2D);
   glDisable(GL_BLEND);
-
-  /*glMatrixMode(GL_PROJECTION);  // Change Matrix Mode to Projection
-  glLoadIdentity();             // Reset View
-  gluPerspective(45.0, mWidth/mHeight, 1.0, 100.0);
-  glMatrixMode(GL_MODELVIEW);   // Change Projection to Matrix Mode
-  glLoadIdentity();*/
 }
 
 /*------------------------------------------------------------------*
  *  Procedure to check if the user clicked in a window or object    *
  *------------------------------------------------------------------*/
-bool onMouseDown(Window* wnd)
+void Gui::onMouseDown()
 {
-  if(wnd == NULL)
-      return true;
-  
-  if (wnd->isVisible() == false )
-      return false;
-
-  bool wndClick = false;
-
-  // First check child windows since they can be on top.
-  vector<Window*>* chWins = wnd->getChildWindows();
-  for(unsigned i=0;i<chWins->size();i++)
-      if (chWins->at(i)->isVisible()){
-        wndClick = onMouseDown(chWins->at(i));
-        if (wndClick)
-            return true;
-      }
-
   // test to see if user clicked in a window
-  int mouseX   = wmouse.x;
-  int mouseY   = mHeight - wmouse.y - 26;
-  Position winPos = wnd->getPosition();
-  Size winSize = wnd->getSize();
-  if ((mouseX > winPos.x) && (mouseX < winPos.x + winSize.width))
-      if ((mouseY > winPos.y) && (mouseY < winPos.y + winSize.height)){
-          wndClick = true;
-          wnd->onMouseDown();
+  for(unsigned i=0;i<windows.size();i++){
+      if(windows[i]->isVisible()){
+          Position winPos = windows[i]->getPosition();
+          Size winSize = windows[i]->getSize();
+          if ((mouseX > winPos.x) && (mouseX < winPos.x + winSize.width))
+              if ((mouseY - 26 > winPos.y) && (mouseY - 26 < winPos.y + winSize.height)){
+                  windows[i]->onMouseDown(mouseX, mouseY);
+                  break;
+              }
       }
-
-  return wndClick;
-}
-
-
-void onMouseMove(int x, int y){
-  wmouse.x = x > 0 ? x : 0;
-  if(x > mWidth)
-      wmouse.x = mWidth;
-  wmouse.y = y > 0 ? mHeight-y : mHeight;
-  if(y>mHeight)
-      wmouse.y = 0;
-  if (mouseDrag.drag) 
-  {
-    mouseDrag.window->setPosition(mouseDrag.x + wmouse.x,mouseDrag.y - wmouse.y + mHeight);
   }
 }
 
-/*------------------------------------------------------------------*
- *  Event that runs when mouse button is released                   *
- *------------------------------------------------------------------*/
-void onMouseUp()
-{
-  mouseDrag.drag = false;
-//  wmouse.button = 0;  
-  if(compPressed != NULL){
-      compPressed->onMouseUp();
-      compPressed = NULL;
-  }
+int Gui::mouseX = 0;
+int Gui::mouseY = 0;
+int Gui::wndWidth = 0;
+int Gui::wndHeight = 0;
+int Gui::click = GLFW_RELEASE;
+bool Gui::processed = true;
+bool Gui::sizeRefreshed = false;
+bool Gui::moved = false;
+
+
+void Gui::onMouseMove(int x, int y){
+  mouseX = x > 0 ? x : 0;
+  if(x > wndWidth)
+      mouseX = wndWidth;
+  mouseY = y > 0 ? y : 0;
+  if(y>wndHeight)
+      mouseY = wndHeight;
+  moved = true;
 }
 
-void onMouseClick(int button, int action){
-    if(action == GLFW_PRESS){
-        onMouseDown(mainWin);
-    }
-    if(action == GLFW_RELEASE)
-        onMouseUp();
+void Gui::onMouseClick(int button, int action){
+    /*if(action == GLFW_RELEASE) 
+        if(compPressed != NULL){
+            compPressed->onMouseUp();
+        compPressed = NULL;
+  }*/
+    click = action;
+    processed = false;
 }
 
 /*{------------------------------------------------------------------}
 {  Handle window resize                                            }
 {------------------------------------------------------------------}*/
-void glResizeWnd(int Width, int Height){
+void Gui::glResizeWnd(int Width, int Height){
   if (Height == 0)               // prevent divide by zero exception
     Height = 1;
   glViewport(0, 0, Width, Height);    // Set the viewport for the OpenGL window
   glMatrixMode(GL_PROJECTION);        // Change Matrix Mode to Projection
   glLoadIdentity();                   // Reset View
   gluPerspective(45.0, Width/Height, 1.0, 100.0);  // Do the perspective calculations. Last value = max clipping depth
-  mWidth = Width;
-  mHeight = Height;
+  wndWidth = Width;
+  wndHeight = Height;
+  sizeRefreshed = true;
   
   glMatrixMode(GL_MODELVIEW);         // Return to the modelview matrix
   glLoadIdentity();                   // Reset View                  // Reset View
 }
 
-void setMainWindow(Window* mWin){
-    mainWin = mWin;
+GLuint Gui::getSkin(){
+    return texIndex;
 }
+
+void Gui::addWindow(Window* win){
+    windows.push_back(win);
+    win->setSkin(texIndex);
+}
+    
+

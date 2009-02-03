@@ -53,13 +53,14 @@ int main(int argc, char *argv[])
         return -1;
     }
     
-    PGuiSession* guiSession = new PGuiSession(800,600);
+    //PGuiSession* guiSession = new PGuiSession(800,600);
+    PGameSession* gameSession = new PGameSession();
     // loads session
-    pacgame.loadSession(guiSession);
+    pacgame.loadSession(gameSession);
 
     // run game
     pacgame.run();
     
-    delete guiSession;
+    delete gameSession;
     return 0;
 }

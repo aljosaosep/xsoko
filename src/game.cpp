@@ -61,7 +61,7 @@ namespace PacGame
           }
 
           // methods
-          void PGame::loadSession(PGuiSession *session)
+          void PGame::loadSession(PGameSession *session)
           {
               this->session = session;
           }

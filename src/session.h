@@ -36,9 +36,22 @@ using namespace PacGame::RenderMaschine;
 using namespace PacGame::GameClasses::GameObjects;
 
 namespace PacGame
-{
+{   
     namespace GameClasses
-    {
+    {   
+        class PGameSession;
+        
+        class GuiBtnClick : public ButtonClick{
+            PGameSession* session;
+            Window* main;
+            Window* free;
+            ListBox* listBox;
+        public:
+            GuiBtnClick(PGameSession* gameSession, Window* mainWin, Window* freeP, ListBox* list) :
+                session(gameSession), main(mainWin), free(freeP), listBox(list){};
+            void onAction(Component* button);
+        };
+        
         class PGameSession
         {
         private:
@@ -50,11 +63,18 @@ namespace PacGame
             PInputSystem *input;
             unsigned moves;  
             double rotations_per_tick;
-            Window* gameWin;
-            bool forceQuit;
+            bool levelLoaded;
+            bool gameQuit;
+            bool forceLevelQuit;
+            Gui* gui;
+            GuiBtnClick* btnClick;
+            Window* mainMenu;
+            Window* gameMenu;
+            
+            void prepareGui();
         public:
             // constructors & destructor
-            PGameSession(PLevel *level, PInputSystem *input);
+            //PGameSession(PLevel *level, PInputSystem *input);
             PGameSession();
             ~PGameSession();
             
@@ -62,20 +82,22 @@ namespace PacGame
             bool run();
             bool initialize();
             void mainLoop();
-            void Quit();
+            void levelQuit();
+            void gameExit();
             void resetLevel();
+            void LoadLevel(string levelPath);
             
             // setters
-            void setLevel(PLevel *level);
+            //void setLevel(PLevel *level);
             void setScore(unsigned score);
-            void setInput(PInputSystem *input);
+            //void setInput(PInputSystem *input);
             
             // getters
             PLevel *getLevel() const;
             unsigned getScore() const; 
         };
         
-        class PGuiSession{
+        /*class PGuiSession{
         private:
             bool initSuccess;
             bool canQuit;
@@ -92,7 +114,7 @@ namespace PacGame
             void LoadLevel(string levelPath);
             Window* getMainWindow();
             ~PGuiSession();
-        };
+        };*/
     }
 }
 

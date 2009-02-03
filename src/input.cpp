@@ -41,7 +41,8 @@ namespace PacGame
             glfwEnable(GLFW_STICKY_KEYS);  // enables sticky keys
             
             // in next lines, we check if some keys has been pressed
-            if(!visible){
+            //if(((win != NULL)&&(!win->isVisible()))||(win == NULL)){
+            if(!menuVisible){
                 if((glfwGetKey(GLFW_KEY_UP) == GLFW_PRESS) && (glfwGetKey(GLFW_KEY_UP) == GLFW_RELEASE))  // checks up key
                 {
                     this->level->moveObject(Aliases::up, this->level->getPlayerHandle());  // move object player up
@@ -94,7 +95,9 @@ namespace PacGame
             }
             if((glfwGetKey(GLFW_KEY_ESC) == GLFW_PRESS) && (glfwGetKey(GLFW_KEY_ESC) == GLFW_RELEASE))
             {
-                visible = !visible;
+                /*if(win != NULL)
+                    win->setVisible(!win->isVisible());*/
+                menuVisible = !menuVisible;
             }
             
             // camera values; if you need to move camera, uncomment this code
@@ -139,11 +142,15 @@ namespace PacGame
         }
         
         void PInputSystem::setGameMenuVisible(bool visible){
-            this->visible = visible;
+            menuVisible = false;
         }
         
         bool PInputSystem::isGameMenuVisible(){
-            return visible;
+            return menuVisible;
         }
+        
+        /*void PInputSystem::setGameMenu(Window* gameMenu){
+            this->win = gameMenu;
+        }*/
     }
 }
