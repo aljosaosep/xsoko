@@ -42,6 +42,8 @@
       ftp://ftp.pkware.com/probdesc.zip
 */
 
+/* changed zlib.h include direction by Jernej Škrabec*/
+
 #ifndef _unz_H
 #define _unz_H
 
@@ -50,7 +52,7 @@ extern "C" {
 #endif
 
 #ifndef _ZLIB_H
-#include "zlib/zlib.h"
+    #include <zlib.h>
 #endif
 
 #ifndef _ZLIBIOAPI_H
