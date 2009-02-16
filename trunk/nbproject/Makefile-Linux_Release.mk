@@ -25,32 +25,20 @@ OBJECTDIR=build/Linux_Release/GNU-Linux-x86
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/src/zip/zlib/infback.o \
 	${OBJECTDIR}/src/zip/ioapi.o \
 	${OBJECTDIR}/src/camera.o \
-	${OBJECTDIR}/src/gui/gui.o \
-	${OBJECTDIR}/src/zip/zlib/compress.o \
 	${OBJECTDIR}/src/game.o \
-	${OBJECTDIR}/src/zip/zlib/deflate.o \
 	${OBJECTDIR}/src/session.o \
 	${OBJECTDIR}/src/zip/unzip.o \
-	${OBJECTDIR}/src/zip/zlib/crc32.o \
 	${OBJECTDIR}/src/resource.o \
 	${OBJECTDIR}/src/input.o \
 	${OBJECTDIR}/src/main.o \
-	${OBJECTDIR}/src/zip/zlib/gzio.o \
-	${OBJECTDIR}/src/zip/zlib/zutil.o \
-	${OBJECTDIR}/src/zip/zlib/inflate.o \
-	${OBJECTDIR}/src/zip/zlib/inffast.o \
 	${OBJECTDIR}/src/zip/zipfile.o \
+	${OBJECTDIR}/src/gui/fonts.o \
 	${OBJECTDIR}/src/level.o \
-	${OBJECTDIR}/src/zip/zlib/uncompr.o \
 	${OBJECTDIR}/src/vector.o \
-	${OBJECTDIR}/src/zip/zlib/inftrees.o \
 	${OBJECTDIR}/src/player.o \
 	${OBJECTDIR}/src/object.o \
-	${OBJECTDIR}/src/zip/zlib/adler32.o \
-	${OBJECTDIR}/src/zip/zlib/trees.o \
 	${OBJECTDIR}/src/messages.o \
 	${OBJECTDIR}/src/game-render.o \
 	${OBJECTDIR}/src/core.o \
@@ -59,6 +47,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/src/renderer/renderer-texture.o \
 	${OBJECTDIR}/src/game-init.o \
 	${OBJECTDIR}/src/CommonStructures.o \
+	${OBJECTDIR}/src/renderer/particle.o \
 	${OBJECTDIR}/src/levelbox.o \
 	${OBJECTDIR}/src/renderer/renderer-core.o
 
@@ -73,7 +62,7 @@ CXXFLAGS=
 FFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-lglfw -lGL -lGLU -lXxf86vm -lm -lXrandr
+LDLIBSOPTIONS=-lglfw -lGL -lGLU -lXxf86vm -lm -lXrandr -lopenal
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS} dist/Linux_Release/GNU-Linux-x86/xsoko
@@ -81,10 +70,6 @@ LDLIBSOPTIONS=-lglfw -lGL -lGLU -lXxf86vm -lm -lXrandr
 dist/Linux_Release/GNU-Linux-x86/xsoko: ${OBJECTFILES}
 	${MKDIR} -p dist/Linux_Release/GNU-Linux-x86
 	${LINK.cc} -o dist/Linux_Release/GNU-Linux-x86/xsoko ${OBJECTFILES} ${LDLIBSOPTIONS} 
-
-${OBJECTDIR}/src/zip/zlib/infback.o: src/zip/zlib/infback.c 
-	${MKDIR} -p ${OBJECTDIR}/src/zip/zlib
-	$(COMPILE.c) -O2 -o ${OBJECTDIR}/src/zip/zlib/infback.o src/zip/zlib/infback.c
 
 ${OBJECTDIR}/src/zip/ioapi.o: src/zip/ioapi.c 
 	${MKDIR} -p ${OBJECTDIR}/src/zip
@@ -94,21 +79,9 @@ ${OBJECTDIR}/src/camera.o: src/camera.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
 	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/src/camera.o src/camera.cpp
 
-${OBJECTDIR}/src/gui/gui.o: src/gui/gui.cpp 
-	${MKDIR} -p ${OBJECTDIR}/src/gui
-	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/src/gui/gui.o src/gui/gui.cpp
-
-${OBJECTDIR}/src/zip/zlib/compress.o: src/zip/zlib/compress.c 
-	${MKDIR} -p ${OBJECTDIR}/src/zip/zlib
-	$(COMPILE.c) -O2 -o ${OBJECTDIR}/src/zip/zlib/compress.o src/zip/zlib/compress.c
-
 ${OBJECTDIR}/src/game.o: src/game.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
 	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/src/game.o src/game.cpp
-
-${OBJECTDIR}/src/zip/zlib/deflate.o: src/zip/zlib/deflate.c 
-	${MKDIR} -p ${OBJECTDIR}/src/zip/zlib
-	$(COMPILE.c) -O2 -o ${OBJECTDIR}/src/zip/zlib/deflate.o src/zip/zlib/deflate.c
 
 ${OBJECTDIR}/src/session.o: src/session.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
@@ -117,10 +90,6 @@ ${OBJECTDIR}/src/session.o: src/session.cpp
 ${OBJECTDIR}/src/zip/unzip.o: src/zip/unzip.c 
 	${MKDIR} -p ${OBJECTDIR}/src/zip
 	$(COMPILE.c) -O2 -o ${OBJECTDIR}/src/zip/unzip.o src/zip/unzip.c
-
-${OBJECTDIR}/src/zip/zlib/crc32.o: src/zip/zlib/crc32.c 
-	${MKDIR} -p ${OBJECTDIR}/src/zip/zlib
-	$(COMPILE.c) -O2 -o ${OBJECTDIR}/src/zip/zlib/crc32.o src/zip/zlib/crc32.c
 
 ${OBJECTDIR}/src/resource.o: src/resource.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
@@ -134,41 +103,21 @@ ${OBJECTDIR}/src/main.o: src/main.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
 	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/src/main.o src/main.cpp
 
-${OBJECTDIR}/src/zip/zlib/gzio.o: src/zip/zlib/gzio.c 
-	${MKDIR} -p ${OBJECTDIR}/src/zip/zlib
-	$(COMPILE.c) -O2 -o ${OBJECTDIR}/src/zip/zlib/gzio.o src/zip/zlib/gzio.c
-
-${OBJECTDIR}/src/zip/zlib/zutil.o: src/zip/zlib/zutil.c 
-	${MKDIR} -p ${OBJECTDIR}/src/zip/zlib
-	$(COMPILE.c) -O2 -o ${OBJECTDIR}/src/zip/zlib/zutil.o src/zip/zlib/zutil.c
-
-${OBJECTDIR}/src/zip/zlib/inflate.o: src/zip/zlib/inflate.c 
-	${MKDIR} -p ${OBJECTDIR}/src/zip/zlib
-	$(COMPILE.c) -O2 -o ${OBJECTDIR}/src/zip/zlib/inflate.o src/zip/zlib/inflate.c
-
-${OBJECTDIR}/src/zip/zlib/inffast.o: src/zip/zlib/inffast.c 
-	${MKDIR} -p ${OBJECTDIR}/src/zip/zlib
-	$(COMPILE.c) -O2 -o ${OBJECTDIR}/src/zip/zlib/inffast.o src/zip/zlib/inffast.c
-
 ${OBJECTDIR}/src/zip/zipfile.o: src/zip/zipfile.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/zip
 	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/src/zip/zipfile.o src/zip/zipfile.cpp
+
+${OBJECTDIR}/src/gui/fonts.o: src/gui/fonts.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src/gui
+	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/src/gui/fonts.o src/gui/fonts.cpp
 
 ${OBJECTDIR}/src/level.o: src/level.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
 	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/src/level.o src/level.cpp
 
-${OBJECTDIR}/src/zip/zlib/uncompr.o: src/zip/zlib/uncompr.c 
-	${MKDIR} -p ${OBJECTDIR}/src/zip/zlib
-	$(COMPILE.c) -O2 -o ${OBJECTDIR}/src/zip/zlib/uncompr.o src/zip/zlib/uncompr.c
-
 ${OBJECTDIR}/src/vector.o: src/vector.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
 	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/src/vector.o src/vector.cpp
-
-${OBJECTDIR}/src/zip/zlib/inftrees.o: src/zip/zlib/inftrees.c 
-	${MKDIR} -p ${OBJECTDIR}/src/zip/zlib
-	$(COMPILE.c) -O2 -o ${OBJECTDIR}/src/zip/zlib/inftrees.o src/zip/zlib/inftrees.c
 
 ${OBJECTDIR}/src/player.o: src/player.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
@@ -177,14 +126,6 @@ ${OBJECTDIR}/src/player.o: src/player.cpp
 ${OBJECTDIR}/src/object.o: src/object.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
 	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/src/object.o src/object.cpp
-
-${OBJECTDIR}/src/zip/zlib/adler32.o: src/zip/zlib/adler32.c 
-	${MKDIR} -p ${OBJECTDIR}/src/zip/zlib
-	$(COMPILE.c) -O2 -o ${OBJECTDIR}/src/zip/zlib/adler32.o src/zip/zlib/adler32.c
-
-${OBJECTDIR}/src/zip/zlib/trees.o: src/zip/zlib/trees.c 
-	${MKDIR} -p ${OBJECTDIR}/src/zip/zlib
-	$(COMPILE.c) -O2 -o ${OBJECTDIR}/src/zip/zlib/trees.o src/zip/zlib/trees.c
 
 ${OBJECTDIR}/src/messages.o: src/messages.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
@@ -217,6 +158,10 @@ ${OBJECTDIR}/src/game-init.o: src/game-init.cpp
 ${OBJECTDIR}/src/CommonStructures.o: src/CommonStructures.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
 	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/src/CommonStructures.o src/CommonStructures.cpp
+
+${OBJECTDIR}/src/renderer/particle.o: src/renderer/particle.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src/renderer
+	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/src/renderer/particle.o src/renderer/particle.cpp
 
 ${OBJECTDIR}/src/levelbox.o: src/levelbox.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src

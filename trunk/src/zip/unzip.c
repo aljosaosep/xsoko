@@ -34,11 +34,12 @@ woven in by Terry Thorsen 1/2003.
   version without encryption capabilities).
  */
 
+/* changed zlib.h include direction by Jernej Škrabec*/
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "zlib/zlib.h"
+#include <zlib.h>
 #include "unzip.h"
 
 #ifdef STDC

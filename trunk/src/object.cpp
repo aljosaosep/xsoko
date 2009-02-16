@@ -32,7 +32,7 @@
 
 #include <iostream>
 #include "object.h"
-#include "zip/zlib/zconf.in.h"
+//#include "zip/zlib/zconf.in.h"
 
 using namespace std;
 
