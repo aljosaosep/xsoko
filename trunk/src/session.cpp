@@ -44,6 +44,16 @@
 #include <boost/filesystem.hpp>
 using namespace boost::filesystem;
 
+#ifdef ENABLE_FPS
+    #include <sstream>
+
+string inttostr(int x){
+    std::stringstream out;
+    out << x;
+    return out.str();
+}
+#endif
+
 namespace PacGame
 {
     namespace GameClasses
@@ -53,7 +63,7 @@ namespace PacGame
             prepareGui();
         }*/
         
-        PGameSession::PGameSession() : level(NULL), player(NULL), camera(NULL), input(new PInputSystem()),  moves(0),rotations_per_tick(0.1), levelLoaded(false)
+        PGameSession::PGameSession() : level(NULL), player(NULL), camera(NULL), input(new PInputSystem()),  moves(0),rotations_per_tick(0.1), levelLoaded(false), gameQuit(false)
         {
             prepareGui();
         }
@@ -96,7 +106,7 @@ namespace PacGame
             {
               if ( !is_directory(itr->status()) && extension(itr->path()) == ".lvl" )
               {
-                  string filename = itr->leaf();
+                  string filename = itr->path().leaf();
                   list->addItem(filename.substr(0,filename.find_last_of('.')));
               }
             }
@@ -141,8 +151,11 @@ namespace PacGame
             
             // the time of the previous frame
             double old_time = glfwGetTime();   
-            
-            //unsigned frames = 0;
+
+#ifdef ENABLE_FPS
+            unsigned frames = 0;
+            string title;
+#endif
             
             //this->camera->fitCameraToLevel(this->level->getWidth(), this->level->getHeight());
             
@@ -156,9 +169,18 @@ namespace PacGame
                     double current_time = glfwGetTime(),
                     delta_rotate = (current_time - old_time) * rotations_per_tick * 360;
 
-             //     cout<<"FPS: "<<(double) frames /  old_time<<endl;
+#ifdef ENABLE_FPS
+                    if(current_time - old_time >= 1){
+                      title = "xSoko project FPS: " + inttostr(frames);
+                      glfwSetWindowTitle(title.c_str());
+                      old_time = current_time;
+                      frames = 0;
+                    } else
+                        frames ++;
+#endif
+
                     this->level->processBombs(current_time);
-                    old_time = current_time;
+                    //old_time = current_time;
 
                     // is game over? or level done?
                     if(this->level->getEndgameFlag() || forceLevelQuit){
@@ -183,7 +205,7 @@ namespace PacGame
 
                     this->level->draw();
 
-                    particles.process(delta_rotate*10);
+                    //particles.process(delta_rotate*10);
                     
                     if(this->input->isGameMenuVisible()){
                         glDisable(GL_LIGHTING);
