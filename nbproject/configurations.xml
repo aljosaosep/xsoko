@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configurationDescriptor version="45">
+<configurationDescriptor version="51">
   <logicalFolder name="root" displayName="root" projectFiles="true">
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
@@ -80,11 +80,11 @@
     </logicalFolder>
     <itemPath>TODO</itemPath>
   </logicalFolder>
-  <sourceEncoding>UTF-8</sourceEncoding>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
     <conf name="Windows_Debug" type="1">
       <toolsSet>
+        <developmentServer>localhost</developmentServer>
         <compilerSet>Cygwin|Cygwin</compilerSet>
         <platform>3</platform>
       </toolsSet>
@@ -250,6 +250,7 @@
     </conf>
     <conf name="Windows_Release" type="1">
       <toolsSet>
+        <developmentServer>localhost</developmentServer>
         <compilerSet>GNU|GNU</compilerSet>
         <platform>3</platform>
       </toolsSet>
@@ -421,11 +422,15 @@
     </conf>
     <conf name="Linux_Debug" type="1">
       <toolsSet>
+        <developmentServer>localhost</developmentServer>
         <compilerSet>GNU|GNU</compilerSet>
         <platform>2</platform>
       </toolsSet>
       <compileType>
         <ccCompilerTool>
+          <preprocessorList>
+            <Elem>ENABLE_FPS</Elem>
+          </preprocessorList>
           <warningLevel>2</warningLevel>
         </ccCompilerTool>
         <linkerTool>
@@ -593,6 +598,7 @@
     </conf>
     <conf name="Linux_Release" type="1">
       <toolsSet>
+        <developmentServer>localhost</developmentServer>
         <compilerSet>GNU|GNU</compilerSet>
         <platform>2</platform>
       </toolsSet>
@@ -615,6 +621,9 @@
             <linkerLibLibItem>m</linkerLibLibItem>
             <linkerLibLibItem>Xrandr</linkerLibLibItem>
             <linkerLibLibItem>openal</linkerLibLibItem>
+            <linkerLibLibItem>boost_filesystem</linkerLibLibItem>
+            <linkerLibLibItem>z</linkerLibLibItem>
+            <linkerLibLibItem>alut</linkerLibLibItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>
