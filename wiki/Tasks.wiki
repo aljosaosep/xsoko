@@ -12,14 +12,14 @@ Opis + info na [http://groups.google.com/group/xsoko/browse_thread/thread/b0821f
 ----
 
 
-== MD2 in OBJ file loader == 
+== MD2 file loader == 
 ==== prioriteta: srednja ====
 ==== trenutno dela: nihce ====
-==== zeljen datum implementacije: 1.9. 2008 ====
+==== zeljen datum implementacije: ??? ====
 ==== status: ni se nic ====
 ==== quick summary: ====
-2 razreda, ki znata zlovdat v memory 3d modele doticnih
-formatov, jih izrisat in poteksturirat
+razred, ki znata zlovda v memory 3d modele doticnih
+formatov, jih izrisat in poteksturirat... pa seveda animirat(z interpolacijo)
 
 ----
 
@@ -38,16 +38,15 @@ naredi ravno obratno kot obstojeca funkcija za lovdanje stopenj).
 ==== prioriteta: srednja ====
 ==== trenutno dela: Aljosa ====
 ==== zadnji datum implementacije: 20.9. 2008 (verjetno bo prej)====
-==== status: 95% ====
+==== status: koncano :) ====
 ==== quick summary: ====
-Manjka le se bombardiranje, pa se to je ze skoraj koncano.
 
 ----
 
 == Resource manager == 
 ==== prioriteta: zelo visoka ====
 ==== trenutno dela: Aljosa ====
-==== status: koncano :) ====
+==== status: koncano :) (naceloma) ====
 ==== datum implementacije: 6.9. 2008 ====
 ==== quick summary: ====
 Vmesnik za delo z resourci(slikami, zvocnimi datotekami, ...)
