@@ -14,8 +14,8 @@ Opis + info na [http://groups.google.com/group/xsoko/browse_thread/thread/b0821f
 
 == MD2 file loader == 
 ==== prioriteta: srednja ====
-==== trenutno dela: nihce ====
-==== zeljen datum implementacije: ??? ====
+==== trenutno dela: Martin Šavc ====
+==== zeljen datum implementacije: 30.6.2009 (optimisticen datum) ====
 ==== status: ni se nic ====
 ==== quick summary: ====
 razred, ki znata zlovda v memory 3d modele doticnih
