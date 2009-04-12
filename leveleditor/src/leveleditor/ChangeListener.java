@@ -5,7 +5,7 @@
 
 package leveleditor;
 
-import java.awt.Point;
+//import java.awt.Point;
 
 /**
  *
@@ -13,7 +13,8 @@ import java.awt.Point;
  */
 public interface ChangeListener {
     
-    public void SelectedCell(Point cell);
+    //public void SelectedCell(Point cell);
+    public void SelectedCell();
     public void SizeChange(int cols, int rows);
 
 }

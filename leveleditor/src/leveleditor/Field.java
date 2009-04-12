@@ -22,4 +22,24 @@ public class Field {
         elemType = f.elemType;
         option = f.option;
     }
+
+    @Override
+    public boolean equals(Object obj){
+        if(obj instanceof Field){
+            Field temp = (Field)obj;
+            if (temp.elemType == elemType && temp.option == option)
+                return true;
+            else
+                return false;
+        } else
+            return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 43 * hash + this.elemType;
+        hash = 43 * hash + this.option;
+        return hash;
+    }
 }

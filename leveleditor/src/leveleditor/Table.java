@@ -12,19 +12,24 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
+//import java.lang.Math.*;
 
 /**
  *
  * @author jernej
  */
 public class Table extends JComponent{
+    private static final long serialVersionUID = 1L;
     
     private Hashtable<Integer,Hashtable<Integer,Field>> table = null;
     private int cols = 0;
     private int rows = 0;
-    private Point selectedCell = null;
+    private ArrayList<Point> selectedCell = null;
     private ArrayList<ChangeListener> listeners = null;
     private final int fieldSize = 64;
+    private Point mouseDown;
+    private Point mouseBoxDown = null;
+    private Point mouseBoxUp = null;
     private HashMap<Byte,Image> typeImages = null;
     private HashMap<Byte,Image> optImages = null;
     private ArrayList<TeleportTranslation> teleportsMapping = null;
@@ -34,6 +39,7 @@ public class Table extends JComponent{
         this.cols = width;
         this.rows = height;
         listeners = new ArrayList<ChangeListener>();
+        selectedCell = new ArrayList<Point>();
         teleportsMapping = new ArrayList<TeleportTranslation>();
         teleportList = new ArrayList<Point>();
         table = new Hashtable<Integer, Hashtable<Integer, Field>>();
@@ -56,21 +62,50 @@ public class Table extends JComponent{
         setFocusable(true);
         addMouseListener(new MouseAdapter() {
             @Override
-            public void mousePressed(MouseEvent e) {
-               requestFocusInWindow();
-               Point newSel = new Point();
-               newSel.x = e.getPoint().x/fieldSize;
-               newSel.y = e.getPoint().y/fieldSize;
-               if(newSel.x < cols && newSel.y < rows){
-                   selectedCell = newSel;
-                   repaint();
-                   for(int i=0;i<listeners.size();i++){
-                       listeners.get(i).SelectedCell(selectedCell);
-                   }
-               }
+            public void mousePressed(MouseEvent e){
+                requestFocusInWindow();
+                mouseDown = calcucaltePoint(e.getPoint());
+                mouseBoxDown = e.getPoint();
+            }
+            @Override
+            public void mouseReleased(MouseEvent e){
+                Point mouseUp = calcucaltePoint(e.getPoint());
+                selectedCell.clear();
+                int xmax, xmin;
+                if(mouseDown.x < mouseUp.x){
+                    xmax = mouseUp.x;
+                    xmin = mouseDown.x;
+                } else {
+                    xmax = mouseDown.x;
+                    xmin = mouseUp.x;
+                }
+                int ymax, ymin;
+                if(mouseDown.y < mouseUp.y){
+                    ymax = mouseUp.y;
+                    ymin = mouseDown.y;
+                } else {
+                    ymax = mouseDown.y;
+                    ymin = mouseUp.y;
+                }
+                for(int x=xmin; x<=xmax;x++)
+                    for(int y=ymin; y<=ymax;y++)
+                        selectedCell.add(new Point(x,y));
+                mouseBoxDown = null;
+                mouseBoxUp = null;
+                for(int i=0;i<listeners.size();i++){
+                    listeners.get(i).SelectedCell(/*selectedCell*/);
+                }
+                repaint();
             }
         });
-        addKeyListener(new KeyAdapter() {
+        addMouseMotionListener(new MouseAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e){
+                mouseBoxUp = e.getPoint();
+                repaint();
+            }
+        });
+        /*addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 if(selectedCell== null)
@@ -99,12 +134,27 @@ public class Table extends JComponent{
                    }
                 }
             }
-        });
+        });*/
+    }
+
+    private Point calcucaltePoint(Point p){
+        Point newSel = new Point();
+        newSel.x = p.x/fieldSize;
+        newSel.y = p.y/fieldSize;
+        /*if(newSel.x < cols && newSel.y < rows)
+            return newSel;
+        else
+            return null;*/
+        if(newSel.x > cols-1)
+            newSel.x = cols-1;
+        if(newSel.y > rows-1)
+            newSel.y = rows-1;
+        return newSel;
     }
     
     public void LoadFromFile(File file){
         try {
-            selectedCell = null;
+            selectedCell.clear();
             teleportsMapping.clear();
             BufferedReader input = new BufferedReader(new FileReader(file));
             String line = input.readLine();
@@ -170,36 +220,44 @@ public class Table extends JComponent{
     }
     
     public Field getSelectedCellValue(){
-        if(selectedCell!=null){
-            return new Field(table.get(selectedCell.x).get(selectedCell.y));
-        } else {
+        if(selectedCell.size()>0){
+            Field temp = table.get(selectedCell.get(0).x).get(selectedCell.get(0).y);
+            for(int i=1; i<selectedCell.size();i++)
+                if(!temp.equals(table.get(selectedCell.get(i).x).get(selectedCell.get(i).y)))
+                    return null;
+            return new Field(temp);
+        } else
             return null;
-        }
     }
     
-    public Field getValue(int x,int y){
+    /*public Field getValue(int x,int y){
         return new Field(table.get(x).get(y));
-    }
+    }*/
     
     public void setSelectedCellOption(byte value){
-        table.get(selectedCell.x).get(selectedCell.y).option = value;
+        for(int i=0;i<selectedCell.size();i++)
+          table.get(selectedCell.get(i).x).get(selectedCell.get(i).y).option = value;
         repaint();
     }
     
     public void setSelectedCellType(byte value){
-        Field type = table.get(selectedCell.x).get(selectedCell.y);
-        if(type.elemType == 9){
-            teleportList.remove(selectedCell);
-            for(int i=0;i<teleportsMapping.size();i++)
-                if(teleportsMapping.get(i).src.equals(selectedCell) ||
-                   teleportsMapping.get(i).dest.equals(selectedCell)){
-                    teleportsMapping.remove(i);
-                }
+        for(int i=0;i<selectedCell.size();i++){
+            Point cell = selectedCell.get(i);
+            if(table.get(cell.x).get(cell.y).elemType == 9){
+                teleportList.remove(cell);
+                for(int a=0;a<teleportsMapping.size();a++)
+                    if(teleportsMapping.get(a).src.equals(cell) ||
+                       teleportsMapping.get(a).dest.equals(cell)){
+                        teleportsMapping.remove(a);
+                    }
+            }
         }
         if(value == 9){
-            teleportList.add(selectedCell);
+            for(int i=0;i<selectedCell.size();i++)
+                teleportList.add(selectedCell.get(i));
         }
-        type.elemType = value;
+        for(int i=0;i<selectedCell.size();i++)
+            table.get(selectedCell.get(i).x).get(selectedCell.get(i).y).elemType = value;
         repaint();
     }
     
@@ -264,14 +322,20 @@ public class Table extends JComponent{
                 else
                     img = typeImages.get(cell.elemType);
                 if(img!=null){
-                    g.drawImage(img,i*fieldSize , j*fieldSize, this);
+                        g.drawImage(img,i*fieldSize , j*fieldSize, this);
+                    }
                 }
-            }
-        if(selectedCell!=null){
+        if((mouseBoxDown != null) && (mouseBoxUp != null)){
+            int x = mouseBoxDown.x > mouseBoxUp.x ? mouseBoxUp.x : mouseBoxDown.x;
+            int y = mouseBoxDown.y > mouseBoxUp.y ? mouseBoxUp.y : mouseBoxDown.y;
+            g.drawRect(x, y, Math.abs(mouseBoxDown.x-mouseBoxUp.x), Math.abs(mouseBoxDown.y-mouseBoxUp.y));
+        }
+        if(selectedCell.size() > 0){
            Graphics2D g2d = (Graphics2D) g;
            g2d.setColor(Color.BLUE); 
-           g2d.setStroke(new BasicStroke(3)); 
-           g2d.drawRect(selectedCell.x*fieldSize, selectedCell.y*fieldSize, fieldSize, fieldSize); 
+           g2d.setStroke(new BasicStroke(3));
+           for(int i=0;i<selectedCell.size();i++)
+            g2d.drawRect(selectedCell.get(i).x*fieldSize, selectedCell.get(i).y*fieldSize, fieldSize, fieldSize);
            g2d.setColor(Color.BLACK); 
            g2d.setStroke(new BasicStroke(1));
         }

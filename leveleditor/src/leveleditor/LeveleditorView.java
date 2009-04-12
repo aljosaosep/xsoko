@@ -4,7 +4,6 @@
 
 package leveleditor;
 
-import java.awt.Point;
 import java.awt.event.ItemEvent;
 import java.io.IOException;
 import java.util.*;
@@ -41,14 +40,19 @@ public class LeveleditorView extends FrameView {
         typePanel.setVisible(false);
         map = new Table(elem,opts,10, 10);
         map.addSelectListener(new ChangeListener() {
-            public void SelectedCell(Point selCell) {
-                Field cell = map.getValue(selCell.x, selCell.y);
+            public void SelectedCell(/*Point selCell*/) {
+                Field cell = map.getSelectedCellValue(); //map.getValue(selCell.x, selCell.y);
                 typePanel.setVisible(true);
                 if(jSplitPane1.getDividerLocation()<250){
                     jSplitPane1.setDividerLocation(250);
                 }
-                types.get(cell.elemType).setSelected(true);
-                options.get(cell.option).setSelected(true);
+                if(cell != null){
+                    types.get(cell.elemType).setSelected(true);
+                    options.get(cell.option).setSelected(true);
+                } else {
+                    typeGroup.clearSelection();
+                    optionPanel.setVisible(false);
+                }
             }
 
             public void SizeChange(int cols, int rows) {
@@ -66,8 +70,10 @@ public class LeveleditorView extends FrameView {
             tempComp.setSelected(true);
             tempComp.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                map.setSelectedCellOption((byte)options.indexOf(evt.getSource()));
-                map.repaint();
+                if(evt.getStateChange() == ItemEvent.SELECTED){
+                    map.setSelectedCellOption((byte)options.indexOf(evt.getSource()));
+                    map.repaint();
+                }
             }
         });
         optionGroup.add(tempComp);
@@ -79,13 +85,15 @@ public class LeveleditorView extends FrameView {
         JRadioButton tempComp = new JRadioButton(el.getName(index));
         tempComp.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                map.setSelectedCellType(index);
-                map.repaint();
                 if(evt.getStateChange() == ItemEvent.SELECTED){
+                    map.setSelectedCellType(index);
+                    map.repaint();
                     byte[] opt = el.getOptions(index);
                     optionPanel.removeAll();
                     options.get(map.getSelectedCellValue().option).setSelected(true);
                     if(opt!=null){
+                        optionPanel.setVisible(true);
+                        jSplitPane1.setDividerLocation(270);
                         for(int i=0;i<opt.length;i++){
                             optionPanel.add(options.get(opt[i]));
                         }
@@ -174,6 +182,7 @@ public class LeveleditorView extends FrameView {
 
         typePanel.setBorder(javax.swing.BorderFactory.createEtchedBorder(resourceMap.getColor("typePanel.border.highlightColor"), resourceMap.getColor("typePanel.border.shadowColor"))); // NOI18N
         typePanel.setName("typePanel"); // NOI18N
+        typePanel.setPreferredSize(new java.awt.Dimension(204, 270));
 
         javax.swing.GroupLayout typePanelLayout = new javax.swing.GroupLayout(typePanel);
         typePanel.setLayout(typePanelLayout);
@@ -199,7 +208,7 @@ public class LeveleditorView extends FrameView {
         );
         optionPanelLayout.setVerticalGroup(
             optionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 84, Short.MAX_VALUE)
+            .addGap(0, 146, Short.MAX_VALUE)
         );
 
         jSplitPane1.setRightComponent(optionPanel);
@@ -212,7 +221,7 @@ public class LeveleditorView extends FrameView {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 366, Short.MAX_VALUE)
+            .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 432, Short.MAX_VALUE)
         );
 
         jScrollPane1.setName("jScrollPane1"); // NOI18N
@@ -233,7 +242,7 @@ public class LeveleditorView extends FrameView {
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 366, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 432, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
