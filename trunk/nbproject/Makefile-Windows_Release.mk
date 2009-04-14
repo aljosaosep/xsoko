@@ -1,5 +1,5 @@
 #
-# Gererated Makefile - do not edit!
+# Generated Makefile - do not edit!
 #
 # Edit the Makefile in the project folder instead (../Makefile). Each target
 # has a -pre and a -post target defined where you can add customized code.
@@ -12,16 +12,19 @@ MKDIR=mkdir
 CP=cp
 CCADMIN=CCadmin
 RANLIB=ranlib
-CC=gcc
-CCC=g++
-CXX=g++
+CC=gcc-3.exe
+CCC=g++-3.exe
+CXX=g++-3.exe
 FC=
+
+# Macros
+PLATFORM=Cygwin-Windows
 
 # Include project Makefile
 include Makefile
 
 # Object Directory
-OBJECTDIR=build/Windows_Release/GNU-Windows
+OBJECTDIR=build/Windows_Release/${PLATFORM}
 
 # Object Files
 OBJECTFILES= \
@@ -30,8 +33,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/src/game.o \
 	${OBJECTDIR}/src/session.o \
 	${OBJECTDIR}/src/zip/unzip.o \
-	${OBJECTDIR}/src/resource.o \
 	${OBJECTDIR}/src/input.o \
+	${OBJECTDIR}/src/resource.o \
 	${OBJECTDIR}/src/main.o \
 	${OBJECTDIR}/src/zip/zipfile.o \
 	${OBJECTDIR}/src/gui/fonts.o \
@@ -62,114 +65,140 @@ CXXFLAGS=
 FFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-lglfw -lopengl32 -lglu32
+LDLIBSOPTIONS=-lglfw -lOpenAL32 -lALut -lboost_filesystem-gcc-mt -lz -lopengl32 -lglu32
 
 # Build Targets
-.build-conf: ${BUILD_SUBPROJECTS} dist/Windows_Release/GNU-Windows/xsoko.exe
+.build-conf: ${BUILD_SUBPROJECTS}
+	${MAKE}  -f nbproject/Makefile-Windows_Release.mk dist/Windows_Release/${PLATFORM}/xsoko.exe
 
-dist/Windows_Release/GNU-Windows/xsoko.exe: ${OBJECTFILES}
-	${MKDIR} -p dist/Windows_Release/GNU-Windows
-	${LINK.cc} -o dist/Windows_Release/GNU-Windows/xsoko ${OBJECTFILES} ${LDLIBSOPTIONS} 
+dist/Windows_Release/${PLATFORM}/xsoko.exe: ${OBJECTFILES}
+	${MKDIR} -p dist/Windows_Release/${PLATFORM}
+	${LINK.cc} -o dist/Windows_Release/${PLATFORM}/xsoko ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
 ${OBJECTDIR}/src/zip/ioapi.o: src/zip/ioapi.c 
 	${MKDIR} -p ${OBJECTDIR}/src/zip
-	$(COMPILE.c) -O2 -o ${OBJECTDIR}/src/zip/ioapi.o src/zip/ioapi.c
+	${RM} $@.d
+	$(COMPILE.c) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/zip/ioapi.o src/zip/ioapi.c
 
 ${OBJECTDIR}/src/camera.o: src/camera.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
-	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/src/camera.o src/camera.cpp
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -DWindows_Release -I/cygdrive/E/cygwin/usr/include/boost-1_33_1 -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/camera.o src/camera.cpp
 
 ${OBJECTDIR}/src/game.o: src/game.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
-	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/src/game.o src/game.cpp
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -DWindows_Release -I/cygdrive/E/cygwin/usr/include/boost-1_33_1 -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/game.o src/game.cpp
 
 ${OBJECTDIR}/src/session.o: src/session.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
-	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/src/session.o src/session.cpp
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -DWindows_Release -I/cygdrive/E/cygwin/usr/include/boost-1_33_1 -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/session.o src/session.cpp
 
 ${OBJECTDIR}/src/zip/unzip.o: src/zip/unzip.c 
 	${MKDIR} -p ${OBJECTDIR}/src/zip
-	$(COMPILE.c) -O2 -o ${OBJECTDIR}/src/zip/unzip.o src/zip/unzip.c
-
-${OBJECTDIR}/src/resource.o: src/resource.cpp 
-	${MKDIR} -p ${OBJECTDIR}/src
-	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/src/resource.o src/resource.cpp
+	${RM} $@.d
+	$(COMPILE.c) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/zip/unzip.o src/zip/unzip.c
 
 ${OBJECTDIR}/src/input.o: src/input.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
-	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/src/input.o src/input.cpp
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -DWindows_Release -I/cygdrive/E/cygwin/usr/include/boost-1_33_1 -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/input.o src/input.cpp
+
+${OBJECTDIR}/src/resource.o: src/resource.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -DWindows_Release -I/cygdrive/E/cygwin/usr/include/boost-1_33_1 -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/resource.o src/resource.cpp
 
 ${OBJECTDIR}/src/main.o: src/main.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
-	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/src/main.o src/main.cpp
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -DWindows_Release -I/cygdrive/E/cygwin/usr/include/boost-1_33_1 -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/main.o src/main.cpp
 
 ${OBJECTDIR}/src/zip/zipfile.o: src/zip/zipfile.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/zip
-	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/src/zip/zipfile.o src/zip/zipfile.cpp
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -DWindows_Release -I/cygdrive/E/cygwin/usr/include/boost-1_33_1 -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/zip/zipfile.o src/zip/zipfile.cpp
 
 ${OBJECTDIR}/src/gui/fonts.o: src/gui/fonts.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/gui
-	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/src/gui/fonts.o src/gui/fonts.cpp
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -DWindows_Release -I/cygdrive/E/cygwin/usr/include/boost-1_33_1 -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/gui/fonts.o src/gui/fonts.cpp
 
 ${OBJECTDIR}/src/level.o: src/level.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
-	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/src/level.o src/level.cpp
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -DWindows_Release -I/cygdrive/E/cygwin/usr/include/boost-1_33_1 -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/level.o src/level.cpp
 
 ${OBJECTDIR}/src/vector.o: src/vector.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
-	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/src/vector.o src/vector.cpp
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -DWindows_Release -I/cygdrive/E/cygwin/usr/include/boost-1_33_1 -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/vector.o src/vector.cpp
 
 ${OBJECTDIR}/src/player.o: src/player.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
-	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/src/player.o src/player.cpp
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -DWindows_Release -I/cygdrive/E/cygwin/usr/include/boost-1_33_1 -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/player.o src/player.cpp
 
 ${OBJECTDIR}/src/object.o: src/object.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
-	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/src/object.o src/object.cpp
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -DWindows_Release -I/cygdrive/E/cygwin/usr/include/boost-1_33_1 -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/object.o src/object.cpp
 
 ${OBJECTDIR}/src/messages.o: src/messages.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
-	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/src/messages.o src/messages.cpp
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -DWindows_Release -I/cygdrive/E/cygwin/usr/include/boost-1_33_1 -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/messages.o src/messages.cpp
 
 ${OBJECTDIR}/src/game-render.o: src/game-render.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
-	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/src/game-render.o src/game-render.cpp
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -DWindows_Release -I/cygdrive/E/cygwin/usr/include/boost-1_33_1 -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/game-render.o src/game-render.cpp
 
 ${OBJECTDIR}/src/core.o: src/core.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
-	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/src/core.o src/core.cpp
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -DWindows_Release -I/cygdrive/E/cygwin/usr/include/boost-1_33_1 -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/core.o src/core.cpp
 
 ${OBJECTDIR}/src/gui/win.o: src/gui/win.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/gui
-	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/src/gui/win.o src/gui/win.cpp
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -DWindows_Release -I/cygdrive/E/cygwin/usr/include/boost-1_33_1 -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/gui/win.o src/gui/win.cpp
 
 ${OBJECTDIR}/src/io.o: src/io.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
-	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/src/io.o src/io.cpp
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -DWindows_Release -I/cygdrive/E/cygwin/usr/include/boost-1_33_1 -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/io.o src/io.cpp
 
 ${OBJECTDIR}/src/renderer/renderer-texture.o: src/renderer/renderer-texture.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/renderer
-	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/src/renderer/renderer-texture.o src/renderer/renderer-texture.cpp
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -DWindows_Release -I/cygdrive/E/cygwin/usr/include/boost-1_33_1 -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/renderer/renderer-texture.o src/renderer/renderer-texture.cpp
 
 ${OBJECTDIR}/src/game-init.o: src/game-init.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
-	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/src/game-init.o src/game-init.cpp
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -DWindows_Release -I/cygdrive/E/cygwin/usr/include/boost-1_33_1 -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/game-init.o src/game-init.cpp
 
 ${OBJECTDIR}/src/CommonStructures.o: src/CommonStructures.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
-	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/src/CommonStructures.o src/CommonStructures.cpp
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -DWindows_Release -I/cygdrive/E/cygwin/usr/include/boost-1_33_1 -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/CommonStructures.o src/CommonStructures.cpp
 
 ${OBJECTDIR}/src/renderer/particle.o: src/renderer/particle.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/renderer
-	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/src/renderer/particle.o src/renderer/particle.cpp
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -DWindows_Release -I/cygdrive/E/cygwin/usr/include/boost-1_33_1 -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/renderer/particle.o src/renderer/particle.cpp
 
 ${OBJECTDIR}/src/levelbox.o: src/levelbox.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
-	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/src/levelbox.o src/levelbox.cpp
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -DWindows_Release -I/cygdrive/E/cygwin/usr/include/boost-1_33_1 -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/levelbox.o src/levelbox.cpp
 
 ${OBJECTDIR}/src/renderer/renderer-core.o: src/renderer/renderer-core.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/renderer
-	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/src/renderer/renderer-core.o src/renderer/renderer-core.cpp
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -DWindows_Release -I/cygdrive/E/cygwin/usr/include/boost-1_33_1 -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/renderer/renderer-core.o src/renderer/renderer-core.cpp
 
 # Subprojects
 .build-subprojects:
@@ -177,7 +206,12 @@ ${OBJECTDIR}/src/renderer/renderer-core.o: src/renderer/renderer-core.cpp
 # Clean Targets
 .clean-conf:
 	${RM} -r build/Windows_Release
-	${RM} dist/Windows_Release/GNU-Windows/xsoko.exe
+	${RM} dist/Windows_Release/${PLATFORM}/xsoko.exe
 
 # Subprojects
 .clean-subprojects:
+
+# Enable dependency checking
+.dep.inc: .depcheck-impl
+
+include .dep.inc

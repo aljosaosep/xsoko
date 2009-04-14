@@ -41,7 +41,15 @@
 #include <cstdio>
 #include <cmath>
 
-#include <boost/filesystem.hpp>
+#if !(defined(Windows_Release) || defined(Windows_Debug))
+    #include <boost/filesystem.hpp>
+#else
+    #define BOOST_WINDOWS_API
+    #include <boost/filesystem/convenience.hpp>
+    #include <boost/filesystem/path.hpp>
+    #include <boost/filesystem/operations.hpp>
+#endif
+
 using namespace boost::filesystem;
 
 #ifdef ENABLE_FPS
@@ -104,9 +112,14 @@ namespace PacGame
             directory_iterator end_itr; // default construction yields past-the-end
             for (directory_iterator itr(dir_path);itr != end_itr; ++itr )
             {
-              if ( !is_directory(itr->status()) && extension(itr->path()) == ".lvl" )
+              if ( !is_directory(*itr) && extension(*itr) == ".lvl" )
               {
+
+#if !(defined(Windows_Release) || defined(Windows_Debug))
                   string filename = itr->path().leaf();
+#else
+                  string filename = itr->leaf();
+#endif
                   list->addItem(filename.substr(0,filename.find_last_of('.')));
               }
             }
@@ -125,6 +138,7 @@ namespace PacGame
             
             Window* win = new Window(253, 158, 135, 165);
             win->setVisible(false);
+            win->setEnableCloseButton(false);
 
             btn = new Button(30, 40, 75, 25, "Save");
             btn->setName("save");
@@ -160,7 +174,7 @@ namespace PacGame
             //this->camera->fitCameraToLevel(this->level->getWidth(), this->level->getHeight());
             
             RenderMaschine::PParticleEngine particles(5.0, 7.0, 9.0);
-             
+
             while(!gameQuit /*1 this->isGameRunning*/)
             {
                 if(levelLoaded){

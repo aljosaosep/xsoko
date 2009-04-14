@@ -90,13 +90,26 @@
       </toolsSet>
       <compileType>
         <ccCompilerTool>
+          <includeDirectories>
+            <directoryPath>E:/cygwin/usr/include/boost-1_33_1</directoryPath>
+          </includeDirectories>
+          <preprocessorList>
+            <Elem>Windows_Debug</Elem>
+          </preprocessorList>
           <warningLevel>2</warningLevel>
         </ccCompilerTool>
         <linkerTool>
+          <linkerAddLib>
+            <directoryPath>/usr/local/lib</directoryPath>
+          </linkerAddLib>
           <linkerLibItems>
             <linkerLibLibItem>glfw</linkerLibLibItem>
+            <linkerLibLibItem>z</linkerLibLibItem>
+            <linkerLibLibItem>boost_filesystem-gcc-mt</linkerLibLibItem>
             <linkerLibLibItem>opengl32</linkerLibLibItem>
             <linkerLibLibItem>glu32</linkerLibLibItem>
+            <linkerLibLibItem>ALut</linkerLibLibItem>
+            <linkerLibLibItem>openal32</linkerLibLibItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>
@@ -251,7 +264,7 @@
     <conf name="Windows_Release" type="1">
       <toolsSet>
         <developmentServer>localhost</developmentServer>
-        <compilerSet>GNU|GNU</compilerSet>
+        <compilerSet>Cygwin|Cygwin</compilerSet>
         <platform>3</platform>
       </toolsSet>
       <compileType>
@@ -260,6 +273,12 @@
         </cCompilerTool>
         <ccCompilerTool>
           <developmentMode>5</developmentMode>
+          <includeDirectories>
+            <directoryPath>E:/cygwin/usr/include/boost-1_33_1</directoryPath>
+          </includeDirectories>
+          <preprocessorList>
+            <Elem>Windows_Release</Elem>
+          </preprocessorList>
         </ccCompilerTool>
         <fortranCompilerTool>
           <developmentMode>5</developmentMode>
@@ -267,6 +286,10 @@
         <linkerTool>
           <linkerLibItems>
             <linkerLibLibItem>glfw</linkerLibLibItem>
+            <linkerLibLibItem>OpenAL32</linkerLibLibItem>
+            <linkerLibLibItem>ALut</linkerLibLibItem>
+            <linkerLibLibItem>boost_filesystem-gcc-mt</linkerLibLibItem>
+            <linkerLibLibItem>z</linkerLibLibItem>
             <linkerLibLibItem>opengl32</linkerLibLibItem>
             <linkerLibLibItem>glu32</linkerLibLibItem>
           </linkerLibItems>
