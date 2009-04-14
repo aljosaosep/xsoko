@@ -356,7 +356,35 @@ namespace PacGame
                           }
                           return true;                         
                       }
-                  }   
+                  } // case, there is oneway cube
+                  else if(data[i2][j2]->returnFirstChild()->isPlayerMovePossible() == 3 && (obj->getId()==1))  // there is cube on the field, we attemt to move it
+                                                                                                              // but we can move it only, if obj is player(do it has id=1)
+                  {
+                      cout<<"Hell, there is someting there, oneway cube, attempting to move..."<<endl;
+                      if(dynamic_cast<POnewayCube*>(data[i2][j2]->returnFirstChild())->getDirection()==dir)
+                      {
+                          // CUBE-MOVE CODE GOES HERE
+                          if(this->moveObject(dir, dynamic_cast<PLevelObject*>(data[i2][j2]->returnFirstChild())))
+                          {
+                            cout<<"Obj moved, now I am reattaching..."<<endl;
+                              reattachNode(i, j, i2, j2, obj);   // it is, we move object
+                              return true;
+                          }
+                      }
+                  }
+                  else if(data[i2][j2]->returnFirstChild()->isPlayerMovePossible() == 4) // there is a bomb
+                  {
+                    //  cout<<"idproblem"<<endl;
+                      if(obj->getId()==1) // is object a player ?
+                      {
+                      //    data[i2][j2]->releaseFirstChild(); // release picking bomb object
+                      //    data[i2][j2]->unlinkFirstChild();
+                          data[i2][j2]->releaseFirstChildObject();
+                          this->player->incBombs();  // increase bombs
+                          reattachNode(i, j, i2, j2, obj);   // move
+                          cout<<"St. bomb:"<<this->player->getBombs()<<endl;
+                      }
+                  }
               }
 
               
@@ -1011,6 +1039,11 @@ namespace PacGame
        //       PacGame::RenderMaschine::PParticleEngine particle(i*2.0, j*2.0, -10.0);
         //      (10.05, -11.4, 29.3);
         //      particle.process(100);
+              if((unsigned)i >  (this->width-1)|| i<0 || (unsigned)j > (this->height-1) || j<0)
+              {
+                  Messages::errorIndexOutOfRange();
+                  return;
+              }
               if(data[i][j]->returnFirstChild() != NULL)
               {
                   

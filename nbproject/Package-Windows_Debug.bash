@@ -6,7 +6,7 @@
 
 # Macros
 TOP=`pwd`
-PLATFORM=
+PLATFORM=Cygwin-Windows
 TMPDIR=build/Windows_Debug/${PLATFORM}/tmp-packaging
 TMPDIRNAME=tmp-packaging
 OUTPUT_PATH=dist/Windows_Debug/${PLATFORM}/xsoko
@@ -57,7 +57,7 @@ mkdir -p ${TMPDIR}
 # Copy files and create directories and links
 cd "${TOP}"
 makeDirectory ${TMPDIR}/xsoko/bin
-copyFileToTmpDir "${OUTPUT_PATH}" "${TMPDIR}/${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}" 0755
+copyFileToTmpDir "${OUTPUT_PATH}.exe" "${TMPDIR}/${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}.exe" 0755
 
 
 # Generate tar file
