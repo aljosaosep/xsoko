@@ -43,26 +43,22 @@ namespace PacGame
         {
         private: 
             PLevel *level;    // level object
-            //Window* win;
-            bool menuVisible;
+            bool toggleMenu;
         public:
             
             // constructors
-            PInputSystem(PLevel *level/*,Window* gameMenu*/) : level(level), menuVisible(false)/*, win(gameMenu)*/ { }
-            PInputSystem() : level(NULL), menuVisible(false)/*, win(NULL)*/ { }
+            PInputSystem(PLevel *level/*,Window* gameMenu*/) : level(level), toggleMenu(false)/*, win(gameMenu)*/ { }
+            PInputSystem() : level(NULL), toggleMenu(false)/*, win(NULL)*/ { }
             
             // process function
-            void process();
+            void process(bool menuVisible);
             
             // setters
             void setLevel(PLevel *level);
-            //void setGameMenu(Window* gameMenu);
-            void setGameMenuVisible(bool visible);
-            bool isGameMenuVisible();
+            bool toggleGameMenu();
             
             // getters
             PLevel* getLevel() const;
-            //bool isGameMenuVisible();
         }; 
     }
 }

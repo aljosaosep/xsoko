@@ -21,7 +21,15 @@
 
 #include <GL/glfw.h>
 #include "fonts.h"
-#include <boost/filesystem.hpp>
+
+#if !(defined(Windows_Release) || defined(Windows_Debug))
+    #include <boost/filesystem.hpp>
+#else
+    #define BOOST_WINDOWS_API
+    #include <boost/filesystem/convenience.hpp>
+    #include <boost/filesystem/path.hpp>
+    #include <boost/filesystem/operations.hpp>
+#endif
 
 using namespace boost::filesystem;
 

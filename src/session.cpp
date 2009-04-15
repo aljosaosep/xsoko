@@ -16,10 +16,7 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "gui/win.h"
-
-
-#include "gui/win.h"
+#include <GL/glfw.h>
 
 
 #include "input.h"
@@ -36,7 +33,6 @@
 #include "level.h"
 #include "gui/win.h"
 #include "session.h"
-//#include "gui/gui.h"
 #include "renderer/particle.h"
 #include <cstdio>
 #include <cmath>
@@ -51,16 +47,6 @@
 #endif
 
 using namespace boost::filesystem;
-
-#ifdef ENABLE_FPS
-    #include <sstream>
-
-string inttostr(int x){
-    std::stringstream out;
-    out << x;
-    return out.str();
-}
-#endif
 
 namespace PacGame
 {
@@ -82,32 +68,31 @@ namespace PacGame
             glfwSetMouseButtonCallback(Gui::onMouseClick);
             glfwSetMousePosCallback(Gui::onMouseMove);
             glfwSetWindowSizeCallback(Gui::glResizeWnd);
+            glfwDisable(GLFW_MOUSE_CURSOR);
             
-            Window* gWin = new Window(253, 158, 135, 165);
-            Window* fWin = new Window(210, 158, 220, 141);
-            ListBox* list = new ListBox(10,40,115,68);
-            btnClick = new GuiBtnClick(this,gWin,fWin, list);
-            mainMenu = gWin;
+            mainMenu = new Window(253, 158, 135, 165);
             
             Button* btn = new Button(30, 40, 75, 25, "Campaing");
             btn->setName("campaing");
-            btn->setAction(btnClick);
-            gWin->AddComponent(btn);
+            btn->setAction(this);
+            mainMenu->AddComponent(btn);
 
             btn = new Button(30, 75, 75, 25, "Freeplay");
             btn->setName("freeplay");
-            btn->setAction(btnClick);
-            gWin->AddComponent(btn);
+            btn->setAction(this);
+            mainMenu->AddComponent(btn);
 
             btn = new Button(30, 110, 75, 25, "Exit");
             btn->setName("guiExit");
-            btn->setAction(btnClick);
-            gWin->AddComponent(btn);
+            btn->setAction(this);
+            mainMenu->AddComponent(btn);
             
-            gui->addWindow(gWin);
+            gui->addWindow(mainMenu);
 
-            fWin->setVisible(false);
+            freeMenu = new Window(210, 158, 220, 141);
+            freeMenu->setVisible(false);
 
+            listbox = new ListBox(10,40,115,68);
             path dir_path("data");
             directory_iterator end_itr; // default construction yields past-the-end
             for (directory_iterator itr(dir_path);itr != end_itr; ++itr )
@@ -120,49 +105,49 @@ namespace PacGame
 #else
                   string filename = itr->leaf();
 #endif
-                  list->addItem(filename.substr(0,filename.find_last_of('.')));
+                  listbox->addItem(filename.substr(0,filename.find_last_of('.')));
               }
             }
+            freeMenu->AddComponent(listbox);
 
-            fWin->AddComponent(list);
             btn = new Button(135,40,75,25,"Play");
             btn->setName("play");
-            btn->setAction(btnClick);
-            fWin->AddComponent(btn);
+            btn->setAction(this);
+            freeMenu->AddComponent(btn);
+
             btn = new Button(135,70,75,25,"Back");
             btn->setName("back");
-            btn->setAction(btnClick);
-            fWin->AddComponent(btn);
+            btn->setAction(this);
+            freeMenu->AddComponent(btn);
 
-            gui->addWindow(fWin);
+            gui->addWindow(freeMenu);
             
-            Window* win = new Window(253, 158, 135, 165);
-            win->setVisible(false);
-            win->setEnableCloseButton(false);
+            gameMenu = new Window(253, 158, 135, 165);
+            gameMenu->setVisible(false);
+            gameMenu->setEnableCloseButton(false);
 
             btn = new Button(30, 40, 75, 25, "Save");
             btn->setName("save");
-            btn->setAction(btnClick);
-            win->AddComponent(btn);
+            btn->setAction(this);
+            gameMenu->AddComponent(btn);
 
             btn = new Button(30, 75, 75, 25, "Reset");
             btn->setName("reset");
-            btn->setAction(btnClick);
-            win->AddComponent(btn);
+            btn->setAction(this);
+            gameMenu->AddComponent(btn);
 
             btn = new Button(30, 110, 75, 25, "Exit");
             btn->setName("gameExit");
-            btn->setAction(btnClick);
-            win->AddComponent(btn);
-            gameMenu = win;
+            btn->setAction(this);
+            gameMenu->AddComponent(btn);
             
-            gui->addWindow(win);
+            gui->addWindow(gameMenu);
         }
             
         void PGameSession::mainLoop()
         {
             Messages::infoMessage("Entering main loop...");
-            
+
             // the time of the previous frame
             double old_time = glfwGetTime();   
 
@@ -172,20 +157,25 @@ namespace PacGame
 #endif
             
             //this->camera->fitCameraToLevel(this->level->getWidth(), this->level->getHeight());
+            bool toggle = false;
             
-            RenderMaschine::PParticleEngine particles(5.0, 7.0, 9.0);
+            //RenderMaschine::PParticleEngine particles(5.0, 7.0, 9.0);
 
             while(!gameQuit /*1 this->isGameRunning*/)
             {
+
+                glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+                glLoadIdentity(); // reset view matrix
+                
                 if(levelLoaded){
                 
                     // calculate time elapsed, and the amount by which stuff rotates
-                    double current_time = glfwGetTime(),
-                    delta_rotate = (current_time - old_time) * rotations_per_tick * 360;
+                    //delta_rotate = (current_time - old_time) * rotations_per_tick * 360;
 
 #ifdef ENABLE_FPS
+                    double current_time = glfwGetTime();
                     if(current_time - old_time >= 1){
-                      title = "xSoko project FPS: " + inttostr(frames);
+                      title = "xSoko project FPS: " + Functions::toString<int>(frames);
                       glfwSetWindowTitle(title.c_str());
                       old_time = current_time;
                       frames = 0;
@@ -194,110 +184,60 @@ namespace PacGame
 #endif
 
                     this->level->processBombs(current_time);
-                    //old_time = current_time;
+
+                    // check for input every time
+                    this->input->process(toggle);
+                    
+                    //we are checking because small method call is time expensive
+                    if(this->input->toggleGameMenu()){
+                        toggle = !toggle;
+                        gameMenu->setVisible(toggle);
+                        gui->setMouseVisible(toggle);
+                    }
 
                     // is game over? or level done?
                     if(this->level->getEndgameFlag() || forceLevelQuit){
                         levelLoaded = false;
                         gameMenu->setVisible(false);
                         mainMenu->setVisible(true);
-                        glDisable(GL_LIGHTING);
+                        gui->setMouseVisible(true);
                     }
 
-                    // check for input every time
-                    this->input->process();
-
-                    // clear the buffer
-                    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-                    glLoadIdentity(); // reset view matrix
-
-                   gluLookAt(this->camera->view.getCoordX(), this->camera->view.getCoordY(), this->camera->view.getCoordZ(), 
+                    gluLookAt(this->camera->view.getCoordX(), this->camera->view.getCoordY(), this->camera->view.getCoordZ(),
                             this->camera->position.getCoordX(), this->camera->position.getCoordY(), this->camera->position.getCoordZ(), 
                             this->camera->up.getCoordX(), this->camera->up.getCoordY(), this->camera->up.getCoordZ());
 
                     glRotatef(-90.0, 0.0, 0.0, 1.0);
 
+                    glEnable(GL_LIGHTING);
+
                     this->level->draw();
 
                     //particles.process(delta_rotate*10);
-                    
-                    if(this->input->isGameMenuVisible()){
-                        glDisable(GL_LIGHTING);
-                        gui->Render();
-                        glEnable(GL_LIGHTING);
-                        glMatrixMode(GL_PROJECTION);                                                // Select The Projection Matrix
-                        glLoadIdentity();                                                         // Reset The Projection Matrix
-                        // Calculate The Aspect Ratio Of The Window
-                        gluPerspective(45.0f,640.0f/480,0.1f,100.0f);
-                        glMatrixMode(GL_MODELVIEW);                                         // Select The Modelview Matrix
 
-                        // Aljosa: two lines that follows are blend-gui-to-game fix ;)
-                        glEnable(GL_DEPTH_TEST);    // after drawing GUI, enable depth test
-                        glEnable(GL_BLEND);         // and blending
-                    }
+                    glDisable(GL_LIGHTING);
+                } 
+                
+                gui->Render();
 
-                } else {
-                    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+                if(levelLoaded){
+                    glMatrixMode(GL_PROJECTION);						// Select The Projection Matrix
+                    glLoadIdentity();                                                         // Reset The Projection Matrix
+                    // Calculate The Aspect Ratio Of The Window
+                    gluPerspective(45.0f,640.0f/480,0.1f,100.0f);
+                    glMatrixMode(GL_MODELVIEW);						// Select The Modelview Matrix
                     glLoadIdentity();
-                    glTranslatef(0, 0, -4);
-                    
-                    gui->Render();
-                    
-                    if(levelLoaded){
-                        glEnable(GL_LIGHTING);
-                        glMatrixMode(GL_PROJECTION);						// Select The Projection Matrix
-                        glLoadIdentity();                                                         // Reset The Projection Matrix
-                        // Calculate The Aspect Ratio Of The Window
-                        gluPerspective(45.0f,640.0f/480,0.1f,100.0f);
-                        glMatrixMode(GL_MODELVIEW);						// Select The Modelview Matrix
-                        glLoadIdentity();
-                    }
+                    // Aljosa: two lines that follows are blend-gui-to-game fix ;)
+                    glEnable(GL_DEPTH_TEST);    // after drawing GUI, enable depth test
+                    glEnable(GL_BLEND);         // and blending
                 }
-                //frames ++;
               
                 glfwSwapBuffers();
             }
         }
         
-        void PGameSession::levelQuit(){
-            forceLevelQuit = true;
-        }
-        
-        void PGameSession::gameExit(){
-            gameQuit = true;
-        }
-        
-        void PGameSession::resetLevel(){
-            level->reset();
-            input->setGameMenuVisible(false);
-        }
-        
         bool PGameSession::initialize()
         {    
-            
-            return true;
-        }
-        
-        bool PGameSession::run()
-        {
-            // first, we init level, because witohut it, there is no game
-            //if(!level->initialize())
-            //    return false;
-            forceLevelQuit = false;
-            
-            // next, we initiate session
-     /*       if(!this->initialize())
-            {
-                Messages::initMessage("Game session", false);
-                return false;
-            }
-            else
-                Messages::initMessage("Game session", true);*/
-            
-            
-            // at last(but not at least;)), we trigger main loop
-            // down there, code is not finished yet!!!!
-            this->mainLoop();
             
             return true;
         }
@@ -343,168 +283,73 @@ namespace PacGame
         }
         
         void PGameSession::LoadLevel(string levelPath){
-            if(level != NULL){
-                if(level->loadLevelFromFile(levelPath)){
-                    this->camera->fitCameraToLevel(this->level->getWidth(), this->level->getHeight());
-                    levelLoaded = true;
-                    gameMenu->setVisible(true);
-                    forceLevelQuit = false;
-                    input->setGameMenuVisible(false);
-                    //setCallBacks();
-                }
-            } else {
+
+            //removeCallBacks();
+            if(level == NULL){
                 level = new PLevel(levelPath);
-                if(level->initialize()){
-                    //removeCallBacks();
-                    input->setLevel(level);
-                    input->setGameMenuVisible(false);
-                    this->player = level->getPlayerHandle();
-                    this->camera = level->getGameCoreHandle()->getCamera();
-                    this->camera->fitCameraToLevel(this->level->getWidth(), this->level->getHeight());
-                    levelLoaded = true;
-                    gameMenu->setVisible(true);
-                    forceLevelQuit = false;
-                    //setCallBacks();
-                }
-            }
+                if(!level->initialize())
+                    return;
+                input->setLevel(level);
+                this->player = level->getPlayerHandle();
+                this->camera = level->getGameCoreHandle()->getCamera();
+            } else
+                if(!level->loadLevelFromFile(levelPath))
+                    return;
+
+            this->camera->fitCameraToLevel(this->level->getWidth(), this->level->getHeight());
+            levelLoaded = true;
+            forceLevelQuit = false;
+            gui->setMouseVisible(false);
+            //setCallBacks();
         }
         
-        PGameSession::~PGameSession()
-        {
-            delete gui;
-            delete btnClick;
-        }
-        
-        void GuiBtnClick::onAction(Component* button){
-            if(session == NULL)
-                return;
-            
+        void PGameSession::onAction(Component* button){
             if(button->getName() == "campaing"){
-                main->setVisible(false);
-                session->LoadLevel("data/testlevel.lvl");
+                mainMenu->setVisible(false);
+                LoadLevel("data/testlevel.lvl");
                 return;
             }
             if(button->getName() == "freeplay"){
-                main->setVisible(false);
-                free->setVisible(true);
+                mainMenu->setVisible(false);
+                freeMenu->setVisible(true);
                 return;
             }
             if(button->getName() == "guiExit"){
-                session->gameExit();
+                gameQuit = true;
                 return;
             }
             if(button->getName() == "play"){
-                session->LoadLevel("data/"+listBox->getSelectedItem()+".lvl");
-                free->setVisible(false);
+                LoadLevel("data/"+listbox->getSelectedItem()+".lvl");
+                freeMenu->setVisible(false);
                 return;
             }
             if(button->getName() == "back"){
-                free->setVisible(false);
-                main->setVisible(true);
+                freeMenu->setVisible(false);
+                mainMenu->setVisible(true);
                 return;
             }
             if(button->getName() == "save"){
                 return;
             }
             if(button->getName() == "reset"){
-                session->resetLevel();
+                level->reset();
+                gui->setMouseVisible(false);
+                gameMenu->setVisible(false);
                 return;
             }
             if(button->getName() == "gameExit"){
-                session->levelQuit();
+                forceLevelQuit = true;
                 return;
             }
         }
-        
-        /*PGuiSession::PGuiSession(int width, int height){
-            initSuccess = false;
-            if(InitGUI("data/GUI.tga","data/font.tga")){
-                canQuit = false;
-                setCallBacks();
-                SetGuiSession(this);
-                levelSession.setInput(&input);
-                //glfwDisable(GLFW_MOUSE_CURSOR);
-                glResizeWnd(width,height);
-                
-                mainWin = createMainMenu();
-                setMainWindow(mainWin);
-                
-                initSuccess = true;
-            }
-        }
-        
-        bool PGuiSession::run(){
-            if(!initSuccess)
-                return false;
-            
-            double lastTime = glfwGetTime();
-            int fps = 0;
-            while(!canQuit){
-                if(glfwGetTime()-lastTime>=1){
-                    cout << "FPS: " << fps << endl;
-                    fps = 0;
-                    lastTime = glfwGetTime();
-                } else
-                    fps++;
-                // clear the buffer
-                glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-                glLoadIdentity();
-                glTranslatef(0, 0, -4);
-                // draw the figure
-                RenderGUI();
-                glfwSwapBuffers();
-            }
-            return true;
-        }
-        
-        void PGuiSession::setCallBacks(){
-            glfwSetMouseButtonCallback(onMouseClick);
-            glfwSetMousePosCallback(onMouseMove);
-            glfwSetWindowSizeCallback(glResizeWnd);
-        }
-        
-        void PGuiSession::removeCallBacks(){
-            glfwSetMouseButtonCallback(NULL);
-            glfwSetMousePosCallback(NULL);
-            glfwSetWindowSizeCallback(NULL);
-        }
-        
-        void PGuiSession::Quit(){
-            canQuit = true;
-        }
-        
-        void PGuiSession::LoadLevel(string levelPath){
-            //removeCallBacks();
-            
-            //move to better place
-            glMatrixMode(GL_PROJECTION);						// Select The Projection Matrix
-            glLoadIdentity();                                                         // Reset The Projection Matrix
-            // Calculate The Aspect Ratio Of The Window
-            gluPerspective(45.0f,640.0f/480,0.1f,100.0f);
-            glMatrixMode(GL_MODELVIEW);						// Select The Modelview Matrix
-            glLoadIdentity();
-            
-            PLevel level(levelPath);
-            // input object
-            input.setLevel(&level);
-            // make session
-            levelSession.setLevel(&level);
-            levelSession.run();
-            
-            setMainWindow(mainWin);            
-            //setCallBacks();
-        }
-        
-        Window* PGuiSession::getMainWindow(){
-            return mainWin;
-        }
-        
-        PGuiSession::~PGuiSession(){
-            SetGuiSession(NULL);
-            DestroyGUI();
-            removeCallBacks();
+
+        PGameSession::~PGameSession()
+        {
+            delete gui;
+            delete freeMenu;
+            delete gameMenu;
+            delete mainMenu;
             glfwEnable(GLFW_MOUSE_CURSOR);
-            delete mainWin;
-        }*/
+        }
     }
 }

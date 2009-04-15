@@ -68,7 +68,9 @@ namespace PacGame
           
           bool PGame::run()
           {
-              return this->session->run();
+              //TODO: fix this
+              this->session->mainLoop();
+              return true;
           }
           
           // setters

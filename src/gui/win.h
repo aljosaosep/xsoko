@@ -137,7 +137,7 @@ public:
 class ListBox: public Component{
 private:
     vector<string> items;
-    unsigned selected;
+    int selected;
     int drawIndex;
     unsigned canShow;
     bool upPressed;
@@ -208,12 +208,14 @@ private:
     float zorder;
     int screenHeight;
     MouseDrag mouseDrag;
+    bool enableCloseButton;
 public:
     Window(int wX, int wY, int wWidth, int wHeight);
     float getAlpha();
     float getZOrder();
     void setZOrder(float zorder);
     void setAlpha(float alpha);
+    void setEnableCloseButton(bool enabled);
     void Render();
     void onMouseDown(int mx, int my);
     void onMouseMove(int mx, int my);
@@ -233,6 +235,8 @@ private:
     vector<Window*> windows;
     void onMouseDown();
     GLuint texIndex;
+    bool mVisible;
+
 public:
     static void onMouseClick(int button, int action);
     static void onMouseMove(int x, int y);
@@ -241,6 +245,7 @@ public:
     Gui(const char* guiTextureFileName);
     ~Gui();
     void Render();
+    void setMouseVisible(bool visible);
     GLuint getSkin();
     void addWindow(Window* win);
 };

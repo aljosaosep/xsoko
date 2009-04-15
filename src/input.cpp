@@ -33,7 +33,7 @@ namespace PacGame
 {
     namespace GameClasses
     {
-        void PInputSystem::process()
+        void PInputSystem::process(bool menuVisible)
         {
             // gets renderer handle, for camera
 //             PRenderer *rn = this->level->getGameCoreHandle()->getRenderer();
@@ -97,7 +97,7 @@ namespace PacGame
             {
                 /*if(win != NULL)
                     win->setVisible(!win->isVisible());*/
-                menuVisible = !menuVisible;
+                toggleMenu = true;
             }
             
             // camera values; if you need to move camera, uncomment this code
@@ -141,16 +141,12 @@ namespace PacGame
             return this->level;
         }
         
-        void PInputSystem::setGameMenuVisible(bool visible){
-            menuVisible = false;
+        bool PInputSystem::toggleGameMenu(){
+            if(toggleMenu){
+                toggleMenu = false;
+                return true;
+            }
+            return false;
         }
-        
-        bool PInputSystem::isGameMenuVisible(){
-            return menuVisible;
-        }
-        
-        /*void PInputSystem::setGameMenu(Window* gameMenu){
-            this->win = gameMenu;
-        }*/
     }
 }
