@@ -209,6 +209,7 @@ Window::Window(int wX, int wY, int wWidth, int wHeight) : Container(wX,wY,wWidth
   visible = true;     // start off visible
   alpha = 0.9;        // defult for alpha bl}ing
   onScreenResize();
+  enableCloseButton = true;
   mouseDrag.drag = false;
   mouseDrag.x = 0;
   mouseDrag.y = 0;
@@ -285,11 +286,13 @@ void Window::Render()
         glTexCoord2f(1, 0);         glVertex2f(width, -height);
         glTexCoord2f(1, (float)27/128);        glVertex2f(width, 27-height);
 
-        // window close button
-        glTexCoord2f((float)104/128, (float)96/128); glVertex3f(width-22, -8,  0.01);
-        glTexCoord2f((float)104/128, (float)80/128); glVertex3f(width-22, -24, 0.01);
-        glTexCoord2f((float)120/128, (float)80/128); glVertex3f(width-6, -24, 0.01);
-        glTexCoord2f((float)120/128, (float)96/128); glVertex3f(width-6, -8,  0.01);
+        if(enableCloseButton){
+            // window close button
+            glTexCoord2f((float)104/128, (float)96/128); glVertex3f(width-22, -8,  0.01);
+            glTexCoord2f((float)104/128, (float)80/128); glVertex3f(width-22, -24, 0.01);
+            glTexCoord2f((float)120/128, (float)80/128); glVertex3f(width-6, -24, 0.01);
+            glTexCoord2f((float)120/128, (float)96/128); glVertex3f(width-6, -8,  0.01);
+        }
       glEnd();
 
       glTranslatef(0, 0, 0.02);      
@@ -325,14 +328,15 @@ void Window::onMouseMove(int mx, int my){
 void Window::onMouseDown(int mx, int my){
     if(!visible)
         return;
-    
-    // Test to see if user clicked on window close icon
-    if ((mx > x + width-22) && (mx < x + width-6))
-      if ((my - 26 > y+8) && (my - 26 < y + 24))
-      {
-        setVisible(false);
-        return;
-      }
+
+    if(enableCloseButton){
+        // Test to see if user clicked on window close icon
+        if ((mx > x + width-22) && (mx < x + width-6))
+          if ((my - 26 > y+8) && (my - 26 < y + 24)){
+            setVisible(false);
+            return;
+          }
+    }
 
     // Test to see if user clicked in caption bar
     if ((mx > x) && (mx < x + width))
@@ -368,6 +372,10 @@ void  Window::setZOrder(float zorder){
 void Window::onScreenResize(){
     int temp;
     glfwGetWindowSize(&temp,&screenHeight);
+}
+
+void Window::setEnableCloseButton(bool enabled){
+    enableCloseButton = enabled;
 }
 
 // TButton 
@@ -1045,7 +1053,7 @@ Gui::~Gui(){
     texIndex = 0;
 }
 
-Gui::Gui(const char* guiTextureFileName){
+Gui::Gui(const char* guiTextureFileName) : mVisible(true) {
       glClearColor(0.0, 0.0, 0.0, 0.0); 	   // Black Background
       glShadeModel(GL_SMOOTH);                 // Enables Smooth Color Shading
       glClearDepth(1.0);                       // Depth Buffer Setup
@@ -1071,24 +1079,26 @@ Gui::Gui(const char* guiTextureFileName){
  *------------------------------------------------------------------*/
 void Gui::Render()
 {
-  if(!processed){
-      switch(click){
-        case GLFW_PRESS:
-            onMouseDown();
-            break;
-        case GLFW_RELEASE:
-            for(unsigned i=0;i<windows.size();i++)
-                windows[i]->onMouseUp(mouseX,mouseY);
-            break;
+    if(mVisible){
+      if(!processed){
+          switch(click){
+            case GLFW_PRESS:
+                onMouseDown();
+                break;
+            case GLFW_RELEASE:
+                for(unsigned i=0;i<windows.size();i++)
+                    windows[i]->onMouseUp(mouseX,mouseY);
+                break;
+          }
+          processed = true;
       }
-      processed = true;
-  }
-  if(moved){
-      for(unsigned i=0;i<windows.size();i++)
-          windows[i]->onMouseMove(mouseX,mouseY);
-      moved = false;
-  }
-    
+      if(moved){
+          for(unsigned i=0;i<windows.size();i++)
+              windows[i]->onMouseMove(mouseX,mouseY);
+          moved = false;
+      }
+    }
+
   glMatrixMode(GL_PROJECTION);  // Change Matrix Mode to Projection
   glLoadIdentity();             // Reset View
   glOrtho(0, wndWidth, 0, wndHeight, 0, 100);
@@ -1100,19 +1110,21 @@ void Gui::Render()
   glBindTexture(GL_TEXTURE_2D,texIndex);
   for(unsigned i=0;i<windows.size();i++)
           windows[i]->Render();
-  
-  //draw the mouse
-  glEnable(GL_BLEND);
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-  glEnable(GL_TEXTURE_2D);
-  glColor4f(1,1,1,1);
-  glBegin(GL_QUADS);
-    glTexCoord2f((float)41/128, (float)64/128); glVertex3i(mouseX,    wndHeight - mouseY, 1);
-    glTexCoord2f((float)72/128, (float)64/128); glVertex3i(mouseX+32, wndHeight - mouseY, 1);
-    glTexCoord2f((float)72/128, (float)32/128); glVertex3i(mouseX+32, wndHeight - mouseY-32, 1);
-    glTexCoord2f((float)41/128, (float)32/128); glVertex3i(mouseX,    wndHeight - mouseY-32, 1);
-  glEnd();
-  glDisable(GL_BLEND);
+
+  if(mVisible){
+      //draw the mouse
+      glEnable(GL_BLEND);
+      glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+      glEnable(GL_TEXTURE_2D);
+      //glColor4f(1,1,1,1);
+      glBegin(GL_QUADS);
+        glTexCoord2f((float)41/128, (float)64/128); glVertex3i(mouseX,    wndHeight - mouseY, 1);
+        glTexCoord2f((float)72/128, (float)64/128); glVertex3i(mouseX+32, wndHeight - mouseY, 1);
+        glTexCoord2f((float)72/128, (float)32/128); glVertex3i(mouseX+32, wndHeight - mouseY-32, 1);
+        glTexCoord2f((float)41/128, (float)32/128); glVertex3i(mouseX,    wndHeight - mouseY-32, 1);
+      glEnd();
+      glDisable(GL_BLEND);
+  }
 }
 
 /*------------------------------------------------------------------*
@@ -1143,6 +1155,9 @@ bool Gui::processed = true;
 bool Gui::sizeRefreshed = false;
 bool Gui::moved = false;
 
+void Gui::setMouseVisible(bool visible){
+    mVisible = visible;
+}
 
 void Gui::onMouseMove(int x, int y){
   mouseX = x > 0 ? x : 0;

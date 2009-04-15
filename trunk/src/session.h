@@ -38,21 +38,8 @@ using namespace PacGame::GameClasses::GameObjects;
 namespace PacGame
 {   
     namespace GameClasses
-    {   
-        class PGameSession;
-        
-        class GuiBtnClick : public ButtonClick{
-            PGameSession* session;
-            Window* main;
-            Window* free;
-            ListBox* listBox;
-        public:
-            GuiBtnClick(PGameSession* gameSession, Window* mainWin, Window* freeP, ListBox* list) :
-                session(gameSession), main(mainWin), free(freeP), listBox(list){};
-            void onAction(Component* button);
-        };
-        
-        class PGameSession
+    {           
+        class PGameSession : public ButtonClick
         {
         private:
             PLevel *level; 
@@ -66,12 +53,16 @@ namespace PacGame
             bool levelLoaded;
             bool gameQuit;
             bool forceLevelQuit;
+
+            //gui components
             Gui* gui;
-            GuiBtnClick* btnClick;
             Window* mainMenu;
             Window* gameMenu;
+            Window* freeMenu;
+            ListBox* listbox;
             
             void prepareGui();
+            void LoadLevel(string levelPath);
         public:
             // constructors & destructor
             //PGameSession(PLevel *level, PInputSystem *input);
@@ -79,13 +70,9 @@ namespace PacGame
             ~PGameSession();
             
             // methods
-            bool run();
             bool initialize();
             void mainLoop();
-            void levelQuit();
-            void gameExit();
-            void resetLevel();
-            void LoadLevel(string levelPath);
+            void onAction(Component* button);
             
             // setters
             //void setLevel(PLevel *level);
@@ -96,25 +83,6 @@ namespace PacGame
             PLevel *getLevel() const;
             unsigned getScore() const; 
         };
-        
-        /*class PGuiSession{
-        private:
-            bool initSuccess;
-            bool canQuit;
-            Window* mainWin;
-            PGameSession levelSession;
-            PInputSystem input;
-            
-            void setCallBacks();
-            void removeCallBacks();            
-        public:
-            PGuiSession(int width, int height);
-            bool run();
-            void Quit();
-            void LoadLevel(string levelPath);
-            Window* getMainWindow();
-            ~PGuiSession();
-        };*/
     }
 }
 
