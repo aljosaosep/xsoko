@@ -172,8 +172,10 @@ namespace PacGame
                     // calculate time elapsed, and the amount by which stuff rotates
                     //delta_rotate = (current_time - old_time) * rotations_per_tick * 360;
 
-#ifdef ENABLE_FPS
                     double current_time = glfwGetTime();
+
+#ifdef ENABLE_FPS
+                    
                     if(current_time - old_time >= 1){
                       title = "xSoko project FPS: " + Functions::toString<int>(frames);
                       glfwSetWindowTitle(title.c_str());
