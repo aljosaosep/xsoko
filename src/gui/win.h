@@ -43,7 +43,7 @@ public:
     Container* getParent();
     void setPosition(int x, int y);
     void setSize(int width, int height);
-    void setVisible(bool visible);
+    virtual void setVisible(bool visible);
     void setParent(Container* parent);
     void setName(const string& name);
     void setSkin(GLuint texIndex);
@@ -209,13 +209,19 @@ private:
     int screenHeight;
     MouseDrag mouseDrag;
     bool enableCloseButton;
+    bool modal;
+    string caption;
+    Font* fnt;
 public:
-    Window(int wX, int wY, int wWidth, int wHeight);
+    Window(int wX, int wY, int wWidth, int wHeight, string caption);
+    ~Window();
     float getAlpha();
     float getZOrder();
     void setZOrder(float zorder);
     void setAlpha(float alpha);
     void setEnableCloseButton(bool enabled);
+    void setModal(bool modal);
+    void setVisible(bool visible);
     void Render();
     void onMouseDown(int mx, int my);
     void onMouseMove(int mx, int my);
@@ -223,7 +229,12 @@ public:
     void onScreenResize();
 };
 
-class Gui{
+struct msgHandle {
+    unsigned id;
+    Window* ptr;
+};
+
+class Gui : public ButtonClick{
 private:
     static int mouseX, mouseY;
     static int wndWidth, wndHeight;
@@ -233,10 +244,15 @@ private:
     static bool moved;
     
     vector<Window*> windows;
+    vector<Window*> modals;
+
     void onMouseDown();
     GLuint texIndex;
     bool mVisible;
-
+    Font* fnt;
+    //unordered_map<int,Window*> msgnum;
+    vector<msgHandle*> msgnum;
+    unsigned num;
 public:
     static void onMouseClick(int button, int action);
     static void onMouseMove(int x, int y);
@@ -248,6 +264,10 @@ public:
     void setMouseVisible(bool visible);
     GLuint getSkin();
     void addWindow(Window* win);
+    unsigned showMessage(string title, string msg);
+    bool isMessageActive(unsigned id);
+    void onAction(Component* button);
+    //void addModal(Window* win);
 };
 
 #endif	/* _WIN_H */

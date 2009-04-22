@@ -60,7 +60,6 @@ bool Font::BuildFont(const string& path)
   if(fontFile == NULL)
     return false;
   
-  unsigned char fontWidth[256];
   if(fread(fontWidth,1,sizeof(fontWidth),fontFile)!=sizeof(fontWidth)){
       fclose(fontFile);
       return false;
@@ -130,4 +129,11 @@ void Font::writeText(int x, int y,string text){
     glListBase(fontList);
     glCallLists(text.length(), GL_BYTE, text.c_str());
   glPopMatrix();
+}
+
+int Font::stringWidth(string str){
+    int width = 0;
+    for(int i=0;i<str.size();i++)
+        width += fontWidth[str[i]];
+    return width;
 }

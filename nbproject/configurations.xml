@@ -452,7 +452,7 @@
       <compileType>
         <ccCompilerTool>
           <preprocessorList>
-            <Elem>ENABLE_FPS</Elem>
+            <Elem>Linux_Debug</Elem>
           </preprocessorList>
           <warningLevel>2</warningLevel>
         </ccCompilerTool>
@@ -631,6 +631,9 @@
         </cCompilerTool>
         <ccCompilerTool>
           <developmentMode>5</developmentMode>
+          <preprocessorList>
+            <Elem>Linux_Release</Elem>
+          </preprocessorList>
         </ccCompilerTool>
         <fortranCompilerTool>
           <developmentMode>5</developmentMode>
