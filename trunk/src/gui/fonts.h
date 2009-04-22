@@ -43,6 +43,7 @@ private:
     GLuint texIndex;
     GLuint fontList;
     static vector<fonts> openFonts;
+    unsigned char fontWidth[256];
     
     Font(const string& name, const string& texPath, const string& fntPath);
     ~Font();
@@ -51,6 +52,7 @@ public:
     static Font* getInstance(string name);
     static void destroyInstance(Font* instance);
     void writeText(int x, int y, string text);
+    int stringWidth(string str);
 };
 
 #endif	/* _FONTS_H */

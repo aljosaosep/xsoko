@@ -70,7 +70,7 @@ namespace PacGame
             ~PGameSession();
             
             // methods
-            bool initialize();
+            //bool initialize();
             void mainLoop();
             void onAction(Component* button);
             

@@ -2,6 +2,7 @@
 #include <GL/gl.h>
 #include <GL/glfw.h>
 #include "win.h"
+#include "fonts.h"
 #include <stdlib.h>
 
 using namespace std;
@@ -203,7 +204,7 @@ Container::~Container(){
 /*------------------------------------------------------------------*
  *  initialise window and setup defaults                            *
  *------------------------------------------------------------------*/
-Window::Window(int wX, int wY, int wWidth, int wHeight) : Container(wX,wY,wWidth,wHeight)
+Window::Window(int wX, int wY, int wWidth, int wHeight,string caption) : Container(wX,wY,wWidth,wHeight)
 {
   zorder = 0;         // used if you specifically want to set a window higher
   visible = true;     // start off visible
@@ -213,7 +214,23 @@ Window::Window(int wX, int wY, int wWidth, int wHeight) : Container(wX,wY,wWidth
   mouseDrag.drag = false;
   mouseDrag.x = 0;
   mouseDrag.y = 0;
+  modal = false;
+  this->caption = caption;
+  fnt = Font::getInstance("font");
 };
+
+Window::~Window(){
+    Font::destroyInstance(fnt);
+}
+
+void Window::setVisible(bool visible){
+    Container::setVisible(visible);
+    
+}
+
+void Window::setModal(bool modal){
+    this->modal = modal;
+}
 
 /*------------------------------------------------------------------*
  *  Render the window. Calls render button, child windows ...       *
@@ -294,6 +311,9 @@ void Window::Render()
             glTexCoord2f((float)120/128, (float)96/128); glVertex3f(width-6, -8,  0.01);
         }
       glEnd();
+
+      fnt->writeText(width/2-fnt->stringWidth(caption)/2,-24,caption);
+      glBindTexture(GL_TEXTURE_2D, texIndex);
 
       glTranslatef(0, 0, 0.02);      
       for(unsigned i=0;i<components.size();i++){
@@ -1050,10 +1070,11 @@ void Text::setText(const string& text){
 
 Gui::~Gui(){
     glDeleteTextures(1,&texIndex);
+    Font::destroyInstance(fnt);
     texIndex = 0;
 }
 
-Gui::Gui(const char* guiTextureFileName) : mVisible(true) {
+Gui::Gui(const char* guiTextureFileName) : mVisible(true), num(0) {
       glClearColor(0.0, 0.0, 0.0, 0.0); 	   // Black Background
       glShadeModel(GL_SMOOTH);                 // Enables Smooth Color Shading
       glClearDepth(1.0);                       // Depth Buffer Setup
@@ -1070,6 +1091,8 @@ Gui::Gui(const char* guiTextureFileName) : mVisible(true) {
        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
     }
+
+    fnt = Font::getInstance("font");
 
     glfwGetWindowSize(&wndWidth,&wndHeight);
 }
@@ -1133,6 +1156,14 @@ void Gui::Render()
 void Gui::onMouseDown()
 {
   // test to see if user clicked in a window
+    if(!modals.empty()){
+        Position winPos = modals.back()->getPosition();
+        Size winSize = modals.back()->getSize();
+        if ((mouseX > winPos.x) && (mouseX < winPos.x + winSize.width))
+            if ((mouseY - 26 > winPos.y) && (mouseY - 26 < winPos.y + winSize.height))
+                modals.back()->onMouseDown(mouseX, mouseY);
+        return;
+    }
   for(unsigned i=0;i<windows.size();i++){
       if(windows[i]->isVisible()){
           Position winPos = windows[i]->getPosition();
@@ -1170,11 +1201,6 @@ void Gui::onMouseMove(int x, int y){
 }
 
 void Gui::onMouseClick(int button, int action){
-    /*if(action == GLFW_RELEASE) 
-        if(compPressed != NULL){
-            compPressed->onMouseUp();
-        compPressed = NULL;
-  }*/
     click = action;
     processed = false;
 }
@@ -1199,6 +1225,52 @@ void Gui::glResizeWnd(int Width, int Height){
 
 GLuint Gui::getSkin(){
     return texIndex;
+}
+
+unsigned Gui::showMessage(string title, string msg){
+    int width = fnt->stringWidth(msg)+50;
+    Window* dlg = new Window(wndWidth/2-width/2,wndHeight/2-64,width,100,title);
+    dlg->AddComponent(new Text(25,35,msg));
+    Button* btn = new Button(width/2-25,60,50,25,"OK");
+    btn->setAction(this);
+    dlg->AddComponent(btn);
+    dlg->setSkin(texIndex);
+    windows.push_back(dlg);
+    //Fix this...
+    modals.push_back(dlg);
+    if(!++num)  //ok, it could be if(num+1 == 0) num += 2 else ++num;
+        ++num;
+    msgHandle* hnd = new msgHandle;
+    hnd->id = num;
+    hnd->ptr = dlg;
+    msgnum.push_back(hnd);
+    return num;
+}
+
+void Gui::onAction(Component* button){
+    Container* wnd = button->getParent();
+    wnd->setVisible(false);
+    for(unsigned i=0;i<modals.size();i++)
+        if(modals[i] == wnd)
+            modals.erase (modals.begin()+i);
+    for(unsigned i=0;i<windows.size();i++)
+        if(windows[i] == wnd){
+            delete windows[i];
+            windows.erase (windows.begin()+i);
+        }
+    for(unsigned i=0;i<msgnum.size();i++)
+        if(msgnum[i]->ptr == wnd){
+            delete msgnum[i];
+            msgnum.erase(msgnum.begin()+i);
+        }
+}
+
+bool Gui::isMessageActive(unsigned id){
+    for(unsigned i=0;i<msgnum.size();i++){
+        if(msgnum[i]->id == id)
+            return true;
+    }
+    return false;
 }
 
 void Gui::addWindow(Window* win){

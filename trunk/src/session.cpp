@@ -68,9 +68,9 @@ namespace PacGame
             glfwSetMouseButtonCallback(Gui::onMouseClick);
             glfwSetMousePosCallback(Gui::onMouseMove);
             glfwSetWindowSizeCallback(Gui::glResizeWnd);
-            glfwDisable(GLFW_MOUSE_CURSOR);
+            //glfwDisable(GLFW_MOUSE_CURSOR);
             
-            mainMenu = new Window(253, 158, 135, 165);
+            mainMenu = new Window(253, 158, 135, 165, "Main Menu");
             
             Button* btn = new Button(30, 40, 75, 25, "Campaing");
             btn->setName("campaing");
@@ -89,7 +89,7 @@ namespace PacGame
             
             gui->addWindow(mainMenu);
 
-            freeMenu = new Window(210, 158, 220, 141);
+            freeMenu = new Window(210, 158, 220, 141, "Freeplay");
             freeMenu->setVisible(false);
 
             listbox = new ListBox(10,40,115,68);
@@ -122,7 +122,7 @@ namespace PacGame
 
             gui->addWindow(freeMenu);
             
-            gameMenu = new Window(253, 158, 135, 165);
+            gameMenu = new Window(253, 158, 135, 165, "Menu");
             gameMenu->setVisible(false);
             gameMenu->setEnableCloseButton(false);
 
@@ -151,58 +151,64 @@ namespace PacGame
             // the time of the previous frame
             double old_time = glfwGetTime();   
 
-#ifdef ENABLE_FPS
+#if defined(Linux_Debug) || defined(Windows_Debug)
             unsigned frames = 0;
             string title;
 #endif
             
             //this->camera->fitCameraToLevel(this->level->getWidth(), this->level->getHeight());
             bool toggle = false;
+            unsigned msgid = 0;
             
             //RenderMaschine::PParticleEngine particles(5.0, 7.0, 9.0);
 
             while(!gameQuit /*1 this->isGameRunning*/)
             {
+                double current_time = glfwGetTime();
 
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
                 glLoadIdentity(); // reset view matrix
+
+#if defined(Linux_Debug) || defined(Windows_Debug)
+                if(current_time - old_time >= 1){
+                  title = "xSoko project FPS: " + Functions::toString<int>(frames);
+                  glfwSetWindowTitle(title.c_str());
+                  old_time = current_time;
+                  frames = 0;
+                } else
+                    frames ++;
+#endif
                 
-                if(levelLoaded){
+                if(levelLoaded || msgid){
                 
                     // calculate time elapsed, and the amount by which stuff rotates
                     //delta_rotate = (current_time - old_time) * rotations_per_tick * 360;
 
-                    double current_time = glfwGetTime();
+                    //if no win message is shown, check for input etc.
+                    if(!msgid){
 
-#ifdef ENABLE_FPS
-                    
-                    if(current_time - old_time >= 1){
-                      title = "xSoko project FPS: " + Functions::toString<int>(frames);
-                      glfwSetWindowTitle(title.c_str());
-                      old_time = current_time;
-                      frames = 0;
-                    } else
-                        frames ++;
-#endif
+                        this->level->processBombs(current_time);
 
-                    this->level->processBombs(current_time);
+                        // check for input every time
+                        this->input->process(toggle);
 
-                    // check for input every time
-                    this->input->process(toggle);
-                    
-                    //we are checking because small method call is time expensive
-                    if(this->input->toggleGameMenu()){
-                        toggle = !toggle;
-                        gameMenu->setVisible(toggle);
-                        gui->setMouseVisible(toggle);
-                    }
+                        if(this->input->toggleGameMenu()){
+                            toggle = !toggle;
+                            gameMenu->setVisible(toggle);
+                            gui->setMouseVisible(toggle);
+                        }
 
-                    // is game over? or level done?
-                    if(this->level->getEndgameFlag() || forceLevelQuit){
-                        levelLoaded = false;
-                        gameMenu->setVisible(false);
-                        mainMenu->setVisible(true);
-                        gui->setMouseVisible(true);
+                        // is game over? or level done?
+                        if(this->level->getEndgameFlag() || forceLevelQuit){
+                            levelLoaded = false;
+                            gameMenu->setVisible(false);
+                            if(level->getEndgameFlag())
+                               msgid = gui->showMessage("xSoko", "Congratulations, you won!");
+                            else
+                               mainMenu->setVisible(true);
+                            gui->setMouseVisible(true);
+                        }
+
                     }
 
                     gluLookAt(this->camera->view.getCoordX(), this->camera->view.getCoordY(), this->camera->view.getCoordZ(),
@@ -218,11 +224,17 @@ namespace PacGame
                     //particles.process(delta_rotate*10);
 
                     glDisable(GL_LIGHTING);
-                } 
+                }
+
+                if(msgid && !gui->isMessageActive(msgid)){
+                        msgid = 0;
+                        mainMenu->setVisible(true);
+                }
                 
                 gui->Render();
 
-                if(levelLoaded){
+                if(levelLoaded || msgid){
+                    toggle = false;
                     glMatrixMode(GL_PROJECTION);						// Select The Projection Matrix
                     glLoadIdentity();                                                         // Reset The Projection Matrix
                     // Calculate The Aspect Ratio Of The Window
@@ -238,11 +250,11 @@ namespace PacGame
             }
         }
         
-        bool PGameSession::initialize()
+        /*bool PGameSession::initialize()
         {    
             
             return true;
-        }
+        }*/
         
         // setters
         // sets session's level
