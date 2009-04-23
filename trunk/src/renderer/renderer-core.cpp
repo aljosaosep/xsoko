@@ -228,7 +228,7 @@ namespace PacGame
           void PRenderer::drawFloor(float x, float y, float size)
           {
               glPushMatrix();
-                    glTranslatef(x, y, 1.0);
+                    glTranslatef(x, y, 0.0);
                     glNormal3f(0.0f, 0.0f, -1.0f);
                     glDrawArrays(GL_TRIANGLE_STRIP, 4, 4);
               glPopMatrix();
