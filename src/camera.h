@@ -45,11 +45,20 @@ namespace PacGame
         class PCamera
         {
         private:
+            float cameraRotateValue;
+
         public:
             void setCamera(PVector3D view, PVector3D position, PVector3D up);
             void moveCamera(float direction);
             void rotateCamera(float angle, PVector3D speed);
             void fitCameraToLevel(int width, int height);
+
+            void setRotateValue(float val);
+            float getRotateValue();
+
+            void rotateViewX(float val);
+            void rotateViewY(float val);
+
             
             PVector3D position;
             PVector3D view;

@@ -40,6 +40,8 @@ namespace PacGame
             this->position = position;
             this->view = view;
             this->up = up;
+
+            this->cameraRotateValue = 1.0; // temporary
         }
         
         // move camera
@@ -123,8 +125,8 @@ namespace PacGame
             
             
         }
-        
-        void PCamera::fitCameraToLevel(int width, int height)
+ 
+       /* void PCamera::fitCameraToLevel(int width, int height)
         {
             width --;
             height --;
@@ -135,6 +137,40 @@ namespace PacGame
             this->position.setCoordinates(height, -width, 0.0);
             this->view.setCoordinates(height, -width,  2*bigger+6);
             this->up.setCoordinates(0.0, 1.0, 0.0);
+        }*/
+
+        void PCamera::fitCameraToLevel(int width, int height)
+        {
+                        width --;
+                        height --;
+
+                        if(width > height)
+                        {
+                                this->position.setCoordinates((float)-width/2, (float)-height/2, 0.0);
+                                this->view.setCoordinates((float)-width/2, (float)-height/2,  (float)(width*2));
+                                this->up.setCoordinates(0.0, 1.0, 0.0);
+                        }
+                        else
+                        {
+                                this->position.setCoordinates((float)-width/2, (float)-height/2, 0.0);
+                                this->view.setCoordinates((float)-width/2, (float)-height/2,  (float)(height*3)/2);
+                                this->up.setCoordinates(0.0, 1.0, 0.0);
+                        }
+        }
+
+        void PCamera::rotateViewX(float val)
+        {
+            this->view.x += val;
+        }
+
+        void PCamera::rotateViewY(float val)
+        {
+            this->view.y += val;
+        }
+
+        float PCamera::getRotateValue()
+        {
+            return this->cameraRotateValue;
         }
     }
 }

@@ -859,7 +859,7 @@ namespace PacGame
                           if(obj!=NULL) // if there is boject binded
                           {
                               glPushMatrix();
-                              glTranslatef(i*2.0, j*2.0, 0.0);
+                              glTranslatef((float)i, (float)j, 0.0);
                               obj->draw(); // prints it
                               glPopMatrix();
                           }
@@ -867,7 +867,7 @@ namespace PacGame
                               if(data[i][j]!=NULL)
                               {
                                   glPushMatrix();
-                                  glTranslatef(i*2.0, j*2.0, 0.0);
+                                  glTranslatef((float)i, (float)j, 0.0);
                                   data[i][j]->draw();  // otherwise, print object
                                   glPopMatrix();
                               }
@@ -879,10 +879,10 @@ namespace PacGame
                               {
                                   
                                   glPushMatrix();
-                                  glTranslatef(this->bombs[i]->i*2.0, this->bombs[i]->j*2.0, 0.0);
+                                  glTranslatef((float)this->bombs[i]->i, (float)this->bombs[i]->j, 0.0);
                                   glColor3f(1.0, 0.0, 0.0);
                                   glBindTexture(GL_TEXTURE_2D, this->resourceHandle->getTextureTesourceId(BOMB_RES));
-                                  this->gameCore->getRenderer()->drawCube(0.0, 0.0, 0.5, 25.0);
+                                  this->gameCore->getRenderer()->drawCube(0.0, 0.0, 0.5);
                                   glPopMatrix();
                               }
                           }

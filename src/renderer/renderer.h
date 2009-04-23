@@ -43,7 +43,89 @@ namespace PacGame
 {
 
   namespace RenderMaschine
-  { 
+  {
+      // TODO: indent code properly
+    /*  #ifndef __VERTICES_DATA
+      #define __VERTICES_DATA
+      		  GLfloat box[] = {
+				// FRONT
+				-0.5f, -0.5f,  0.5f,
+				 0.5f, -0.5f,  0.5f,
+				-0.5f,  0.5f,  0.5f,
+				 0.5f,  0.5f,  0.5f,
+
+				// BACK
+				-0.5f, -0.5f, -0.5f,
+				-0.5f,  0.5f, -0.5f,
+				 0.5f, -0.5f, -0.5f,
+				 0.5f,  0.5f, -0.5f,
+
+				// LEFT
+				-0.5f, -0.5f,  0.5f,
+				-0.5f,  0.5f,  0.5f,
+				-0.5f, -0.5f, -0.5f,
+				-0.5f,  0.5f, -0.5f,
+
+				// RIGHT
+				 0.5f, -0.5f, -0.5f,
+				 0.5f,  0.5f, -0.5f,
+				 0.5f, -0.5f,  0.5f,
+				 0.5f,  0.5f,  0.5f,
+
+				// TOP
+				-0.5f,  0.5f,  0.5f,
+				 0.5f,  0.5f,  0.5f,
+				 -0.5f,  0.5f, -0.5f,
+				 0.5f,  0.5f, -0.5f,
+
+				// BOTTOM
+				-0.5f, -0.5f,  0.5f,
+				-0.5f, -0.5f, -0.5f,
+				 0.5f, -0.5f,  0.5f,
+				 0.5f, -0.5f, -0.5f,
+			};
+
+
+
+			GLfloat texCoords[] = {
+				// FRONT
+				 0.0f, 0.0f,
+				 1.0f, 0.0f,
+				 0.0f, 1.0f,
+				 1.0f, 1.0f,
+
+				// BACK
+				 1.0f, 0.0f,
+				 1.0f, 1.0f,
+				 0.0f, 0.0f,
+				 0.0f, 1.0f,
+
+				// LEFT
+				 1.0f, 0.0f,
+				 1.0f, 1.0f,
+				 0.0f, 0.0f,
+				 0.0f, 1.0f,
+
+				// RIGHT
+				 1.0f, 0.0f,
+				 1.0f, 1.0f,
+				 0.0f, 0.0f,
+				 0.0f, 1.0f,
+
+				// TOP
+				 0.0f, 0.0f,
+				 1.0f, 0.0f,
+				 0.0f, 1.0f,
+				 1.0f, 1.0f,
+
+				// BOTTOM
+				 1.0f, 0.0f,
+				 1.0f, 1.0f,
+				 0.0f, 0.0f,
+				 0.0f, 1.0f
+			};
+     #endif*/
+
     /**********************************************************
     * PRenderer
     *
@@ -57,7 +139,10 @@ namespace PacGame
         // light properties
         float lightAmbient[4];
         float lightDiffuse[4];
-        float lightPosition[4];  
+        float lightPosition[4];
+
+      //  GLfloat box[24][4];
+      //  GLfloat texCoords[24][2];
 
         // material properties
      //   float matAmbient[4];
@@ -77,7 +162,7 @@ namespace PacGame
         // functions that are drawing stuff
         void drawBackground();
         void drawSkyDome();
-        void drawCube(float x, float y, float size, float angle);
+        void drawCube(float x, float y, float size);
         void drawFloor(float x, float y, float size);
     };
   }

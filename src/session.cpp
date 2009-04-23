@@ -212,13 +212,15 @@ namespace PacGame
                     }
 
                     gluLookAt(this->camera->view.getCoordX(), this->camera->view.getCoordY(), this->camera->view.getCoordZ(),
-                            this->camera->position.getCoordX(), this->camera->position.getCoordY(), this->camera->position.getCoordZ(), 
+                            this->camera->position.getCoordX(), this->camera->position.getCoordY(), this->camera->position.getCoordZ(),
                             this->camera->up.getCoordX(), this->camera->up.getCoordY(), this->camera->up.getCoordZ());
 
                     glRotatef(-90.0, 0.0, 0.0, 1.0);
 
+
                     glEnable(GL_LIGHTING);
 
+       //             glTranslatef(0.0,0.0,-100.0);
                     this->level->draw();
 
                     //particles.process(delta_rotate*10);

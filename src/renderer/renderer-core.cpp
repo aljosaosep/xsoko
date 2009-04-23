@@ -32,6 +32,83 @@ namespace PacGame
 {
       namespace RenderMaschine
       {
+
+      		  GLfloat box[] = {
+				// FRONT
+				-0.5f, -0.5f,  0.5f,
+				 0.5f, -0.5f,  0.5f,
+				-0.5f,  0.5f,  0.5f,
+				 0.5f,  0.5f,  0.5f,
+
+				// BACK
+				-0.5f, -0.5f, -0.5f,
+				-0.5f,  0.5f, -0.5f,
+				 0.5f, -0.5f, -0.5f,
+				 0.5f,  0.5f, -0.5f,
+
+				// LEFT
+				-0.5f, -0.5f,  0.5f,
+				-0.5f,  0.5f,  0.5f,
+				-0.5f, -0.5f, -0.5f,
+				-0.5f,  0.5f, -0.5f,
+
+				// RIGHT
+				 0.5f, -0.5f, -0.5f,
+				 0.5f,  0.5f, -0.5f,
+				 0.5f, -0.5f,  0.5f,
+				 0.5f,  0.5f,  0.5f,
+
+				// TOP
+				-0.5f,  0.5f,  0.5f,
+				 0.5f,  0.5f,  0.5f,
+				 -0.5f,  0.5f, -0.5f,
+				 0.5f,  0.5f, -0.5f,
+
+				// BOTTOM
+				-0.5f, -0.5f,  0.5f,
+				-0.5f, -0.5f, -0.5f,
+				 0.5f, -0.5f,  0.5f,
+				 0.5f, -0.5f, -0.5f,
+			};
+
+			GLfloat texCoords[] = {
+				// FRONT
+				 0.0f, 0.0f,
+				 1.0f, 0.0f,
+				 0.0f, 1.0f,
+				 1.0f, 1.0f,
+
+				// BACK
+				 1.0f, 0.0f,
+				 1.0f, 1.0f,
+				 0.0f, 0.0f,
+				 0.0f, 1.0f,
+
+				// LEFT
+				 1.0f, 0.0f,
+				 1.0f, 1.0f,
+				 0.0f, 0.0f,
+				 0.0f, 1.0f,
+
+				// RIGHT
+				 1.0f, 0.0f,
+				 1.0f, 1.0f,
+				 0.0f, 0.0f,
+				 0.0f, 1.0f,
+
+				// TOP
+				 0.0f, 0.0f,
+				 1.0f, 0.0f,
+				 0.0f, 1.0f,
+				 1.0f, 1.0f,
+
+				// BOTTOM
+				 1.0f, 0.0f,
+				 1.0f, 1.0f,
+				 0.0f, 0.0f,
+				 0.0f, 1.0f
+                        };
+
           /********************************************
            * Constructor
            * Initiates lights and materials and camera
@@ -70,45 +147,41 @@ namespace PacGame
           bool PRenderer::init()
           {
 
-              
-              
-              glEnable(GL_LIGHTING);
-              
-              glClearColor(0.0f, 0.0f, 0.0f, 0.0f);// Black Background
-              glShadeModel(GL_SMOOTH);	// Enables Smooth Shading
-              glEnable(GL_DEPTH_TEST);	// Enables Depth Testing
-              glDepthFunc(GL_LEQUAL);	// The Type Of Depth Test To Do
+             glClearColor(0.0f, 0.0f, 0.0f, 0.0f);// Black Background
+              glShadeModel(GL_SMOOTH);  // Enables Smooth Shading
+              glEnable(GL_DEPTH_TEST);  // Enables Depth Testing
+              glDepthFunc(GL_LEQUAL);   // The Type Of Depth Test To Do
               glFrontFace(GL_CCW);   // counterclockwise polygons are out
-              glClearDepth(1.0f); // Depth Buffer Setup
-              glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);	// Really Nice Perspective Calculations  
-              
+              glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);        // Really Nice Perspective Calculations
+
               // texture
               glEnable(GL_TEXTURE_2D);
-              
 
-              
-              // material related
-          //    glMaterialfv(GL_FRONT, GL_AMBIENT, matAmbient);
-        //      glMaterialfv(GL_FRONT, GL_DIFFUSE, matDiffuse);
-              
               // light related
+                          glEnable(GL_LIGHTING);
               glLightfv(GL_LIGHT0, GL_AMBIENT, lightAmbient);
               glLightfv(GL_LIGHT0, GL_DIFFUSE, lightDiffuse);
-              glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);                    
+              glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
               glEnable(GL_LIGHT0);
 
 
               glEnable(GL_COLOR_MATERIAL);
-              glColorMaterial ( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE ) ;
-         //     glMateriali(GL_FRONT_AND_BACK, GL_SHININESS, 0.0);
+              //glColorMaterial ( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE ) ;
+              //glMateriali(GL_FRONT_AND_BACK, GL_SHININESS, 0.0);
 
-          //    glEnable(GL_CULL_FACE); // do not calculate inside of polys
-              
+              //glEnable(GL_CULL_FACE); // do not calculate inside of polys
+
               // blending
               glEnable(GL_BLEND);
               glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-              
+
+                          glVertexPointer(3, GL_FLOAT, 0, box);
+                          glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
+                          glEnableClientState(GL_VERTEX_ARRAY);
+                          glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
               return true;
+
           }
           
           void PRenderer::deinit()
@@ -124,51 +197,27 @@ namespace PacGame
            * drawCube()
            * Draws simple cube
            ********************************************/
-          void PRenderer::drawCube(float x, float y, float size, float angle)
+          void PRenderer::drawCube(float x, float y, float size)
           {
                   glPushMatrix();
                     glTranslatef(x, y, 0.0);
-                        glRotatef(angle, 1.0, 0.0, 0.0);
-                        glRotatef(angle, 0.0, 1.0, 0.0);                                        
-                        glRotatef(angle, 0.0, 0.0, 1.0);
-                        glBegin(GL_QUADS);
-                                // Front Face
-                                glNormal3f( 0.0f, 0.0f, 1.0f);	
-                                glTexCoord2f(0.0f, 0.0f); glVertex3f(-size, -size,  size);	// Bottom Left Of The Texture and Quad
-                                glTexCoord2f(1.0f, 0.0f); glVertex3f( size, -size,  size);	// Bottom Right Of The Texture and Quad
-                                glTexCoord2f(1.0f, 1.0f); glVertex3f( size,  size,  size);	// Top Right Of The Texture and Quad
-                                glTexCoord2f(0.0f, 1.0f); glVertex3f(-size,  size,  size);	// Top Left Of The Texture and Quad
-                                // Back Face
-                                glNormal3f( 0.0f, 0.0f,-1.0f);
-                                glTexCoord2f(1.0f, 0.0f); glVertex3f(-size, -size, -size);	// Bottom Right Of The Texture and Quad
-                                glTexCoord2f(1.0f, 1.0f); glVertex3f(-size,  size, -size);	// Top Right Of The Texture and Quad
-                                glTexCoord2f(0.0f, 1.0f); glVertex3f( size,  size, -size);	// Top Left Of The Texture and Quad
-                                glTexCoord2f(0.0f, 0.0f); glVertex3f( size, -size, -size);	// Bottom Left Of The Texture and Quad
-                                // Top Face
-                                glNormal3f( 0.0f, 1.0f, 0.0f);
-                                glTexCoord2f(0.0f, 1.0f); glVertex3f(-size,  size, -size);	// Top Left Of The Texture and Quad
-                                glTexCoord2f(0.0f, 0.0f); glVertex3f(-size,  size,  size);	// Bottom Left Of The Texture and Quad
-                                glTexCoord2f(1.0f, 0.0f); glVertex3f( size,  size,  size);	// Bottom Right Of The Texture and Quad
-                                glTexCoord2f(1.0f, 1.0f); glVertex3f( size,  size, -size);	// Top Right Of The Texture and Quad
-                                // Bottom Face
-                                glNormal3f( 0.0f,-1.0f, 0.0f);	
-                                glTexCoord2f(1.0f, 1.0f); glVertex3f(-size, -size, -size);	// Top Right Of The Texture and Quad
-                                glTexCoord2f(0.0f, 1.0f); glVertex3f( size, -size, -size);	// Top Left Of The Texture and Quad
-                                glTexCoord2f(0.0f, 0.0f); glVertex3f( size, -size,  size);	// Bottom Left Of The Texture and Quad
-                                glTexCoord2f(1.0f, 0.0f); glVertex3f(-size, -size,  size);	// Bottom Right Of The Texture and Quad
-                                // Right face
-                                glNormal3f( 1.0f, 0.0f, 0.0f);	
-                                glTexCoord2f(1.0f, 0.0f); glVertex3f( size, -size, -size);	// Bottom Right Of The Texture and Quad
-                                glTexCoord2f(1.0f, 1.0f); glVertex3f( size,  size, -size);	// Top Right Of The Texture and Quad
-                                glTexCoord2f(0.0f, 1.0f); glVertex3f( size,  size,  size);	// Top Left Of The Texture and Quad
-                                glTexCoord2f(0.0f, 0.0f); glVertex3f( size, -size,  size);	// Bottom Left Of The Texture and Quad
-                                // Left Face
-                                glNormal3f(-1.0f, 0.0f, 0.0f);	
-                                glTexCoord2f(0.0f, 0.0f); glVertex3f(-size, -size, -size);	// Bottom Left Of The Texture and Quad
-                                glTexCoord2f(1.0f, 0.0f); glVertex3f(-size, -size,  size);	// Bottom Right Of The Texture and Quad
-                                glTexCoord2f(1.0f, 1.0f); glVertex3f(-size,  size,  size);	// Top Right Of The Texture and Quad
-                                glTexCoord2f(0.0f, 1.0f); glVertex3f(-size,  size, -size);	// Top Left Of The Texture and Quad
-                        glEnd();
+			// FRONT AND BACK
+			glNormal3f(0.0f, 0.0f, 1.0f);
+			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+			/*glNormal3f(0.0f, 0.0f, -1.0f);
+			glDrawArrays(GL_TRIANGLE_STRIP, 4, 4); */
+
+			// LEFT AND RIGHT
+                        glNormal3f(-1.0f, 0.0f, 0.0f);
+			glDrawArrays(GL_TRIANGLE_STRIP, 8, 4);
+			glNormal3f(1.0f, 0.0f, 0.0f);
+			glDrawArrays(GL_TRIANGLE_STRIP, 12, 4);
+
+			// TOP AND BOTTOM
+			glNormal3f(0.0f, 1.0f, 0.0f);
+			glDrawArrays(GL_TRIANGLE_STRIP, 16, 4);
+			glNormal3f(0.0f, -1.0f, 0.0f);
+			glDrawArrays(GL_TRIANGLE_STRIP, 20, 4);
                   glPopMatrix();
           }
 
@@ -178,17 +227,11 @@ namespace PacGame
            ********************************************/
           void PRenderer::drawFloor(float x, float y, float size)
           {
-                 glPushMatrix();
-                    glTranslatef(x, y, 0.0);
-                        glBegin(GL_QUADS);
-                                glNormal3f( 0.0f, 0.0f,-1.0f);
-                                glTexCoord2f(1.0f, 0.0f); glVertex3f(-size, -size, -size);	// Bottom Right Of The Texture and Quad
-                                glTexCoord2f(1.0f, 1.0f); glVertex3f(-size,  size, -size);	// Top Right Of The Texture and Quad
-                                glTexCoord2f(0.0f, 1.0f); glVertex3f( size,  size, -size);	// Top Left Of The Texture and Quad
-                                glTexCoord2f(0.0f, 0.0f); glVertex3f( size, -size, -size);	// Bottom Left Of The Texture and Quad
-
-                        glEnd();
-                  glPopMatrix();
+              glPushMatrix();
+                    glTranslatef(x, y, 1.0);
+                    glNormal3f(0.0f, 0.0f, -1.0f);
+                    glDrawArrays(GL_TRIANGLE_STRIP, 4, 4);
+              glPopMatrix();
           }
       }
 }
