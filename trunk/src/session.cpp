@@ -68,7 +68,10 @@ namespace PacGame
             glfwSetMouseButtonCallback(Gui::onMouseClick);
             glfwSetMousePosCallback(Gui::onMouseMove);
             glfwSetWindowSizeCallback(Gui::glResizeWnd);
-            //glfwDisable(GLFW_MOUSE_CURSOR);
+
+            #if defined(Linux_Release) || defined(Windows_Release)
+                glfwDisable(GLFW_MOUSE_CURSOR);
+            #endif
             
             mainMenu = new Window(253, 158, 135, 165, "Main Menu");
             
@@ -100,12 +103,12 @@ namespace PacGame
               if ( !is_directory(*itr) && extension(*itr) == ".lvl" )
               {
 
-#if !(defined(Windows_Release) || defined(Windows_Debug))
+                #if !(defined(Windows_Release) || defined(Windows_Debug))
                   string filename = itr->path().leaf();
-#else
+                #else
                   string filename = itr->leaf();
-#endif
-                  listbox->addItem(filename.substr(0,filename.find_last_of('.')));
+                #endif
+                listbox->addItem(filename.substr(0,filename.find_last_of('.')));
               }
             }
             freeMenu->AddComponent(listbox);
@@ -151,33 +154,32 @@ namespace PacGame
             // the time of the previous frame
             double old_time = glfwGetTime();   
 
-#if defined(Linux_Debug) || defined(Windows_Debug)
-            unsigned frames = 0;
-            string title;
-#endif
+            #if defined(Linux_Debug) || defined(Windows_Debug)
+                unsigned frames = 0;
+                string title;
+            #endif
             
-            //this->camera->fitCameraToLevel(this->level->getWidth(), this->level->getHeight());
             bool toggle = false;
             unsigned msgid = 0;
             
             //RenderMaschine::PParticleEngine particles(5.0, 7.0, 9.0);
 
-            while(!gameQuit /*1 this->isGameRunning*/)
+            while(!gameQuit)
             {
                 double current_time = glfwGetTime();
 
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
                 glLoadIdentity(); // reset view matrix
 
-#if defined(Linux_Debug) || defined(Windows_Debug)
-                if(current_time - old_time >= 1){
-                  title = "xSoko project FPS: " + Functions::toString<int>(frames);
-                  glfwSetWindowTitle(title.c_str());
-                  old_time = current_time;
-                  frames = 0;
-                } else
-                    frames ++;
-#endif
+                #if defined(Linux_Debug) || defined(Windows_Debug)
+                    if(current_time - old_time >= 1){
+                      title = "xSoko project FPS: " + Functions::toString<int>(frames);
+                      glfwSetWindowTitle(title.c_str());
+                      old_time = current_time;
+                      frames = 0;
+                    } else
+                        frames ++;
+                #endif
                 
                 if(levelLoaded || msgid){
                 
@@ -201,6 +203,7 @@ namespace PacGame
                         // is game over? or level done?
                         if(this->level->getEndgameFlag() || forceLevelQuit){
                             levelLoaded = false;
+                            toggle = false;
                             gameMenu->setVisible(false);
                             if(level->getEndgameFlag())
                                msgid = gui->showMessage("xSoko", "Congratulations, you won!");
@@ -236,7 +239,6 @@ namespace PacGame
                 gui->Render();
 
                 if(levelLoaded || msgid){
-                    toggle = false;
                     glMatrixMode(GL_PROJECTION);						// Select The Projection Matrix
                     glLoadIdentity();                                                         // Reset The Projection Matrix
                     // Calculate The Aspect Ratio Of The Window
@@ -365,7 +367,9 @@ namespace PacGame
             delete freeMenu;
             delete gameMenu;
             delete mainMenu;
-            glfwEnable(GLFW_MOUSE_CURSOR);
+            #if defined(Linux_Release) || defined(Windows_Release)
+                glfwEnable(GLFW_MOUSE_CURSOR);
+            #endif
         }
     }
 }

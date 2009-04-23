@@ -95,8 +95,6 @@ namespace PacGame
             }
             if((glfwGetKey(GLFW_KEY_ESC) == GLFW_PRESS) && (glfwGetKey(GLFW_KEY_ESC) == GLFW_RELEASE))
             {
-                /*if(win != NULL)
-                    win->setVisible(!win->isVisible());*/
                 toggleMenu = true;
             }
             
