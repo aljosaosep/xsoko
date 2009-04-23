@@ -39,9 +39,9 @@ vector<Font::fonts> Font::openFonts;
 Font::Font(const string& name, const string& texPath, const string& fntPath){
     glGenTextures(1,&texIndex);
     glBindTexture(GL_TEXTURE_2D,texIndex);
-    if(glfwLoadTexture2D(texPath.c_str(), GLFW_ORIGIN_UL_BIT)){
+    if(glfwLoadTexture2D(texPath.c_str(), GLFW_BUILD_MIPMAPS_BIT|GLFW_ORIGIN_UL_BIT)){
        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-       glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+       glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR_MIPMAP_NEAREST);
        if(!BuildFont(fntPath))
            texIndex = 0;
     } else
@@ -121,8 +121,8 @@ void Font::destroyInstance(Font* instance){
 }
 
 void Font::writeText(int x, int y,string text){
-    if(texIndex == 0)
-        return;
+  if(texIndex == 0)
+    return;
   glBindTexture(GL_TEXTURE_2D, texIndex);
   glPushMatrix();
     glTranslatef(x, y, 0.02);

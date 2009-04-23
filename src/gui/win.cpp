@@ -312,7 +312,7 @@ void Window::Render()
         }
       glEnd();
 
-      fnt->writeText(width/2-fnt->stringWidth(caption)/2,-24,caption);
+      fnt->writeText((width-fnt->stringWidth(caption))/2,-24,caption);
       glBindTexture(GL_TEXTURE_2D, texIndex);
 
       glTranslatef(0, 0, 0.02);      
@@ -445,7 +445,7 @@ void Button::Render()
       glTexCoord2f((float)71/128, (float)95/128); glVertex2f(x+width, -y);
     glEnd();
 
-    fnt->writeText(x + 1 + (width - caption.length()*6) / 2, -y-21, caption);
+    fnt->writeText(x+1+(width - fnt->stringWidth(caption))/2, -y-21, caption);
   }
   else
   {
@@ -469,7 +469,7 @@ void Button::Render()
       glTexCoord2f((float)55/128, (float)95/128); glVertex2f(x+width, -y);
     glEnd();
 
-    fnt->writeText(x + (width-caption.length()*6) / 2, -y-20, caption);
+    fnt->writeText(x + (width-fnt->stringWidth(caption))/2, -y-20, caption);
   }
     glBindTexture(GL_TEXTURE_2D,texIndex);
 }
