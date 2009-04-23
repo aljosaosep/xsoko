@@ -120,7 +120,7 @@ namespace PacGame
             {
                 glColor4f(0.0, 0.0, 1.0, 0.4);
                 glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(TELEPORT_RES));
-                this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, 0.0);   
+                this->core->getRenderer()->drawCube(0.0, 0.0, 1.0);   
             }
 
             void PTeleport::print()
@@ -204,7 +204,7 @@ namespace PacGame
             {
                 glColor3f(0.9, 0.87, 0.87);
                 glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(S_WALL_RES));
-                this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, 0.0);
+                this->core->getRenderer()->drawCube(0.0, 0.0, 1.0);
             }
 
             void PSolidWall::print()
@@ -224,7 +224,7 @@ namespace PacGame
             {
                 glColor3f(0.7, 0.6, 0.6);
                 glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(U_WALL_RES));
-                this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, 0.0);
+                this->core->getRenderer()->drawCube(0.0, 0.0, 1.0);
             }
 
             void PUnsolidWall::print()
@@ -303,7 +303,7 @@ namespace PacGame
             {
                 glColor3f(1.0, 1.0, 1.0);
                 glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(CUBE_RES));
-                this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, 0.0);
+                this->core->getRenderer()->drawCube(0.0, 0.0, 1.0);
             }
 
             void PCube::print()
@@ -338,7 +338,7 @@ namespace PacGame
                             break;
                 }
                 glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(OW_CUBE_RES));
-                this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, 0.0);
+                this->core->getRenderer()->drawCube(0.0, 0.0, 1.0);
             }
 
             void POnewayCube::print()
@@ -363,7 +363,7 @@ namespace PacGame
             {
                 glColor3f(1.0, 1.0, 1.0);
                 glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(BOMB_RES));
-                this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, 0.0);
+                this->core->getRenderer()->drawCube(0.0, 0.0, 1.0);
             }
 
             void PBomb::print()
