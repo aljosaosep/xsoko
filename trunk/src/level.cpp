@@ -206,14 +206,10 @@ namespace PacGame
                           return false;
                       
 //                      cout<<"First Teleport child not null! Attempting to move: ... "<<it<<' '<<jt<<endl;
-                      if(this->moveObject(dir, dynamic_cast<PLevelObject*>(data[it][jt]->returnFirstChild())))  // try to move it
+                      // if obj is player, attempt to move obj at dest teleport
+                      if( (obj->getId() == 1 ) && this->moveObject(dir, dynamic_cast<PLevelObject*>(data[it][jt]->returnFirstChild())))  // try to move it
                       {
-//                          cout<<"Object on teleport moved. Reattaching node ... "<<it<<' '<<jt<<endl;
-//                          delta_i = obj->getI() - this->data[it][jt]->getI();
-//                          delta_j = obj->getJ() - this->data[it][jt]->getJ(); // 0.5
-
-//                          this->gameCore->getCamera()->rotateViewX(0.5, delta_i);
- //                         this->gameCore->getCamera()->rotateViewY(0.5, delta_j);
+                          adjustCameraAtTeleport(it, jt, obj, dir);
                           
                           reattachNode(i, j, it, jt, obj);   //  then move player to teleport
                           return true;
@@ -222,9 +218,7 @@ namespace PacGame
                   else  // there is no object attached to teleport, that's ok
                   {
                       adjustCameraAtTeleport(it, jt, obj, dir);
-                           //   adjustCameraAtTeleport(int it, int jt, PObject *obj, PDirection dir)
-
-                          
+                     
  //                     cout<<"Cool, no object on teleport, so beam me up scotty!"<<it<<' '<<jt<<endl;
                       reattachNode(i, j, it, jt, obj);  // so we just move player to dest teleport ;)
                       return true;
