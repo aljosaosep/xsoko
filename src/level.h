@@ -153,6 +153,8 @@ namespace PacGame
                   void checkAndApplyBombBlast(int i, int j);
                   void processBombs(double current_time);
 
+                  void adjustCameraAtTeleport(int it, int jt, PLevelObject *obj, PDirection dir);
+
                   // functions to override
                   void draw();  // draws whole level
                   bool initialize(); // initiates level

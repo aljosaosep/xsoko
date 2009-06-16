@@ -59,6 +59,9 @@ namespace PacGame
             void rotateViewX(float val);
             void rotateViewY(float val);
 
+            void rotateViewX(float val, int times);
+            void rotateViewY(float val, int times);
+
             
             PVector3D position;
             PVector3D view;
