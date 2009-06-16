@@ -81,9 +81,9 @@ namespace PacGame
                   file.get();  // we skip one character(space)
               }
               else // if second character isn't digit
-                  buff[1] = '\0';  // we just close string
+                  buff[1] = '\0';  // terminate string
  
-              return atoi(buff);  // we return number read from file, parsed into integer
+              return atoi(buff);  // return number read from file, integer
           }
   
           /*****************************************************************
@@ -164,6 +164,7 @@ namespace PacGame
            *****************************************************************/
           inline bool PLevel::checkAndApply(int i2, int j2, PLevelObject *obj, PDirection dir)
           {
+            //  int delta_i = 0, delta_j = 0; // for camera rotation at teleport event
               // i2 and j2 are indexes of field, we re checking; so if on field with idexes i2 and j2 is empty
               // (has nothing attached to it), then we move our object(obj) to i2, j2
               
@@ -175,12 +176,12 @@ namespace PacGame
               }
               
               int i = obj->getI(), j = obj->getJ(); // gets source object indexes, object, that we're moving
-              cout<<"indexes: "<<i<<' '<<j<<endl;
+//              cout<<"indexes: "<<i<<' '<<j<<endl;
               
               // is move absolutely possible?
               if(data[i2][j2]->isPlayerMovePossible()==1)  // it is!
               {
-                  cout<<"move possible = 1: direct reattach"<<endl;
+//                  cout<<"move possible = 1: direct reattach"<<endl;
                   reattachNode(i, j, i2, j2, obj);  // so we just do it ;) we move object from indexes i, j to i2, j2
                   return true;
               }
@@ -188,13 +189,13 @@ namespace PacGame
               //////// TELEPORT
               else if(data[i2][j2]->isPlayerMovePossible()==3)  
               {
-                  cout<<"Teleport: "<<endl;
+//                  cout<<"Teleport: "<<endl;
                   // it - I index of dest teleport
                   // jt-  J index of dest teleport
                   int it = (dynamic_cast<PTeleport*>(data[i2][j2]))->getChildTeleport()->getI(), 
                           jt = (dynamic_cast<PTeleport*>(data[i2][j2]))->getChildTeleport()->getJ();
                   
-                  cout<<"Child Teleport indexes: "<<it<<' '<<jt<<endl;
+//                  cout<<"Child Teleport indexes: "<<it<<' '<<jt<<endl;
                   
                   
                   if(data[it][jt]->returnFirstChild()!=NULL) // if there is object alredy on teleport
@@ -204,17 +205,27 @@ namespace PacGame
                       if(dynamic_cast<PLevelObject*>(data[it][jt]->returnFirstChild())->getId() == 1)
                           return false;
                       
-                      cout<<"First Teleport child not null! Attempting to move: ... "<<it<<' '<<jt<<endl;
+//                      cout<<"First Teleport child not null! Attempting to move: ... "<<it<<' '<<jt<<endl;
                       if(this->moveObject(dir, dynamic_cast<PLevelObject*>(data[it][jt]->returnFirstChild())))  // try to move it
                       {
-                          cout<<"Object on teleport moved. Reattaching node ... "<<it<<' '<<jt<<endl;
+//                          cout<<"Object on teleport moved. Reattaching node ... "<<it<<' '<<jt<<endl;
+//                          delta_i = obj->getI() - this->data[it][jt]->getI();
+//                          delta_j = obj->getJ() - this->data[it][jt]->getJ(); // 0.5
+
+//                          this->gameCore->getCamera()->rotateViewX(0.5, delta_i);
+ //                         this->gameCore->getCamera()->rotateViewY(0.5, delta_j);
+                          
                           reattachNode(i, j, it, jt, obj);   //  then move player to teleport
                           return true;
                       }
                   }
                   else  // there is no object attached to teleport, that's ok
                   {
-                      cout<<"Cool, no object on teleport, so beam me up scotty!"<<it<<' '<<jt<<endl;
+                      adjustCameraAtTeleport(it, jt, obj, dir);
+                           //   adjustCameraAtTeleport(int it, int jt, PObject *obj, PDirection dir)
+
+                          
+ //                     cout<<"Cool, no object on teleport, so beam me up scotty!"<<it<<' '<<jt<<endl;
                       reattachNode(i, j, it, jt, obj);  // so we just move player to dest teleport ;)
                       return true;
                   }
@@ -223,10 +234,10 @@ namespace PacGame
               // CONDITIONALLY POSSIBLE MOVES
               else if(data[i2][j2]->isPlayerMovePossible()==2  && (!data[i2][j2]->isActiveBomb()))  // move is conditionally possible; we check children
               {
-                  cout<<"Conditially possible move."<<endl;
+  //                cout<<"Conditially possible move."<<endl;
                   if(data[i2][j2]->returnFirstChild() == NULL)  // move is possible since there are no children
                   {
-                      cout<<"It seems that dest has no children, so I will directly reattach node."<<endl;
+  //                    cout<<"It seems that dest has no children, so I will directly reattach node."<<endl;
                       reattachNode(i, j, i2, j2, obj);   // so we do it ;)
                       return true;
                   }
@@ -235,11 +246,11 @@ namespace PacGame
                   else if(data[i2][j2]->returnFirstChild()->isPlayerMovePossible() == 2 && (obj->getId()==1))  // there is cube on the field, we attemt to move it
                                                                                                               // but we can move it only, if obj is player(do it has id=1)
                   {
-                      cout<<"Hell, there is someting there, attempting to move..."<<endl;
+  //                    cout<<"Hell, there is someting there, attempting to move..."<<endl;
                       // CUBE-MOVE CODE GOES HERE
                       if(this->moveObject(dir, dynamic_cast<PLevelObject*>(data[i2][j2]->returnFirstChild())))
                       {
-                          cout<<"Obj moved, now I am reattaching..."<<endl;
+  //                        cout<<"Obj moved, now I am reattaching..."<<endl;
                           reattachNode(i, j, i2, j2, obj);   // it is, we move object
                           return true;   
                       }
@@ -249,13 +260,13 @@ namespace PacGame
                   else if(data[i2][j2]->returnFirstChild()->isPlayerMovePossible() == 3 && (obj->getId()==1))  // there is cube on the field, we attemt to move it
                                                                                                               // but we can move it only, if obj is player(do it has id=1)
                   { 
-                      cout<<"Hell, there is someting there, oneway cube, attempting to move..."<<endl;
+//                      cout<<"Hell, there is someting there, oneway cube, attempting to move..."<<endl;
                       if(dynamic_cast<POnewayCube*>(data[i2][j2]->returnFirstChild())->getDirection()==dir)
                       {
                           // CUBE-MOVE CODE GOES HERE
                           if(this->moveObject(dir, dynamic_cast<PLevelObject*>(data[i2][j2]->returnFirstChild())))
                           {
-                            cout<<"Obj moved, now I am reattaching..."<<endl;
+//                            cout<<"Obj moved, now I am reattaching..."<<endl;
                               reattachNode(i, j, i2, j2, obj);   // it is, we move object
                               return true;   
                           }
@@ -1052,6 +1063,34 @@ namespace PacGame
                       data[i][j]->releaseFirstChildObject();
                   } 
               }
+          }
+
+          void PLevel::adjustCameraAtTeleport(int it, int jt, PLevelObject *obj, PDirection dir)
+          {
+              int delta_i = (int)this->data[it][jt]->getI() - (int)obj->getI()  ;
+              int delta_j = (int)this->data[it][jt]->getJ() - (int)obj->getJ()  ; // 0.5
+
+              switch (dir)
+              {
+                  case Aliases::up:
+                      delta_i ++;
+                      break;
+
+                  case Aliases::down:
+                      delta_i --;
+                      break;
+
+                  case Aliases::left:
+                      delta_j ++;
+                      break;
+
+                  case Aliases::right:
+                      delta_j --;
+                      break;
+              }
+
+              this->gameCore->getCamera()->rotateViewX(0.5,  delta_j );
+              this->gameCore->getCamera()->rotateViewY(0.5,delta_i );
           }
           
           

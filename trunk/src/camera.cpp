@@ -149,6 +149,16 @@ namespace PacGame
             this->view.y += val;
         }
 
+        void PCamera::rotateViewX(float val, int times)
+        {
+            this->view.x += val * times;
+        }
+
+        void PCamera::rotateViewY(float val, int times)
+        {
+            this->view.y += val * times;
+        }
+
         float PCamera::getRotateValue()
         {
             return this->cameraRotateValue;
