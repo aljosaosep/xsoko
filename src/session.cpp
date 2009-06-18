@@ -78,6 +78,9 @@ namespace PacGame
             Button* btn = new Button(30, 40, 75, 25, "Campaing");
             btn->setName("campaing");
             btn->setAction(this);
+            btn->getFont()->setName("fack");
+            btn->getFont()->setSize(17);
+            btn->getFont()->setColor(0,100,0);
             mainMenu->AddComponent(btn);
 
             btn = new Button(30, 75, 75, 25, "Freeplay");

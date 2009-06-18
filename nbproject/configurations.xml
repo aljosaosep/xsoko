@@ -468,6 +468,7 @@
             <linkerLibLibItem>Xxf86vm</linkerLibLibItem>
             <linkerLibLibItem>Xrandr</linkerLibLibItem>
             <linkerLibLibItem>z</linkerLibLibItem>
+            <linkerLibLibItem>ftgl</linkerLibLibItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>
@@ -650,6 +651,7 @@
             <linkerLibLibItem>boost_filesystem</linkerLibLibItem>
             <linkerLibLibItem>z</linkerLibLibItem>
             <linkerLibLibItem>alut</linkerLibLibItem>
+            <linkerLibLibItem>ftgl</linkerLibLibItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>

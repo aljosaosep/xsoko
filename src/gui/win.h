@@ -109,6 +109,7 @@ public:
     Button(int x, int y, int width, int height, string caption);
     ~Button();
     string getCaption();
+    Font* getFont();
     void setCaption(const string& caption);
     void setAction(ButtonClick* action);
     void Render();
@@ -126,6 +127,7 @@ public:
     string getText();
     void setText(const string& text);
     void Render();
+    Font* getFont();
 };
 
 class Panel: public Container{
@@ -151,6 +153,7 @@ public:
     ~ListBox();
     void addItem(string item);
     string getSelectedItem();
+    Font* getFont();
     void setAction(ListBoxClick* action);
     void Render();
     void onMouseDown(int mx, int my);
@@ -227,6 +230,7 @@ public:
     void onMouseMove(int mx, int my);
     void onMouseUp(int mx, int my);
     void onScreenResize();
+    Font* getFont();
 };
 
 struct msgHandle {
@@ -268,6 +272,7 @@ public:
     bool isMessageActive(unsigned id);
     void onAction(Component* button);
     //void addModal(Window* win);
+    Font* getFont();
 };
 
 #endif	/* _WIN_H */
