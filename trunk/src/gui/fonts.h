@@ -20,39 +20,36 @@
  * File:   fonts.h
  * Author: jernej
  *
- * Created on Ponedeljek, 2 februar 2009, 13:25
+ * Created on 2 februar 2009, 13:25
  */
 
 #ifndef _FONTS_H
 #define	_FONTS_H
 
-#include <vector>
 #include <string>
+#include <FTGL/ftgl.h>
 
 using namespace std;
 
 class Font{
 private:
-    struct fonts{
-        string name;
-        unsigned instances;
-        Font* font;
-    };
-    
     string name;
-    GLuint texIndex;
-    GLuint fontList;
-    static vector<fonts> openFonts;
-    unsigned char fontWidth[256];
-    
-    Font(const string& name, const string& texPath, const string& fntPath);
-    ~Font();
-    bool BuildFont(const string& path);
+    FTBufferFont *font;
+    int size;
+    unsigned char r,g,b;
+
+    void loadFont();
 public:
-    static Font* getInstance(string name);
-    static void destroyInstance(Font* instance);
+    Font(const string& name);
     void writeText(int x, int y, string text);
     int stringWidth(string str);
+    ~Font();
+
+    int getSize();
+    string getName();
+    void setSize(int size);
+    void setColor(unsigned char R, unsigned char G, unsigned char B);
+    void setName(string name);
 };
 
 #endif	/* _FONTS_H */

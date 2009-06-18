@@ -216,11 +216,12 @@ Window::Window(int wX, int wY, int wWidth, int wHeight,string caption) : Contain
   mouseDrag.y = 0;
   modal = false;
   this->caption = caption;
-  fnt = Font::getInstance("font");
+  fnt = new Font("font");
 };
 
 Window::~Window(){
-    Font::destroyInstance(fnt);
+    //Font::destroyInstance(fnt);
+    delete fnt;
 }
 
 void Window::setVisible(bool visible){
@@ -230,6 +231,10 @@ void Window::setVisible(bool visible){
 
 void Window::setModal(bool modal){
     this->modal = modal;
+}
+
+Font* Window::getFont(){
+    return fnt;
 }
 
 /*------------------------------------------------------------------*
@@ -408,11 +413,11 @@ Button::Button(int x, int y, int width, int height, string caption) : Component(
   this->pressed = false;
   this->caption = caption;
   this->action = NULL;
-  fnt = Font::getInstance("font");
+  fnt = new Font("font");
 }
 
 Button::~Button(){
-    Font::destroyInstance(fnt);
+    delete fnt;
 }
 
 
@@ -421,8 +426,10 @@ Button::~Button(){
  *------------------------------------------------------------------*/
 void Button::Render()
 {
-    if(!visible)
-        return;
+  if(!visible)
+      return;
+  
+  glColor3f(1,1,1);
   if (pressed) 
   {
     glBegin(GL_QUADS);
@@ -494,6 +501,10 @@ void Button::setCaption(const string& caption){
 
 void Button::setAction(ButtonClick* action){
     this->action = action;
+}
+
+Font* Button::getFont(){
+    return fnt;
 }
 
 // TPanel 
@@ -596,15 +607,19 @@ ListBox::ListBox(int x, int y, int width, int height) : Component(x,y,width,heig
     downPressed = false;
     drawIndex = 0;
     canShow = (height-4) / 16;
-    fnt = Font::getInstance("font");
+    fnt = new Font("font");
 }
 
 ListBox::~ListBox(){
-    Font::destroyInstance(fnt);
+    delete fnt;
 }
 
 void ListBox::setAction(ListBoxClick* action){
     this->action = action;
+}
+
+Font* ListBox::getFont(){
+    return fnt;
 }
 
 /*------------------------------------------------------------------*
@@ -614,6 +629,7 @@ void ListBox::Render()
 {
   if(visible)
   {
+    glColor3f(1,1,1);
     glBegin(GL_QUADS);
       // top of panel.
       glTexCoord2f((float)10/128, (float)33/128); glVertex2f(x+2, -y);
@@ -657,7 +673,8 @@ void ListBox::Render()
             glBindTexture(GL_TEXTURE_2D,texIndex);
         }
     }
-    
+
+    glColor3f(1,1,1);
     drawButton(x+width-18,y+2,upPressed,true);
     drawButton(x+width-18,y+height-18,downPressed,false);
     glBegin(GL_QUADS);
@@ -691,9 +708,6 @@ void ListBox::onMouseDown(int mx, int my){
         mouseY -= loc.y;
         parent = parent->getParent();
     }
-    
-    //int mouseX = mx;
-    //int mouseY = my - 26;
     
     if(mouseX >= 2 && mouseX <= width-18){
         unsigned index = (mouseY-2) / 16 + drawIndex;
@@ -903,7 +917,8 @@ void CheckBox::Render()
 {
   if(visible)
   {
-    glTranslatef(0, 0, 0.02);
+    glColor3f(1,1,1);
+    //glTranslatef(0, 0, 0.02); //FIXME:
     if (checked)
     {
       glBegin(GL_QUADS);
@@ -963,6 +978,7 @@ void RadioButton::Render()
 {
   if(visible)
   {
+    glColor3f(1,1,1);
     if(checked)
     {
       glBegin(GL_QUADS);
@@ -1042,11 +1058,11 @@ vector<RadioButton*>* RadioButtonGroup::getRadioButtons(){
 Text::Text(int x,int y,string text) : Component(x,y,6*text.length(),16)
 {
   caption = text;
-  fnt = Font::getInstance("font");
+  fnt = new Font("font");
 }
 
 Text::~Text(){
-    Font::destroyInstance(fnt);
+    delete fnt;
 }
 
 /*------------------------------------------------------------------*
@@ -1068,9 +1084,13 @@ void Text::setText(const string& text){
     caption = text;
 }
 
+Font* Text::getFont(){
+    return fnt;
+}
+
 Gui::~Gui(){
     glDeleteTextures(1,&texIndex);
-    Font::destroyInstance(fnt);
+    delete fnt;
     texIndex = 0;
 }
 
@@ -1092,7 +1112,7 @@ Gui::Gui(const char* guiTextureFileName) : mVisible(true), num(0) {
        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
     }
 
-    fnt = Font::getInstance("font");
+    fnt = new Font("font");
 
     glfwGetWindowSize(&wndWidth,&wndHeight);
 }
@@ -1129,7 +1149,7 @@ void Gui::Render()
   glLoadIdentity();
           
   glTranslatef(0, 0, -1);
-  //glEnable(GL_TEXTURE_2D);
+  glEnable(GL_TEXTURE_2D);
   glBindTexture(GL_TEXTURE_2D,texIndex);
   for(unsigned i=0;i<windows.size();i++)
           windows[i]->Render();
@@ -1139,7 +1159,7 @@ void Gui::Render()
       glEnable(GL_BLEND);
       glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
       glEnable(GL_TEXTURE_2D);
-      //glColor4f(1,1,1,1);
+      glColor4f(1,1,1,1);
       glBegin(GL_QUADS);
         glTexCoord2f((float)41/128, (float)64/128); glVertex3i(mouseX,    wndHeight - mouseY, 1);
         glTexCoord2f((float)72/128, (float)64/128); glVertex3i(mouseX+32, wndHeight - mouseY, 1);
@@ -1148,6 +1168,10 @@ void Gui::Render()
       glEnd();
       glDisable(GL_BLEND);
   }
+}
+
+Font* Gui::getFont(){
+    return fnt;
 }
 
 /*------------------------------------------------------------------*

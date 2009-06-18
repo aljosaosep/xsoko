@@ -16,124 +16,71 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <boost/filesystem/operations.hpp>
-
-
-#include <GL/glfw.h>
+#include <GL/gl.h>
 #include "fonts.h"
+#include "../messages.h"
 
-#if !(defined(Windows_Release) || defined(Windows_Debug))
-    #include <boost/filesystem.hpp>
-#else
-    #define BOOST_WINDOWS_API
-    #include <boost/filesystem/convenience.hpp>
-    #include <boost/filesystem/path.hpp>
-    #include <boost/filesystem/operations.hpp>
-#endif
-
-using namespace boost::filesystem;
-
-//static variables
-vector<Font::fonts> Font::openFonts;
-
-Font::Font(const string& name, const string& texPath, const string& fntPath){
-    glGenTextures(1,&texIndex);
-    glBindTexture(GL_TEXTURE_2D,texIndex);
-    if(glfwLoadTexture2D(texPath.c_str(), GLFW_BUILD_MIPMAPS_BIT|GLFW_ORIGIN_UL_BIT)){
-       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-       glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR_MIPMAP_NEAREST);
-       if(!BuildFont(fntPath))
-           texIndex = 0;
-    } else
-        texIndex = 0;
+Font::Font(const string& name){
     this->name = name;
+    loadFont();
 }
 
 Font::~Font(){
-    glDeleteLists(fontList,256);
-    glDeleteTextures(1,&texIndex);
-}
-
-bool Font::BuildFont(const string& path)
-{
-  FILE *fontFile = fopen(path.c_str(),"rb");
-  if(fontFile == NULL)
-    return false;
-  
-  if(fread(fontWidth,1,sizeof(fontWidth),fontFile)!=sizeof(fontWidth)){
-      fclose(fontFile);
-      return false;
-  }
-  fclose(fontFile);
-
-  // create the font display list
-  fontList = glGenLists(256);               // Storage For 128 Characters
-  for(int i=0;i<256;i++)
-  {
-    GLfloat x = (float)(i % 16) / 16;	     		// X Position Of Current Character
-    GLfloat y = (float)(i / 16) / 16;	     		// Y Position Of Current Character
-    glNewList(fontList+i, GL_COMPILE);       // Start Building A List
-    glBegin(GL_QUADS);
-      GLfloat xs = (16.0f-fontWidth[i])/2.0f/256.0f;
-      glTexCoord2f(x+xs,1.0f-y-0.0625f);                                            glVertex2i(0, 0);
-      glTexCoord2f(x+xs + (GLfloat)fontWidth[i]/256.0f + 1.0f/512.0f, 1.0f-y-0.0625f);  glVertex2i(fontWidth[i], 0);
-      glTexCoord2f(x+xs + (GLfloat)fontWidth[i]/256.0f + 1.0f/512.0f, 1.0f-y);         glVertex2i(fontWidth[i], 16);
-      glTexCoord2f(x+xs,1.0f-y);                                                   glVertex2i(0, 16);
-    glEnd();
-    glTranslatef(fontWidth[i], 0, 0);
-    glEndList();
-  }
-  return true;
-}
-
-Font* Font::getInstance(string name){
-    for(unsigned i=0;i<openFonts.size();i++){
-        if(openFonts[i].name == name){
-            openFonts[i].instances += 1;
-            return openFonts[i].font;
-        }
-    }
-    string path = "data/";
-    path.append(name);
-    string tex = path;
-    tex.append(".tga");
-    path.append(".fnt");
-    if((!exists(tex)) && (!exists(path)))
-        return NULL;
-    fonts fnt;
-    fnt.font = new Font(name,tex,path);
-    fnt.name = name;
-    fnt.instances = 1;
-    openFonts.push_back(fnt);
-    return fnt.font;
-}
-
-void Font::destroyInstance(Font* instance){
-    for(unsigned i=0;i<openFonts.size();i++)
-        if(openFonts[i].name == instance->name){
-            openFonts[i].instances -= 1;
-            if(openFonts[i].instances == 0){
-                openFonts.erase(openFonts.begin()+i);
-                delete instance;
-            }
-            break;    
-        }
+    if(font != NULL)
+        delete font;
 }
 
 void Font::writeText(int x, int y,string text){
-  if(texIndex == 0)
-    return;
-  glBindTexture(GL_TEXTURE_2D, texIndex);
-  glPushMatrix();
+    if(font == NULL)
+        return;
+    glPushMatrix();
+    glColor3f(r/255.0,g/255.0,b/255.0);
     glTranslatef(x, y, 0.02);
-    glListBase(fontList);
-    glCallLists(text.length(), GL_BYTE, text.c_str());
-  glPopMatrix();
+    font->Render(text.c_str());
+    glPopMatrix();
 }
 
 int Font::stringWidth(string str){
-    int width = 0;
-    for(int i=0;i<str.size();i++)
-        width += fontWidth[str[i]];
-    return width;
+    return font->Advance(str.c_str());
+}
+
+int Font::getSize(){
+    return size;
+}
+
+void Font::setSize(int size){
+    this->size = size;
+    if(font != NULL)
+        font->FaceSize(size);
+}
+
+void Font::setColor(unsigned char R, unsigned char G, unsigned char B){
+    r = R;
+    g = G;
+    b = B;
+}
+
+string Font::getName(){
+    return name;
+}
+
+void Font::setName(string name){
+    this->name = name;
+    if(font != NULL)
+        delete font;
+    loadFont();
+}
+
+void Font::loadFont(){
+    string path = "data/"+name+".ttf";
+    font = new FTBufferFont(path.c_str());
+    if(font->Error()){
+        PacGame::Messages::errorMessage("Unable to load font file:"+path);
+        delete font;
+        font = NULL;
+        return;
+    }
+    font->FaceSize(12);
+    size = 12;
+    r = g = b = 0;
 }
