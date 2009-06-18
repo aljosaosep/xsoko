@@ -15,8 +15,8 @@ Opis + info na [http://groups.google.com/group/xsoko/browse_thread/thread/b0821f
 == MD2 file loader == 
 ==== prioriteta: srednja ====
 ==== trenutno dela: Martin Šavc ====
-==== zeljen datum implementacije: 30.6.2009 (optimisticen datum) ====
-==== status: ni se nic ====
+==== zeljen datum implementacije: 30.6.2009 ====
+==== status: Razred za nalaganje in izrisovanje je napisan. ====
 ==== quick summary: ====
 razred, ki znata zlovda v memory 3d modele doticnih
 formatov, jih izrisat in poteksturirat... pa seveda animirat(z interpolacijo)
