@@ -85,8 +85,12 @@ namespace PacGame
               void PPlayer::draw() 
               {
                     glColor4f(1.0, 1.0, 0.7, 0.8);
-                    glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(6));
-                    this->core->getRenderer()->drawCube(0.0, 0.0, 1.0);
+                    //glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(6));
+                    //this->core->getRenderer()->drawCube(0.0, 0.0, 1.0);
+                    glPushMatrix();
+                    glScalef(0.07,0.07,0.07);
+                    core->getResources()->getModelResource(6)->DrawFrame(1);
+                    glPopMatrix();
                       // TODO
               }
               

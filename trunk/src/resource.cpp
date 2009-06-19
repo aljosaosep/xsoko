@@ -18,6 +18,9 @@
 
 #include "resource.h"
 
+#include <fstream>
+
+using namespace std;
 
 namespace PacGame
 {
@@ -29,6 +32,7 @@ namespace PacGame
         PResourceManager::PResourceManager()
         {
             for(int i=0; i<ELEMENTS_TEXTURES; textures[i++]=NULL); 
+            for(int i=0; i<ELEMENTS_MODELS; models[i++]=NULL); 
         }
         
         PResourceManager::~PResourceManager()
@@ -68,6 +72,32 @@ namespace PacGame
             return true;
         }
         
+        /**************************************************
+         * loadModelResource
+         * 
+         * Loads an md2model from the file into the table at offset.
+         * ************************************************/
+        bool PResourceManager::loadModelResource(int offset, string fileName)
+        {
+                ifstream file(fileName.c_str(), ios_base::binary | ios_base::in);
+                if(file.is_open())
+                {
+                        models[offset] = new Md2Model(file);
+                        return true;
+                }else
+                        return false;
+        }
+        
+        /***********************************************
+         * getModelResource
+         * 
+         * Return a pointer to the model resource.
+         * **********************************************/
+        Md2Model* PResourceManager::getModelResource(int offset)
+        {
+                return models[offset];
+        }
+        
         // getters
         PTexture* PResourceManager::getTextureResource(int offset)
         {
@@ -89,6 +119,15 @@ namespace PacGame
                     textures[i]->release();
                     delete textures[i];
                     textures[i] = NULL;
+                }
+            }
+            // release models
+            for(int i=0; i<ELEMENTS_MODELS; i++)
+            {
+                if(this->models[i]!=NULL)
+                {
+                    delete models[i];
+                    models[i] = NULL;
                 }
             }
         }

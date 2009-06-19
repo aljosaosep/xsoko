@@ -609,6 +609,11 @@ namespace PacGame
                                       
                                       if((resourceHandle->getTextureResource(PLAYER_RES))==NULL)  // texture isn't in memory yet?
                                           resourceHandle->loadTextureResource(PLAYER_RES, "player.tga");  // load it!
+                                      if((resourceHandle->getModelResource(PLAYER_RES)) == NULL) // model isn't in memory yet?
+                                      {
+                                          resourceHandle->loadModelResource(PLAYER_RES, "data/player.md2"); // load it!
+                                          resourceHandle->getModelResource(PLAYER_RES)->SetTexture(resourceHandle->getTextureTesourceId(PLAYER_RES)); // set the texture
+                                       }
                                       
                                       this->player = dynamic_cast<PPlayer*>(p); // set class player pointer to player element
                                       data[i][j]->add(p);

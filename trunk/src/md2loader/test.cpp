@@ -56,7 +56,7 @@ int main(int argc, char** args)
 		cout<<"Pass md2 file name as argument."<<endl;
 		return 1;
 	}
-	ifstream file(args[1]);
+	ifstream file(args[1], ios_base::in | ios_base::binary);
 	model = new Md2Model(file);
 	model->FileInformation(cout);
 	
