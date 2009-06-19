@@ -49,7 +49,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/src/CommonStructures.o \
 	${OBJECTDIR}/src/renderer/particle.o \
 	${OBJECTDIR}/src/levelbox.o \
-	${OBJECTDIR}/src/renderer/renderer-core.o
+	${OBJECTDIR}/src/renderer/renderer-core.o \
+	${OBJECTDIR}/src/md2loader/md2model.o
 
 # C Compiler Flags
 CFLAGS=
@@ -171,6 +172,10 @@ ${OBJECTDIR}/src/renderer/renderer-core.o: src/renderer/renderer-core.cpp
 	${MKDIR} -p ${OBJECTDIR}/src/renderer
 	$(COMPILE.cc) -g -Wall -o ${OBJECTDIR}/src/renderer/renderer-core.o src/renderer/renderer-core.cpp
 
+${OBJECTDIR}/src/md2loader/md2model.o: src/md2loader/md2model.cpp
+	${MKDIR} -p ${OBJECTDIR}/src/md2loader
+	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/src/md2loader/md2model.o src/md2loader/md2model.cpp
+	
 # Subprojects
 .build-subprojects:
 

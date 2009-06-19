@@ -21,16 +21,19 @@
  * Author: aljosa
  *
  * Created on August 24, 2008, 8:41 PM
- */
+ * */
 
 #ifndef __RESOURCE_H
 #define	__RESOURCE_H
 
 #include "renderer/texture.h"
+#include "md2loader/md2model.h"
 
 #define ELEMENTS_TEXTURES 12
+#define ELEMENTS_MODELS 12
 
 using namespace PacGame::RenderMaschine;
+using namespace PacGame::Md2Format;
 
 namespace PacGame
 {
@@ -40,6 +43,7 @@ namespace PacGame
         {
         private:
             PTexture *textures[ELEMENTS_TEXTURES];
+            Md2Model *models[ELEMENTS_MODELS];             // Added by Martin Savc, Friday, June 19 2009
             
         public:
             PResourceManager();
@@ -49,6 +53,10 @@ namespace PacGame
             
             PTexture* getTextureResource(int offset);
             unsigned getTextureTesourceId(int offset);
+            
+            bool loadModelResource(int offset, string fileName);             // Added by Martin Savc, Friday, June 19 2009
+            
+            Md2Model* getModelResource(int offset);             // Added by Martin Savc, Friday, June 19 2009
 
             void release();
         }; 
