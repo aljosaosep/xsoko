@@ -52,12 +52,10 @@ namespace PacGame
 {
     namespace GameClasses
     {
-       /* PGameSession::PGameSession(PLevel *level, PInputSystem *input) : level(level), camera(level->getGameCoreHandle()->getCamera()), input(input), moves(0),  rotations_per_tick(0.1), levelLoaded(false)//, gameWin(createGameMenu())
-        {
-            prepareGui();
-        }*/
         
-        PGameSession::PGameSession() : level(NULL), player(NULL), camera(NULL), input(new PInputSystem()),  moves(0),rotations_per_tick(0.1), levelLoaded(false), gameQuit(false)
+        PGameSession::PGameSession() :
+            level(NULL), player(NULL), camera(NULL), input(new PInputSystem()),  moves(0),
+            rotations_per_tick(0.1), levelLoaded(false), gameQuit(false), toggleMenu(false)
         {
             prepareGui();
         }
@@ -162,7 +160,6 @@ namespace PacGame
                 string title;
             #endif
             
-            bool toggle = false;
             unsigned msgid = 0;
             
             //RenderMaschine::PParticleEngine particles(5.0, 7.0, 9.0);
@@ -195,18 +192,18 @@ namespace PacGame
                         this->level->processBombs(current_time);
 
                         // check for input every time
-                        this->input->process(toggle);
+                        this->input->process(toggleMenu);
 
                         if(this->input->toggleGameMenu()){
-                            toggle = !toggle;
-                            gameMenu->setVisible(toggle);
-                            gui->setMouseVisible(toggle);
+                            toggleMenu = !toggleMenu;
+                            gameMenu->setVisible(toggleMenu);
+                            gui->setMouseVisible(toggleMenu);
                         }
 
                         // is game over? or level done?
                         if(this->level->getEndgameFlag() || forceLevelQuit){
                             levelLoaded = false;
-                            toggle = false;
+                            toggleMenu = false;
                             gameMenu->setVisible(false);
                             if(level->getEndgameFlag())
                                msgid = gui->showMessage("xSoko", "Congratulations, you won!");
@@ -256,12 +253,6 @@ namespace PacGame
                 glfwSwapBuffers();
             }
         }
-        
-        /*bool PGameSession::initialize()
-        {    
-            
-            return true;
-        }*/
         
         // setters
         // sets session's level
@@ -356,6 +347,7 @@ namespace PacGame
                 level->reset();
                 gui->setMouseVisible(false);
                 gameMenu->setVisible(false);
+                toggleMenu = false;
                 return;
             }
             if(button->getName() == "gameExit"){

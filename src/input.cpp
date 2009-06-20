@@ -44,7 +44,6 @@ namespace PacGame
             glfwEnable(GLFW_STICKY_KEYS);  // enables sticky keys
             
             // in next lines, we check if some keys has been pressed
-            //if(((win != NULL)&&(!win->isVisible()))||(win == NULL)){
             if(!menuVisible){
                 if((glfwGetKey(GLFW_KEY_UP) == GLFW_PRESS) && (glfwGetKey(GLFW_KEY_UP) == GLFW_RELEASE))  // checks up key
                 {
