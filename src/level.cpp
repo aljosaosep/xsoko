@@ -874,6 +874,10 @@ namespace PacGame
                               glPushMatrix();
                               glTranslatef((float)i, (float)j, 0.0);
                               obj->draw(); // prints it
+
+                              if (static_cast<PLevelObject*>(obj)->getId() == PLAYER) // if child is player, draw also paren
+                                  data[i][j]->draw();
+                              
                               glPopMatrix();
                           }
                           else

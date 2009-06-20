@@ -27,7 +27,7 @@ Font::Font(const string& name){
 
 Font::~Font(){
     if(font != NULL)
-        delete font;
+       delete font;
 }
 
 void Font::writeText(int x, int y,string text){
@@ -73,7 +73,7 @@ void Font::setName(string name){
 
 void Font::loadFont(){
     string path = "data/"+name+".ttf";
-    font = new FTBufferFont(path.c_str());
+    this->font = new FTBufferFont::FTBufferFont(path.c_str());
     if(font->Error()){
         PacGame::Messages::errorMessage("Unable to load font file:"+path);
         delete font;
