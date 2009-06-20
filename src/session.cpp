@@ -55,7 +55,7 @@ namespace PacGame
         
         PGameSession::PGameSession() :
             level(NULL), player(NULL), camera(NULL), input(new PInputSystem()),  moves(0),
-            rotations_per_tick(0.1), levelLoaded(false), gameQuit(false), toggleMenu(false)
+            rotations_per_tick(0.1), levelLoaded(false), gameQuit(false)
         {
             prepareGui();
         }
@@ -161,6 +161,7 @@ namespace PacGame
             #endif
             
             unsigned msgid = 0;
+            bool menuVisible = false;
             
             //RenderMaschine::PParticleEngine particles(5.0, 7.0, 9.0);
 
@@ -180,7 +181,7 @@ namespace PacGame
                     } else
                         frames ++;
                 #endif
-                
+
                 if(levelLoaded || msgid){
                 
                     // calculate time elapsed, and the amount by which stuff rotates
@@ -192,18 +193,17 @@ namespace PacGame
                         this->level->processBombs(current_time);
 
                         // check for input every time
-                        this->input->process(toggleMenu);
+                        this->input->process();
 
-                        if(this->input->toggleGameMenu()){
-                            toggleMenu = !toggleMenu;
-                            gameMenu->setVisible(toggleMenu);
-                            gui->setMouseVisible(toggleMenu);
+                        if(this->input->toggleGameMenu() != menuVisible){
+                            menuVisible = !menuVisible;
+                            gameMenu->setVisible(menuVisible);
+                            gui->setMouseVisible(menuVisible);
                         }
 
                         // is game over? or level done?
                         if(this->level->getEndgameFlag() || forceLevelQuit){
                             levelLoaded = false;
-                            toggleMenu = false;
                             gameMenu->setVisible(false);
                             if(level->getEndgameFlag())
                                msgid = gui->showMessage("xSoko", "Congratulations, you won!");
@@ -347,7 +347,6 @@ namespace PacGame
                 level->reset();
                 gui->setMouseVisible(false);
                 gameMenu->setVisible(false);
-                toggleMenu = false;
                 return;
             }
             if(button->getName() == "gameExit"){

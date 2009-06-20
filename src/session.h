@@ -53,7 +53,7 @@ namespace PacGame
             bool levelLoaded;
             bool gameQuit;
             bool forceLevelQuit;
-            bool toggleMenu;
+            //bool toggleMenu;
 
             //gui components
             Gui* gui;

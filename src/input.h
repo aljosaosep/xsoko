@@ -47,11 +47,11 @@ namespace PacGame
         public:
             
             // constructors
-            PInputSystem(PLevel *level/*,Window* gameMenu*/) : level(level), toggleMenu(false)/*, win(gameMenu)*/ { }
-            PInputSystem() : level(NULL), toggleMenu(false)/*, win(NULL)*/ { }
+            PInputSystem(PLevel *level) : level(level), toggleMenu(false) { }
+            PInputSystem() : level(NULL), toggleMenu(false) { }
             
             // process function
-            void process(bool menuVisible);
+            void process();
             
             // setters
             void setLevel(PLevel *level);
