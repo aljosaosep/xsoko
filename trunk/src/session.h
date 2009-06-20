@@ -53,6 +53,7 @@ namespace PacGame
             bool levelLoaded;
             bool gameQuit;
             bool forceLevelQuit;
+            bool toggleMenu;
 
             //gui components
             Gui* gui;
@@ -65,12 +66,10 @@ namespace PacGame
             void LoadLevel(string levelPath);
         public:
             // constructors & destructor
-            //PGameSession(PLevel *level, PInputSystem *input);
             PGameSession();
             ~PGameSession();
             
             // methods
-            //bool initialize();
             void mainLoop();
             void onAction(Component* button);
             

@@ -193,7 +193,7 @@ namespace PacGame
                   // it - I index of dest teleport
                   // jt-  J index of dest teleport
                   int it = (dynamic_cast<PTeleport*>(data[i2][j2]))->getChildTeleport()->getI(), 
-                          jt = (dynamic_cast<PTeleport*>(data[i2][j2]))->getChildTeleport()->getJ();
+                      jt = (dynamic_cast<PTeleport*>(data[i2][j2]))->getChildTeleport()->getJ();
                   
 //                  cout<<"Child Teleport indexes: "<<it<<' '<<jt<<endl;
                   
@@ -277,6 +277,7 @@ namespace PacGame
                           this->player->incBombs();  // increase bombs
                           reattachNode(i, j, i2, j2, obj);   // move
                           cout<<"St. bomb:"<<this->player->getBombs()<<endl;
+                          return true;
                       }
                   }
               }    
@@ -285,7 +286,7 @@ namespace PacGame
               Aliases::PDirection dirrr = dynamic_cast<POnewayFloor*>(data[i2][j2])->getDirection();
               cout<<"stupid"<<endl;
               }*/
-              // CONDITIONALLY POSSIBLE MOVE - ONEWAY FLOOR    // T O D O    FFIIIXX
+              // CONDITIONALLY POSSIBLE MOVE - ONEWAY FLOOR    //TODO:    FFIIIXX
               else if((data[i2][j2]->isPlayerMovePossible()==5) && (dir ==  (dynamic_cast<POnewayFloor*>(data[i2][j2])->getDirection())))  // move is conditionally possible; we check children
               {
                   if(data[i2][j2]->returnFirstChild() == NULL)  // move is possible since there are no children
@@ -330,6 +331,7 @@ namespace PacGame
                           data[i2][j2]->releaseList();
                           this->player->incBombs();  // increase bombs
                           reattachNode(i, j, i2, j2, obj);   // move
+                          return true;
                       }
                   }
               }
@@ -382,12 +384,12 @@ namespace PacGame
                     //  cout<<"idproblem"<<endl;
                       if(obj->getId()==1) // is object a player ?
                       {
-                      //    data[i2][j2]->releaseFirstChild(); // release picking bomb object
                       //    data[i2][j2]->unlinkFirstChild();
-                          data[i2][j2]->releaseFirstChildObject();
+                          data[i2][j2]->releaseFirstChildObject(); // release picking bomb object
                           this->player->incBombs();  // increase bombs
                           reattachNode(i, j, i2, j2, obj);   // move
                           cout<<"St. bomb:"<<this->player->getBombs()<<endl;
+                          return true;
                       }
                   }
               }
@@ -1089,7 +1091,7 @@ namespace PacGame
               }
 
               this->gameCore->getCamera()->rotateViewX(0.5,  delta_j );
-              this->gameCore->getCamera()->rotateViewY(0.5,delta_i );
+              this->gameCore->getCamera()->rotateViewY(0.5, -delta_i );
           }
           
           

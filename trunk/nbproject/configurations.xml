@@ -8,6 +8,10 @@
         <itemPath>src/gui/fonts.h</itemPath>
         <itemPath>src/gui/win.h</itemPath>
       </logicalFolder>
+      <logicalFolder name="f4" displayName="md2loader" projectFiles="true">
+        <itemPath>src/md2loader/Anorms.h</itemPath>
+        <itemPath>src/md2loader/md2model.h</itemPath>
+      </logicalFolder>
       <logicalFolder name="f1" displayName="renderer" projectFiles="true">
         <itemPath>src/renderer/particle.h</itemPath>
         <itemPath>src/renderer/renderer.h</itemPath>
@@ -44,6 +48,9 @@
       <logicalFolder name="f3" displayName="gui" projectFiles="true">
         <itemPath>src/gui/fonts.cpp</itemPath>
         <itemPath>src/gui/win.cpp</itemPath>
+      </logicalFolder>
+      <logicalFolder name="f4" displayName="md2loader" projectFiles="true">
+        <itemPath>src/md2loader/md2model.cpp</itemPath>
       </logicalFolder>
       <logicalFolder name="f1" displayName="renderer" projectFiles="true">
         <itemPath>src/renderer/particle.cpp</itemPath>
@@ -187,6 +194,15 @@
       </item>
       <item path="src/maingameclasses.h">
         <itemTool>3</itemTool>
+      </item>
+      <item path="src/md2loader/Anorms.h">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/md2loader/md2model.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/md2loader/md2model.h">
+        <itemTool>1</itemTool>
       </item>
       <item path="src/messages.cpp">
         <itemTool>1</itemTool>
@@ -370,6 +386,15 @@
       <item path="src/maingameclasses.h">
         <itemTool>3</itemTool>
       </item>
+      <item path="src/md2loader/Anorms.h">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/md2loader/md2model.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/md2loader/md2model.h">
+        <itemTool>1</itemTool>
+      </item>
       <item path="src/messages.cpp">
         <itemTool>1</itemTool>
       </item>
@@ -546,6 +571,15 @@
       </item>
       <item path="src/maingameclasses.h">
         <itemTool>3</itemTool>
+      </item>
+      <item path="src/md2loader/Anorms.h">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/md2loader/md2model.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/md2loader/md2model.h">
+        <itemTool>1</itemTool>
       </item>
       <item path="src/messages.cpp">
         <itemTool>1</itemTool>
@@ -729,6 +763,15 @@
       </item>
       <item path="src/maingameclasses.h">
         <itemTool>3</itemTool>
+      </item>
+      <item path="src/md2loader/Anorms.h">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/md2loader/md2model.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/md2loader/md2model.h">
+        <itemTool>1</itemTool>
       </item>
       <item path="src/messages.cpp">
         <itemTool>1</itemTool>
