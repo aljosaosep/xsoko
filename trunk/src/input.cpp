@@ -36,15 +36,16 @@ namespace PacGame
 {
     namespace GameClasses
     {
-        void PInputSystem::process(bool menuVisible)
+
+        void PInputSystem::process()
         {
             // gets renderer handle, for camera
 //             PRenderer *rn = this->level->getGameCoreHandle()->getRenderer();
-            
-            glfwEnable(GLFW_STICKY_KEYS);  // enables sticky keys
-            
+
+            glfwEnable(GLFW_STICKY_KEYS);  // enables sticky keys            
+
             // in next lines, we check if some keys has been pressed
-            if(!menuVisible){
+            if(!toggleMenu){
                 if((glfwGetKey(GLFW_KEY_UP) == GLFW_PRESS) && (glfwGetKey(GLFW_KEY_UP) == GLFW_RELEASE))  // checks up key
                 {
                     if(this->level->moveObject(Aliases::up, this->level->getPlayerHandle()))  // move object player up
@@ -101,7 +102,8 @@ namespace PacGame
             }
             if((glfwGetKey(GLFW_KEY_ESC) == GLFW_PRESS) && (glfwGetKey(GLFW_KEY_ESC) == GLFW_RELEASE))
             {
-                toggleMenu = true;
+                toggleMenu = !toggleMenu;
+                glfwDisable(GLFW_STICKY_KEYS);  // enables sticky keys
             }
             
             // camera values; if you need to move camera, uncomment this code
@@ -146,11 +148,7 @@ namespace PacGame
         }
         
         bool PInputSystem::toggleGameMenu(){
-            if(toggleMenu){
-                toggleMenu = false;
-                return true;
-            }
-            return false;
+            return toggleMenu;
         }
     }
 }

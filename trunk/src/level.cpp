@@ -217,7 +217,8 @@ namespace PacGame
                   }
                   else  // there is no object attached to teleport, that's ok
                   {
-                      adjustCameraAtTeleport(it, jt, obj, dir);
+                      if(obj->getId() == 1) // check if it is player
+                        adjustCameraAtTeleport(it, jt, obj, dir);
                      
  //                     cout<<"Cool, no object on teleport, so beam me up scotty!"<<it<<' '<<jt<<endl;
                       reattachNode(i, j, it, jt, obj);  // so we just move player to dest teleport ;)
