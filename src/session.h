@@ -75,7 +75,7 @@ namespace PacGame
             
             // setters
             //void setLevel(PLevel *level);
-            void setScore(unsigned score);
+            //void setScore(unsigned score);
             //void setInput(PInputSystem *input);
             
             // getters

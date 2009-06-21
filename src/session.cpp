@@ -221,14 +221,14 @@ namespace PacGame
                     glRotatef(-90.0, 0.0, 0.0, 1.0);
 
 
-                    glEnable(GL_LIGHTING);
+                    //glEnable(GL_LIGHTING);
 
        //             glTranslatef(0.0,0.0,-100.0);
                     this->level->draw();
 
                     //particles.process(delta_rotate*10);
 
-                    glDisable(GL_LIGHTING);
+                    //glDisable(GL_LIGHTING);
                 }
 
                 if(msgid && !gui->isMessageActive(msgid)){
@@ -271,10 +271,10 @@ namespace PacGame
         }*/
         
         // sets session's score
-        void PGameSession::setScore(unsigned score)
+        /*void PGameSession::setScore(unsigned score)
         {
             this->score = score;
-        }
+        }*/
         
      /*   void PGameSession::setGameEnd()
         {

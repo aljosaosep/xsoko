@@ -111,8 +111,11 @@ namespace PacGame
                   PCore *gameCore;                   // game core object
                   PResourceManager *resourceHandle;  // shortcut to resources
                   bool endgameFlag;
+                  //bool timestopped;
                   Font *fnt;
                   double starttime;
+                  double time;
+                  int moves;
                   
            //       PDirection lastDirection;  // direction player is facing according to last move
                   

@@ -63,7 +63,8 @@ namespace PacGame
             filename(filename),  width(0), height(0), player(NULL), gameCore(new PCore),
             resourceHandle(this->gameCore->getResources()), endgameFlag(false), fnt(new Font("font"))
           {
-              fnt->setColor(0,255,255);
+              fnt->setColor(255,255,0);
+              fnt->setSize(15);
           }
  
            /*****************************************
@@ -451,6 +452,7 @@ namespace PacGame
                               return false;                      
                           break;                        
                   }
+                  moves++;
                   return true;              
           }
           
@@ -833,6 +835,7 @@ namespace PacGame
               teleports.clear();
               holds.clear();
               endgameFlag = false;
+              moves = 0;
               return reloadLevel();
           }
           
@@ -880,6 +883,7 @@ namespace PacGame
               this->print();
 
               starttime = glfwGetTime();
+              moves = 0;
               return true; // everything went ok
           }
           
@@ -888,6 +892,7 @@ namespace PacGame
            **************************************************************/
           void PLevel::draw()
           {
+              glEnable(GL_LIGHTING);
               glPushMatrix();
                   for(unsigned i=0; i<this->width; i++)
                   {
@@ -931,6 +936,7 @@ namespace PacGame
                       }
                   }
               glPopMatrix();
+              glDisable(GL_LIGHTING);
 
               //Change mode for text
               glMatrixMode(GL_PROJECTION);  // Change Matrix Mode to Projection
@@ -941,7 +947,10 @@ namespace PacGame
 
               glTranslatef(0, 600, -0.5);
 
-              fnt->writeText(10,-15,"Elapsed time: "+Functions::toString<int>(glfwGetTime()-starttime));
+              if(!endgameFlag)
+                  time = glfwGetTime();
+              fnt->writeText(10,-30,"Elapsed time: "+Functions::toString<int>(time-starttime));
+              fnt->writeText(170,-30,"Moves: "+Functions::toString<int>(moves));
           }
           
           bool PLevel::loadLevelFromFile(string filename){
