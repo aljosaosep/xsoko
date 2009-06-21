@@ -749,7 +749,8 @@ namespace PacGame
                   // set the camera position
                  gameCore->getCamera()->fitCameraToLevel(width, height);
                   // rotate the camera above the player
-                  // ...
+                  gameCore->getCamera()->rotateViewX( 0.5 * (player->getJ() - ((int)width-1)/2));
+                  gameCore->getCamera()->rotateViewY( 0.5 * (player->getI() - ((int)height-1)/2));
                   
                   // teleports.clear(); // clear teleport vector, since they are by now in memory and no longer needed
                   break;   
