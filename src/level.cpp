@@ -455,6 +455,7 @@ namespace PacGame
               ifstream level; // file handle
               level.open(this->filename.c_str(), ios::in);  // opens level
               
+              
               if(!level.good())  // checks if file is properly open
               {
                   Messages::errorMessage("Level data is in invalid format ot there is not level data at all!");
@@ -621,6 +622,7 @@ namespace PacGame
                                       this->player = dynamic_cast<PPlayer*>(p); // set class player pointer to player element
                                       data[i][j]->add(p);
                                       second_matrix[i][j] = PLAYER;
+                                      
                                       break;
                                       
                                   case CUBE:
@@ -741,6 +743,14 @@ namespace PacGame
                       }
                                         
                   }
+                  
+                  // camera setup
+                  
+                  // set the camera position
+                 gameCore->getCamera()->fitCameraToLevel(width, height);
+                  // rotate the camera above the player
+                  // ...
+                  
                   // teleports.clear(); // clear teleport vector, since they are by now in memory and no longer needed
                   break;   
               }

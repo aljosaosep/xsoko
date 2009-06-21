@@ -308,7 +308,7 @@ namespace PacGame
                 if(!level->loadLevelFromFile(levelPath))
                     return;
 
-            this->camera->fitCameraToLevel(this->level->getWidth(), this->level->getHeight());
+            //this->camera->fitCameraToLevel(this->level->getWidth(), this->level->getHeight());        // moved to PLevel::reloadLevel()
             levelLoaded = true;
             forceLevelQuit = false;
             gui->setMouseVisible(false);
