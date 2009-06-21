@@ -92,8 +92,8 @@ namespace PacGame
                     //glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(6));
                     //this->core->getRenderer()->drawCube(0.0, 0.0, 1.0);
                     glPushMatrix();
-                    glTranslatef(-0.3,0.3,0);
-                    glScalef(0.07,0.07,0.07);
+                    glTranslatef(-0.3,0,1);
+                    glScalef(0.05,0.05,0.05);
                     core->getResources()->getModelResource(6)->DrawFrame(frame);
                     glPopMatrix();
                       // TODO
