@@ -39,6 +39,7 @@
 #include "CommonStructures.h"
 #include "player.h"
 #include "core.h"
+#include "gui/fonts.h"
 
 using namespace PacGame::GameClasses::GameObjects;
 using namespace PacGame::Functions;
@@ -110,13 +111,15 @@ namespace PacGame
                   PCore *gameCore;                   // game core object
                   PResourceManager *resourceHandle;  // shortcut to resources
                   bool endgameFlag;
+                  Font *fnt;
+                  double starttime;
                   
            //       PDirection lastDirection;  // direction player is facing according to last move
                   
                   vector<PDroppedBomb*> bombs;   // list of currently dropped bombs
                  
               public:
-                  PLevel(string filename) : filename(filename),  width(0), height(0), player(NULL),  gameCore(new PCore), resourceHandle(this->gameCore->getResources()), endgameFlag(false) {} // default constructor
+                  PLevel(string filename);
                   virtual ~PLevel();
                   
                   // print

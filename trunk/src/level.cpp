@@ -16,6 +16,9 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <GL/gl.h>
+
+
 /*
  * Codename: xSoko
  * File: level.h
@@ -42,6 +45,7 @@
 
 #include "level.h"
 #include "renderer/particle.h"
+#include "CommonStructures.h"
 
 using namespace std;
 using namespace PacGame::GameClasses::GameObjects;
@@ -50,8 +54,17 @@ namespace PacGame
 {
       namespace GameClasses
       {
-          // globals
-           //PVoid *globalVoid = new PVoid; 
+
+          /*****************************************
+           PLevel constructors
+           *****************************************/
+
+          PLevel::PLevel(string filename) :
+            filename(filename),  width(0), height(0), player(NULL), gameCore(new PCore),
+            resourceHandle(this->gameCore->getResources()), endgameFlag(false), fnt(new Font("font"))
+          {
+              fnt->setColor(0,255,255);
+          }
  
            /*****************************************
            PLevel methods
@@ -865,7 +878,8 @@ namespace PacGame
               
               // temporary, dump state
               this->print();
-              
+
+              starttime = glfwGetTime();
               return true; // everything went ok
           }
           
@@ -916,12 +930,24 @@ namespace PacGame
                           }
                       }
                   }
-              glPopMatrix();  
+              glPopMatrix();
+
+              //Change mode for text
+              glMatrixMode(GL_PROJECTION);  // Change Matrix Mode to Projection
+              glLoadIdentity();             // Reset View
+              glOrtho(0, 800, 0, 600, 0, 100);
+              glMatrixMode(GL_MODELVIEW);   // Change Projection to Matrix Mode
+              glLoadIdentity();
+
+              glTranslatef(0, 600, -0.5);
+
+              fnt->writeText(10,-15,"Elapsed time: "+Functions::toString<int>(glfwGetTime()-starttime));
           }
           
           bool PLevel::loadLevelFromFile(string filename){
               this->filename = filename;
               this->endgameFlag = false;
+              starttime = glfwGetTime();
               return reset();
           }
           
@@ -1125,6 +1151,7 @@ namespace PacGame
           {
               this->gameCore->deinit();
               this->releaseLevel();
+              delete fnt;
           }
           
           
