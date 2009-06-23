@@ -16,6 +16,11 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifdef _WINDOWS
+	#define WIN32_LEAN_AND_MEAN
+	#include <windows.h>
+#endif
+
 #include <GL/gl.h>
 #include "fonts.h"
 #include "../messages.h"
@@ -38,6 +43,7 @@ void Font::writeText(int x, int y,string text){
     glTranslatef(x, y, 0.02);
     font->Render(text.c_str());
     glPopMatrix();
+	//glColor4f(1,1,1,1);
 }
 
 int Font::stringWidth(string str){
@@ -73,7 +79,13 @@ void Font::setName(string name){
 
 void Font::loadFont(){
     string path = "data/"+name+".ttf";
-    this->font = new FTBufferFont::FTBufferFont(path.c_str());
+
+    #ifndef _WINDOWS
+        font = new FTBufferFont::FTBufferFont(path.c_str());
+    #else
+        font = new FTBufferFont(path.c_str());
+    #endif
+
     if(font->Error()){
         PacGame::Messages::errorMessage("Unable to load font file:"+path);
         delete font;

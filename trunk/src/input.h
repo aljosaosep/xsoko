@@ -56,6 +56,7 @@ namespace PacGame
             // setters
             void setLevel(PLevel *level);
             bool toggleGameMenu();
+			void closeGameMenu();
             
             // getters
             PLevel* getLevel() const;

@@ -1,4 +1,9 @@
 
+#ifdef _WINDOWS
+	#define WIN32_LEAN_AND_MEAN
+	#include <windows.h>
+#endif
+
 #include <GL/gl.h>
 #include <GL/glfw.h>
 #include "win.h"
@@ -308,20 +313,21 @@ void Window::Render()
         glTexCoord2f(1, 0);         glVertex2f(width, -height);
         glTexCoord2f(1, (float)27/128);        glVertex2f(width, 27-height);
 
-        if(enableCloseButton){
+        /*if(enableCloseButton){
             // window close button
             glTexCoord2f((float)104/128, (float)96/128); glVertex3f(width-22, -8,  0.01);
             glTexCoord2f((float)104/128, (float)80/128); glVertex3f(width-22, -24, 0.01);
             glTexCoord2f((float)120/128, (float)80/128); glVertex3f(width-6, -24, 0.01);
             glTexCoord2f((float)120/128, (float)96/128); glVertex3f(width-6, -8,  0.01);
-        }
+        }*/
       glEnd();
 
       fnt->writeText((width-fnt->stringWidth(caption))/2,-24,caption);
       glBindTexture(GL_TEXTURE_2D, texIndex);
 
-      glTranslatef(0, 0, 0.02);      
+      //glTranslatef(0, 0, 0.02);      
       for(unsigned i=0;i<components.size();i++){
+		  glTranslatef(0, 0, 0.02);      
         components[i]->Render();
       }
       for(unsigned i=0;i<containers.size();i++){
@@ -677,6 +683,7 @@ void ListBox::Render()
     glColor3f(1,1,1);
     drawButton(x+width-18,y+2,upPressed,true);
     drawButton(x+width-18,y+height-18,downPressed,false);
+	glColor3f(1,1,1);
     glBegin(GL_QUADS);
           glTexCoord2f((float) 8/128, (float)61/128); glVertex2f(x+width-10, -y-18);
           glTexCoord2f((float) 8/128, (float)34/128); glVertex2f(x+width-10, -y-height+18);
@@ -829,6 +836,7 @@ void ListBox::drawButton(int x, int y,bool pressed,bool upArrow)
 
 void ListBox::drawSelected(int x, int y,int width,string item){
     glTranslatef(0,0,0.02);
+	glColor3f(1,1,1);
     glBegin(GL_QUADS);
       // top left corner of panel.
       glTexCoord2f((float) 8/128, (float)64/128); glVertex2f(x, -y);
@@ -1149,6 +1157,7 @@ void Gui::Render()
   glLoadIdentity();
           
   glTranslatef(0, 0, -1);
+  glDepthFunc(GL_LEQUAL);   // The Type Of Depth Test To Do
   glEnable(GL_TEXTURE_2D);
   glBindTexture(GL_TEXTURE_2D,texIndex);
   for(unsigned i=0;i<windows.size();i++)

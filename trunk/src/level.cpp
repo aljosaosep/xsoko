@@ -15,6 +15,10 @@
  * You should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#ifdef _WINDOWS
+	#define WIN32_LEAN_AND_MEAN
+	#include <windows.h>
+#endif
 
 #include <GL/gl.h>
 
@@ -1069,7 +1073,7 @@ namespace PacGame
                     // get addres of bomb that was released first(is first in the list)
                     PDroppedBomb* firstDroppedBomb = this->bombs[0];
                     // apparently they are!
-                    if(round(current_time-firstDroppedBomb->dropTime) == 3)  // is it time to trigger bomb yet?
+                    if(int(current_time-firstDroppedBomb->dropTime+0.5) == 3)  // is it time to trigger bomb yet?
                     {    
                         // check bomb surrounding fields
                         this->checkAndApplyBombBlast(firstDroppedBomb->i-1, firstDroppedBomb->j);
