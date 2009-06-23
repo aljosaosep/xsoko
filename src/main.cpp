@@ -28,6 +28,10 @@
  * Aljosa May 28 2008
  * Jernej October 5 2008
  */
+#ifdef _WINDOWS
+	#define WIN32_LEAN_AND_MEAN
+	#include <windows.h>
+#endif
 
 #include <cstdlib>
 #include "level.h"
@@ -37,11 +41,14 @@
 #include "renderer/renderer.h"
 
 
-// using namespace std;
 using namespace PacGame::GameClasses;
 using namespace PacGame::RenderMaschine;
 
+#ifdef _WINDOWS
+int WINAPI WinMain(HINSTANCE hInstance,	HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
+#else
 int main(int argc, char *argv[])
+#endif
 {
     // game and window creation
     PGame pacgame(800, 600, "xSoko project");

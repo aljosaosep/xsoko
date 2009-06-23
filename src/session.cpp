@@ -15,6 +15,10 @@
  * You should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#ifdef _WINDOWS
+	#define WIN32_LEAN_AND_MEAN
+	#include <windows.h>
+#endif
 
 #include <GL/glfw.h>
 
@@ -72,13 +76,14 @@ namespace PacGame
             #endif
             
             mainMenu = new Window(253, 158, 135, 165, "Main Menu");
+			//mainMenu->setEnableCloseButton(false);
             
             Button* btn = new Button(30, 40, 75, 25, "Campaing");
             btn->setName("campaing");
             btn->setAction(this);
-            btn->getFont()->setName("fack");
+            /*btn->getFont()->setName("fack");
             btn->getFont()->setSize(17);
-            btn->getFont()->setColor(0,100,0);
+            btn->getFont()->setColor(0,100,0);*/
             mainMenu->AddComponent(btn);
 
             btn = new Button(30, 75, 75, 25, "Freeplay");
@@ -155,10 +160,10 @@ namespace PacGame
             // the time of the previous frame
             double old_time = glfwGetTime();   
 
-            #if defined(Linux_Debug) || defined(Windows_Debug)
+            //#if defined(Linux_Debug) || defined(Windows_Debug)
                 unsigned frames = 0;
                 string title;
-            #endif
+            //#endif
             
             unsigned msgid = 0;
             bool menuVisible = false;
@@ -172,7 +177,7 @@ namespace PacGame
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
                 glLoadIdentity(); // reset view matrix
 
-                #if defined(Linux_Debug) || defined(Windows_Debug)
+                //#if defined(Linux_Debug) || defined(Windows_Debug)
                     if(current_time - old_time >= 1){
                       title = "xSoko project FPS: " + Functions::toString<int>(frames);
                       glfwSetWindowTitle(title.c_str());
@@ -180,7 +185,7 @@ namespace PacGame
                       frames = 0;
                     } else
                         frames ++;
-                #endif
+                //#endif
 
                 if(levelLoaded || msgid){
                 
@@ -309,6 +314,7 @@ namespace PacGame
                     return;
 
             //this->camera->fitCameraToLevel(this->level->getWidth(), this->level->getHeight());        // moved to PLevel::reloadLevel()
+			input->closeGameMenu();
             levelLoaded = true;
             forceLevelQuit = false;
             gui->setMouseVisible(false);
@@ -347,6 +353,7 @@ namespace PacGame
                 level->reset();
                 gui->setMouseVisible(false);
                 gameMenu->setVisible(false);
+				input->closeGameMenu();
                 return;
             }
             if(button->getName() == "gameExit"){

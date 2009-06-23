@@ -150,5 +150,9 @@ namespace PacGame
         bool PInputSystem::toggleGameMenu(){
             return toggleMenu;
         }
+
+		void PInputSystem::closeGameMenu(){
+            toggleMenu = false;
+        }
     }
 }
