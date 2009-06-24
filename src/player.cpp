@@ -88,12 +88,12 @@ namespace PacGame
                   frame += 0.5;
                   if(frame > 39)
                     frame = 0;
-                    glColor4f(1.0, 1.0, 0.7, 0.8);
+                    glColor4f(1.0, 1.0, 0.7f, 0.8f);
                     //glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(6));
                     //this->core->getRenderer()->drawCube(0.0, 0.0, 1.0);
                     glPushMatrix();
-                    glTranslatef(-0.3,0,1);
-                    glScalef(0.05,0.05,0.05);
+                    glTranslatef(-0.3f,0,1);
+                    glScalef(0.05f,0.05f,0.05f);
                     core->getResources()->getModelResource(6)->DrawFrame(frame);
                     glPopMatrix();
                       // TODO

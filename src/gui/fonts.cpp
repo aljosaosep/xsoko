@@ -39,14 +39,14 @@ void Font::writeText(int x, int y,string text){
     if(font == NULL)
         return;
     glPushMatrix();
-    glColor3f(r/255.0,g/255.0,b/255.0);
-    glTranslatef(x, y, 0.02);
+    glColor3f(r/255.0f,g/255.0f,b/255.0f);
+    glTranslatef((float)x, (float)y, 0.02f);
     font->Render(text.c_str());
     glPopMatrix();
 	//glColor4f(1,1,1,1);
 }
 
-int Font::stringWidth(string str){
+float Font::stringWidth(string str){
     return font->Advance(str.c_str());
 }
 

@@ -132,7 +132,7 @@ namespace PacGame
             height --;
             
 
-            float bigger = (width > height ? width : height) + 1;  // tmp 
+            float bigger = (float)(width > height ? width : height) + 1;  // tmp 
             
             this->position.setCoordinates((float)height/2, (float)-width/2, 0.0);
             this->view.setCoordinates((float)height/2, (float)-width/2,  bigger+6);

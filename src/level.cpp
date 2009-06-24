@@ -65,7 +65,7 @@ namespace PacGame
 
           PLevel::PLevel(string filename) :
             filename(filename),  width(0), height(0), player(NULL), gameCore(new PCore),
-            resourceHandle(this->gameCore->getResources()), endgameFlag(false), fnt(new Font("font"))
+            resourceHandle(gameCore->getResources()), endgameFlag(false), fnt(new Font("font"))
           {
               fnt->setColor(255,255,0);
               fnt->setSize(15);
@@ -768,8 +768,8 @@ namespace PacGame
                   // set the camera position
                  gameCore->getCamera()->fitCameraToLevel(width, height);
                   // rotate the camera above the player
-                  gameCore->getCamera()->rotateViewX( 0.5 * (player->getJ() - ((int)width-1)/2));
-                  gameCore->getCamera()->rotateViewY( 0.5 * (player->getI() - ((int)height-1)/2));
+                  gameCore->getCamera()->rotateViewX( 0.5f * (player->getJ() - ((int)width-1)/2));
+                  gameCore->getCamera()->rotateViewY( 0.5f * (player->getI() - ((int)height-1)/2));
                   
                   // teleports.clear(); // clear teleport vector, since they are by now in memory and no longer needed
                   break;   
@@ -953,7 +953,7 @@ namespace PacGame
 
               if(!endgameFlag)
                   time = glfwGetTime();
-              fnt->writeText(10,-30,"Elapsed time: "+Functions::toString<int>(time-starttime));
+              fnt->writeText(10,-30,"Elapsed time: "+Functions::toString<int>((int)(time-starttime)));
               fnt->writeText(170,-30,"Moves: "+Functions::toString<int>(moves));
           }
           

@@ -118,7 +118,7 @@ namespace PacGame
 
             void PTeleport::draw()
             {
-                glColor4f(0.0, 0.0, 1.0, 0.4);
+                glColor4f(0.0, 0.0, 1.0, 0.4f);
                 glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(TELEPORT_RES));
                 this->core->getRenderer()->drawCube(0.0, 0.0, 1.0);   
             }
@@ -202,7 +202,7 @@ namespace PacGame
              *****************************************/	    
             void PSolidWall::draw()
             {
-                glColor3f(0.9, 0.87, 0.87);
+                glColor3f(0.9f, 0.87f, 0.87f);
                 glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(S_WALL_RES));
                 this->core->getRenderer()->drawCube(0.0, 0.0, 1.0);
             }
@@ -222,7 +222,7 @@ namespace PacGame
              *****************************************/	
             void PUnsolidWall::draw()
             {
-                glColor3f(0.7, 0.6, 0.6);
+                glColor3f(0.7f, 0.6f, 0.6f);
                 glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(U_WALL_RES));
                 this->core->getRenderer()->drawCube(0.0, 0.0, 1.0);
             }
@@ -241,7 +241,7 @@ namespace PacGame
              *****************************************/	 
             void PBridge::draw()
             {
-                glColor4f(1.0, 1.0, 1.0, 0.8);
+                glColor4f(1.0, 1.0, 1.0, 0.8f);
                 glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(BRIDGE_RES));
                 this->core->getRenderer()->drawFloor(0.0, 0.0, 1.0);
 
@@ -277,7 +277,7 @@ namespace PacGame
              *****************************************/	   
             void PCubeHolder::draw()
             {
-                glColor3f(1.0, 0.4, 0.4);
+                glColor3f(1.0, 0.4f, 0.4f);
                 glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(CUBE_RES));
                 this->core->getRenderer()->drawFloor(0.0, 0.0, 1.0);
             }

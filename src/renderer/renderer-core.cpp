@@ -116,9 +116,9 @@ namespace PacGame
           PRenderer::PRenderer() //: cameraX(-10.0), cameraY(6.0), cameraZ(-25.0)
           {
               // light properties
-              lightAmbient[0] = 0.1, lightAmbient[1] = 0.1, lightAmbient[2] = 0.1, lightAmbient[3] = 1.0; 
-              lightDiffuse[0] = 1.0, lightDiffuse[1] = 1.0, lightDiffuse[2] = 1.0, lightDiffuse[3] = 1.0;
-              lightPosition[0] = 1.0, lightPosition[1] = 1.0, lightPosition[2] = 0.0, lightPosition[3] = 1.0;   
+              lightAmbient[0] = 0.1f, lightAmbient[1] = 0.1f, lightAmbient[2] = 0.1f, lightAmbient[3] = 1.0f; 
+              lightDiffuse[0] = 1.0f, lightDiffuse[1] = 1.0f, lightDiffuse[2] = 1.0f, lightDiffuse[3] = 1.0f;
+              lightPosition[0] = 1.0f, lightPosition[1] = 1.0f, lightPosition[2] = 0.0f, lightPosition[3] = 1.0f;   
               
               // material properties
          //     matAmbient[0] = 1.0, matAmbient[1] = 1.0, matAmbient[2] = 1.0, matAmbient[3] = 1.0;
