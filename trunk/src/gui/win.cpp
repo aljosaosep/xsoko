@@ -213,7 +213,7 @@ Window::Window(int wX, int wY, int wWidth, int wHeight,string caption) : Contain
 {
   zorder = 0;         // used if you specifically want to set a window higher
   visible = true;     // start off visible
-  alpha = 0.9;        // defult for alpha bl}ing
+  alpha = 0.9f;        // defult for alpha bl}ing
   onScreenResize();
   enableCloseButton = true;
   mouseDrag.drag = false;
@@ -256,78 +256,78 @@ void Window::Render()
     glColor4f(1.0, 1.0, 1.0, alpha);
 
     glPushMatrix();
-      glTranslatef(x, screenHeight - 26 -y , zorder);
+      glTranslatef((float)x, (float)screenHeight - 26 -y , zorder);
       glBegin(GL_QUADS);
         // top left corner of window.
-        glTexCoord2f( 0, 1);        glVertex2f(0, 0);
-        glTexCoord2f( 0, 1-(float)27/128); glVertex2f(0, -27);
-        glTexCoord2f((float)64/128, 1-(float)27/128); glVertex2f(63, -27);
-        glTexCoord2f((float)64/128, 1);        glVertex2f(63, 0);
+        glTexCoord2f( 0, 1);							glVertex2i(0, 0);
+        glTexCoord2f( 0, 1-(float)27/128);				glVertex2i(0, -27);
+        glTexCoord2f((float)64/128, 1-(float)27/128);	glVertex2i(63, -27);
+        glTexCoord2f((float)64/128, 1);					glVertex2i(63, 0);
 
         // top of window.
-        glTexCoord2f((float)64/128, 1);        glVertex2f(63, 0);
-        glTexCoord2f((float)64/128, 1-(float)27/128); glVertex2f(63, -27);
-        glTexCoord2f((float)96/128, 1-(float)27/128); glVertex2f(width-32, -27);
-        glTexCoord2f((float)96/128, 1);        glVertex2f(width-32, 0);
+        glTexCoord2f((float)64/128, 1);					glVertex2i(63, 0);
+        glTexCoord2f((float)64/128, 1-(float)27/128);	glVertex2i(63, -27);
+        glTexCoord2f((float)96/128, 1-(float)27/128);	glVertex2i(width-32, -27);
+        glTexCoord2f((float)96/128, 1);					glVertex2i(width-32, 0);
 
         // top right corder of window.
-        glTexCoord2f((float)96/128, 1);        glVertex2f(width-32, 0);
-        glTexCoord2f((float)96/128, 1-(float)27/128); glVertex2f(width-32, -27);
-        glTexCoord2f(1, 1-(float)27/128);      glVertex2f(width, -27);
-        glTexCoord2f(1, 1);             glVertex2f(width, 0);
+        glTexCoord2f((float)96/128, 1);					glVertex2i(width-32, 0);
+        glTexCoord2f((float)96/128, 1-(float)27/128);	glVertex2i(width-32, -27);
+        glTexCoord2f(1, 1-(float)27/128);				glVertex2i(width, -27);
+        glTexCoord2f(1, 1);								glVertex2i(width, 0);
 
       
         // left side of window.
-        glTexCoord2f(0, 1-(float)27/128);  glVertex2f(0, -27);
-        glTexCoord2f(0, (float)27/128);    glVertex2f(0, -height+27);
-        glTexCoord2f((float)6/128, (float)27/128);    glVertex2f(6,-height+27);
-        glTexCoord2f((float)6/128, 1-(float)27/128);  glVertex2f(6, -27);
+        glTexCoord2f(0, 1-(float)27/128);				glVertex2i(0, -27);
+        glTexCoord2f(0, (float)27/128);					glVertex2i(0, -height+27);
+        glTexCoord2f((float)6/128, (float)27/128);		glVertex2i(6,-height+27);
+        glTexCoord2f((float)6/128, 1-(float)27/128);	glVertex2i(6, -27);
 
         // draw the main body of the window
-        glTexCoord2f((float) 9/128, (float)96/128);     glVertex2f(6, -27);
-        glTexCoord2f((float) 9/128, (float)64/128);     glVertex2f(6, 25-height);
-        glTexCoord2f((float)39/128, (float)64/128);     glVertex2f(width-7, 25-height);
-        glTexCoord2f((float)39/128, (float)96/128);     glVertex2f(width-7, -27);
+        glTexCoord2f((float) 9/128, (float)96/128);     glVertex2i(6, -27);
+        glTexCoord2f((float) 9/128, (float)64/128);     glVertex2i(6, 25-height);
+        glTexCoord2f((float)39/128, (float)64/128);     glVertex2i(width-7, 25-height);
+        glTexCoord2f((float)39/128, (float)96/128);     glVertex2i(width-7, -27);
 
         // right side of window.
-        glTexCoord2f(1-(float)7/128, 1-(float)27/128);glVertex2f(width-7, -27);
-        glTexCoord2f(1-(float)7/128, (float)27/128);  glVertex2f(width-7, -height+27);
-        glTexCoord2f(1,   (float)27/128);      glVertex2f(width,-height+27);
-        glTexCoord2f(1, 1-(float)27/128);      glVertex2f(width, -27);
+        glTexCoord2f(1-(float)7/128, 1-(float)27/128);	glVertex2i(width-7, -27);
+        glTexCoord2f(1-(float)7/128, (float)27/128);	glVertex2i(width-7, -height+27);
+        glTexCoord2f(1,   (float)27/128);				glVertex2i(width,-height+27);
+        glTexCoord2f(1, 1-(float)27/128);				glVertex2i(width, -27);
 
         // bottom left corner of window.
-        glTexCoord2f( 0, (float)27/128);   glVertex2f(0, 27-height);
-        glTexCoord2f( 0,  0);   glVertex2f(0, -height);
-        glTexCoord2f((float)64/128,  0);   glVertex2f(63, -height);
-        glTexCoord2f((float)64/128, (float)27/128);   glVertex2f(63, 27-height);
+        glTexCoord2f( 0, (float)27/128);				glVertex2i(0, 27-height);
+        glTexCoord2f( 0,  0);							glVertex2i(0, -height);
+        glTexCoord2f((float)64/128,  0);				glVertex2i(63, -height);
+        glTexCoord2f((float)64/128, (float)27/128);		glVertex2i(63, 27-height);
 
         // bottom of window.
-        glTexCoord2f((float)64/128, (float)27/128);   glVertex2f(63, 27-height);
-        glTexCoord2f((float)64/128, 0);    glVertex2f(63, -height);
-        glTexCoord2f((float)96/128, 0);    glVertex2f(width-32, -height);
-        glTexCoord2f((float)96/128, (float)27/128);   glVertex2f(width-32, 27-height);
+        glTexCoord2f((float)64/128, (float)27/128);		glVertex2i(63, 27-height);
+        glTexCoord2f((float)64/128, 0);					glVertex2i(63, -height);
+        glTexCoord2f((float)96/128, 0);					glVertex2i(width-32, -height);
+        glTexCoord2f((float)96/128, (float)27/128);		glVertex2i(width-32, 27-height);
 
         // bottom right corder of window.
-        glTexCoord2f((float)96/128, (float)27/128);   glVertex2f(width-32, 27-height);
-        glTexCoord2f((float)96/128, 0);    glVertex2f(width-32, -height);
-        glTexCoord2f(1, 0);         glVertex2f(width, -height);
-        glTexCoord2f(1, (float)27/128);        glVertex2f(width, 27-height);
+        glTexCoord2f((float)96/128, (float)27/128);		glVertex2i(width-32, 27-height);
+        glTexCoord2f((float)96/128, 0);					glVertex2i(width-32, -height);
+        glTexCoord2f(1, 0);								glVertex2i(width, -height);
+        glTexCoord2f(1, (float)27/128);					glVertex2i(width, 27-height);
 
         /*if(enableCloseButton){
             // window close button
-            glTexCoord2f((float)104/128, (float)96/128); glVertex3f(width-22, -8,  0.01);
-            glTexCoord2f((float)104/128, (float)80/128); glVertex3f(width-22, -24, 0.01);
-            glTexCoord2f((float)120/128, (float)80/128); glVertex3f(width-6, -24, 0.01);
-            glTexCoord2f((float)120/128, (float)96/128); glVertex3f(width-6, -8,  0.01);
+            glTexCoord2f((float)104/128, (float)96/128); glVertex3i(width-22, -8,  0.01);
+            glTexCoord2f((float)104/128, (float)80/128); glVertex3i(width-22, -24, 0.01);
+            glTexCoord2f((float)120/128, (float)80/128); glVertex3i(width-6, -24, 0.01);
+            glTexCoord2f((float)120/128, (float)96/128); glVertex3i(width-6, -8,  0.01);
         }*/
       glEnd();
 
-      fnt->writeText((width-fnt->stringWidth(caption))/2,-24,caption);
+      fnt->writeText((int)(width-fnt->stringWidth(caption))/2,-24,caption);
       glBindTexture(GL_TEXTURE_2D, texIndex);
 
       //glTranslatef(0, 0, 0.02);      
       for(unsigned i=0;i<components.size();i++){
-		  glTranslatef(0, 0, 0.02);      
+		  glTranslatef(0, 0, 0.02f);      
         components[i]->Render();
       }
       for(unsigned i=0;i<containers.size();i++){
@@ -440,49 +440,49 @@ void Button::Render()
   {
     glBegin(GL_QUADS);
       // left side
-      glTexCoord2f((float)57/128, (float)95/128); glVertex2f(x, -y);
-      glTexCoord2f((float)57/128, (float)70/128); glVertex2f(x, -y-height);
-      glTexCoord2f((float)62/128, (float)70/128); glVertex2f(x+6,-y-height);
-      glTexCoord2f((float)62/128, (float)95/128); glVertex2f(x+6, -y);
+      glTexCoord2f((float)57/128, (float)95/128); glVertex2i(x, -y);
+      glTexCoord2f((float)57/128, (float)70/128); glVertex2i(x, -y-height);
+      glTexCoord2f((float)62/128, (float)70/128); glVertex2i(x+6,-y-height);
+      glTexCoord2f((float)62/128, (float)95/128); glVertex2i(x+6, -y);
 
       // middle
-      glTexCoord2f((float)62/128, (float)95/128); glVertex2f(x+6, -y);
-      glTexCoord2f((float)62/128, (float)70/128); glVertex2f(x+6, -y-height);
-      glTexCoord2f((float)66/128, (float)70/128); glVertex2f(x+width-6, -y-height);
-      glTexCoord2f((float)66/128, (float)95/128); glVertex2f(x+width-6, -y);
+      glTexCoord2f((float)62/128, (float)95/128); glVertex2i(x+6, -y);
+      glTexCoord2f((float)62/128, (float)70/128); glVertex2i(x+6, -y-height);
+      glTexCoord2f((float)66/128, (float)70/128); glVertex2i(x+width-6, -y-height);
+      glTexCoord2f((float)66/128, (float)95/128); glVertex2i(x+width-6, -y);
 
       // right side
-      glTexCoord2f((float)66/128, (float)95/128); glVertex2f(x+width-6, -y);
-      glTexCoord2f((float)66/128, (float)70/128); glVertex2f(x+width-6, -y-height);
-      glTexCoord2f((float)71/128, (float)70/128); glVertex2f(x+width, -y-height);
-      glTexCoord2f((float)71/128, (float)95/128); glVertex2f(x+width, -y);
+      glTexCoord2f((float)66/128, (float)95/128); glVertex2i(x+width-6, -y);
+      glTexCoord2f((float)66/128, (float)70/128); glVertex2i(x+width-6, -y-height);
+      glTexCoord2f((float)71/128, (float)70/128); glVertex2i(x+width, -y-height);
+      glTexCoord2f((float)71/128, (float)95/128); glVertex2i(x+width, -y);
     glEnd();
 
-    fnt->writeText(x+1+(width - fnt->stringWidth(caption))/2, -y-21, caption);
+    fnt->writeText(x+1+(int)(width - fnt->stringWidth(caption))/2, -y-21, caption);
   }
   else
   {
     glBegin(GL_QUADS);
       // left side
-      glTexCoord2f((float)41/128, (float)95/128); glVertex2f(x, -y);
-      glTexCoord2f((float)41/128, (float)70/128); glVertex2f(x, -y-height);
-      glTexCoord2f((float)46/128, (float)70/128); glVertex2f(x+6,-y-height);
-      glTexCoord2f((float)46/128, (float)95/128); glVertex2f(x+6, -y);
+      glTexCoord2f((float)41/128, (float)95/128); glVertex2i(x, -y);
+      glTexCoord2f((float)41/128, (float)70/128); glVertex2i(x, -y-height);
+      glTexCoord2f((float)46/128, (float)70/128); glVertex2i(x+6,-y-height);
+      glTexCoord2f((float)46/128, (float)95/128); glVertex2i(x+6, -y);
 
       // middle
-      glTexCoord2f((float)46/128, (float)95/128); glVertex2f(x+6, -y);
-      glTexCoord2f((float)46/128, (float)70/128); glVertex2f(x+6, -y-height);
-      glTexCoord2f((float)50/128, (float)70/128); glVertex2f(x+width-6, -y-height);
-      glTexCoord2f((float)50/128, (float)95/128); glVertex2f(x+width-6, -y);
+      glTexCoord2f((float)46/128, (float)95/128); glVertex2i(x+6, -y);
+      glTexCoord2f((float)46/128, (float)70/128); glVertex2i(x+6, -y-height);
+      glTexCoord2f((float)50/128, (float)70/128); glVertex2i(x+width-6, -y-height);
+      glTexCoord2f((float)50/128, (float)95/128); glVertex2i(x+width-6, -y);
 
       // right side
-      glTexCoord2f((float)50/128, (float)95/128); glVertex2f(x+width-6, -y);
-      glTexCoord2f((float)50/128, (float)70/128); glVertex2f(x+width-6, -y-height);
-      glTexCoord2f((float)55/128, (float)70/128); glVertex2f(x+width, -y-height);
-      glTexCoord2f((float)55/128, (float)95/128); glVertex2f(x+width, -y);
+      glTexCoord2f((float)50/128, (float)95/128); glVertex2i(x+width-6, -y);
+      glTexCoord2f((float)50/128, (float)70/128); glVertex2i(x+width-6, -y-height);
+      glTexCoord2f((float)55/128, (float)70/128); glVertex2i(x+width, -y-height);
+      glTexCoord2f((float)55/128, (float)95/128); glVertex2i(x+width, -y);
     glEnd();
 
-    fnt->writeText(x + (width-fnt->stringWidth(caption))/2, -y-20, caption);
+    fnt->writeText(x + (int)(width-fnt->stringWidth(caption))/2, -y-20, caption);
   }
     glBindTexture(GL_TEXTURE_2D,texIndex);
 }
@@ -533,63 +533,63 @@ void Panel::Render()
   {
     glBegin(GL_QUADS);
       // top left corner of panel.
-      glTexCoord2f((float) 8/128, (float)64/128); glVertex2f(x, -y);
-      glTexCoord2f((float) 8/128, (float)54/128); glVertex2f(x, -y-10);
-      glTexCoord2f((float)18/128, (float)54/128); glVertex2f(x+10, -y-10);
-      glTexCoord2f((float)18/128, (float)64/128); glVertex2f(x+10, -y);
+      glTexCoord2f((float) 8/128, (float)64/128); glVertex2i(x, -y);
+      glTexCoord2f((float) 8/128, (float)54/128); glVertex2i(x, -y-10);
+      glTexCoord2f((float)18/128, (float)54/128); glVertex2i(x+10, -y-10);
+      glTexCoord2f((float)18/128, (float)64/128); glVertex2i(x+10, -y);
 
       // top of panel.
-      glTexCoord2f((float)18/128, (float)64/128); glVertex2f(x+10, -y);
-      glTexCoord2f((float)18/128, (float)54/128); glVertex2f(x+10, -y-10);
-      glTexCoord2f((float)30/128, (float)54/128); glVertex2f(x+10+(width-20), -y-10);
-      glTexCoord2f((float)30/128, (float)64/128); glVertex2f(x+10+(width-20), -y);
+      glTexCoord2f((float)18/128, (float)64/128); glVertex2i(x+10, -y);
+      glTexCoord2f((float)18/128, (float)54/128); glVertex2i(x+10, -y-10);
+      glTexCoord2f((float)30/128, (float)54/128); glVertex2i(x+10+(width-20), -y-10);
+      glTexCoord2f((float)30/128, (float)64/128); glVertex2i(x+10+(width-20), -y);
 
       // top right corder of panel.
-      glTexCoord2f((float)30/128, (float)64/128); glVertex2f(x+width-10, -y);
-      glTexCoord2f((float)30/128, (float)54/128); glVertex2f(x+width-10, -y-10);
-      glTexCoord2f((float)40/128, (float)54/128); glVertex2f(x+width, -y-10);
-      glTexCoord2f((float)40/128, (float)64/128); glVertex2f(x+width, -y);
+      glTexCoord2f((float)30/128, (float)64/128); glVertex2i(x+width-10, -y);
+      glTexCoord2f((float)30/128, (float)54/128); glVertex2i(x+width-10, -y-10);
+      glTexCoord2f((float)40/128, (float)54/128); glVertex2i(x+width, -y-10);
+      glTexCoord2f((float)40/128, (float)64/128); glVertex2i(x+width, -y);
 
       // left side of panel.
-      glTexCoord2f((float) 8/128, (float)54/128); glVertex2f(x, -y-10);
-      glTexCoord2f((float) 8/128, (float)42/128); glVertex2f(x, -y-height+10);
-      glTexCoord2f((float)18/128, (float)42/128); glVertex2f(x+10, -y-height+10);
-      glTexCoord2f((float)18/128, (float)54/128); glVertex2f(x+10, -y-10);
+      glTexCoord2f((float) 8/128, (float)54/128); glVertex2i(x, -y-10);
+      glTexCoord2f((float) 8/128, (float)42/128); glVertex2i(x, -y-height+10);
+      glTexCoord2f((float)18/128, (float)42/128); glVertex2i(x+10, -y-height+10);
+      glTexCoord2f((float)18/128, (float)54/128); glVertex2i(x+10, -y-10);
 
       // middle of panel.
-      glTexCoord2f((float)18/128, (float)54/128); glVertex2f(x+10, -y-10);
-      glTexCoord2f((float)18/128, (float)42/128); glVertex2f(x+10, -y-height+10);
-      glTexCoord2f((float)30/128, (float)42/128); glVertex2f(x+10+(width-20), -y-height+10);
-      glTexCoord2f((float)30/128, (float)54/128); glVertex2f(x+10+(width-20), -y-10);
+      glTexCoord2f((float)18/128, (float)54/128); glVertex2i(x+10, -y-10);
+      glTexCoord2f((float)18/128, (float)42/128); glVertex2i(x+10, -y-height+10);
+      glTexCoord2f((float)30/128, (float)42/128); glVertex2i(x+10+(width-20), -y-height+10);
+      glTexCoord2f((float)30/128, (float)54/128); glVertex2i(x+10+(width-20), -y-10);
 
       // right side of panel.
-      glTexCoord2f((float)30/128, (float)54/128); glVertex2f(x+width-10, -y-10);
-      glTexCoord2f((float)30/128, (float)42/128); glVertex2f(x+width-10, -y-height+10);
-      glTexCoord2f((float)40/128, (float)42/128); glVertex2f(x+width, -y-height+10);
-      glTexCoord2f((float)40/128, (float)54/128); glVertex2f(x+width, -y-10);
+      glTexCoord2f((float)30/128, (float)54/128); glVertex2i(x+width-10, -y-10);
+      glTexCoord2f((float)30/128, (float)42/128); glVertex2i(x+width-10, -y-height+10);
+      glTexCoord2f((float)40/128, (float)42/128); glVertex2i(x+width, -y-height+10);
+      glTexCoord2f((float)40/128, (float)54/128); glVertex2i(x+width, -y-10);
 
       // bottom left corner of panel.
-      glTexCoord2f((float) 8/128, (float)42/128); glVertex2f(x, -y-height+10);
-      glTexCoord2f((float) 8/128, (float)32/128); glVertex2f(x, -y-height);
-      glTexCoord2f((float)18/128, (float)32/128); glVertex2f(x+10, -y-height);
-      glTexCoord2f((float)18/128, (float)42/128); glVertex2f(x+10, -y-height+10);
+      glTexCoord2f((float) 8/128, (float)42/128); glVertex2i(x, -y-height+10);
+      glTexCoord2f((float) 8/128, (float)32/128); glVertex2i(x, -y-height);
+      glTexCoord2f((float)18/128, (float)32/128); glVertex2i(x+10, -y-height);
+      glTexCoord2f((float)18/128, (float)42/128); glVertex2i(x+10, -y-height+10);
 
       // bottom middle of panel.
-      glTexCoord2f((float)18/128, (float)42/128); glVertex2f(x+10, -y-height+10);
-      glTexCoord2f((float)18/128, (float)32/128); glVertex2f(x+10, -y-height);
-      glTexCoord2f((float)30/128, (float)32/128); glVertex2f(x+10+(width-20), -y-height);
-      glTexCoord2f((float)30/128, (float)42/128); glVertex2f(x+10+(width-20), -y-height+10);
+      glTexCoord2f((float)18/128, (float)42/128); glVertex2i(x+10, -y-height+10);
+      glTexCoord2f((float)18/128, (float)32/128); glVertex2i(x+10, -y-height);
+      glTexCoord2f((float)30/128, (float)32/128); glVertex2i(x+10+(width-20), -y-height);
+      glTexCoord2f((float)30/128, (float)42/128); glVertex2i(x+10+(width-20), -y-height+10);
 
       // bottom right corner of panel.
-      glTexCoord2f((float)30/128, (float)42/128); glVertex2f(x+width-10, -y-height+10);
-      glTexCoord2f((float)30/128, (float)32/128); glVertex2f(x+width-10, -y-height);
-      glTexCoord2f((float)40/128, (float)32/128); glVertex2f(x+width, -y-height);
-      glTexCoord2f((float)40/128, (float)42/128); glVertex2f(x+width, -y-height+10);
+      glTexCoord2f((float)30/128, (float)42/128); glVertex2i(x+width-10, -y-height+10);
+      glTexCoord2f((float)30/128, (float)32/128); glVertex2i(x+width-10, -y-height);
+      glTexCoord2f((float)40/128, (float)32/128); glVertex2i(x+width, -y-height);
+      glTexCoord2f((float)40/128, (float)42/128); glVertex2i(x+width, -y-height+10);
 
     glEnd();
     
     glPushMatrix();
-    glTranslatef(x,-y,0.02);
+    glTranslatef((float)x,(float)-y,0.02f);
     for(unsigned i=0;i<containers.size();i++){
         containers[i]->Render();
       }
@@ -638,38 +638,38 @@ void ListBox::Render()
     glColor3f(1,1,1);
     glBegin(GL_QUADS);
       // top of panel.
-      glTexCoord2f((float)10/128, (float)33/128); glVertex2f(x+2, -y);
-      glTexCoord2f((float)10/128, (float)32/128); glVertex2f(x+2, -y-2);
-      glTexCoord2f((float)37/128, (float)32/128); glVertex2f(x+2+(width-4), -y-2);
-      glTexCoord2f((float)37/128, (float)33/128); glVertex2f(x+2+(width-4), -y);
+      glTexCoord2f((float)10/128, (float)33/128); glVertex2i(x+2, -y);
+      glTexCoord2f((float)10/128, (float)32/128); glVertex2i(x+2, -y-2);
+      glTexCoord2f((float)37/128, (float)32/128); glVertex2i(x+2+(width-4), -y-2);
+      glTexCoord2f((float)37/128, (float)33/128); glVertex2i(x+2+(width-4), -y);
 
       // left side of panel.
-      glTexCoord2f((float)38/128, (float)61/128); glVertex2f(x, -y);
-      glTexCoord2f((float)38/128, (float)34/128); glVertex2f(x, -y-height+2);
-      glTexCoord2f((float)39/128, (float)34/128); glVertex2f(x+2, -y-height+2);
-      glTexCoord2f((float)39/128, (float)61/128); glVertex2f(x+2, -y);
+      glTexCoord2f((float)38/128, (float)61/128); glVertex2i(x, -y);
+      glTexCoord2f((float)38/128, (float)34/128); glVertex2i(x, -y-height+2);
+      glTexCoord2f((float)39/128, (float)34/128); glVertex2i(x+2, -y-height+2);
+      glTexCoord2f((float)39/128, (float)61/128); glVertex2i(x+2, -y);
 
       // middle of panel.
-      glTexCoord2f((float)18/128, (float)54/128); glVertex2f(x+2, -y-2);
-      glTexCoord2f((float)18/128, (float)42/128); glVertex2f(x+2, -y-height+2);
-      glTexCoord2f((float)30/128, (float)42/128); glVertex2f(x+2+(width-4), -y-height+2);
-      glTexCoord2f((float)30/128, (float)54/128); glVertex2f(x+2+(width-4), -y-2);
+      glTexCoord2f((float)18/128, (float)54/128); glVertex2i(x+2, -y-2);
+      glTexCoord2f((float)18/128, (float)42/128); glVertex2i(x+2, -y-height+2);
+      glTexCoord2f((float)30/128, (float)42/128); glVertex2i(x+2+(width-4), -y-height+2);
+      glTexCoord2f((float)30/128, (float)54/128); glVertex2i(x+2+(width-4), -y-2);
 
       // right side of panel.
-      glTexCoord2f((float) 8/128, (float)61/128); glVertex2f(x+width-2, -y);
-      glTexCoord2f((float) 8/128, (float)34/128); glVertex2f(x+width-2, -y-height+2);
-      glTexCoord2f((float) 9/128, (float)34/128); glVertex2f(x+width, -y-height+2);
-      glTexCoord2f((float) 9/128, (float)61/128); glVertex2f(x+width, -y);
+      glTexCoord2f((float) 8/128, (float)61/128); glVertex2i(x+width-2, -y);
+      glTexCoord2f((float) 8/128, (float)34/128); glVertex2i(x+width-2, -y-height+2);
+      glTexCoord2f((float) 9/128, (float)34/128); glVertex2i(x+width, -y-height+2);
+      glTexCoord2f((float) 9/128, (float)61/128); glVertex2i(x+width, -y);
 
       // bottom middle of panel.
-      glTexCoord2f((float)10/128, (float)62/128); glVertex2f(x+2, -y-height+2);
-      glTexCoord2f((float)10/128, (float)63/128); glVertex2f(x+2, -y-height);
-      glTexCoord2f((float)37/128, (float)63/128); glVertex2f(x+2+(width-2), -y-height);
-      glTexCoord2f((float)37/128, (float)62/128); glVertex2f(x+2+(width-2), -y-height+2);      
+      glTexCoord2f((float)10/128, (float)62/128); glVertex2i(x+2, -y-height+2);
+      glTexCoord2f((float)10/128, (float)63/128); glVertex2i(x+2, -y-height);
+      glTexCoord2f((float)37/128, (float)63/128); glVertex2i(x+2+(width-2), -y-height);
+      glTexCoord2f((float)37/128, (float)62/128); glVertex2i(x+2+(width-2), -y-height+2);      
 
     glEnd();
     
-    glTranslatef(0,0,0.02);    
+    glTranslatef(0,0,0.02f);    
     unsigned limit = (canShow<items.size()) ? canShow : items.size();
     for(unsigned i=0;i<limit;i++){
         if(selected == i+drawIndex)
@@ -685,20 +685,20 @@ void ListBox::Render()
     drawButton(x+width-18,y+height-18,downPressed,false);
 	glColor3f(1,1,1);
     glBegin(GL_QUADS);
-          glTexCoord2f((float) 8/128, (float)61/128); glVertex2f(x+width-10, -y-18);
-          glTexCoord2f((float) 8/128, (float)34/128); glVertex2f(x+width-10, -y-height+18);
-          glTexCoord2f((float) 9/128, (float)34/128); glVertex2f(x+width-9, -y-height+18);
-          glTexCoord2f((float) 9/128, (float)61/128); glVertex2f(x+width-9, -y-18);
+          glTexCoord2f((float) 8/128, (float)61/128); glVertex2i(x+width-10, -y-18);
+          glTexCoord2f((float) 8/128, (float)34/128); glVertex2i(x+width-10, -y-height+18);
+          glTexCoord2f((float) 9/128, (float)34/128); glVertex2i(x+width-9, -y-height+18);
+          glTexCoord2f((float) 9/128, (float)61/128); glVertex2i(x+width-9, -y-18);
     glEnd();
     if(items.size() > canShow){
         float length = (float)(height - 34) / (items.size() - canShow + 1);
         float dy = length * drawIndex + length/2;
-        glTranslatef(0,0,0.02);
+        glTranslatef(0,0,0.02f);
         glBegin(GL_QUADS);
-          glTexCoord2f((float)101/128, (float)63/128); glVertex2f(x+width-17, -y-dy-9);
-          glTexCoord2f((float)101/128, (float)50/128); glVertex2f(x+width-17, -y-dy-25);
-          glTexCoord2f((float)88/128, (float)50/128); glVertex2f(x+width-1,-y-dy-25);
-          glTexCoord2f((float)88/128, (float)63/128); glVertex2f(x+width-1, -y-dy-9);
+          glTexCoord2f((float)101/128, (float)63/128);	glVertex2f((float)x+width-17, -y-dy-9);
+          glTexCoord2f((float)101/128, (float)50/128);	glVertex2f((float)x+width-17, -y-dy-25);
+          glTexCoord2f((float)88/128, (float)50/128);	glVertex2f((float)x+width-1,-y-dy-25);
+          glTexCoord2f((float)88/128, (float)63/128);	glVertex2f((float)x+width-1, -y-dy-9);
         glEnd();
     }
   }
@@ -758,38 +758,38 @@ void ListBox::drawButton(int x, int y,bool pressed,bool upArrow)
   {
     glBegin(GL_QUADS);
       // left side
-      glTexCoord2f((float)57/128, (float)95/128); glVertex2f(x, -y);
-      glTexCoord2f((float)57/128, (float)70/128); glVertex2f(x, -y-16);
-      glTexCoord2f((float)62/128, (float)70/128); glVertex2f(x+6,-y-16);
-      glTexCoord2f((float)62/128, (float)95/128); glVertex2f(x+6, -y);
+      glTexCoord2f((float)57/128, (float)95/128); glVertex2i(x, -y);
+      glTexCoord2f((float)57/128, (float)70/128); glVertex2i(x, -y-16);
+      glTexCoord2f((float)62/128, (float)70/128); glVertex2i(x+6,-y-16);
+      glTexCoord2f((float)62/128, (float)95/128); glVertex2i(x+6, -y);
 
       // middle
-      glTexCoord2f((float)62/128, (float)95/128); glVertex2f(x+6, -y);
-      glTexCoord2f((float)62/128, (float)70/128); glVertex2f(x+6, -y-16);
-      glTexCoord2f((float)66/128, (float)70/128); glVertex2f(x+10, -y-16);
-      glTexCoord2f((float)66/128, (float)95/128); glVertex2f(x+10, -y);
+      glTexCoord2f((float)62/128, (float)95/128); glVertex2i(x+6, -y);
+      glTexCoord2f((float)62/128, (float)70/128); glVertex2i(x+6, -y-16);
+      glTexCoord2f((float)66/128, (float)70/128); glVertex2i(x+10, -y-16);
+      glTexCoord2f((float)66/128, (float)95/128); glVertex2i(x+10, -y);
 
       // right side
-      glTexCoord2f((float)66/128, (float)95/128); glVertex2f(x+10, -y);
-      glTexCoord2f((float)66/128, (float)70/128); glVertex2f(x+10, -y-16);
-      glTexCoord2f((float)71/128, (float)70/128); glVertex2f(x+16, -y-16);
-      glTexCoord2f((float)71/128, (float)95/128); glVertex2f(x+16, -y);
+      glTexCoord2f((float)66/128, (float)95/128); glVertex2i(x+10, -y);
+      glTexCoord2f((float)66/128, (float)70/128); glVertex2i(x+10, -y-16);
+      glTexCoord2f((float)71/128, (float)70/128); glVertex2i(x+16, -y-16);
+      glTexCoord2f((float)71/128, (float)95/128); glVertex2i(x+16, -y);
     glEnd();
-    glTranslatef(0,0,0.2);
+    glTranslatef(0,0,0.2f);
     if(upArrow){
         glBegin(GL_QUADS);
-        glTexCoord2f((float)117/128, (float)63/128); glVertex2f(x+1, -y-1);
-        glTexCoord2f((float)117/128, (float)50/128); glVertex2f(x+1, -y-17);
-        glTexCoord2f((float)104/128, (float)50/128); glVertex2f(x+17,-y-17);
-        glTexCoord2f((float)104/128, (float)63/128); glVertex2f(x+17, -y-1);
+        glTexCoord2f((float)117/128, (float)63/128); glVertex2i(x+1, -y-1);
+        glTexCoord2f((float)117/128, (float)50/128); glVertex2i(x+1, -y-17);
+        glTexCoord2f((float)104/128, (float)50/128); glVertex2i(x+17,-y-17);
+        glTexCoord2f((float)104/128, (float)63/128); glVertex2i(x+17, -y-1);
       glEnd();
     }
     else {
         glBegin(GL_QUADS);
-          glTexCoord2f((float)104/128, (float)50/128); glVertex2f(x+1, -y-1);
-          glTexCoord2f((float)104/128, (float)63/128); glVertex2f(x+1, -y-17);
-          glTexCoord2f((float)117/128, (float)63/128); glVertex2f(x+17,-y-17);
-          glTexCoord2f((float)117/128, (float)50/128); glVertex2f(x+17, -y-1);
+          glTexCoord2f((float)104/128, (float)50/128); glVertex2i(x+1, -y-1);
+          glTexCoord2f((float)104/128, (float)63/128); glVertex2i(x+1, -y-17);
+          glTexCoord2f((float)117/128, (float)63/128); glVertex2i(x+17,-y-17);
+          glTexCoord2f((float)117/128, (float)50/128); glVertex2i(x+17, -y-1);
         glEnd();
     }
   }
@@ -797,94 +797,94 @@ void ListBox::drawButton(int x, int y,bool pressed,bool upArrow)
   {
     glBegin(GL_QUADS);
       // left side
-      glTexCoord2f((float)41/128, (float)95/128); glVertex2f(x, -y);
-      glTexCoord2f((float)41/128, (float)70/128); glVertex2f(x, -y-16);
-      glTexCoord2f((float)46/128, (float)70/128); glVertex2f(x+6,-y-16);
-      glTexCoord2f((float)46/128, (float)95/128); glVertex2f(x+6, -y);
+      glTexCoord2f((float)41/128, (float)95/128); glVertex2i(x, -y);
+      glTexCoord2f((float)41/128, (float)70/128); glVertex2i(x, -y-16);
+      glTexCoord2f((float)46/128, (float)70/128); glVertex2i(x+6,-y-16);
+      glTexCoord2f((float)46/128, (float)95/128); glVertex2i(x+6, -y);
 
       // middle
-      glTexCoord2f((float)46/128, (float)95/128); glVertex2f(x+6, -y);
-      glTexCoord2f((float)46/128, (float)70/128); glVertex2f(x+6, -y-16);
-      glTexCoord2f((float)50/128, (float)70/128); glVertex2f(x+10, -y-16);
-      glTexCoord2f((float)50/128, (float)95/128); glVertex2f(x+10, -y);
+      glTexCoord2f((float)46/128, (float)95/128); glVertex2i(x+6, -y);
+      glTexCoord2f((float)46/128, (float)70/128); glVertex2i(x+6, -y-16);
+      glTexCoord2f((float)50/128, (float)70/128); glVertex2i(x+10, -y-16);
+      glTexCoord2f((float)50/128, (float)95/128); glVertex2i(x+10, -y);
 
       // right side
-      glTexCoord2f((float)50/128, (float)95/128); glVertex2f(x+10, -y);
-      glTexCoord2f((float)50/128, (float)70/128); glVertex2f(x+10, -y-16);
-      glTexCoord2f((float)55/128, (float)70/128); glVertex2f(x+16, -y-16);
-      glTexCoord2f((float)55/128, (float)95/128); glVertex2f(x+16, -y);
+      glTexCoord2f((float)50/128, (float)95/128); glVertex2i(x+10, -y);
+      glTexCoord2f((float)50/128, (float)70/128); glVertex2i(x+10, -y-16);
+      glTexCoord2f((float)55/128, (float)70/128); glVertex2i(x+16, -y-16);
+      glTexCoord2f((float)55/128, (float)95/128); glVertex2i(x+16, -y);
     glEnd();
-    glTranslatef(0,0,0.2);
+    glTranslatef(0,0,0.2f);
     if(upArrow){
       glBegin(GL_QUADS);
-        glTexCoord2f((float)117/128, (float)63/128); glVertex2f(x, -y);
-        glTexCoord2f((float)117/128, (float)50/128); glVertex2f(x, -y-16);
-        glTexCoord2f((float)104/128, (float)50/128); glVertex2f(x+16,-y-16);
-        glTexCoord2f((float)104/128, (float)63/128); glVertex2f(x+16, -y);
+        glTexCoord2f((float)117/128, (float)63/128); glVertex2i(x, -y);
+        glTexCoord2f((float)117/128, (float)50/128); glVertex2i(x, -y-16);
+        glTexCoord2f((float)104/128, (float)50/128); glVertex2i(x+16,-y-16);
+        glTexCoord2f((float)104/128, (float)63/128); glVertex2i(x+16, -y);
       glEnd();
     } 
     else {
         glBegin(GL_QUADS);
-          glTexCoord2f((float)104/128, (float)50/128); glVertex2f(x, -y);
-          glTexCoord2f((float)104/128, (float)63/128); glVertex2f(x, -y-16);
-          glTexCoord2f((float)117/128, (float)63/128); glVertex2f(x+16,-y-16);
-          glTexCoord2f((float)117/128, (float)50/128); glVertex2f(x+16, -y);
+          glTexCoord2f((float)104/128, (float)50/128); glVertex2i(x, -y);
+          glTexCoord2f((float)104/128, (float)63/128); glVertex2i(x, -y-16);
+          glTexCoord2f((float)117/128, (float)63/128); glVertex2i(x+16,-y-16);
+          glTexCoord2f((float)117/128, (float)50/128); glVertex2i(x+16, -y);
         glEnd();
     }
   }
 }
 
 void ListBox::drawSelected(int x, int y,int width,string item){
-    glTranslatef(0,0,0.02);
+    glTranslatef(0,0,0.02f);
 	glColor3f(1,1,1);
     glBegin(GL_QUADS);
       // top left corner of panel.
-      glTexCoord2f((float) 8/128, (float)64/128); glVertex2f(x, -y);
-      glTexCoord2f((float) 8/128, (float)54/128); glVertex2f(x, -y-10);
-      glTexCoord2f((float)18/128, (float)54/128); glVertex2f(x+10, -y-10);
-      glTexCoord2f((float)18/128, (float)64/128); glVertex2f(x+10, -y);
+      glTexCoord2f((float) 8/128, (float)64/128); glVertex2i(x, -y);
+      glTexCoord2f((float) 8/128, (float)54/128); glVertex2i(x, -y-10);
+      glTexCoord2f((float)18/128, (float)54/128); glVertex2i(x+10, -y-10);
+      glTexCoord2f((float)18/128, (float)64/128); glVertex2i(x+10, -y);
 
       // top of panel.
-      glTexCoord2f((float)18/128, (float)64/128); glVertex2f(x+10, -y);
-      glTexCoord2f((float)18/128, (float)54/128); glVertex2f(x+10, -y-10);
-      glTexCoord2f((float)30/128, (float)54/128); glVertex2f(x+10+(width-20), -y-10);
-      glTexCoord2f((float)30/128, (float)64/128); glVertex2f(x+10+(width-20), -y);
+      glTexCoord2f((float)18/128, (float)64/128); glVertex2i(x+10, -y);
+      glTexCoord2f((float)18/128, (float)54/128); glVertex2i(x+10, -y-10);
+      glTexCoord2f((float)30/128, (float)54/128); glVertex2i(x+10+(width-20), -y-10);
+      glTexCoord2f((float)30/128, (float)64/128); glVertex2i(x+10+(width-20), -y);
 
       // top right corder of panel.
-      glTexCoord2f((float)30/128, (float)64/128); glVertex2f(x+width-10, -y);
-      glTexCoord2f((float)30/128, (float)54/128); glVertex2f(x+width-10, -y-10);
-      glTexCoord2f((float)40/128, (float)54/128); glVertex2f(x+width, -y-10);
-      glTexCoord2f((float)40/128, (float)64/128); glVertex2f(x+width, -y);
+      glTexCoord2f((float)30/128, (float)64/128); glVertex2i(x+width-10, -y);
+      glTexCoord2f((float)30/128, (float)54/128); glVertex2i(x+width-10, -y-10);
+      glTexCoord2f((float)40/128, (float)54/128); glVertex2i(x+width, -y-10);
+      glTexCoord2f((float)40/128, (float)64/128); glVertex2i(x+width, -y);
 
       // left side of panel.
-      glTexCoord2f((float) 8/128, (float)54/128); glVertex2f(x, -y-10);
-      glTexCoord2f((float) 8/128, (float)42/128); glVertex2f(x, -y-16+10);
-      glTexCoord2f((float)18/128, (float)42/128); glVertex2f(x+10, -y-16+10);
-      glTexCoord2f((float)18/128, (float)54/128); glVertex2f(x+10, -y-10);
+      glTexCoord2f((float) 8/128, (float)54/128); glVertex2i(x, -y-10);
+      glTexCoord2f((float) 8/128, (float)42/128); glVertex2i(x, -y-16+10);
+      glTexCoord2f((float)18/128, (float)42/128); glVertex2i(x+10, -y-16+10);
+      glTexCoord2f((float)18/128, (float)54/128); glVertex2i(x+10, -y-10);
 
       // right side of panel.
-      glTexCoord2f((float)30/128, (float)54/128); glVertex2f(x+width-10, -y-10);
-      glTexCoord2f((float)30/128, (float)42/128); glVertex2f(x+width-10, -y-16+10);
-      glTexCoord2f((float)40/128, (float)42/128); glVertex2f(x+width, -y-16+10);
-      glTexCoord2f((float)40/128, (float)54/128); glVertex2f(x+width, -y-10);
+      glTexCoord2f((float)30/128, (float)54/128); glVertex2i(x+width-10, -y-10);
+      glTexCoord2f((float)30/128, (float)42/128); glVertex2i(x+width-10, -y-16+10);
+      glTexCoord2f((float)40/128, (float)42/128); glVertex2i(x+width, -y-16+10);
+      glTexCoord2f((float)40/128, (float)54/128); glVertex2i(x+width, -y-10);
 
       // bottom left corner of panel.
-      glTexCoord2f((float) 8/128, (float)42/128); glVertex2f(x, -y-16+10);
-      glTexCoord2f((float) 8/128, (float)32/128); glVertex2f(x, -y-16);
-      glTexCoord2f((float)18/128, (float)32/128); glVertex2f(x+10, -y-16);
-      glTexCoord2f((float)18/128, (float)42/128); glVertex2f(x+10, -y-16+10);
+      glTexCoord2f((float) 8/128, (float)42/128); glVertex2i(x, -y-16+10);
+      glTexCoord2f((float) 8/128, (float)32/128); glVertex2i(x, -y-16);
+      glTexCoord2f((float)18/128, (float)32/128); glVertex2i(x+10, -y-16);
+      glTexCoord2f((float)18/128, (float)42/128); glVertex2i(x+10, -y-16+10);
 
       // bottom middle of panel.
-      glTexCoord2f((float)18/128, (float)42/128); glVertex2f(x+10, -y-16+10);
-      glTexCoord2f((float)18/128, (float)32/128); glVertex2f(x+10, -y-16);
-      glTexCoord2f((float)30/128, (float)32/128); glVertex2f(x+10+(width-20), -y-16);
-      glTexCoord2f((float)30/128, (float)42/128); glVertex2f(x+10+(width-20), -y-16+10);
+      glTexCoord2f((float)18/128, (float)42/128); glVertex2i(x+10, -y-16+10);
+      glTexCoord2f((float)18/128, (float)32/128); glVertex2i(x+10, -y-16);
+      glTexCoord2f((float)30/128, (float)32/128); glVertex2i(x+10+(width-20), -y-16);
+      glTexCoord2f((float)30/128, (float)42/128); glVertex2i(x+10+(width-20), -y-16+10);
 
       // bottom right corner of panel.
-      glTexCoord2f((float)30/128, (float)42/128); glVertex2f(x+width-10, -y-16+10);
-      glTexCoord2f((float)30/128, (float)32/128); glVertex2f(x+width-10, -y-16);
-      glTexCoord2f((float)40/128, (float)32/128); glVertex2f(x+width, -y-16);
-      glTexCoord2f((float)40/128, (float)42/128); glVertex2f(x+width, -y-16+10);
+      glTexCoord2f((float)30/128, (float)42/128); glVertex2i(x+width-10, -y-16+10);
+      glTexCoord2f((float)30/128, (float)32/128); glVertex2i(x+width-10, -y-16);
+      glTexCoord2f((float)40/128, (float)32/128); glVertex2i(x+width, -y-16);
+      glTexCoord2f((float)40/128, (float)42/128); glVertex2i(x+width, -y-16+10);
 
     glEnd();
     
@@ -930,19 +930,19 @@ void CheckBox::Render()
     if (checked)
     {
       glBegin(GL_QUADS);
-        glTexCoord2f((float)88/128, (float)96/128); glVertex2f(x, -y);
-        glTexCoord2f((float)88/128, (float)80/128); glVertex2f(x, -y-16);
-        glTexCoord2f((float)104/128, (float)80/128); glVertex2f(x+16,-y-16);
-        glTexCoord2f((float)104/128, (float)96/128); glVertex2f(x+16, -y);
+        glTexCoord2f((float)88/128, (float)96/128);		glVertex2i(x, -y);
+        glTexCoord2f((float)88/128, (float)80/128);		glVertex2i(x, -y-16);
+        glTexCoord2f((float)104/128, (float)80/128);	glVertex2i(x+16,-y-16);
+        glTexCoord2f((float)104/128, (float)96/128);	glVertex2i(x+16, -y);
       glEnd();
     }
     else
     {
       glBegin(GL_QUADS);
-        glTexCoord2f((float)72/128, (float)96/128); glVertex2f(x, -y);
-        glTexCoord2f((float)72/128, (float)80/128); glVertex2f(x, -y-16);
-        glTexCoord2f((float)88/128, (float)80/128); glVertex2f(x+16,-y-16);
-        glTexCoord2f((float)88/128, (float)96/128); glVertex2f(x+16, -y);
+        glTexCoord2f((float)72/128, (float)96/128); glVertex2i(x, -y);
+        glTexCoord2f((float)72/128, (float)80/128); glVertex2i(x, -y-16);
+        glTexCoord2f((float)88/128, (float)80/128); glVertex2i(x+16,-y-16);
+        glTexCoord2f((float)88/128, (float)96/128); glVertex2i(x+16, -y);
       glEnd();
     }
   }
@@ -990,19 +990,19 @@ void RadioButton::Render()
     if(checked)
     {
       glBegin(GL_QUADS);
-        glTexCoord2f((float)88/128, (float)80/128); glVertex2f(x, -y);
-        glTexCoord2f((float)88/128, (float)64/128); glVertex2f(x, -y-16);
-        glTexCoord2f((float)104/128, (float)64/128); glVertex2f(x+16,-y-16);
-        glTexCoord2f((float)104/128, (float)80/128); glVertex2f(x+16, -y);
+        glTexCoord2f((float)88/128, (float)80/128);		glVertex2i(x, -y);
+        glTexCoord2f((float)88/128, (float)64/128);		glVertex2i(x, -y-16);
+        glTexCoord2f((float)104/128, (float)64/128);	glVertex2i(x+16,-y-16);
+        glTexCoord2f((float)104/128, (float)80/128);	glVertex2i(x+16, -y);
       glEnd();
     }
     else
     {
       glBegin(GL_QUADS);
-        glTexCoord2f((float)72/128, (float)80/128); glVertex2f(x, -y);
-        glTexCoord2f((float)72/128, (float)64/128); glVertex2f(x, -y-16);
-        glTexCoord2f((float)88/128, (float)64/128); glVertex2f(x+16,-y-16);
-        glTexCoord2f((float)88/128, (float)80/128); glVertex2f(x+16, -y);
+        glTexCoord2f((float)72/128, (float)80/128); glVertex2i(x, -y);
+        glTexCoord2f((float)72/128, (float)64/128); glVertex2i(x, -y-16);
+        glTexCoord2f((float)88/128, (float)64/128); glVertex2i(x+16,-y-16);
+        glTexCoord2f((float)88/128, (float)80/128); glVertex2i(x+16, -y);
       glEnd();
     }
   }
@@ -1103,15 +1103,15 @@ Gui::~Gui(){
 }
 
 Gui::Gui(const char* guiTextureFileName) : mVisible(true), num(0) {
-      glClearColor(0.0, 0.0, 0.0, 0.0); 	   // Black Background
-      glShadeModel(GL_SMOOTH);                 // Enables Smooth Color Shading
+      //glClearColor(0.0, 0.0, 0.0, 0.0); 	   // Black Background
+      //glShadeModel(GL_SMOOTH);                 // Enables Smooth Color Shading
       glClearDepth(1.0);                       // Depth Buffer Setup
       glEnable(GL_DEPTH_TEST);                 // Enable Depth Buffer
-      glDepthFunc(GL_LESS);		           // The Type Of Depth Test To Do
+      //glDepthFunc(GL_LESS);		           // The Type Of Depth Test To Do
 
       glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);   //Realy Nice perspective calculations
 
-      glEnable(GL_TEXTURE_2D);
+      //glEnable(GL_TEXTURE_2D);
 
     glGenTextures(1,&texIndex);
     glBindTexture(GL_TEXTURE_2D,texIndex);
@@ -1157,7 +1157,7 @@ void Gui::Render()
   glLoadIdentity();
           
   glTranslatef(0, 0, -1);
-  glDepthFunc(GL_LEQUAL);   // The Type Of Depth Test To Do
+  glDepthFunc(GL_LEQUAL);
   glEnable(GL_TEXTURE_2D);
   glBindTexture(GL_TEXTURE_2D,texIndex);
   for(unsigned i=0;i<windows.size();i++)
@@ -1261,7 +1261,7 @@ GLuint Gui::getSkin(){
 }
 
 unsigned Gui::showMessage(string title, string msg){
-    int width = fnt->stringWidth(msg)+50;
+    int width = (int)fnt->stringWidth(msg)+50;
     Window* dlg = new Window(wndWidth/2-width/2,wndHeight/2-64,width,100,title);
     dlg->AddComponent(new Text(25,35,msg));
     Button* btn = new Button(width/2-25,60,50,25,"OK");
@@ -1269,7 +1269,7 @@ unsigned Gui::showMessage(string title, string msg){
     dlg->AddComponent(btn);
     dlg->setSkin(texIndex);
     windows.push_back(dlg);
-    //Fix this...
+    //FIX: this...
     modals.push_back(dlg);
     if(!++num)  //ok, it could be if(num+1 == 0) num += 2 else ++num;
         ++num;

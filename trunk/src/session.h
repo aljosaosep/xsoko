@@ -79,8 +79,8 @@ namespace PacGame
             //void setInput(PInputSystem *input);
             
             // getters
-            PLevel *getLevel() const;
-            unsigned getScore() const; 
+            //PLevel *getLevel() const;
+            //unsigned getScore() const; 
         };
     }
 }

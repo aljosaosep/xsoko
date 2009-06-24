@@ -38,6 +38,7 @@
 #include "gui/win.h"
 #include "session.h"
 #include "renderer/particle.h"
+#include "messages.h"
 #include <cstdio>
 #include <cmath>
 
@@ -71,19 +72,15 @@ namespace PacGame
             glfwSetMousePosCallback(Gui::onMouseMove);
             glfwSetWindowSizeCallback(Gui::glResizeWnd);
 
-            #if defined(Linux_Release) || defined(Windows_Release)
+            #if defined(Linux_Release) || defined(Windows_Release) || defined(_RELEASE)
                 glfwDisable(GLFW_MOUSE_CURSOR);
             #endif
             
             mainMenu = new Window(253, 158, 135, 165, "Main Menu");
-			//mainMenu->setEnableCloseButton(false);
             
             Button* btn = new Button(30, 40, 75, 25, "Campaing");
             btn->setName("campaing");
             btn->setAction(this);
-            /*btn->getFont()->setName("fack");
-            btn->getFont()->setSize(17);
-            btn->getFont()->setColor(0,100,0);*/
             mainMenu->AddComponent(btn);
 
             btn = new Button(30, 75, 75, 25, "Freeplay");
@@ -103,20 +100,19 @@ namespace PacGame
 
             listbox = new ListBox(10,40,115,68);
             path dir_path("data");
-            directory_iterator end_itr; // default construction yields past-the-end
-            for (directory_iterator itr(dir_path);itr != end_itr; ++itr )
-            {
-              if ( !is_directory(*itr) && extension(*itr) == ".lvl" )
-              {
-
-                #if !(defined(Windows_Release) || defined(Windows_Debug))
-                  string filename = itr->path().leaf();
-                #else
-                  string filename = itr->leaf();
-                #endif
-                listbox->addItem(filename.substr(0,filename.find_last_of('.')));
-              }
-            }
+			if(exists(dir_path)){
+				directory_iterator end_itr; // default construction yields past-the-end
+				for (directory_iterator itr(dir_path);itr != end_itr; ++itr )
+				{
+				  if ( !is_directory(*itr) && extension(*itr) == ".lvl" )
+				  {
+					string filename = itr->path().leaf();
+					listbox->addItem(filename.substr(0,filename.find_last_of('.')));
+				  }
+				}
+			} else {
+				Messages::infoMessage("WARNING - Cannot find data directory!");
+			}
             freeMenu->AddComponent(listbox);
 
             btn = new Button(135,40,75,25,"Play");
@@ -160,10 +156,10 @@ namespace PacGame
             // the time of the previous frame
             double old_time = glfwGetTime();   
 
-            //#if defined(Linux_Debug) || defined(Windows_Debug)
+            #if defined(Linux_Debug) || defined(Windows_Debug) || defined(_DEBUG)
                 unsigned frames = 0;
                 string title;
-            //#endif
+            #endif
             
             unsigned msgid = 0;
             bool menuVisible = false;
@@ -177,7 +173,7 @@ namespace PacGame
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
                 glLoadIdentity(); // reset view matrix
 
-                //#if defined(Linux_Debug) || defined(Windows_Debug)
+                #if defined(Linux_Debug) || defined(Windows_Debug) || defined(_DEBUG)
                     if(current_time - old_time >= 1){
                       title = "xSoko project FPS: " + Functions::toString<int>(frames);
                       glfwSetWindowTitle(title.c_str());
@@ -185,7 +181,7 @@ namespace PacGame
                       frames = 0;
                     } else
                         frames ++;
-                //#endif
+                #endif
 
                 if(levelLoaded || msgid){
                 
@@ -225,15 +221,9 @@ namespace PacGame
 
                     glRotatef(-90.0, 0.0, 0.0, 1.0);
 
-
-                    //glEnable(GL_LIGHTING);
-
-       //             glTranslatef(0.0,0.0,-100.0);
                     this->level->draw();
 
                     //particles.process(delta_rotate*10);
-
-                    //glDisable(GL_LIGHTING);
                 }
 
                 if(msgid && !gui->isMessageActive(msgid)){
@@ -288,16 +278,16 @@ namespace PacGame
         
         // getters
         // return current level
-        PLevel* PGameSession::getLevel() const
+        /*PLevel* PGameSession::getLevel() const
         {
             return this->level;
-        }
+        }*/
         
         // returns score
-        unsigned PGameSession::getScore() const
+        /*unsigned PGameSession::getScore() const
         {
             return this->score;
-        }
+        }*/
         
         void PGameSession::LoadLevel(string levelPath){
 
@@ -368,7 +358,7 @@ namespace PacGame
             delete freeMenu;
             delete gameMenu;
             delete mainMenu;
-            #if defined(Linux_Release) || defined(Windows_Release)
+            #if defined(Linux_Release) || defined(Windows_Release) || defined(_RELEASE)
                 glfwEnable(GLFW_MOUSE_CURSOR);
             #endif
         }

@@ -42,7 +42,7 @@ private:
 public:
     Font(const string& name);
     void writeText(int x, int y, string text);
-    int stringWidth(string str);
+    float stringWidth(string str);
     ~Font();
 
     int getSize();

@@ -34,6 +34,10 @@
 #include "CommonStructures.h"
 #include "core.h"
 
+#ifdef _WINDOWS
+	#undef VOID
+#endif
+
 // MATRIKA 1
 #define FLOOR 0 
 #define S_WALL 1 //  (PSolidWall)
