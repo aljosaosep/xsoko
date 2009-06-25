@@ -105,36 +105,6 @@ public class Table extends JComponent{
                 repaint();
             }
         });
-        /*addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if(selectedCell== null)
-                    return;
-                boolean changed = false;
-                if(e.getKeyCode()==KeyEvent.VK_DOWN && selectedCell.y<rows-1){
-                    selectedCell.y++;
-                    changed = true;
-                }
-                if(e.getKeyCode()==KeyEvent.VK_UP && selectedCell.y>0){
-                    selectedCell.y--;
-                    changed = true;
-                }
-                if(e.getKeyCode()==KeyEvent.VK_RIGHT && selectedCell.x<cols-1){
-                    selectedCell.x++;
-                    changed = true;
-                }
-                if(e.getKeyCode()==KeyEvent.VK_LEFT && selectedCell.x>0){
-                    selectedCell.x--;
-                    changed = true;
-                }
-                repaint();
-                if(changed){
-                    for(int i=0;i<listeners.size();i++){
-                       listeners.get(i).SelectedCell(selectedCell);
-                   }
-                }
-            }
-        });*/
     }
 
     private Point calcucaltePoint(Point p){
@@ -156,6 +126,7 @@ public class Table extends JComponent{
         try {
             selectedCell.clear();
             teleportsMapping.clear();
+            teleportList.clear();
             BufferedReader input = new BufferedReader(new FileReader(file));
             String line = input.readLine();
             StringTokenizer lineTokens = new StringTokenizer(line);

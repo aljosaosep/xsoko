@@ -5,6 +5,9 @@
 package leveleditor;
 
 import java.awt.event.ItemEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.logging.Level;
@@ -14,6 +17,7 @@ import org.jdesktop.application.SingleFrameApplication;
 import org.jdesktop.application.FrameView;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import org.jdesktop.application.Application.ExitListener;
 
 /**
  * The application's main frame.
@@ -25,11 +29,33 @@ public class LeveleditorView extends FrameView {
     private Table map = null;
     private Elements elem = new Elements();
     private Options opts = new Options();
+    private String title;
+    private File file = null;
+    private boolean isChanged = false;
+    private JFileChooser fileDlg = null;
     
     public LeveleditorView(SingleFrameApplication app) {
         super(app);
         initComponents();
-        
+        app.addExitListener(new ExitListener() {
+            public boolean canExit(EventObject arg0) {
+                if(isChanged){
+                    int option = JOptionPane.showConfirmDialog(null, "Želite shraniti trenutne spremembe?",
+                                                               "Shranjevanje",JOptionPane.YES_NO_CANCEL_OPTION);
+                    switch(option)
+                    {
+                        case JOptionPane.YES_OPTION:
+                            MenuSave();
+                            return !isChanged;
+                        case JOptionPane.CANCEL_OPTION:
+                            return false;
+                    }
+                }
+                return true;
+            }
+            public void willExit(EventObject arg0) {
+            }
+        });
         options = new ArrayList<JRadioButton>();
         for(byte i=0;i<opts.getOptionsCount();i++)
             addOption(opts,i);
@@ -40,8 +66,8 @@ public class LeveleditorView extends FrameView {
         typePanel.setVisible(false);
         map = new Table(elem,opts,10, 10);
         map.addSelectListener(new ChangeListener() {
-            public void SelectedCell(/*Point selCell*/) {
-                Field cell = map.getSelectedCellValue(); //map.getValue(selCell.x, selCell.y);
+            public void SelectedCell() {
+                Field cell = map.getSelectedCellValue();
                 typePanel.setVisible(true);
                 if(jSplitPane1.getDividerLocation()<250){
                     jSplitPane1.setDividerLocation(250);
@@ -62,6 +88,9 @@ public class LeveleditorView extends FrameView {
         });
         optionPanel.setLayout(new BoxLayout(optionPanel,BoxLayout.Y_AXIS));
         jScrollPane1.getViewport().add(map);
+        title = org.jdesktop.application.Application.getInstance(LeveleditorApp.class).getContext().getResourceMap(LeveleditorApp.class).getString("Application.title");
+        fileDlg = new JFileChooser();
+        fileDlg.addChoosableFileFilter(new FileNameExtensionFilter("xSoko level files", "lvl"));
     }
     
     private void addOption(Options opt, byte index){
@@ -71,6 +100,13 @@ public class LeveleditorView extends FrameView {
             tempComp.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 if(evt.getStateChange() == ItemEvent.SELECTED){
+                    if(!isChanged){
+                        isChanged = true;
+                        if(file != null)
+                            getFrame().setTitle(title+" - "+file.getName()+"*");
+                        else
+                            getFrame().setTitle(title+" *");
+                    }
                     map.setSelectedCellOption((byte)options.indexOf(evt.getSource()));
                     map.repaint();
                 }
@@ -86,6 +122,13 @@ public class LeveleditorView extends FrameView {
         tempComp.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 if(evt.getStateChange() == ItemEvent.SELECTED){
+                    if(!isChanged){
+                        isChanged = true;
+                        if(file != null)
+                            getFrame().setTitle(title+" - "+file.getName()+"*");
+                        else
+                            getFrame().setTitle(title+" *");
+                    }
                     map.setSelectedCellType(index);
                     map.repaint();
                     byte[] opt = el.getOptions(index);
@@ -132,6 +175,7 @@ public class LeveleditorView extends FrameView {
         menuBar = new javax.swing.JMenuBar();
         javax.swing.JMenu fileMenu = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         javax.swing.JMenuItem exitMenuItem = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
@@ -208,7 +252,7 @@ public class LeveleditorView extends FrameView {
         );
         optionPanelLayout.setVerticalGroup(
             optionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 146, Short.MAX_VALUE)
+            .addGap(0, 148, Short.MAX_VALUE)
         );
 
         jSplitPane1.setRightComponent(optionPanel);
@@ -221,7 +265,7 @@ public class LeveleditorView extends FrameView {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 432, Short.MAX_VALUE)
+            .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE)
         );
 
         jScrollPane1.setName("jScrollPane1"); // NOI18N
@@ -242,7 +286,7 @@ public class LeveleditorView extends FrameView {
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 432, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
@@ -257,7 +301,15 @@ public class LeveleditorView extends FrameView {
         jMenuItem1.setName("jMenuItem1"); // NOI18N
         fileMenu.add(jMenuItem1);
 
+        jMenuItem4.setAction(actionMap.get("MenuSave")); // NOI18N
+        jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem4.setText(resourceMap.getString("jMenuItem4.text")); // NOI18N
+        jMenuItem4.setName("jMenuItem4"); // NOI18N
+        fileMenu.add(jMenuItem4);
+
         jMenuItem3.setAction(actionMap.get("MenuSaveToFile")); // NOI18N
+        jMenuItem3.setAccelerator(null);
+        jMenuItem3.setText(resourceMap.getString("jMenuItem3.text")); // NOI18N
         jMenuItem3.setName("jMenuItem3"); // NOI18N
         fileMenu.add(jMenuItem3);
 
@@ -290,10 +342,25 @@ private void mheightStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST
 
     @Action
     public void MenuLoadLevel() {
-        JFileChooser fileDlg = new JFileChooser();
-        fileDlg.addChoosableFileFilter(new FileNameExtensionFilter("xSoko level files", "lvl"));
+        if(isChanged){
+            int option = JOptionPane.showConfirmDialog(null, "Želite shraniti trenutne spremembe?",
+                                                       "Shranjevanje",JOptionPane.YES_NO_CANCEL_OPTION);
+            switch(option)
+            {
+                case JOptionPane.YES_OPTION:
+                    MenuSave();
+                    if(isChanged)
+                        return;
+                    break;
+                case JOptionPane.CANCEL_OPTION:
+                    return;
+            }
+        }
         if(fileDlg.showOpenDialog(null)==JFileChooser.APPROVE_OPTION){
             map.LoadFromFile(fileDlg.getSelectedFile());
+            file = fileDlg.getSelectedFile();
+            getFrame().setTitle(title+" - "+file.getName());
+            isChanged = false;
         }
     }
 
@@ -304,15 +371,36 @@ private void mheightStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST
 
     @Action
     public void MenuSaveToFile() {
-        JFileChooser fileDlg = new JFileChooser();
-        fileDlg.addChoosableFileFilter(new FileNameExtensionFilter("xSoko level files", "lvl"));
         if(fileDlg.showSaveDialog(null)==JFileChooser.APPROVE_OPTION){
             try {
                 map.SaveToFile(fileDlg.getSelectedFile());
+                if(!file.equals(fileDlg.getSelectedFile())){
+                    file = fileDlg.getSelectedFile();
+                    getFrame().setTitle(title+" - "+file.getName());
+                } else if(isChanged){
+                    getFrame().setTitle(title+" - "+file.getName());
+                }
+                isChanged = false;
             } catch (IOException ex) {
                 Logger.getLogger(LeveleditorView.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+
+    @Action
+    public void MenuSave(){
+        if(file != null){
+            try {
+                map.SaveToFile(file);
+                if(isChanged){
+                    getFrame().setTitle(title+" - "+file.getName());
+                }
+                isChanged = false;
+            } catch (IOException ex) {
+                Logger.getLogger(LeveleditorView.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else
+            MenuSaveToFile();
     }
 
     // <editor-fold defaultstate="collapsed" desc="Generated Variables">
@@ -323,6 +411,7 @@ private void mheightStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSplitPane jSplitPane1;
