@@ -150,6 +150,13 @@ namespace PacGame
               {
                   if(obj->getId() == 1)
                   {
+                      if(data[i][j]->isActiveBomb()){
+                          for(int k=0;k<bombs.size();k++)
+                              if(bombs[k]->i == i && bombs[k]->j == j){
+                                  delete bombs[k];
+                                  bombs.erase(bombs.begin()+k);
+                              }
+                      }
                       delete data[i][j];
                       data[i][j] = new PVoid;
                   }
@@ -550,6 +557,8 @@ namespace PacGame
                                   case CUBE_PLACE:
                                       data[i][j] = new PCubeHolder(this->gameCore);
                                       this->holds.push_back(dynamic_cast<PCubeHolder*>(data[i][j])); // adds cuneHolder to holds array
+                                      if((resourceHandle->getTextureResource(CUBE_RES))==NULL)  // texture isn't in memory yet?
+                                          resourceHandle->loadTextureResource(CUBE_RES, "crate.tga");  // load it!
                                       break;    
                                       
                                   case OW_FLOOR_L:
@@ -1082,6 +1091,7 @@ namespace PacGame
                         this->checkAndApplyBombBlast(firstDroppedBomb->i, firstDroppedBomb->j+1);
                         
                         // remove first dropped bomb
+                        delete bombs[0];
                         this->bombs.erase(this->bombs.begin());
                         data[firstDroppedBomb->i][firstDroppedBomb->j]->toogleBombActivity();
                     }
