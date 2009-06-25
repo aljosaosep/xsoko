@@ -492,8 +492,8 @@
             <linkerLibLibItem>m</linkerLibLibItem>
             <linkerLibLibItem>Xxf86vm</linkerLibLibItem>
             <linkerLibLibItem>Xrandr</linkerLibLibItem>
-            <linkerLibLibItem>z</linkerLibLibItem>
             <linkerLibLibItem>ftgl</linkerLibLibItem>
+            <linkerLibLibItem>z</linkerLibLibItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>
