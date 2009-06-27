@@ -76,6 +76,13 @@
 #define BOMB_RES 9
 #define U_WALL_RES 10
 
+// id's for object direction
+#define PL_OBJECT_FACE_UP 1
+#define PL_OBJECT_FACE_RIGHT 2
+#define PL_OBJECT_FACE_DOWN 4
+#define PL_OBJECT_FACE_LEFT 8
+#defien PL_OBJECT_MOVE 16
+
 
 using namespace PacGame::RenderMaschine;
 
@@ -97,13 +104,24 @@ namespace PacGame
               {
               protected:
                   int i, j;     // represents indexes of element on level matrix
+                  float realI, realJ;   // real coordinates, for smooth movement
+                  
+                  // direction that the object is facing
+                  // 5 important bits
+                  // bit 1: direction up, PL_OBJECT_FACE_UP
+                  // bit 2: direction right, PL_OBJECT_FACE_RIGHT
+                  // bit 4: direction down, PL_OBJECT_FACE_DOWN
+                  // bit 8: direction left, PL_OBJECT_FACE_LEFT
+                  // bit 16: movement bit, set when the object is moving, PL_OBJECT_MOVE
+                  int direction; 
+                  
                   unsigned short id; // number, that represents object in file
                   bool containsActiveBomb;
                   PCore *core;
 
               public:
-                  PLevelObject() : i(0), j(0), id(0), containsActiveBomb(0) {}// constructors          
-                  PLevelObject(unsigned i, unsigned j) : i(i), j(j), containsActiveBomb(0) {}
+                  PLevelObject() : i(0), j(0), realI(0), realJ(0),direction(0),id(0),  containsActiveBomb(0) {}// constructors          
+                  PLevelObject(unsigned i, unsigned j) : i(i), j(j), realI(i),realJ(j),direction(0),containsActiveBomb(0) {}
 
 
                   // setters
@@ -117,6 +135,10 @@ namespace PacGame
                   int getJ() const;
                   bool isActiveBomb() const;
                   unsigned short getId() const;
+                  
+                  // animation objects
+                  virtual void moveObject(int direction);
+                  virtual void animate(int time){};
 
                   // virtual functions to override
                   virtual void draw()=0;        // code that draws object

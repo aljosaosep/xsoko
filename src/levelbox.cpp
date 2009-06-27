@@ -43,16 +43,20 @@ namespace PacGame
             {
                     this->i = i;
                     this->j = j;
+                    realI = i;
+                    realJ = j;
             }
 
             void PLevelObject::setI(int i)  // i index setter
             {
                     this->i = i;
+                    realI = i;
             }
 
             void PLevelObject::setJ(int j)  // j index setter
             {
                     this->j = j;
+                    realJ = j;
             }
             
             void PLevelObject::toogleBombActivity()
@@ -79,6 +83,12 @@ namespace PacGame
             {
                 return id;
             }
+
+             void PLevelObject::moveObject(int direction)
+             {
+                     // set the direction of the object and the move bit
+                     this->direction = direction & 16;
+             }
 
             void PLevelObject::print()
             {
