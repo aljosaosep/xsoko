@@ -55,6 +55,17 @@ namespace PacGame
                     this->j = j;
             }
             
+            
+            void PLevelObject::setRealI(float realI)
+            {
+                    this->realI = realI;
+            }
+            
+            void PLevelObject::setRealJ(float realJ)
+            {
+                    this->realJ = realJ;
+            }
+            
             void PLevelObject::toogleBombActivity()
             {
                 this->containsActiveBomb == false ? this->containsActiveBomb = true : this->containsActiveBomb = false;
@@ -93,7 +104,7 @@ namespace PacGame
              void PLevelObject::moveObject(int direction)
              {
                      // set the direction of the object and the move bit
-                     this->direction = direction & PL_OBJECT_MOVE;
+                     this->direction = direction | PL_OBJECT_MOVE;
              }
 
             void PLevelObject::print()
@@ -153,10 +164,11 @@ namespace PacGame
              short PTeleport::isPlayerMovePossible(int direction)
             {
                 if(returnFirstChild() == NULL)
-                        return 1;
+                {
+                        return 4;
+                }
                         
                 return 0;
-                /// to do 
             }
             /*****************************************
              PFloor methods
@@ -227,12 +239,15 @@ namespace PacGame
             
             short POnewayFloor::isPlayerMovePossible(int direction)
             {
+                    // if the direction is not the same as the direction of the floor, no move is possible
+                    if(direction != dir)
+                        return 0;
+                        
                     if(returnFirstChild() == NULL)
                     {
                         return 1;
                     }else
                     {
-                /// to do      
                          return static_cast<PLevelObject*>(returnFirstChild())->isPlayerMovePossible(direction);
                    } 
             }
@@ -399,40 +414,55 @@ namespace PacGame
 
         bool PCube::animate(double time)
         {
-                              double moveOffset = 0.01*time; // speed = 0.1
-                            
-                                if(realI != (float)i)
+                      bool end_of_movement = false;
+              
+              
+                      double moveOffset = OBJECT_SPEED*time; // speed = 0.1
+                    
+                        if(realI != (float)i) 
+                        {
+                                if(realI > (float)i)
                                 {
-                                        if(realI > (float)i)
+                                        realI -= moveOffset;
+                                        if(realI <= (float)i)
                                         {
-                                                realI -= moveOffset;
-                                                if(realI <= (float)i)
-                                                        realI = (float)i;
-                                        }
-                                        else
-                                        {
-                                                realI += moveOffset;
-                                                if(realI >= (float)i)
-                                                        realI = (float)i;
+                                                realI = (float)i;
+                                                end_of_movement = true;
                                         }
                                 }
-                                
-                                if(realJ != (float)j)
+                                else
                                 {
-                                        if(realJ > (float)j)
+                                        realI += moveOffset;
+                                        if(realI >= (float)i)
                                         {
-                                                realJ -=moveOffset;
-                                                if(realJ <= (float)j)
-                                                        realJ = (float)j;
-                                        }
-                                        else
-                                        {
-                                                realJ +=moveOffset;
-                                                if(realJ >= (float)j)
-                                                        realJ = (float)j;
+                                                realI = (float)i;
+                                                end_of_movement = true;
                                         }
                                 }
-                return true;
+                        }
+                        
+                        if(realJ != (float)j)
+                        {
+                                if(realJ > (float)j)
+                                {
+                                        realJ -=moveOffset;
+                                        if(realJ <= (float)j)
+                                        {
+                                                realJ = (float)j;
+                                                end_of_movement = true;
+                                        }
+                                }
+                                else
+                                {
+                                        realJ +=moveOffset;
+                                        if(realJ >= (float)j)
+                                        {
+                                                realJ = (float)j;
+                                                end_of_movement = true;
+                                        }
+                                }
+                        }
+                return end_of_movement;
         }
 
             void PCube::print()
@@ -479,40 +509,55 @@ namespace PacGame
             
             bool POnewayCube::animate(double time)
         {
-                              double moveOffset = 0.01*time; // speed = 0.1
-                            
-                                if(realI != (float)i)
+                  bool end_of_movement = false;
+              
+              
+                      double moveOffset = OBJECT_SPEED*time; // speed = 0.1
+                    
+                        if(realI != (float)i)
+                        {
+                                if(realI > (float)i)
                                 {
-                                        if(realI > (float)i)
+                                        realI -= moveOffset;
+                                        if(realI <= (float)i)
                                         {
-                                                realI -= moveOffset;
-                                                if(realI <= (float)i)
-                                                        realI = (float)i;
-                                        }
-                                        else
-                                        {
-                                                realI += moveOffset;
-                                                if(realI >= (float)i)
-                                                        realI = (float)i;
+                                                realI = (float)i;
+                                                end_of_movement = true;
                                         }
                                 }
-                                
-                                if(realJ != (float)j)
+                                else
                                 {
-                                        if(realJ > (float)j)
+                                        realI += moveOffset;
+                                        if(realI >= (float)i)
                                         {
-                                                realJ -=moveOffset;
-                                                if(realJ <= (float)j)
-                                                        realJ = (float)j;
-                                        }
-                                        else
-                                        {
-                                                realJ +=moveOffset;
-                                                if(realJ >= (float)j)
-                                                        realJ = (float)j;
+                                                realI = (float)i;
+                                                end_of_movement = true;
                                         }
                                 }
-                return true;
+                        }
+                        
+                        if(realJ != (float)j)
+                        {
+                                if(realJ > (float)j)
+                                {
+                                        realJ -=moveOffset;
+                                        if(realJ <= (float)j)
+                                        {
+                                                realJ = (float)j;
+                                                end_of_movement = true;
+                                        }
+                                }
+                                else
+                                {
+                                        realJ +=moveOffset;
+                                        if(realJ >= (float)j)
+                                        {
+                                                realJ = (float)j;
+                                                end_of_movement = true;
+                                        }
+                                }
+                        }
+                return end_of_movement;
         }
 
             void POnewayCube::print()
@@ -529,25 +574,9 @@ namespace PacGame
             {
                     // if the direction of movement is the same as the direction of the one way cube, we can try to move it
                     // we return 2
-                    switch(this->dir)
-                    {
-                            case Aliases::left:
-                                        if(direction == PL_OBJECT_FACE_LEFT)
-                                                return 2;
-                            break;
-                            case Aliases::right:
-                                        if(direction == PL_OBJECT_FACE_RIGHT)
-                                                return 2;
-                            break;
-                            case Aliases::up:
-                                        if(direction == PL_OBJECT_FACE_UP)
-                                                return 2;
-                            break;
-                            case Aliases::down:
-                                        if(direction == PL_OBJECT_FACE_DOWN)
-                                                return 2;
-                            break;
-                    }
+                   
+                    if(dir == direction)
+                        return 2;
                     return 0;
             }
 
@@ -578,7 +607,7 @@ namespace PacGame
             
             short PBomb::isPlayerMovePossible(int direction) 
             {
-                return 1;
+                return 3;
             } 
             
             

@@ -148,7 +148,7 @@ namespace PacGame
               
               if(data[i][j]->getId()==BRIDGE)
               {
-                  if(obj->getId() == 1)
+                  if(obj->getId() == PLAYER)
                   {
                       if(data[i][j]->isActiveBomb()){
                           for(unsigned int k=0;k<bombs.size();k++)
@@ -176,9 +176,9 @@ namespace PacGame
                   if(this->holds[i]->returnFirstChild()==NULL) // if hold has no child
                       return false;  // level cant be done!
 
-                  else if(((dynamic_cast<PLevelObject*>(this->holds[i]->returnFirstChild()))->getId() < 2) 
-                          || ((dynamic_cast<PLevelObject*>(this->holds[i]->returnFirstChild()))->getId() >6))
-                      return false; // on this holder there is no valid cubes (valid cubes has id's: 2-normal, 3...6-oneway cubes)
+                  else if(((dynamic_cast<PLevelObject*>(this->holds[i]->returnFirstChild()))->getId() & CUBE) == 0)
+                      return false; // on this holder there is no valid cubes (valid cubes have the CUBE bits set
+              
               }
               
               return true; // otherwise, player won :)
@@ -451,6 +451,16 @@ namespace PacGame
                         return false;  
                   }
                   
+                  // cant move in a direction the floor does not allow
+                  short floor_id = data[obj->getI()][obj->getJ()]->getId();
+                  // check if its a one way floor
+                  if((floor_id == 5) || (floor_id == 6) || (floor_id == 7) || (floor_id == 8))
+                  {
+                          // check if the direction doesn't match
+                          if(static_cast<POnewayFloor*>(data[obj->getI()][obj->getJ()])->getDirection() != dir )
+                                return false;
+                  }
+                  
                   switch(dir)
                   {
                         //set destination and direction
@@ -515,6 +525,43 @@ namespace PacGame
                         }else
                                 return false;
                 }
+                // we have a bomb, or other pickup object
+                if(is_move_possible == 3)
+                {
+                        // only player can pick up objects
+                        if(obj->getId() == PLAYER)
+                        {
+                                data[toI][toJ]->releaseFirstChildObject();
+                                 this->player->incBombs();  // increase bombs
+                                 return true;
+                         }else
+                                return false;
+                }
+                // its a teleport
+                if(is_move_possible == 4)
+                {
+                        // we get the destination coordinates
+                        int it = (static_cast<PTeleport*>(data[toI][toJ]))->getChildTeleport()->getI(), 
+                                jt = (static_cast<PTeleport*>(data[toI][toJ]))->getChildTeleport()->getJ();
+                        
+                        
+                        
+                        // the object at the other side
+                        PLevelObject* otherObject = static_cast<PLevelObject*>(data[it][jt]->returnFirstChild());
+                        
+                        // no object, can teleport safely
+                        if(otherObject == NULL)
+                        {
+                                return true;
+                        }else // we have to try and move the object on the other side in the appropriate direction
+                        if(obj->getId() == PLAYER) // only player can move objects
+                        {
+                                return moveObject(dir,otherObject);
+                        }
+                        
+                        return false;
+                        
+                }
                 
                   // if the default PLevelObject method is used, then it is a problem
               if(is_move_possible == -1)
@@ -524,9 +571,36 @@ namespace PacGame
               }  
           }
           
-          void activateFloor(int i, int j)
+          void PLevel::activateFloor(int i, int j)
           {
+                  short floor_id = data[i][j]->getId();
+                  // do we have a teleport to activate
+                  if(floor_id >= 9)
+                  {
                   
+                          // we get the destination teleport, and the object to teleport
+                           PTeleport* destination = static_cast<PTeleport*>(data[i][j])->getChildTeleport();
+                           PLevelObject* object = static_cast<PLevelObject*>(data[i][j]->returnFirstChild());
+                           
+                           destination->attachToRoot(data[i][j]->returnFirstChild());
+                           data[i][j]->unlinkFirstChild();
+                           int it = destination->getI(),
+                                jt =destination->getJ();
+                           object->setIndex(it, jt);
+                           object->setRealI((float)it);
+                           object->setRealJ((float)jt);
+                           PDirection dir = Aliases::left;
+                           adjustCameraAtTeleport(it, jt, object, dir);
+                           
+                  }else
+                  if(floor_id == CUBE_PLACE)// if we put a cube in its place
+                  {
+                          if(this->isLevelDone())
+                          {
+                              this->endgameFlag = true;
+                              Messages::infoMessage("You won!!!!! :))))");
+                          }
+                  }
           }
           
           // level functions implementation goes here! ;)
@@ -1044,7 +1118,8 @@ namespace PacGame
                               PLevelObject *obj = (PLevelObject*) data[i][j]->returnFirstChild(); 
                               if(obj != NULL)
                               {
-                                obj->animate(time);
+                                        if(obj->animate(time))
+                                                activateFloor(i,j);
                                 }
                       }
                       

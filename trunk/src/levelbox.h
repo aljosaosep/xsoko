@@ -83,6 +83,9 @@
 #define PL_OBJECT_FACE_LEFT 8
 #define PL_OBJECT_MOVE 16
 
+// movement speeds of objects
+#define OBJECT_SPEED 4.0
+
 
 using namespace PacGame::RenderMaschine;
 
@@ -129,6 +132,8 @@ namespace PacGame
                   void setIndex(int i, int j);
                   void setI(int i);
                   void setJ(int j);
+                  void setRealI(float realI);
+                  void setRealJ(float realJ);
                   void toogleBombActivity();
 
                   // getters
@@ -141,19 +146,22 @@ namespace PacGame
                   
                   // animation objects
                   virtual void moveObject(int direction);
-                  virtual bool animate(double time){return true;};
+                  virtual bool animate(double time){return false;};
 
                   // virtual functions to override
                   virtual void draw()=0;        // code that draws object
                   bool initialize() { return true; }  // override
                   virtual void print()=0;       // object's console dump            
                   virtual short isPlayerMovePossible()=0;
+                 
                   // IsPlayerMovePossible
                   // return values: 
                   // -1 - default, should never be returned
                   // 0 - no move possible
                   // 1 - move possible
                   // 2 - the object in the way must first be moved
+                  // 3 - pick up object, pbomb
+                  // 4 - teleport
                   virtual short isPlayerMovePossible(int direction){return -1;};
               };
 
@@ -226,8 +234,8 @@ namespace PacGame
 
               public:
                   // constructor
-                  PTeleport(int id, PCore *core) : teleport_id(id) {  this->core = core; }
-                  PTeleport(int i, int j, PCore *core, unsigned int o_id) { this->i=i; this->j = j; this->core = core; this->id = o_id; }
+                  PTeleport(int id, PCore *core) : teleport_id(id) {  this->core = core; childTeleport = NULL; }
+                  PTeleport(int i, int j, PCore *core, unsigned int o_id) { this->i=i; this->j = j; this->core = core; this->id = o_id; childTeleport = NULL; }
 
                   // setters
                   void setId(int id);

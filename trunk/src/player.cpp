@@ -95,8 +95,7 @@ namespace PacGame
                     //this->core->getRenderer()->drawCube(0.0, 0.0, 1.0);
                     glPushMatrix();
                     
-                    glTranslatef(-0.3f,0,1);
-                    glScalef(0.05f,0.05f,0.05f);
+                    //glTranslatef(-0.3f,0,1);
                     
                     // rotate the object, so it faces the right direction
                     if(direction & PL_OBJECT_FACE_UP)
@@ -105,7 +104,7 @@ namespace PacGame
                     }else
                     if(direction & PL_OBJECT_FACE_RIGHT)
                     {
-                            glRotatef(-90, 0,0,1);
+                            glRotatef(90, 0,0,1);
                     }else
                     /*if(direction & PL_OBJECT_FACE_DOWN)
                     {
@@ -113,9 +112,10 @@ namespace PacGame
                     }else*/
                     if(direction & PL_OBJECT_FACE_LEFT)
                     {
-                            glRotatef(90,  0,0,1);
+                            glRotatef(-90,  0,0,1);
                     }
                     
+                    glScalef(0.05f,0.05f,0.05f);
                     core->getResources()->getModelResource(6)->DrawFrame(frame);
                     glPopMatrix();
                       // TODO
@@ -127,22 +127,30 @@ namespace PacGame
                       
                       // if moving
                       //if(direction & PL_OBJECT_MOVE)
+                      bool end_of_movement = false;
+                      
                       {
-                              double moveOffset = 0.01*time; // speed = 0.1
+                              double moveOffset = OBJECT_SPEED*time; // speed = 0.1
                             
                                 if(realI != (float)i)
                                 {
-                                        if(realI > (float)i)
+                                        if(realI > (float)i) 
                                         {
                                                 realI -= moveOffset;
                                                 if(realI <= (float)i)
+                                                {
                                                         realI = (float)i;
+                                                        end_of_movement = true;
+                                                }
                                         }
                                         else
                                         {
                                                 realI += moveOffset;
                                                 if(realI >= (float)i)
+                                                {
                                                         realI = (float)i;
+                                                        end_of_movement = true;
+                                                }
                                         }
                                 }
                                 
@@ -152,13 +160,19 @@ namespace PacGame
                                         {
                                                 realJ -=moveOffset;
                                                 if(realJ <= (float)j)
+                                                {
                                                         realJ = (float)j;
+                                                        end_of_movement = true;
+                                                }
                                         }
                                         else
                                         {
                                                 realJ +=moveOffset;
                                                 if(realJ >= (float)j)
+                                                {
                                                         realJ = (float)j;
+                                                        end_of_movement = true;
+                                                }
                                         }
                                 }
                         
@@ -204,7 +218,7 @@ namespace PacGame
                       }
                       
                       
-                       return true;
+                       return end_of_movement;
               }
               
               short PPlayer::isPlayerMovePossible(int direction)
