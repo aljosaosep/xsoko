@@ -765,7 +765,7 @@ namespace PacGame
                                       second_matrix[i][j] = OW_CUBE_D;
                                       break;
                                       
-                                  case BOMB:
+                                  case 7://BOMB:
                                       p = new PBomb(i, j, this->gameCore);
                                       data[i][j]->add(p);
                                       
