@@ -55,10 +55,10 @@
 #define NO_CHILD 0
 #define PLAYER 1 // (PPlayer)
 #define CUBE 2 // (PCube)
-#define OW_CUBE_L 3 // (POnewayCube)
-#define OW_CUBE_R 4 // (POnewayCube)
-#define OW_CUBE_U 5 // (POnewayCube)
-#define OW_CUBE_D 6 // (POnewayCube)
+#define OW_CUBE_L 6 // (POnewayCube)
+#define OW_CUBE_R 10 // (POnewayCube)
+#define OW_CUBE_U 14 // (POnewayCube)
+#define OW_CUBE_D 18 // (POnewayCube)
 #define BOMB 7 // (PBomb)
 #define U_WALL 8 // (PUnsolidWall)
 #define D_BOMB 9 // (PDetonatedBomb)
@@ -148,6 +148,12 @@ namespace PacGame
                   bool initialize() { return true; }  // override
                   virtual void print()=0;       // object's console dump            
                   virtual short isPlayerMovePossible()=0;
+                  // IsPlayerMovePossible
+                  // return values: 
+                  // -1 - default, should never be returned
+                  // 0 - no move possible
+                  // 1 - move possible
+                  // 2 - the object in the way must first be moved
                   virtual short isPlayerMovePossible(int direction){return -1;};
               };
 
@@ -286,8 +292,10 @@ namespace PacGame
               public:
                   PCube(int i, int j, PCore *core) { this->i=i; this->j = j; realI = i; realJ = j; this->id=CUBE; this->core = core; }
                   void draw();
+                  bool animate(double time);
                   void print();             
-                  short isPlayerMovePossible(); //  { return 0; }
+                  short isPlayerMovePossible(); //  { return 0; }     
+                  short isPlayerMovePossible(int direction); 
               };
 
                /**********************************************************
@@ -350,8 +358,10 @@ namespace PacGame
               public:            
                   POnewayCube(Aliases::PDirection dir, int i, int j, unsigned short id, PCore *core) : dir(dir) { this->i=i; this->j = j; realI = i; realJ = j; this->core = core; this->id=id; }
                   void draw();
+                  bool animate(double time);
                   void print();        
                   short isPlayerMovePossible();
+                  short isPlayerMovePossible(int direction) ;
 
                   // getters
                   Aliases::PDirection getDirection();
@@ -372,6 +382,7 @@ namespace PacGame
                   void draw();
                   void print();
                   short isPlayerMovePossible();
+                  short isPlayerMovePossible(int direction) ;
               }; 
 
                /**********************************************************
@@ -389,6 +400,7 @@ namespace PacGame
                   void draw();
                   void print();
                   short isPlayerMovePossible();
+                  short isPlayerMovePossible(int direction) ;
               }; 
               
           }

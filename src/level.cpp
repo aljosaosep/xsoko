@@ -444,6 +444,13 @@ namespace PacGame
          bool PLevel::moveObject(PDirection dir, PLevelObject *obj)
           {
                   int toI, toJ, dirFacing;
+                
+                  // first the object itself must be movable
+                  if(obj->isPlayerMovePossible(dir) == 0)
+                  {
+                        return false;  
+                  }
+                  
                   switch(dir)
                   {
                         //set destination and direction
@@ -489,16 +496,28 @@ namespace PacGame
                   Messages::errorIndexOutOfRange();
                   return false;
               }
+              short is_move_possible = data[toI][toJ]->isPlayerMovePossible(dir);
+              
               // if there is no way we could move there
-               if(data[toI][toJ]->isPlayerMovePossible() == 0)  
+               if(is_move_possible == 0)  
                   return false;
                 
                 // if the space is empty, move freely
-              if(data[toI][toJ]->isPlayerMovePossible() == 1)  
+              if(is_move_possible == 1)  
                   return true;
-                  
+                // first the object must be moved
+                if(is_move_possible == 2)
+                {
+                        // only player is capable of moving other objects
+                        if(obj->getId() == PLAYER)
+                        {
+                                return moveObject(dir, (PLevelObject*)data[toI][toJ]->returnFirstChild());
+                        }else
+                                return false;
+                }
+                
                   // if the default PLevelObject method is used, then it is a problem
-              if(data[toI][toJ]->isPlayerMovePossible() == -1)
+              if(is_move_possible == -1)
               {
                       cout<<"!!! default isPlayerMovePossible used !!!"<<endl;
                       return false;
@@ -706,8 +725,8 @@ namespace PacGame
                                       second_matrix[i][j] = CUBE;
                                       break;
                                       
-                                  case OW_CUBE_L:
-                                      p = new POnewayCube(Aliases::left, i, j, 3, this->gameCore);
+                                  case 3://OW_CUBE_L:
+                                      p = new POnewayCube(Aliases::left, i, j, OW_CUBE_L, this->gameCore);
                                       data[i][j]->add(p);
                                       
                                       if((resourceHandle->getTextureResource(OW_CUBE_RES))==NULL)  // texture isn't in memory yet?
@@ -716,8 +735,8 @@ namespace PacGame
                                       second_matrix[i][j] = OW_CUBE_L;
                                       break; 
                                       
-                                  case OW_CUBE_R:
-                                      p = new POnewayCube(Aliases::right, i, j, 4, this->gameCore);
+                                  case 4://OW_CUBE_R:
+                                      p = new POnewayCube(Aliases::right, i, j, OW_CUBE_R, this->gameCore);
                                       data[i][j]->add(p);
                                       
                                       if((resourceHandle->getTextureResource(OW_CUBE_RES))==NULL)  // texture isn't in memory yet?
@@ -726,8 +745,8 @@ namespace PacGame
                                       second_matrix[i][j] = OW_CUBE_R;
                                       break; 
                                       
-                                  case OW_CUBE_U:
-                                      p = new POnewayCube(Aliases::up, i, j, 5, this->gameCore);
+                                  case 5://OW_CUBE_U:
+                                      p = new POnewayCube(Aliases::up, i, j, OW_CUBE_U, this->gameCore);
                                       data[i][j]->add(p);
                                       
                                       if((resourceHandle->getTextureResource(OW_CUBE_RES))==NULL)  // texture isn't in memory yet?
@@ -736,8 +755,8 @@ namespace PacGame
                                       second_matrix[i][j] = OW_CUBE_U;
                                       break;  
                                       
-                                  case OW_CUBE_D:
-                                      p = new POnewayCube(Aliases::down, i, j, 6, this->gameCore);
+                                  case 6://OW_CUBE_D:
+                                      p = new POnewayCube(Aliases::down, i, j, OW_CUBE_D, this->gameCore);
                                       data[i][j]->add(p);
                                       
                                       if((resourceHandle->getTextureResource(OW_CUBE_RES))==NULL)  // texture isn't in memory yet?
@@ -962,7 +981,8 @@ namespace PacGame
                               obj->draw(); // prints it
                               
                               glPopMatrix();
-                              if (static_cast<PLevelObject*>(obj)->getId() == PLAYER) // if child is player, draw also paren
+                              // if child is player or movable cube, draw also parent
+                              if ((static_cast<PLevelObject*>(obj)->getId() & (PLAYER | CUBE)) != 0) 
                               {
                                    glPushMatrix();
                                    glTranslatef(float(i),float(j),0.0);
