@@ -43,20 +43,16 @@ namespace PacGame
             {
                     this->i = i;
                     this->j = j;
-                    realI = i;
-                    realJ = j;
             }
 
             void PLevelObject::setI(int i)  // i index setter
             {
                     this->i = i;
-                    realI = i;
             }
 
             void PLevelObject::setJ(int j)  // j index setter
             {
                     this->j = j;
-                    realJ = j;
             }
             
             void PLevelObject::toogleBombActivity()
@@ -74,6 +70,16 @@ namespace PacGame
                     return this->j;
             }
             
+            float PLevelObject::getRealI() const  // i index getter
+            {
+                    return this->realI;
+            }
+
+            float PLevelObject::getRealJ() const  // j index getter
+            {
+                    return this->realJ;
+            }
+            
             bool PLevelObject::isActiveBomb() const
             {
                 return this->containsActiveBomb;
@@ -87,7 +93,7 @@ namespace PacGame
              void PLevelObject::moveObject(int direction)
              {
                      // set the direction of the object and the move bit
-                     this->direction = direction & 16;
+                     this->direction = direction & PL_OBJECT_MOVE;
              }
 
             void PLevelObject::print()
@@ -143,7 +149,15 @@ namespace PacGame
                 /// tmp
                 return 3;            
             }
-
+             
+             short PTeleport::isPlayerMovePossible(int direction)
+            {
+                if(returnFirstChild() == NULL)
+                        return 1;
+                        
+                return 0;
+                /// to do 
+            }
             /*****************************************
              PFloor methods
              *****************************************/	
@@ -162,6 +176,11 @@ namespace PacGame
             short PFloor::isPlayerMovePossible() 
             {
                 return 2;
+            }
+            
+            short PFloor::isPlayerMovePossible(int direction)
+            {
+                /// to do       
             }
             /*****************************************
              POnewayFloor methods
@@ -196,6 +215,15 @@ namespace PacGame
             {
                 return 5;
             }
+            
+            short POnewayFloor::isPlayerMovePossible(int direction)
+            {
+                    if(returnFirstChild() == NULL)
+                        return 1;
+                        
+                return 0;
+                /// to do       
+            }
 
             Aliases::PDirection POnewayFloor::getDirection()
             {
@@ -226,6 +254,11 @@ namespace PacGame
             {
                 return 0;
             }
+            
+            short PSolidWall::isPlayerMovePossible(int direction)
+            {
+                return 0;
+            }
 
             /*****************************************
              PUnsolidWall methods
@@ -246,6 +279,11 @@ namespace PacGame
             {
                 return 0;
             }        
+            
+            short PUnsolidWall::isPlayerMovePossible(int direction)
+            {
+                return 0;
+            }
             /*****************************************
              PBridge methods
              *****************************************/	 
@@ -265,6 +303,15 @@ namespace PacGame
             short PBridge::isPlayerMovePossible() 
             {
                 return 2;
+            }      
+            
+            short PBridge::isPlayerMovePossible(int direction)
+            {
+                    if(returnFirstChild() == NULL)
+                        return 1;
+                        
+                return 0;
+                /// todo
             }
 
             /*****************************************
@@ -280,7 +327,13 @@ namespace PacGame
             short PVoid::isPlayerMovePossible() 
             {
                 return 0;
+            }      
+            
+            short PVoid::isPlayerMovePossible(int direction)
+            {
+                return 0;
             }
+
 
             /*****************************************
              PCubeHolder methods
@@ -300,6 +353,15 @@ namespace PacGame
             short PCubeHolder::isPlayerMovePossible() 
             {
                 return 6;
+            }   
+            
+            short PCubeHolder::isPlayerMovePossible(int direction)
+            {
+                    if(returnFirstChild() == NULL)
+                        return 1;
+                        
+                return 0;
+                /// todo
             }
 
             /*****************************************

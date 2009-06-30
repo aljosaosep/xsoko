@@ -151,7 +151,7 @@ namespace PacGame
                   if(obj->getId() == 1)
                   {
                       if(data[i][j]->isActiveBomb()){
-                          for(int k=0;k<bombs.size();k++)
+                          for(unsigned int k=0;k<bombs.size();k++)
                               if(bombs[k]->i == i && bombs[k]->j == j){
                                   delete bombs[k];
                                   bombs.erase(bombs.begin()+k);
@@ -312,6 +312,7 @@ namespace PacGame
               Aliases::PDirection dirrr = dynamic_cast<POnewayFloor*>(data[i2][j2])->getDirection();
               cout<<"stupid"<<endl;
               }*/
+
               // CONDITIONALLY POSSIBLE MOVE - ONEWAY FLOOR    //TODO:    FFIIIXX
               else if((data[i2][j2]->isPlayerMovePossible()==5) && (dir ==  (dynamic_cast<POnewayFloor*>(data[i2][j2])->getDirection())))  // move is conditionally possible; we check children
               {
@@ -429,11 +430,12 @@ namespace PacGame
                   data[i][j]->attachToRoot(NULL);  // we make cube or player vanish
                  // delete [] this->player;   // todo: delete player obj without segmentation fault!
                   this->endgameFlag = true;  // and we make game end */
+
       //        }
               
               return false; // to avoid warning
           }
-          
+
           // gameplay related
            /*****************************************************************
            * Function moves object to antoher field if it is possible;
@@ -441,30 +443,71 @@ namespace PacGame
            *****************************************************************/
          bool PLevel::moveObject(PDirection dir, PLevelObject *obj)
           {
+                  int toI, toJ, dirFacing;
                   switch(dir)
                   {
+                        //set destination and direction
                       case Aliases::left:
-                          if(!checkAndApply(obj->getI(), obj->getJ()-1, obj, Aliases::left))
-                              return false;
+                              toI = obj->getI();
+                              toJ = obj->getJ()-1;
+                              dirFacing = PL_OBJECT_FACE_LEFT;
                           break;
                           
                       case Aliases::right:
-                          if(!checkAndApply(obj->getI(), obj->getJ()+1, obj, Aliases::right))
-                              return false;
+                              toI = obj->getI();
+                              toJ = obj->getJ()+1;
+                              dirFacing = PL_OBJECT_FACE_RIGHT;
                           break;  
                           
-                      case Aliases::up:
-                          if(!(checkAndApply(obj->getI()-1, obj->getJ(), obj, Aliases::up)))
-                                  return false;
+                      case Aliases::up:    
+                              toI = obj->getI()-1;
+                              toJ = obj->getJ();
+                              dirFacing = PL_OBJECT_FACE_UP;
                           break;
                           
-                      case Aliases::down:
-                          if(!(checkAndApply(obj->getI()+1, obj->getJ(), obj, Aliases::down)))
-                              return false;                      
+                      case Aliases::down:              
+                              toI = obj->getI()+1;
+                              toJ = obj->getJ();
+                              dirFacing = PL_OBJECT_FACE_DOWN;   
                           break;                        
                   }
-                  moves++;
-                  return true;              
+                  if(checkMoveTo(toI, toJ, obj, dir))
+                  {
+                        obj->moveObject(dirFacing);
+                        reattachNode(obj->getI(), obj->getJ(), toI, toJ, obj);
+                        moves++;
+                        return true;
+                 }else
+                        return false;              
+          }
+          
+          bool PLevel::checkMoveTo(int toI, int toJ,PLevelObject* obj, PDirection dir)
+          {
+                // check if the move is within level bounds
+               if((unsigned)toI >  (this->width-1)|| toI<0 || (unsigned)toJ > (this->height-1) || toJ<0)
+              {
+                  Messages::errorIndexOutOfRange();
+                  return false;
+              }
+              // if there is no way we could move there
+               if(data[toI][toJ]->isPlayerMovePossible() == 0)  
+                  return false;
+                
+                // if the space is empty, move freely
+              if(data[toI][toJ]->isPlayerMovePossible() == 1)  
+                  return true;
+                  
+                  // if the default PLevelObject method is used, then it is a problem
+              if(data[toI][toJ]->isPlayerMovePossible() == -1)
+              {
+                      cout<<"!!! default isPlayerMovePossible used !!!"<<endl;
+                      return false;
+              }  
+          }
+          
+          void activateFloor(int i, int j)
+          {
+                  
           }
           
           // level functions implementation goes here! ;)
@@ -714,7 +757,7 @@ namespace PacGame
                                       break; 
                                       
                                   case U_WALL:
-                                      p = new PUnsolidWall(this->gameCore);
+                                      p = new PUnsolidWall(i,j,this->gameCore);
                                       data[i][j]->add(p);
                                       
                                       if((resourceHandle->getTextureResource(U_WALL_RES))==NULL)
@@ -911,17 +954,21 @@ namespace PacGame
                   {
                       for(unsigned j=0; j<this->height; j++)
                       {
-                          PObject *obj = data[i][j]->returnFirstChild(); 
+                          PLevelObject *obj = (PLevelObject*) data[i][j]->returnFirstChild(); 
                           if(obj!=NULL) // if there is boject binded
                           {
                               glPushMatrix();
-                              glTranslatef((float)i, (float)j, 0.0);
+                              glTranslatef(obj->getRealI(), obj->getRealJ(), 0.0);
                               obj->draw(); // prints it
-
-                              if (static_cast<PLevelObject*>(obj)->getId() == PLAYER) // if child is player, draw also paren
-                                  data[i][j]->draw();
                               
                               glPopMatrix();
+                              if (static_cast<PLevelObject*>(obj)->getId() == PLAYER) // if child is player, draw also paren
+                              {
+                                   glPushMatrix();
+                                   glTranslatef(float(i),float(j),0.0);
+                                  data[i][j]->draw();
+                                  glPopMatrix();
+                              }
                           }
                           else
                               if(data[i][j]!=NULL)
@@ -964,6 +1011,24 @@ namespace PacGame
                   time = glfwGetTime();
               fnt->writeText(10,-30,"Elapsed time: "+Functions::toString<int>((int)(time-starttime)));
               fnt->writeText(170,-30,"Moves: "+Functions::toString<int>(moves));
+          }
+          /****************************************
+           * animates the objects on the field
+           * **************************************/
+          void PLevel::animate(double time)
+          {
+                  for(unsigned i=0; i<this->width; i++)
+                  {
+                      for(unsigned j=0; j<this->height; j++)
+                      {
+                              PLevelObject *obj = (PLevelObject*) data[i][j]->returnFirstChild(); 
+                              if(obj != NULL)
+                              {
+                                obj->animate(time);
+                                }
+                      }
+                      
+              }
           }
           
           bool PLevel::loadLevelFromFile(string filename){

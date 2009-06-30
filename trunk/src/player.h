@@ -55,6 +55,9 @@ namespace PacGame
               private:
            //       int score;   
                   unsigned bombs;
+                  
+                  float curFrame;
+                  int firstFrame, lastFrame;
 
               public:
                   // constructors
@@ -75,6 +78,9 @@ namespace PacGame
                   // to override
                   void draw();
                   void print();
+                  
+                  // movement and animation
+                  bool animate(double time);
 
                   short isPlayerMovePossible() { return 0; }
               };              

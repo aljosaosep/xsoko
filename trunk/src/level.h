@@ -131,6 +131,8 @@ namespace PacGame
                   
                   // gameplay related
                   bool moveObject(PDirection dir, PLevelObject *obj);
+                  void activateFloor(int i, int j);
+                  bool checkMoveTo(int toI, int toJ, PLevelObject *obj, PDirection dir);
                   inline bool checkAndApply(int i2, int j2, PLevelObject *obj, PDirection dir);
                   inline void reattachNode(int i, int j, int i2, int j2, PLevelObject *obj);
                   inline bool isLevelDone(); // checks if all cubes are in places
@@ -163,6 +165,7 @@ namespace PacGame
 
                   // functions to override
                   void draw();  // draws whole level
+                  void animate(double time); // animates moving objects
                   bool initialize(); // initiates level
                   void print(); // dumps level data into console
                   short isPlayerMovePossible();  // blind method

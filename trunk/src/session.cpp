@@ -169,6 +169,7 @@ namespace PacGame
             while(!gameQuit)
             {
                 double current_time = glfwGetTime();
+                double diff_time = current_time - old_time;
 
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
                 glLoadIdentity(); // reset view matrix
@@ -182,6 +183,8 @@ namespace PacGame
                     } else
                         frames ++;
                 #endif
+                
+                
 
                 if(levelLoaded || msgid){
                 
@@ -220,8 +223,9 @@ namespace PacGame
                             this->camera->up.getCoordX(), this->camera->up.getCoordY(), this->camera->up.getCoordZ());
 
                     glRotatef(-90.0, 0.0, 0.0, 1.0);
-
+                    this->level->animate(diff_time);
                     this->level->draw();
+                    
 
                     //particles.process(delta_rotate*10);
                 }

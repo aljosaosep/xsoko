@@ -48,6 +48,8 @@ namespace PacGame
               {
                    this->i = i;
                    this->j = j;
+                   this->realI = i;
+                   this->realJ = j;
                    this->core = core;
                    this->id = 1;
                    this->bombs = 0;
@@ -92,11 +94,117 @@ namespace PacGame
                     //glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(6));
                     //this->core->getRenderer()->drawCube(0.0, 0.0, 1.0);
                     glPushMatrix();
+                    
                     glTranslatef(-0.3f,0,1);
                     glScalef(0.05f,0.05f,0.05f);
+                    
+                    // rotate the object, so it faces the right direction
+                    if(direction & PL_OBJECT_FACE_UP)
+                    {
+                            glRotatef(180, 0,0,1);
+                    }else
+                    if(direction & PL_OBJECT_FACE_RIGHT)
+                    {
+                            glRotatef(-90, 0,0,1);
+                    }else
+                    /*if(direction & PL_OBJECT_FACE_DOWN)
+                    {
+                            // no need to rotate
+                    }else*/
+                    if(direction & PL_OBJECT_FACE_LEFT)
+                    {
+                            glRotatef(90,  0,0,1);
+                    }
+                    
                     core->getResources()->getModelResource(6)->DrawFrame(frame);
                     glPopMatrix();
                       // TODO
+              }
+              
+              bool PPlayer::animate(double time)
+              {
+                      //curFrame += 
+                      
+                      // if moving
+                      //if(direction & PL_OBJECT_MOVE)
+                      {
+                              double moveOffset = 0.01*time; // speed = 0.1
+                            
+                                if(realI != (float)i)
+                                {
+                                        if(realI > (float)i)
+                                        {
+                                                realI -= moveOffset;
+                                                if(realI <= (float)i)
+                                                        realI = (float)i;
+                                        }
+                                        else
+                                        {
+                                                realI += moveOffset;
+                                                if(realI >= (float)i)
+                                                        realI = (float)i;
+                                        }
+                                }
+                                
+                                if(realJ != (float)j)
+                                {
+                                        if(realJ > (float)j)
+                                        {
+                                                realJ -=moveOffset;
+                                                if(realJ <= (float)j)
+                                                        realJ = (float)j;
+                                        }
+                                        else
+                                        {
+                                                realJ +=moveOffset;
+                                                if(realJ >= (float)j)
+                                                        realJ = (float)j;
+                                        }
+                                }
+                        
+                                
+                                // check direction, change matrix position
+                                /*if(direction & PL_OBJECT_FACE_UP)
+                              {
+                                      realJ -= moveOffset;
+                                      if(realJ <= j)
+                                      {
+                                              realJ = j;
+                                              direction = direction ^ PL_OBJECT_MOVE;
+                                      }
+                              }else
+                              if(direction & PL_OBJECT_FACE_RIGHT)
+                              {
+                                      realI += moveOffset;
+                                      if(realI >= i)
+                                      {
+                                              realI = i;
+                                              direction = direction ^ PL_OBJECT_MOVE;
+                                      }
+                              }else
+                              if(direction & PL_OBJECT_FACE_DOWN)
+                              {
+                                      realJ += moveOffset;
+                                      if(realJ >= j)
+                                      {
+                                              realJ = j;
+                                              direction = direction ^ PL_OBJECT_MOVE;
+                                      }
+                              }else
+                              if(direction & PL_OBJECT_FACE_LEFT)
+                              {
+                                      realI-= moveOffset;
+                                      if(realI <= i)
+                                      {
+                                              realI = i;
+                                              direction = direction ^ PL_OBJECT_MOVE;
+                                      }
+                              }*/
+                              
+                      }
+                      
+                      
+                       return true;
               }
               
               void PPlayer::print()

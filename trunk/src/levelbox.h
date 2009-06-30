@@ -81,7 +81,7 @@
 #define PL_OBJECT_FACE_RIGHT 2
 #define PL_OBJECT_FACE_DOWN 4
 #define PL_OBJECT_FACE_LEFT 8
-#defien PL_OBJECT_MOVE 16
+#define PL_OBJECT_MOVE 16
 
 
 using namespace PacGame::RenderMaschine;
@@ -113,6 +113,7 @@ namespace PacGame
                   // bit 4: direction down, PL_OBJECT_FACE_DOWN
                   // bit 8: direction left, PL_OBJECT_FACE_LEFT
                   // bit 16: movement bit, set when the object is moving, PL_OBJECT_MOVE
+                  // other bits can be used for special animation
                   int direction; 
                   
                   unsigned short id; // number, that represents object in file
@@ -133,18 +134,21 @@ namespace PacGame
                   // getters
                   int getI() const;
                   int getJ() const;
+                  float getRealI() const;
+                  float getRealJ() const;
                   bool isActiveBomb() const;
                   unsigned short getId() const;
                   
                   // animation objects
                   virtual void moveObject(int direction);
-                  virtual void animate(int time){};
+                  virtual bool animate(double time){return true;};
 
                   // virtual functions to override
                   virtual void draw()=0;        // code that draws object
                   bool initialize() { return true; }  // override
                   virtual void print()=0;       // object's console dump            
                   virtual short isPlayerMovePossible()=0;
+                  virtual short isPlayerMovePossible(int direction){return -1;};
               };
 
                /**********************************************************
@@ -162,6 +166,7 @@ namespace PacGame
                   void draw();
                   void print();             
                   short isPlayerMovePossible() ;
+                  short isPlayerMovePossible(int direction) ;
               };
 
                /**********************************************************
@@ -179,6 +184,7 @@ namespace PacGame
                   void draw();
                   void print();             
                   short isPlayerMovePossible() ;
+                  short isPlayerMovePossible(int direction) ;
               };
 
                /**********************************************************
@@ -192,10 +198,11 @@ namespace PacGame
               {
               private:
               public:
-                  PUnsolidWall(PCore *core) { this->id = U_WALL; this->core = core; }
+                  PUnsolidWall(int i, int j,PCore *core) { this->i = i; this->j = j; realI = i; realJ = j; this->id = U_WALL; this->core = core; }
                   void draw();
                   void print();              
                   short isPlayerMovePossible() ;
+                  short isPlayerMovePossible(int direction) ;
               };
 
                /**********************************************************
@@ -227,6 +234,7 @@ namespace PacGame
                   void draw();
                   void print();             
                   short isPlayerMovePossible() ;
+                  short isPlayerMovePossible(int direction) ;
               };
 
                /**********************************************************
@@ -244,6 +252,7 @@ namespace PacGame
                   void draw();
                   void print();             
                   short isPlayerMovePossible() ;
+                  short isPlayerMovePossible(int direction) ;
               };
 
                /**********************************************************
@@ -261,6 +270,7 @@ namespace PacGame
                   void draw();
                   void print();             
                   short isPlayerMovePossible() ;
+                  short isPlayerMovePossible(int direction) ;
               };
 
                /**********************************************************
@@ -274,7 +284,7 @@ namespace PacGame
               {
               private:
               public:
-                  PCube(int i, int j, PCore *core) { this->i=i; this->j = j; this->id=CUBE; this->core = core; }
+                  PCube(int i, int j, PCore *core) { this->i=i; this->j = j; realI = i; realJ = j; this->id=CUBE; this->core = core; }
                   void draw();
                   void print();             
                   short isPlayerMovePossible(); //  { return 0; }
@@ -295,6 +305,7 @@ namespace PacGame
                   void draw();
                   void print();              
                   short isPlayerMovePossible() ;
+                  short isPlayerMovePossible(int direction) ;
               };
 
                /**********************************************************
@@ -313,6 +324,7 @@ namespace PacGame
                   void draw();
                   void print();             
                   short isPlayerMovePossible() ;
+                  short isPlayerMovePossible(int direction) ;
 
                   // getters
                   Aliases::PDirection getDirection();
@@ -336,7 +348,7 @@ namespace PacGame
                   Aliases::PDirection dir; // tells in wich way os cube orientated
 
               public:            
-                  POnewayCube(Aliases::PDirection dir, int i, int j, unsigned short id, PCore *core) : dir(dir) { this->i=i; this->j = j; this->core = core; this->id=id; }
+                  POnewayCube(Aliases::PDirection dir, int i, int j, unsigned short id, PCore *core) : dir(dir) { this->i=i; this->j = j; realI = i; realJ = j; this->core = core; this->id=id; }
                   void draw();
                   void print();        
                   short isPlayerMovePossible();
@@ -356,7 +368,7 @@ namespace PacGame
               {
               private:
               public:
-                  PBomb(int i, int j, PCore *core){ this->i=i; this->j = j; this->id = BOMB; this->core = core; }
+                  PBomb(int i, int j, PCore *core){ this->i=i; this->j = j; realI = i; realJ = j; this->id = BOMB; this->core = core; }
                   void draw();
                   void print();
                   short isPlayerMovePossible();
