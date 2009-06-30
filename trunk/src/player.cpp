@@ -207,6 +207,15 @@ namespace PacGame
                        return true;
               }
               
+              short PPlayer::isPlayerMovePossible(int direction)
+              {
+                      // player can't make a move, if he is curently moving from one position to the next
+                      if(realI == i && realJ == j)
+                                return 1;
+                                
+                        return 0;
+              }
+              
               void PPlayer::print()
               {
                   cout<<"|_PLYR";

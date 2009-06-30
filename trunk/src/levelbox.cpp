@@ -180,7 +180,13 @@ namespace PacGame
             
             short PFloor::isPlayerMovePossible(int direction)
             {
-                /// to do       
+                if(returnFirstChild() == NULL)
+                {
+                        return 1;
+                }else
+                {
+                        return static_cast<PLevelObject*>(returnFirstChild())->isPlayerMovePossible(direction);
+                }
             }
             /*****************************************
              POnewayFloor methods
@@ -201,6 +207,9 @@ namespace PacGame
                         case Aliases::down:
                             glRotatef(-90.0, 0.0, 0.0, 1.0);
                             break;
+                            
+                        default:
+                        break;
                 }
                 glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(OW_FLOOR_RES));
                 this->core->getRenderer()->drawFloor(0.0, 0.0, 1.0);
@@ -219,10 +228,13 @@ namespace PacGame
             short POnewayFloor::isPlayerMovePossible(int direction)
             {
                     if(returnFirstChild() == NULL)
+                    {
                         return 1;
-                        
-                return 0;
-                /// to do       
+                    }else
+                    {
+                /// to do      
+                         return static_cast<PLevelObject*>(returnFirstChild())->isPlayerMovePossible(direction);
+                   } 
             }
 
             Aliases::PDirection POnewayFloor::getDirection()
@@ -308,10 +320,13 @@ namespace PacGame
             short PBridge::isPlayerMovePossible(int direction)
             {
                     if(returnFirstChild() == NULL)
+                    {
                         return 1;
-                        
-                return 0;
-                /// todo
+                }else
+                {
+                        /// todo
+                         return static_cast<PLevelObject*>(returnFirstChild())->isPlayerMovePossible(direction);
+                }
             }
 
             /*****************************************
@@ -358,10 +373,13 @@ namespace PacGame
             short PCubeHolder::isPlayerMovePossible(int direction)
             {
                     if(returnFirstChild() == NULL)
+                    {
                         return 1;
-                        
-                return 0;
-                /// todo
+                    }else
+                    {
+                        /// todo
+                         return static_cast<PLevelObject*>(returnFirstChild())->isPlayerMovePossible(direction);
+                }
             }
 
             /*****************************************
@@ -378,6 +396,45 @@ namespace PacGame
                 this->core->getRenderer()->drawCube(0.0, 0.0, 1.0);
             }
 
+
+        bool PCube::animate(double time)
+        {
+                              double moveOffset = 0.01*time; // speed = 0.1
+                            
+                                if(realI != (float)i)
+                                {
+                                        if(realI > (float)i)
+                                        {
+                                                realI -= moveOffset;
+                                                if(realI <= (float)i)
+                                                        realI = (float)i;
+                                        }
+                                        else
+                                        {
+                                                realI += moveOffset;
+                                                if(realI >= (float)i)
+                                                        realI = (float)i;
+                                        }
+                                }
+                                
+                                if(realJ != (float)j)
+                                {
+                                        if(realJ > (float)j)
+                                        {
+                                                realJ -=moveOffset;
+                                                if(realJ <= (float)j)
+                                                        realJ = (float)j;
+                                        }
+                                        else
+                                        {
+                                                realJ +=moveOffset;
+                                                if(realJ >= (float)j)
+                                                        realJ = (float)j;
+                                        }
+                                }
+                return true;
+        }
+
             void PCube::print()
             {
                 cout<<"|  C  ";
@@ -385,7 +442,11 @@ namespace PacGame
 
             short PCube::isPlayerMovePossible() 
             {
-
+                return 2;
+            }
+            
+            short PCube::isPlayerMovePossible(int direction) 
+            {
                 return 2;
             }
 
@@ -408,10 +469,51 @@ namespace PacGame
                         case Aliases::down:
                             glRotatef(-90.0, 0.0, 0.0, 1.0);
                             break;
+                        default:
+                        break;
                 }
                 glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(OW_CUBE_RES));
                 this->core->getRenderer()->drawCube(0.0, 0.0, 1.0);
             }
+            
+            
+            bool POnewayCube::animate(double time)
+        {
+                              double moveOffset = 0.01*time; // speed = 0.1
+                            
+                                if(realI != (float)i)
+                                {
+                                        if(realI > (float)i)
+                                        {
+                                                realI -= moveOffset;
+                                                if(realI <= (float)i)
+                                                        realI = (float)i;
+                                        }
+                                        else
+                                        {
+                                                realI += moveOffset;
+                                                if(realI >= (float)i)
+                                                        realI = (float)i;
+                                        }
+                                }
+                                
+                                if(realJ != (float)j)
+                                {
+                                        if(realJ > (float)j)
+                                        {
+                                                realJ -=moveOffset;
+                                                if(realJ <= (float)j)
+                                                        realJ = (float)j;
+                                        }
+                                        else
+                                        {
+                                                realJ +=moveOffset;
+                                                if(realJ >= (float)j)
+                                                        realJ = (float)j;
+                                        }
+                                }
+                return true;
+        }
 
             void POnewayCube::print()
             {
@@ -421,6 +523,32 @@ namespace PacGame
             short POnewayCube::isPlayerMovePossible() 
             {
                 return 3;
+            }
+            
+            short POnewayCube::isPlayerMovePossible(int direction)
+            {
+                    // if the direction of movement is the same as the direction of the one way cube, we can try to move it
+                    // we return 2
+                    switch(this->dir)
+                    {
+                            case Aliases::left:
+                                        if(direction == PL_OBJECT_FACE_LEFT)
+                                                return 2;
+                            break;
+                            case Aliases::right:
+                                        if(direction == PL_OBJECT_FACE_RIGHT)
+                                                return 2;
+                            break;
+                            case Aliases::up:
+                                        if(direction == PL_OBJECT_FACE_UP)
+                                                return 2;
+                            break;
+                            case Aliases::down:
+                                        if(direction == PL_OBJECT_FACE_DOWN)
+                                                return 2;
+                            break;
+                    }
+                    return 0;
             }
 
             PDirection POnewayCube::getDirection()
@@ -448,6 +576,12 @@ namespace PacGame
                 return 4;
             } 
             
+            short PBomb::isPlayerMovePossible(int direction) 
+            {
+                return 1;
+            } 
+            
+            
             /*****************************************
              PDetonatedBomb methods
              *****************************************/
@@ -459,6 +593,11 @@ namespace PacGame
             }
             
             short PDetonatedBomb::isPlayerMovePossible() 
+            { 
+                return 0; 
+            }  
+            
+            short PDetonatedBomb::isPlayerMovePossible(int direction) 
             { 
                 return 0; 
             } 

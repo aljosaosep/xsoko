@@ -63,11 +63,11 @@ using namespace PacGame::RenderMaschine;
 // MATRIKA 2
 #define NO_CHILD 0
 #define PLAYER 1 // (PPlayer)
-#define CUBE 2 // (PCube)
-#define OW_CUBE_L 3 // (POnewayCube)
-#define OW_CUBE_R 4 // (POnewayCube)
-#define OW_CUBE_U 5 // (POnewayCube)
-#define OW_CUBE_D 6 // (POnewayCube)
+#define CUBE 2 // (PCube) 
+#define OW_CUBE_L 6 // (POnewayCube)
+#define OW_CUBE_R 10 // (POnewayCube)
+#define OW_CUBE_U 14 // (POnewayCube)
+#define OW_CUBE_D 18 // (POnewayCube)
 #define BOMB 7 // (PBomb)
 #define U_WALL 8 // (PUnsolidWall)
 #define D_BOMB 9 // (PDetonatedBomb)
