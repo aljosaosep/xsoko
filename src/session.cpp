@@ -155,6 +155,7 @@ namespace PacGame
 
             // the time of the previous frame
             double old_time = glfwGetTime();   
+            double old_time_FPS = old_time;
 
             #if defined(Linux_Debug) || defined(Windows_Debug) || defined(_DEBUG)
                 unsigned frames = 0;
@@ -170,15 +171,16 @@ namespace PacGame
             {
                 double current_time = glfwGetTime();
                 double diff_time = current_time - old_time;
+                old_time = current_time;
 
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
                 glLoadIdentity(); // reset view matrix
 
                 #if defined(Linux_Debug) || defined(Windows_Debug) || defined(_DEBUG)
-                    if(current_time - old_time >= 1){
+                    if(current_time - old_time_FPS >= 1){
                       title = "xSoko project FPS: " + Functions::toString<int>(frames);
                       glfwSetWindowTitle(title.c_str());
-                      old_time = current_time;
+                      old_time_FPS = current_time;
                       frames = 0;
                     } else
                         frames ++;
