@@ -59,9 +59,9 @@
 #define OW_CUBE_R 10 // (POnewayCube)
 #define OW_CUBE_U 14 // (POnewayCube)
 #define OW_CUBE_D 18 // (POnewayCube)
-#define BOMB 7 // (PBomb)
+#define BOMB 4 // (PBomb)
 #define U_WALL 8 // (PUnsolidWall)
-#define D_BOMB 9 // (PDetonatedBomb)
+#define D_BOMB 12 // (PDetonatedBomb)
 
 // id's of resourcev for objects
 #define FLOOR_RES 0
