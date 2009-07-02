@@ -152,17 +152,15 @@ namespace PacGame
                   virtual void draw()=0;        // code that draws object
                   bool initialize() { return true; }  // override
                   virtual void print()=0;       // object's console dump            
-                  virtual short isPlayerMovePossible()=0;
                  
                   // IsPlayerMovePossible
                   // return values: 
-                  // -1 - default, should never be returned
                   // 0 - no move possible
                   // 1 - move possible
                   // 2 - the object in the way must first be moved
                   // 3 - pick up object, pbomb
                   // 4 - teleport
-                  virtual short isPlayerMovePossible(int direction){return -1;};
+                  virtual short isPlayerMovePossible(int direction)=0;
               };
 
                /**********************************************************
@@ -179,7 +177,6 @@ namespace PacGame
                   PFloor(PCore *core) { this->id = FLOOR; this->core = core; }
                   void draw();
                   void print();             
-                  short isPlayerMovePossible() ;
                   short isPlayerMovePossible(int direction) ;
               };
 
@@ -197,7 +194,6 @@ namespace PacGame
                   PSolidWall(PCore *core) { this->id = S_WALL; this->core = core; }
                   void draw();
                   void print();             
-                  short isPlayerMovePossible() ;
                   short isPlayerMovePossible(int direction) ;
               };
 
@@ -214,8 +210,7 @@ namespace PacGame
               public:
                   PUnsolidWall(int i, int j,PCore *core) { this->i = i; this->j = j; realI = i; realJ = j; this->id = U_WALL; this->core = core; }
                   void draw();
-                  void print();              
-                  short isPlayerMovePossible() ;
+                  void print();             
                   short isPlayerMovePossible(int direction) ;
               };
 
@@ -247,7 +242,6 @@ namespace PacGame
 
                   void draw();
                   void print();             
-                  short isPlayerMovePossible() ;
                   short isPlayerMovePossible(int direction) ;
               };
 
@@ -265,7 +259,6 @@ namespace PacGame
                   PBridge(PCore *core) { this->id = BRIDGE; this->core = core; }
                   void draw();
                   void print();             
-                  short isPlayerMovePossible() ;
                   short isPlayerMovePossible(int direction) ;
               };
 
@@ -283,7 +276,6 @@ namespace PacGame
                   PVoid() { this->id = VOID; }
                   void draw();
                   void print();             
-                  short isPlayerMovePossible() ;
                   short isPlayerMovePossible(int direction) ;
               };
 
@@ -302,7 +294,6 @@ namespace PacGame
                   void draw();
                   bool animate(double time);
                   void print();             
-                  short isPlayerMovePossible(); //  { return 0; }     
                   short isPlayerMovePossible(int direction); 
               };
 
@@ -319,8 +310,7 @@ namespace PacGame
               public:
                   PCubeHolder(PCore *core)  { this->id = 4; this->core = core; }
                   void draw();
-                  void print();              
-                  short isPlayerMovePossible() ;
+                  void print();             
                   short isPlayerMovePossible(int direction) ;
               };
 
@@ -339,7 +329,6 @@ namespace PacGame
                   POnewayFloor(PCore *core, unsigned short id) { this->id = 1; this->core = core; this->id = id; }
                   void draw();
                   void print();             
-                  short isPlayerMovePossible() ;
                   short isPlayerMovePossible(int direction) ;
 
                   // getters
@@ -368,7 +357,6 @@ namespace PacGame
                   void draw();
                   bool animate(double time);
                   void print();        
-                  short isPlayerMovePossible();
                   short isPlayerMovePossible(int direction) ;
 
                   // getters
@@ -389,12 +377,11 @@ namespace PacGame
                   PBomb(int i, int j, PCore *core){ this->i=i; this->j = j; realI = i; realJ = j; this->id = BOMB; this->core = core; }
                   void draw();
                   void print();
-                  short isPlayerMovePossible();
                   short isPlayerMovePossible(int direction) ;
               }; 
 
                /**********************************************************
-               * PDetonaedBomb
+               * PDetonatedBomb
                *
                * Represents bomb that can destroy unsolid wall
                * --------------------------------------------------------
@@ -407,7 +394,6 @@ namespace PacGame
                   PDetonatedBomb(){ this->id = D_BOMB;  }
                   void draw();
                   void print();
-                  short isPlayerMovePossible();
                   short isPlayerMovePossible(int direction) ;
               }; 
               

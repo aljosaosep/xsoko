@@ -82,7 +82,6 @@ namespace PacGame
                   // movement and animation
                   bool animate(double time);
 
-                  short isPlayerMovePossible() { return 0; }
                   short isPlayerMovePossible(int direction);
                   
               };              
