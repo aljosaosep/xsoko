@@ -1,3 +1,4 @@
+#summary Graf razredov.
 #labels graf,razredi,datoteke,namespaces,classes,headers,graph
 =Graf razredov=
 
