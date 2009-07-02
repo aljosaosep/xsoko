@@ -184,262 +184,13 @@ namespace PacGame
               return true; // otherwise, player won :)
           }
           
-           /*****************************************************************
-           * Function checks if move is possible; if it is, processes it
-           *****************************************************************/
-          inline bool PLevel::checkAndApply(int i2, int j2, PLevelObject *obj, PDirection dir)
-          {
-            //  int delta_i = 0, delta_j = 0; // for camera rotation at teleport event
-              // i2 and j2 are indexes of field, we re checking; so if on field with idexes i2 and j2 is empty
-              // (has nothing attached to it), then we move our object(obj) to i2, j2
-              
-              // checks if indexes are valible; it prevents index-out-of-range error
-              if((unsigned)i2 >  (this->width-1)|| i2<0 || (unsigned)j2 > (this->height-1) || j2<0)
-              {
-                  Messages::errorIndexOutOfRange();
-                  return false;
-              }
-              
-              int i = obj->getI(), j = obj->getJ(); // gets source object indexes, object, that we're moving
-//              cout<<"indexes: "<<i<<' '<<j<<endl;
-              
-              // is move absolutely possible?
-              if(data[i2][j2]->isPlayerMovePossible()==1)  // it is!
-              {
-//                  cout<<"move possible = 1: direct reattach"<<endl;
-                  reattachNode(i, j, i2, j2, obj);  // so we just do it ;) we move object from indexes i, j to i2, j2
-                  return true;
-              }
-              
-              //////// TELEPORT
-              else if(data[i2][j2]->isPlayerMovePossible()==3)  
-              {
-//                  cout<<"Teleport: "<<endl;
-                  // it - I index of dest teleport
-                  // jt-  J index of dest teleport
-                  int it = (dynamic_cast<PTeleport*>(data[i2][j2]))->getChildTeleport()->getI(), 
-                      jt = (dynamic_cast<PTeleport*>(data[i2][j2]))->getChildTeleport()->getJ();
-                  
-//                  cout<<"Child Teleport indexes: "<<it<<' '<<jt<<endl;
-                  
-                  
-                  if(data[it][jt]->returnFirstChild()!=NULL) // if there is object alredy on teleport
-                  {
-                      // code prevents crashing, if player attempts to teleport object to tepelport, where is
-                      // player currently located
-                      if(dynamic_cast<PLevelObject*>(data[it][jt]->returnFirstChild())->getId() == 1)
-                          return false;
-                      
-//                      cout<<"First Teleport child not null! Attempting to move: ... "<<it<<' '<<jt<<endl;
-                      // if obj is player, attempt to move obj at dest teleport
-                      if( (obj->getId() == 1 ) && this->moveObject(dir, dynamic_cast<PLevelObject*>(data[it][jt]->returnFirstChild())))  // try to move it
-                      {
-                          adjustCameraAtTeleport(it, jt, obj, dir);
-                          
-                          reattachNode(i, j, it, jt, obj);   //  then move player to teleport
-                          return true;
-                      }
-                  }
-                  else  // there is no object attached to teleport, that's ok
-                  {
-                      if(obj->getId() == 1) // check if it is player
-                        adjustCameraAtTeleport(it, jt, obj, dir);
-                     
- //                     cout<<"Cool, no object on teleport, so beam me up scotty!"<<it<<' '<<jt<<endl;
-                      reattachNode(i, j, it, jt, obj);  // so we just move player to dest teleport ;)
-                      return true;
-                  }
-              }  /// END OF TELEPORT SECTION
-
-              // CONDITIONALLY POSSIBLE MOVES
-              else if(data[i2][j2]->isPlayerMovePossible()==2  && (!data[i2][j2]->isActiveBomb()))  // move is conditionally possible; we check children
-              {
-  //                cout<<"Conditially possible move."<<endl;
-                  if(data[i2][j2]->returnFirstChild() == NULL)  // move is possible since there are no children
-                  {
-  //                    cout<<"It seems that dest has no children, so I will directly reattach node."<<endl;
-                      reattachNode(i, j, i2, j2, obj);   // so we do it ;)
-                      return true;
-                  }
-                  
-                  // case, there is normal cube
-                  else if(data[i2][j2]->returnFirstChild()->isPlayerMovePossible() == 2 && (obj->getId()==1))  // there is cube on the field, we attemt to move it
-                                                                                                              // but we can move it only, if obj is player(do it has id=1)
-                  {
-  //                    cout<<"Hell, there is someting there, attempting to move..."<<endl;
-                      // CUBE-MOVE CODE GOES HERE
-                      if(this->moveObject(dir, dynamic_cast<PLevelObject*>(data[i2][j2]->returnFirstChild())))
-                      {
-  //                        cout<<"Obj moved, now I am reattaching..."<<endl;
-                          reattachNode(i, j, i2, j2, obj);   // it is, we move object
-                          return true;   
-                      }
-                  }  
-                  
-                  // case, there is oneway cube
-                  else if(data[i2][j2]->returnFirstChild()->isPlayerMovePossible() == 3 && (obj->getId()==1))  // there is cube on the field, we attemt to move it
-                                                                                                              // but we can move it only, if obj is player(do it has id=1)
-                  { 
-//                      cout<<"Hell, there is someting there, oneway cube, attempting to move..."<<endl;
-                      if(dynamic_cast<POnewayCube*>(data[i2][j2]->returnFirstChild())->getDirection()==dir)
-                      {
-                          // CUBE-MOVE CODE GOES HERE
-                          if(this->moveObject(dir, dynamic_cast<PLevelObject*>(data[i2][j2]->returnFirstChild())))
-                          {
-//                            cout<<"Obj moved, now I am reattaching..."<<endl;
-                              reattachNode(i, j, i2, j2, obj);   // it is, we move object
-                              return true;   
-                          }
-                      }
-                  } 
-                  else if(data[i2][j2]->returnFirstChild()->isPlayerMovePossible() == 4) // there is a bomb
-                  {
-                    //  cout<<"idproblem"<<endl;
-                      if(obj->getId()==1) // is object a player ?
-                      {
-                      //    data[i2][j2]->releaseFirstChild(); // release picking bomb object
-                      //    data[i2][j2]->unlinkFirstChild();
-                          data[i2][j2]->releaseFirstChildObject();
-                          this->player->incBombs();  // increase bombs
-                          reattachNode(i, j, i2, j2, obj);   // move
-                          cout<<"St. bomb:"<<this->player->getBombs()<<endl;
-                          return true;
-                      }
-                  }
-              }    
-          /*    else if(1)
-              {
-              Aliases::PDirection dirrr = dynamic_cast<POnewayFloor*>(data[i2][j2])->getDirection();
-              cout<<"stupid"<<endl;
-              }*/
-
-              // CONDITIONALLY POSSIBLE MOVE - ONEWAY FLOOR    //TODO:    FFIIIXX
-              else if((data[i2][j2]->isPlayerMovePossible()==5) && (dir ==  (dynamic_cast<POnewayFloor*>(data[i2][j2])->getDirection())))  // move is conditionally possible; we check children
-              {
-                  if(data[i2][j2]->returnFirstChild() == NULL)  // move is possible since there are no children
-                  {
-                      reattachNode(i, j, i2, j2, obj);   // so we do it ;)
-                      return true;
-                  }
-                  
-                  // case, there is normal cube
-                  else if(data[i2][j2]->returnFirstChild()->isPlayerMovePossible() == 2 && (obj->getId()==1))  // there is cube on the field, we attemt to move it
-                                                                                                              // but we can move it only, if obj is player(do it has id=1)
-                  {
-                      // CUBE-MOVE CODE GOES HERE
-                      if(this->moveObject(dir, dynamic_cast<PLevelObject*>(data[i2][j2]->returnFirstChild())))
-                      {
-                          reattachNode(i, j, i2, j2, obj);   // it is, we move object
-                          return true;   
-                      }
-                  }  
-                  
-                  // case, there is oneway cube
-                  else if(data[i2][j2]->returnFirstChild()->isPlayerMovePossible() == 3 && (obj->getId()==1))  // there is cube on the field, we attemt to move it
-                                                                                                              // but we can move it only, if obj is player(do it has id=1)
-                  { 
-                      if(dynamic_cast<POnewayCube*>(data[i2][j2]->returnFirstChild())->getDirection()==dir)
-                      {
-                          // CUBE-MOVE CODE GOES HERE
-                          if(this->moveObject(dir, dynamic_cast<PLevelObject*>(data[i2][j2]->returnFirstChild())))
-                          {
-
-                              reattachNode(i, j, i2, j2, obj);   // it is, we move object
-                              return true;   
-                          }
-                      }
-                  } 
-                  else if(data[i2][j2]->returnFirstChild()->isPlayerMovePossible() == 4) // there is a bomb
-                  {
-                    //  cout<<"idproblem"<<endl;
-                      if(obj->getId()==1) // is object a player ?
-                      {
-                      //    data[i2][j2]->releaseFirstChild(); // release picking bomb object
-                          data[i2][j2]->releaseList();
-                          this->player->incBombs();  // increase bombs
-                          reattachNode(i, j, i2, j2, obj);   // move
-                          return true;
-                      }
-                  }
-              }
-             
-              
-              else if(data[i2][j2]->isPlayerMovePossible()==6)  // move is conditionally possible; we check children; thid id cubeholder case
-              {                                             // only diffrence between causal conditional move and move to cubeHolder is
-                                                             // that in this case, after we move cube to cube holder, we check if level has been done
-                  if(data[i2][j2]->returnFirstChild() == NULL)  // move is possible since there are no children
-                  {
-                      reattachNode(i, j, i2, j2, obj);   // so we do it ;)
-                      if(this->isLevelDone())
-                      {
-                          this->endgameFlag = true;
-                          Messages::infoMessage("You won!!!!! :))))");
-                      }
-                      return true;
-                  }
-                  else if(data[i2][j2]->returnFirstChild()->isPlayerMovePossible() == 2 && (obj->getId()==1))  // na polju je kocka - poskusimo premaknit!
-                  {
-                      // koda za premik kocke
-                      if(this->moveObject(dir, dynamic_cast<PLevelObject*>(data[i2][j2]->returnFirstChild())))
-                      {
-                          reattachNode(i, j, i2, j2, obj);   // so we do it ;)
-                          if(this->isLevelDone())
-                          {
-                              this->endgameFlag = true;
-                              Messages::infoMessage("You won!!!!! :))))");
-                          }
-                          return true;                         
-                      }
-                  } // case, there is oneway cube
-                  else if(data[i2][j2]->returnFirstChild()->isPlayerMovePossible() == 3 && (obj->getId()==1))  // there is cube on the field, we attemt to move it
-                                                                                                              // but we can move it only, if obj is player(do it has id=1)
-                  {
-                      cout<<"Hell, there is someting there, oneway cube, attempting to move..."<<endl;
-                      if(dynamic_cast<POnewayCube*>(data[i2][j2]->returnFirstChild())->getDirection()==dir)
-                      {
-                          // CUBE-MOVE CODE GOES HERE
-                          if(this->moveObject(dir, dynamic_cast<PLevelObject*>(data[i2][j2]->returnFirstChild())))
-                          {
-                            cout<<"Obj moved, now I am reattaching..."<<endl;
-                              reattachNode(i, j, i2, j2, obj);   // it is, we move object
-                              return true;
-                          }
-                      }
-                  }
-                  else if(data[i2][j2]->returnFirstChild()->isPlayerMovePossible() == 4) // there is a bomb
-                  {
-                    //  cout<<"idproblem"<<endl;
-                      if(obj->getId()==1) // is object a player ?
-                      {
-                      //    data[i2][j2]->unlinkFirstChild();
-                          data[i2][j2]->releaseFirstChildObject(); // release picking bomb object
-                          this->player->incBombs();  // increase bombs
-                          reattachNode(i, j, i2, j2, obj);   // move
-                          cout<<"St. bomb:"<<this->player->getBombs()<<endl;
-                          return true;
-                      }
-                  }
-              }
-
-              
-              // is there empty space?
-          //    else if(data[i2][j2]->returnFirstChild()==NULL)
-        //      {
-                  // yes! game over, haha!
-              /*    cout<<"Is not a bug, you fall into space - or you pushed cube into space, so it's game over!!!! :p"<<endl;
-                  data[i][j]->attachToRoot(NULL);  // we make cube or player vanish
-                 // delete [] this->player;   // todo: delete player obj without segmentation fault!
-                  this->endgameFlag = true;  // and we make game end */
-
-      //        }
-              
-              return false; // to avoid warning
-          }
 
           // gameplay related
            /*****************************************************************
-           * Function moves object to antoher field if it is possible;
-           * successful move returns true, unsuccessfull false
+           * moveObject
+           * Checks object, his current position and his
+           * destination, to try to move it. 
+           * A successful move return true, otherwise it returns false.
            *****************************************************************/
          bool PLevel::moveObject(PDirection dir, PLevelObject *obj)
           {
@@ -498,6 +249,14 @@ namespace PacGame
                         return false;              
           }
           
+          /***********************************************
+           * chechMoveTo
+           * Checks the destination of an object.
+           * Tries to cleaar the path by moving 
+           * cubes.
+           * Returns true if its free, false if there is something
+           * in the way.
+           * **********************************************/
           bool PLevel::checkMoveTo(int toI, int toJ,PLevelObject* obj, PDirection dir)
           {
                 // check if the move is within level bounds
@@ -571,6 +330,11 @@ namespace PacGame
               }  
           }
           
+          /***************************************
+           * activateFloor
+           * The function activates special 
+           * floors like teleport or cube holder.
+           * *************************************/
           void PLevel::activateFloor(int i, int j)
           {
                   short floor_id = data[i][j]->getId();
@@ -1107,7 +871,10 @@ namespace PacGame
               fnt->writeText(170,-30,"Moves: "+Functions::toString<int>(moves));
           }
           /****************************************
-           * animates the objects on the field
+           * animate
+           * Animates the objects on the field.
+           * When thea are donemoving it activates
+           * the floor underneath them.
            * **************************************/
           void PLevel::animate(double time)
           {
@@ -1338,7 +1105,5 @@ namespace PacGame
           }
           
           
-          short PLevel::isPlayerMovePossible() { return 0; }  // blind function, just for overwrtie; DO NOT attempt to implement it and escpecially,
-                                                              // do not use it in LEVEL class context!
     }
 }

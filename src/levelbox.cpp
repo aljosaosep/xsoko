@@ -155,11 +155,6 @@ namespace PacGame
                 cout<<"| T"<<this->teleport_id<<' ';
             }
 
-            short PTeleport::isPlayerMovePossible()
-            {
-                /// tmp
-                return 3;            
-            }
              
              short PTeleport::isPlayerMovePossible(int direction)
             {
@@ -185,10 +180,6 @@ namespace PacGame
                 cout<<"|     ";
             }
 
-            short PFloor::isPlayerMovePossible() 
-            {
-                return 2;
-            }
             
             short PFloor::isPlayerMovePossible(int direction)
             {
@@ -230,11 +221,6 @@ namespace PacGame
             void POnewayFloor::print()
             {
                 cout<<"| OWF ";
-            }      
-
-            short POnewayFloor::isPlayerMovePossible() 
-            {
-                return 5;
             }
             
             short POnewayFloor::isPlayerMovePossible(int direction)
@@ -277,10 +263,6 @@ namespace PacGame
                 cout<<"| SW  ";
             }
 
-            short PSolidWall::isPlayerMovePossible() 
-            {
-                return 0;
-            }
             
             short PSolidWall::isPlayerMovePossible(int direction)
             {
@@ -302,10 +284,7 @@ namespace PacGame
                 cout<<"| USW ";
             }  
 
-            short PUnsolidWall::isPlayerMovePossible() 
-            {
-                return 0;
-            }        
+                
             
             short PUnsolidWall::isPlayerMovePossible(int direction)
             {
@@ -325,12 +304,7 @@ namespace PacGame
             void PBridge::print()
             {
                 cout<<"|  B  ";
-            } 
-
-            short PBridge::isPlayerMovePossible() 
-            {
-                return 2;
-            }      
+            }  
             
             short PBridge::isPlayerMovePossible(int direction)
             {
@@ -352,12 +326,7 @@ namespace PacGame
             void PVoid::print()
             {
                 cout<<"|     ";
-            } 
-
-            short PVoid::isPlayerMovePossible() 
-            {
-                return 0;
-            }      
+            }   
             
             short PVoid::isPlayerMovePossible(int direction)
             {
@@ -379,11 +348,6 @@ namespace PacGame
             {
                 cout<<"| CH  ";
             }  
-
-            short PCubeHolder::isPlayerMovePossible() 
-            {
-                return 6;
-            }   
             
             short PCubeHolder::isPlayerMovePossible(int direction)
             {
@@ -469,11 +433,6 @@ namespace PacGame
             {
                 cout<<"|  C  ";
             } 
-
-            short PCube::isPlayerMovePossible() 
-            {
-                return 2;
-            }
             
             short PCube::isPlayerMovePossible(int direction) 
             {
@@ -564,11 +523,6 @@ namespace PacGame
             {
                 cout<<"| OWC ";
             } 
-
-            short POnewayCube::isPlayerMovePossible() 
-            {
-                return 3;
-            }
             
             short POnewayCube::isPlayerMovePossible(int direction)
             {
@@ -599,11 +553,6 @@ namespace PacGame
             {
                 cout<<"|  B  ";
             } 
-
-            short PBomb::isPlayerMovePossible() 
-            {
-                return 4;
-            } 
             
             short PBomb::isPlayerMovePossible(int direction) 
             {
@@ -620,11 +569,6 @@ namespace PacGame
             {
                 cout<<"| D_B ";
             }
-            
-            short PDetonatedBomb::isPlayerMovePossible() 
-            { 
-                return 0; 
-            }  
             
             short PDetonatedBomb::isPlayerMovePossible(int direction) 
             { 
