@@ -160,10 +160,12 @@ namespace PacGame
             {
                 if(returnFirstChild() == NULL)
                 {
-                        return 4;
+                        if(containsActiveBomb)
+                                return 0;
+                        return 8;
                 }
                         
-                return 0;
+                return 8 | static_cast<PLevelObject*>(returnFirstChild())->isPlayerMovePossible(direction);
             }
             /*****************************************
              PFloor methods
@@ -185,6 +187,8 @@ namespace PacGame
             {
                 if(returnFirstChild() == NULL)
                 {
+                         if(containsActiveBomb)
+                                return 0;
                         return 1;
                 }else
                 {
@@ -231,6 +235,8 @@ namespace PacGame
                         
                     if(returnFirstChild() == NULL)
                     {
+                             if(containsActiveBomb)
+                                return 0;
                         return 1;
                     }else
                     {
@@ -310,6 +316,8 @@ namespace PacGame
             {
                     if(returnFirstChild() == NULL)
                     {
+                             if(containsActiveBomb)
+                                return 0;
                         return 1;
                 }else
                 {
@@ -353,6 +361,8 @@ namespace PacGame
             {
                     if(returnFirstChild() == NULL)
                     {
+                             if(containsActiveBomb)
+                                return 0;
                         return 1;
                     }else
                     {
@@ -556,7 +566,7 @@ namespace PacGame
             
             short PBomb::isPlayerMovePossible(int direction) 
             {
-                return 3;
+                return 4;
             } 
             
             
