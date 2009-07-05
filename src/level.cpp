@@ -271,34 +271,20 @@ namespace PacGame
                if(is_move_possible == 0)  
                   return false;
                 
-                // if the space is empty, move freely
-              if(is_move_possible == 1)  
-                  return true;
-                // first the object must be moved
-                if(is_move_possible == 2)
-                {
-                        // only player is capable of moving other objects
-                        if(obj->getId() == PLAYER)
-                        {
-                                return moveObject(dir, (PLevelObject*)data[toI][toJ]->returnFirstChild());
-                        }else
-                                return false;
-                }
-                // we have a bomb, or other pickup object
-                if(is_move_possible == 3)
-                {
-                        // only player can pick up objects
-                        if(obj->getId() == PLAYER)
-                        {
-                                data[toI][toJ]->releaseFirstChildObject();
-                                 this->player->incBombs();  // increase bombs
-                                 return true;
-                         }else
-                                return false;
-                }
                 // its a teleport
-                if(is_move_possible == 4)
+                if(is_move_possible & 8)
                 {
+                        if(is_move_possible & 2)
+                        {
+                                 // only player is capable of moving other objects
+                                if(obj->getId() == PLAYER)
+                                {
+                                       if(!moveObject(dir, (PLevelObject*)data[toI][toJ]->returnFirstChild()))
+                                        return false;
+                                }else
+                                       return false;
+                        }
+                        
                         // we get the destination coordinates
                         int it = (static_cast<PTeleport*>(data[toI][toJ]))->getChildTeleport()->getI(), 
                                 jt = (static_cast<PTeleport*>(data[toI][toJ]))->getChildTeleport()->getJ();
@@ -321,6 +307,33 @@ namespace PacGame
                         return false;
                         
                 }
+                
+                // if the space is empty, move freely
+              if(is_move_possible & 1)  
+                  return true;
+                // first the object must be moved
+                if(is_move_possible & 2)
+                {
+                        // only player is capable of moving other objects
+                        if(obj->getId() == PLAYER)
+                        {
+                                return moveObject(dir, (PLevelObject*)data[toI][toJ]->returnFirstChild());
+                        }else
+                                return false;
+                }
+                // we have a bomb, or other pickup object
+                if(is_move_possible & 4)
+                {
+                        // only player can pick up objects
+                        if(obj->getId() == PLAYER)
+                        {
+                                data[toI][toJ]->releaseFirstChildObject();
+                                 this->player->incBombs();  // increase bombs
+                                 return true;
+                         }else
+                                return false;
+                }
+                
                 
                   // if the default PLevelObject method is used, then it is a problem
               if(is_move_possible == -1)

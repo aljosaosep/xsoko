@@ -158,8 +158,8 @@ namespace PacGame
                   // 0 - no move possible
                   // 1 - move possible
                   // 2 - the object in the way must first be moved
-                  // 3 - pick up object, pbomb
-                  // 4 - teleport
+                  // 4 - pick up object, pbomb
+                  // 8 - teleport
                   virtual short isPlayerMovePossible(int direction)=0;
               };
 
