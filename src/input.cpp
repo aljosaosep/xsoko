@@ -48,23 +48,31 @@ namespace PacGame
             if(!toggleMenu){
                 if((glfwGetKey(GLFW_KEY_UP) == GLFW_PRESS) && (glfwGetKey(GLFW_KEY_UP) == GLFW_RELEASE))  // checks up key
                 {
-                    if(this->level->moveObject(Aliases::up, this->level->getPlayerHandle()))  // move object player up
-                    this->level->getGameCoreHandle()->getCamera()->rotateViewY(0.5);
+                    //if(
+                    this->level->moveObject(Aliases::up, this->level->getPlayerHandle());
+                    //)  // move object player up
+                    //this->level->getGameCoreHandle()->getCamera()->rotateViewY(0.5);
                 }
                 else if((glfwGetKey(GLFW_KEY_DOWN) == GLFW_PRESS) && (glfwGetKey(GLFW_KEY_DOWN) == GLFW_RELEASE)) // checks down key
                 {
-                    if(this->level->moveObject(Aliases::down, this->level->getPlayerHandle())) // move object player down
-                        this->level->getGameCoreHandle()->getCamera()->rotateViewY(-0.5);
+                    //if(
+                    this->level->moveObject(Aliases::down, this->level->getPlayerHandle());
+                    //) // move object player down
+                        //this->level->getGameCoreHandle()->getCamera()->rotateViewY(-0.5);
                 }
                 else if((glfwGetKey(GLFW_KEY_LEFT) == GLFW_PRESS) && (glfwGetKey(GLFW_KEY_LEFT) == GLFW_RELEASE)) // checks left key
                 {
-                    if(this->level->moveObject(Aliases::left, this->level->getPlayerHandle())) // move object player left
-                    this->level->getGameCoreHandle()->getCamera()->rotateViewX(-0.5);
+                    //if(
+                    this->level->moveObject(Aliases::left, this->level->getPlayerHandle());
+                    //) // move object player left
+                    //this->level->getGameCoreHandle()->getCamera()->rotateViewX(-0.5);
                 }
                 else if((glfwGetKey(GLFW_KEY_RIGHT) == GLFW_PRESS) && (glfwGetKey(GLFW_KEY_RIGHT) == GLFW_RELEASE)) // checks right key
                 {
-                    if(this->level->moveObject(Aliases::right, this->level->getPlayerHandle())) // move object player right
-                    this->level->getGameCoreHandle()->getCamera()->rotateViewX(0.5);
+                    //if(
+                    this->level->moveObject(Aliases::right, this->level->getPlayerHandle());
+                    //) // move object player right
+                    //this->level->getGameCoreHandle()->getCamera()->rotateViewX(0.5);
                 }
                 else if((glfwGetKey(GLFW_KEY_SPACE) == GLFW_PRESS) && (glfwGetKey(GLFW_KEY_SPACE) == GLFW_RELEASE))
                 {

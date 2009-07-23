@@ -239,14 +239,19 @@ namespace PacGame
                               dirFacing = PL_OBJECT_FACE_DOWN;   
                           break;                        
                   }
+                  // the object can be moved in the wanted direction
                   if(checkMoveTo(toI, toJ, obj, dir))
                   {
-                        obj->moveObject(dirFacing);
+                        obj->moveObject(dirFacing | PL_OBJECT_MOVE);
                         reattachNode(obj->getI(), obj->getJ(), toI, toJ, obj);
                         moves++;
                         return true;
                  }else
-                        return false;              
+                 {
+                         // the object can't be moved, it will just turn in the wanted direction 
+                        obj->moveObject(dirFacing);
+                        return false; 
+                } 
           }
           
           /***********************************************
@@ -317,6 +322,8 @@ namespace PacGame
                         if(obj->getId() == PLAYER)
                         {
                                  picked_up = true;
+                                   data[toI][toJ]->releaseFirstChildObject();
+                                this->player->incBombs();  // increase bombs
                          }else
                                 return false;
                         // no need to undo any moving, if we couldn't pick it up, we couldn't have moved it either
@@ -344,13 +351,6 @@ namespace PacGame
                         {
                                 if(moveObject(dir,otherObject))
                                 {
-                                        // HACK
-                                        // if we can move to the other side, than deatach the pick up now
-                                        if(picked_up)
-                                        {
-                                                data[toI][toJ]->releaseFirstChildObject();
-                                                 this->player->incBombs();  // increase bombs
-                                        }
                                         return true;
                                 }
                                         
@@ -383,6 +383,8 @@ namespace PacGame
                   // do we have a teleport to activate
                   if(floor_id >= 9)
                   {
+                                int cameraAdjustX, cameraAdjustY;
+                  
                   
                           // we get the destination teleport, and the object to teleport
                            PTeleport* destination = static_cast<PTeleport*>(data[i][j])->getChildTeleport();
@@ -392,11 +394,20 @@ namespace PacGame
                            data[i][j]->unlinkFirstChild();
                            int it = destination->getI(),
                                 jt =destination->getJ();
+                                
+                            cameraAdjustX = jt - object->getJ();   
+                            cameraAdjustY =   it - object->getI();
+                                
                            object->setIndex(it, jt);
                            object->setRealI((float)it);
                            object->setRealJ((float)jt);
-                           PDirection dir = Aliases::left;
-                           adjustCameraAtTeleport(it, jt, object, dir);
+                          // PDirection dir = Aliases::left;
+                          // adjustCameraAtTeleport(it, jt, object, dir);
+                          // adjust the camera
+                          
+                                
+                      gameCore->getCamera()->rotateViewX((float)cameraAdjustX*0.5);
+                      gameCore->getCamera()->rotateViewY((float)cameraAdjustY*0.5);
                            
                   }else
                   if(floor_id == CUBE_PLACE)// if we put a cube in its place

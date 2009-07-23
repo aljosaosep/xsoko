@@ -104,7 +104,7 @@ namespace PacGame
              void PLevelObject::moveObject(int direction)
              {
                      // set the direction of the object and the move bit
-                     this->direction = direction | PL_OBJECT_MOVE;
+                     this->direction = direction;
              }
 
             void PLevelObject::print()
