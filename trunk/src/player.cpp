@@ -42,6 +42,12 @@ namespace PacGame
                   this->core = core;
                   this->id = 1;
                   this->bombs = 0;
+                  
+                  
+                   this->curFrame = 0;
+                   this->firstFrame = 0;
+                   this->lastFrame = 39;
+                  this->direction = 4;
               } 
               
               PPlayer::PPlayer(int i, int j, PCore *core)
@@ -53,6 +59,11 @@ namespace PacGame
                    this->core = core;
                    this->id = 1;
                    this->bombs = 0;
+                   
+                   this->curFrame = 0;
+                   this->firstFrame = 0;
+                   this->lastFrame = 39;
+                   this->direction = 4;
               }
 
               // setters
@@ -86,10 +97,10 @@ namespace PacGame
               // ===== FUNCTIONS TO OVERRIDE ===== //
               void PPlayer::draw() 
               {
-                  static float frame;
+                  /*static float frame;
                   frame += 0.5;
                   if(frame > 39)
-                    frame = 0;
+                    frame = 0;*/
                     glColor4f(1.0, 1.0, 0.7f, 0.8f);
                     //glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(6));
                     //this->core->getRenderer()->drawCube(0.0, 0.0, 1.0);
@@ -109,6 +120,7 @@ namespace PacGame
                     /*if(direction & PL_OBJECT_FACE_DOWN)
                     {
                             // no need to rotate
+                            // default
                     }else*/
                     if(direction & PL_OBJECT_FACE_LEFT)
                     {
@@ -116,107 +128,99 @@ namespace PacGame
                     }
                     
                     glScalef(0.05f,0.05f,0.05f);
-                    core->getResources()->getModelResource(6)->DrawFrame(frame);
+                    core->getResources()->getModelResource(6)->DrawFrame((float)firstFrame+curFrame);
                     glPopMatrix();
                       // TODO
               }
               
               bool PPlayer::animate(double time)
               {
-                      //curFrame += 
+                      // frame calculation
+                      curFrame += time*30;  //30 FPS animation
+                      if((float)firstFrame+curFrame > (float)lastFrame)
+                        curFrame -= (float)lastFrame - (float)firstFrame;
+                        
                       
                       // if moving
                       //if(direction & PL_OBJECT_MOVE)
                       bool end_of_movement = false;
                       
+                      
+                      float cameraAdjustX = 0 , cameraAdjustY = 0;
                       {
-                              double moveOffset = OBJECT_SPEED*time; // speed = 0.1
+                              double moveOffset = OBJECT_SPEED*time; // speed = 0.4
                             
-                                if(realI != (float)i)
+                                if(realI != (float)i)   // move on Y axis
                                 {
-                                        if(realI > (float)i) 
+                                        if(realI > (float)i)    // move up
                                         {
                                                 realI -= moveOffset;
+                                                cameraAdjustY = - moveOffset;
                                                 if(realI <= (float)i)
                                                 {
+                                                        cameraAdjustY -= realI - (float)i;
                                                         realI = (float)i;
                                                         end_of_movement = true;
                                                 }
                                         }
-                                        else
+                                        else     // move down
                                         {
                                                 realI += moveOffset;
+                                                cameraAdjustY = moveOffset;
                                                 if(realI >= (float)i)
                                                 {
+                                                        cameraAdjustY -= realI - (float)i;
                                                         realI = (float)i;
                                                         end_of_movement = true;
                                                 }
                                         }
                                 }
                                 
-                                if(realJ != (float)j)
+                                if(realJ != (float)j)   // move on X axis
                                 {
-                                        if(realJ > (float)j)
+                                        if(realJ > (float)j)    // move left
                                         {
-                                                realJ -=moveOffset;
+                                                realJ -= moveOffset;
+                                                cameraAdjustX = -moveOffset;
                                                 if(realJ <= (float)j)
                                                 {
+                                                        cameraAdjustX -= realJ - (float)j;
                                                         realJ = (float)j;
                                                         end_of_movement = true;
                                                 }
                                         }
-                                        else
+                                        else    // move right
                                         {
-                                                realJ +=moveOffset;
+                                                realJ += moveOffset;
+                                                cameraAdjustX = moveOffset;
                                                 if(realJ >= (float)j)
                                                 {
+                                                        cameraAdjustX -= realJ - (float)j;
                                                         realJ = (float)j;
                                                         end_of_movement = true;
                                                 }
                                         }
                                 }
-                        
-                                
-                                // check direction, change matrix position
-                                /*if(direction & PL_OBJECT_FACE_UP)
-                              {
-                                      realJ -= moveOffset;
-                                      if(realJ <= j)
-                                      {
-                                              realJ = j;
-                                              direction = direction ^ PL_OBJECT_MOVE;
-                                      }
-                              }else
-                              if(direction & PL_OBJECT_FACE_RIGHT)
-                              {
-                                      realI += moveOffset;
-                                      if(realI >= i)
-                                      {
-                                              realI = i;
-                                              direction = direction ^ PL_OBJECT_MOVE;
-                                      }
-                              }else
-                              if(direction & PL_OBJECT_FACE_DOWN)
-                              {
-                                      realJ += moveOffset;
-                                      if(realJ >= j)
-                                      {
-                                              realJ = j;
-                                              direction = direction ^ PL_OBJECT_MOVE;
-                                      }
-                              }else
-                              if(direction & PL_OBJECT_FACE_LEFT)
-                              {
-                                      realI-= moveOffset;
-                                      if(realI <= i)
-                                      {
-                                              realI = i;
-                                              direction = direction ^ PL_OBJECT_MOVE;
-                                      }
-                              }*/
                               
                       }
+                      // adjust the camera
+                      core->getCamera()->rotateViewX(cameraAdjustX*0.5);
+                      core->getCamera()->rotateViewY(cameraAdjustY*0.5);
                       
+                      // setting frames for diferent kinds of movement/animation
+                      if(direction & PL_OBJECT_MOVE)
+                      {
+                              firstFrame = 40;
+                              lastFrame = 45;
+                              curFrame = 0;
+                                 direction = direction ^ PL_OBJECT_MOVE;
+                      }else
+                      if(end_of_movement)
+                      {
+                              firstFrame = 0;
+                              lastFrame = 39;
+                              curFrame = 0;
+                      }
                       
                        return end_of_movement;
               }
