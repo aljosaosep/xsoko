@@ -252,13 +252,15 @@ namespace PacGame
           /***********************************************
            * chechMoveTo
            * Checks the destination of an object.
-           * Tries to cleaar the path by moving 
+           * Tries to clear the path by moving 
            * cubes.
            * Returns true if its free, false if there is something
            * in the way.
            * **********************************************/
           bool PLevel::checkMoveTo(int toI, int toJ,PLevelObject* obj, PDirection dir)
           {
+              
+                  
                 // check if the move is within level bounds
                if((unsigned)toI >  (this->width-1)|| toI<0 || (unsigned)toJ > (this->height-1) || toJ<0)
               {
@@ -267,23 +269,62 @@ namespace PacGame
               }
               short is_move_possible = data[toI][toJ]->isPlayerMovePossible(dir);
               
+                // if the default PLevelObject method is used, then it is a problem
+              if(is_move_possible == -1)
+              {
+                      cout<<"!!! default isPlayerMovePossible used !!!"<<endl;
+                      return false;
+              }
+              
               // if there is no way we could move there
                if(is_move_possible == 0)  
                   return false;
+                  
+               // if the space is empty, move freely
+              if(is_move_possible & 1)  
+                  return true;
+                
+                // we have teleport, object move, and pick up left
+                // we can have all three or just one of them
+                // if one succeeds, but then next fails, the one that succeeded
+                // needs to be undone 
+                
+                // we stat with move and pick up, since these are the easyest to undo
+                // teleport is left for last, so we never need to undo it
+                
+                PLevelObject* moved_object = NULL;
+                // first an object must be moved
+                if(is_move_possible & 2)
+                {
+                        // only player is capable of moving other objects
+                        if(obj->getId() == PLAYER)
+                        {
+                                moved_object =  (PLevelObject*)data[toI][toJ]->returnFirstChild();
+                                // if we can't move the object, we can stop right here
+                                if( !moveObject(dir, moved_object) )
+                                        return false;
+                                
+                                
+                        }else
+                                return false;
+                }
+                
+                bool picked_up = false;
+                 // we have a bomb, or other pickup object
+                if(is_move_possible & 4)
+                {
+                        // only player can pick up objects
+                        if(obj->getId() == PLAYER)
+                        {
+                                 picked_up = true;
+                         }else
+                                return false;
+                        // no need to undo any moving, if we couldn't pick it up, we couldn't have moved it either
+                }
                 
                 // its a teleport
                 if(is_move_possible & 8)
                 {
-                        if(is_move_possible & 2)
-                        {
-                                 // only player is capable of moving other objects
-                                if(obj->getId() == PLAYER)
-                                {
-                                       if(!moveObject(dir, (PLevelObject*)data[toI][toJ]->returnFirstChild()))
-                                        return false;
-                                }else
-                                       return false;
-                        }
                         
                         // we get the destination coordinates
                         int it = (static_cast<PTeleport*>(data[toI][toJ]))->getChildTeleport()->getI(), 
@@ -301,52 +342,40 @@ namespace PacGame
                         }else // we have to try and move the object on the other side in the appropriate direction
                         if(obj->getId() == PLAYER) // only player can move objects
                         {
-                                return moveObject(dir,otherObject);
+                                if(moveObject(dir,otherObject))
+                                {
+                                        // HACK
+                                        // if we can move to the other side, than deatach the pick up now
+                                        if(picked_up)
+                                        {
+                                                data[toI][toJ]->releaseFirstChildObject();
+                                                 this->player->incBombs();  // increase bombs
+                                        }
+                                        return true;
+                                }
+                                        
+                                // UNDO
+                                // If the player couldn't have moved the object on the other side of the teleport,
+                                // than any moving from before needs to be undone
+                                
+                                if(moved_object != NULL)
+                                {
+                                         reattachNode(moved_object->getI(), moved_object->getJ(), toI, toJ, moved_object);
+                                }
+                                
+                                        
                         }
                         
                         return false;
                         
                 }
-                
-                // if the space is empty, move freely
-              if(is_move_possible & 1)  
-                  return true;
-                // first the object must be moved
-                if(is_move_possible & 2)
-                {
-                        // only player is capable of moving other objects
-                        if(obj->getId() == PLAYER)
-                        {
-                                return moveObject(dir, (PLevelObject*)data[toI][toJ]->returnFirstChild());
-                        }else
-                                return false;
-                }
-                // we have a bomb, or other pickup object
-                if(is_move_possible & 4)
-                {
-                        // only player can pick up objects
-                        if(obj->getId() == PLAYER)
-                        {
-                                data[toI][toJ]->releaseFirstChildObject();
-                                 this->player->incBombs();  // increase bombs
-                                 return true;
-                         }else
-                                return false;
-                }
-                
-                
-                  // if the default PLevelObject method is used, then it is a problem
-              if(is_move_possible == -1)
-              {
-                      cout<<"!!! default isPlayerMovePossible used !!!"<<endl;
-                      return false;
-              }  
+        
           }
           
           /***************************************
            * activateFloor
            * The function activates special 
-           * floors like teleport or cube holder.
+           * floors like teleport or cube holders.
            * *************************************/
           void PLevel::activateFloor(int i, int j)
           {
@@ -886,7 +915,7 @@ namespace PacGame
           /****************************************
            * animate
            * Animates the objects on the field.
-           * When thea are donemoving it activates
+           * When they are done moving it activates
            * the floor underneath them.
            * **************************************/
           void PLevel::animate(double time)
