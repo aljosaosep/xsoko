@@ -5,8 +5,20 @@
                    displayName="Header Files"
                    projectFiles="true">
       <logicalFolder name="f3" displayName="gui" projectFiles="true">
+        <itemPath>src/gui/button.h</itemPath>
+        <itemPath>src/gui/checkbox.h</itemPath>
+        <itemPath>src/gui/commongui.h</itemPath>
+        <itemPath>src/gui/component.h</itemPath>
+        <itemPath>src/gui/container.h</itemPath>
         <itemPath>src/gui/fonts.h</itemPath>
-        <itemPath>src/gui/win.h</itemPath>
+        <itemPath>src/gui/gui.h</itemPath>
+        <itemPath>src/gui/listbox.h</itemPath>
+        <itemPath>src/gui/panel.h</itemPath>
+        <itemPath>src/gui/radiobutton.h</itemPath>
+        <itemPath>src/gui/radiobuttongroup.h</itemPath>
+        <itemPath>src/gui/scrollbar.h</itemPath>
+        <itemPath>src/gui/text.h</itemPath>
+        <itemPath>src/gui/window.h</itemPath>
       </logicalFolder>
       <logicalFolder name="f4" displayName="md2loader" projectFiles="true">
         <itemPath>src/md2loader/Anorms.h</itemPath>
@@ -46,8 +58,19 @@
                    displayName="Source Files"
                    projectFiles="true">
       <logicalFolder name="f3" displayName="gui" projectFiles="true">
+        <itemPath>src/gui/button.cpp</itemPath>
+        <itemPath>src/gui/checkbox.cpp</itemPath>
+        <itemPath>src/gui/component.cpp</itemPath>
+        <itemPath>src/gui/container.cpp</itemPath>
         <itemPath>src/gui/fonts.cpp</itemPath>
-        <itemPath>src/gui/win.cpp</itemPath>
+        <itemPath>src/gui/gui.cpp</itemPath>
+        <itemPath>src/gui/listbox.cpp</itemPath>
+        <itemPath>src/gui/panel.cpp</itemPath>
+        <itemPath>src/gui/radiobutton.cpp</itemPath>
+        <itemPath>src/gui/radiobuttongroup.cpp</itemPath>
+        <itemPath>src/gui/scrollbar.cpp</itemPath>
+        <itemPath>src/gui/text.cpp</itemPath>
+        <itemPath>src/gui/window.cpp</itemPath>
       </logicalFolder>
       <logicalFolder name="f4" displayName="md2loader" projectFiles="true">
         <itemPath>src/md2loader/md2model.cpp</itemPath>
@@ -153,17 +176,86 @@
       <item path="src/game.h">
         <itemTool>3</itemTool>
       </item>
+      <item path="src/gui/button.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/button.h">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/checkbox.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/checkbox.h">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/commongui.h">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/component.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/component.h">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/container.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/container.h">
+        <itemTool>1</itemTool>
+      </item>
       <item path="src/gui/fonts.cpp">
         <itemTool>1</itemTool>
       </item>
       <item path="src/gui/fonts.h">
         <itemTool>3</itemTool>
       </item>
-      <item path="src/gui/win.cpp">
+      <item path="src/gui/gui.cpp">
         <itemTool>1</itemTool>
       </item>
-      <item path="src/gui/win.h">
+      <item path="src/gui/gui.h">
         <itemTool>3</itemTool>
+      </item>
+      <item path="src/gui/listbox.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/listbox.h">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/panel.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/panel.h">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/radiobutton.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/radiobutton.h">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/radiobuttongroup.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/radiobuttongroup.h">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/scrollbar.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/scrollbar.h">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/text.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/text.h">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/window.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/window.h">
+        <itemTool>1</itemTool>
       </item>
       <item path="src/input.cpp">
         <itemTool>1</itemTool>
@@ -344,17 +436,86 @@
       <item path="src/game.h">
         <itemTool>3</itemTool>
       </item>
+      <item path="src/gui/button.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/button.h">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/checkbox.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/checkbox.h">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/commongui.h">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/component.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/component.h">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/container.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/container.h">
+        <itemTool>1</itemTool>
+      </item>
       <item path="src/gui/fonts.cpp">
         <itemTool>1</itemTool>
       </item>
       <item path="src/gui/fonts.h">
         <itemTool>3</itemTool>
       </item>
-      <item path="src/gui/win.cpp">
+      <item path="src/gui/gui.cpp">
         <itemTool>1</itemTool>
       </item>
-      <item path="src/gui/win.h">
+      <item path="src/gui/gui.h">
         <itemTool>3</itemTool>
+      </item>
+      <item path="src/gui/listbox.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/listbox.h">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/panel.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/panel.h">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/radiobutton.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/radiobutton.h">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/radiobuttongroup.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/radiobuttongroup.h">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/scrollbar.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/scrollbar.h">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/text.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/text.h">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/window.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/window.h">
+        <itemTool>1</itemTool>
       </item>
       <item path="src/input.cpp">
         <itemTool>1</itemTool>
@@ -530,17 +691,86 @@
       <item path="src/game.h">
         <itemTool>3</itemTool>
       </item>
+      <item path="src/gui/button.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/button.h">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/checkbox.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/checkbox.h">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/commongui.h">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/component.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/component.h">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/container.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/container.h">
+        <itemTool>1</itemTool>
+      </item>
       <item path="src/gui/fonts.cpp">
         <itemTool>1</itemTool>
       </item>
       <item path="src/gui/fonts.h">
         <itemTool>3</itemTool>
       </item>
-      <item path="src/gui/win.cpp">
+      <item path="src/gui/gui.cpp">
         <itemTool>1</itemTool>
       </item>
-      <item path="src/gui/win.h">
+      <item path="src/gui/gui.h">
         <itemTool>3</itemTool>
+      </item>
+      <item path="src/gui/listbox.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/listbox.h">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/panel.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/panel.h">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/radiobutton.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/radiobutton.h">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/radiobuttongroup.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/radiobuttongroup.h">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/scrollbar.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/scrollbar.h">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/text.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/text.h">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/window.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/window.h">
+        <itemTool>1</itemTool>
       </item>
       <item path="src/input.cpp">
         <itemTool>1</itemTool>
@@ -722,17 +952,86 @@
       <item path="src/game.h">
         <itemTool>3</itemTool>
       </item>
+      <item path="src/gui/button.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/button.h">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/checkbox.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/checkbox.h">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/commongui.h">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/component.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/component.h">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/container.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/container.h">
+        <itemTool>1</itemTool>
+      </item>
       <item path="src/gui/fonts.cpp">
         <itemTool>1</itemTool>
       </item>
       <item path="src/gui/fonts.h">
         <itemTool>3</itemTool>
       </item>
-      <item path="src/gui/win.cpp">
+      <item path="src/gui/gui.cpp">
         <itemTool>1</itemTool>
       </item>
-      <item path="src/gui/win.h">
+      <item path="src/gui/gui.h">
         <itemTool>3</itemTool>
+      </item>
+      <item path="src/gui/listbox.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/listbox.h">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/panel.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/panel.h">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/radiobutton.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/radiobutton.h">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/radiobuttongroup.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/radiobuttongroup.h">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/scrollbar.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/scrollbar.h">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/text.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/text.h">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/window.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/window.h">
+        <itemTool>1</itemTool>
       </item>
       <item path="src/input.cpp">
         <itemTool>1</itemTool>

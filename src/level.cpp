@@ -369,7 +369,7 @@ namespace PacGame
                         return false;
                         
                 }
-        
+                return false;
           }
           
           /***************************************

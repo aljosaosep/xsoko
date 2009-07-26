@@ -30,7 +30,11 @@
 #include "level.h"
 #include "renderer/renderer.h"
 #include "input.h"
-#include "gui/win.h"
+#include "gui/gui.h"
+#include "gui/button.h"
+#include "gui/window.h"
+#include "gui/listbox.h"
+#include "gui/scrollbar.h"
 
 using namespace PacGame::RenderMaschine;
 using namespace PacGame::GameClasses::GameObjects;
@@ -56,7 +60,7 @@ namespace PacGame
             //bool toggleMenu;
 
             //gui components
-            Gui* gui;
+            Gui &gui;
             Window* mainMenu;
             Window* gameMenu;
             Window* freeMenu;
@@ -81,6 +85,15 @@ namespace PacGame
             // getters
             //PLevel *getLevel() const;
             //unsigned getScore() const; 
+        };
+
+        class ListBox1Events : public ListBoxListener{
+        private:
+            PGameSession* session;
+        public:
+            ListBox1Events(PGameSession* gamesession) : session(gamesession) {}
+            void onAction(Component* listBox, string selected) {}
+            void onKeyClick(Component* listBox, int key);
         };
     }
 }

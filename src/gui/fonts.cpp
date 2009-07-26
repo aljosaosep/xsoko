@@ -22,6 +22,7 @@
 #endif
 
 #include <GL/gl.h>
+#include <ft2build.h>
 #include "fonts.h"
 #include "../messages.h"
 
@@ -43,10 +44,11 @@ void Font::writeText(int x, int y,string text){
     glTranslatef((float)x, (float)y, 0.02f);
     font->Render(text.c_str());
     glPopMatrix();
-	//glColor4f(1,1,1,1);
 }
 
 float Font::stringWidth(string str){
+    if(font == NULL)
+        return -1;
     return font->Advance(str.c_str());
 }
 
@@ -95,4 +97,6 @@ void Font::loadFont(){
     font->FaceSize(12);
     size = 12;
     r = g = b = 0;
+    if(!font->CharMap(FT_ENCODING_UNICODE))
+        PacGame::Messages::infoMessage("Warning: Font \""+name+"\" have no unicode support!");
 }
