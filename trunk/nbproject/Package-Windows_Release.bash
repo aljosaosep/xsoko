@@ -6,7 +6,7 @@
 
 # Macros
 TOP=`pwd`
-PLATFORM=GNU-Windows
+PLATFORM=
 TMPDIR=build/Windows_Release/${PLATFORM}/tmp-packaging
 TMPDIRNAME=tmp-packaging
 OUTPUT_PATH=dist/Windows_Release/${PLATFORM}/xsoko
