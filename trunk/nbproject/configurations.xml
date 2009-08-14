@@ -10,6 +10,7 @@
         <itemPath>src/gui/commongui.h</itemPath>
         <itemPath>src/gui/component.h</itemPath>
         <itemPath>src/gui/container.h</itemPath>
+        <itemPath>src/gui/editbox.h</itemPath>
         <itemPath>src/gui/fonts.h</itemPath>
         <itemPath>src/gui/gui.h</itemPath>
         <itemPath>src/gui/listbox.h</itemPath>
@@ -62,6 +63,7 @@
         <itemPath>src/gui/checkbox.cpp</itemPath>
         <itemPath>src/gui/component.cpp</itemPath>
         <itemPath>src/gui/container.cpp</itemPath>
+        <itemPath>src/gui/editbox.cpp</itemPath>
         <itemPath>src/gui/fonts.cpp</itemPath>
         <itemPath>src/gui/gui.cpp</itemPath>
         <itemPath>src/gui/listbox.cpp</itemPath>
@@ -201,6 +203,12 @@
         <itemTool>1</itemTool>
       </item>
       <item path="src/gui/container.h">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/editbox.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/editbox.h">
         <itemTool>1</itemTool>
       </item>
       <item path="src/gui/fonts.cpp">
@@ -463,6 +471,12 @@
       <item path="src/gui/container.h">
         <itemTool>1</itemTool>
       </item>
+      <item path="src/gui/editbox.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/editbox.h">
+        <itemTool>1</itemTool>
+      </item>
       <item path="src/gui/fonts.cpp">
         <itemTool>1</itemTool>
       </item>
@@ -655,6 +669,7 @@
             <linkerLibLibItem>Xrandr</linkerLibLibItem>
             <linkerLibLibItem>ftgl</linkerLibLibItem>
             <linkerLibLibItem>z</linkerLibLibItem>
+            <linkerLibLibItem>boost_signals</linkerLibLibItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>
@@ -716,6 +731,12 @@
         <itemTool>1</itemTool>
       </item>
       <item path="src/gui/container.h">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/editbox.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/editbox.h">
         <itemTool>1</itemTool>
       </item>
       <item path="src/gui/fonts.cpp">
@@ -916,6 +937,7 @@
             <linkerLibLibItem>z</linkerLibLibItem>
             <linkerLibLibItem>alut</linkerLibLibItem>
             <linkerLibLibItem>ftgl</linkerLibLibItem>
+            <linkerLibLibItem>boost_signals</linkerLibLibItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>
@@ -977,6 +999,12 @@
         <itemTool>1</itemTool>
       </item>
       <item path="src/gui/container.h">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/editbox.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/editbox.h">
         <itemTool>1</itemTool>
       </item>
       <item path="src/gui/fonts.cpp">

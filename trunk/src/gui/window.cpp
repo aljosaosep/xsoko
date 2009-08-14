@@ -23,7 +23,7 @@
 /*------------------------------------------------------------------*
  *  initialise window and setup defaults                            *
  *------------------------------------------------------------------*/
-Window::Window(int wX, int wY, int wWidth, int wHeight,string caption) : Container(wX,wY,wWidth,wHeight), focusHandler(NULL)
+Window::Window(int wX, int wY, int wWidth, int wHeight,string caption) : Container(wX,wY,wWidth,wHeight)
 {
   zorder = 0;         // used if you specifically want to set a window higher
   visible = true;     // start off visible
@@ -142,11 +142,13 @@ void Window::Render()
       fnt->writeText((int)(width-fnt->stringWidth(caption))/2,-24,caption);
       glBindTexture(GL_TEXTURE_2D, Gui::skinTextureID);
 
-      //glTranslatef(0, 0, 0.02);
+      glTranslatef(0, 0, 0.02f);
+      //glEnable(GL_SCISSOR_TEST);
+      //glScissor(x+6,screenHeight-y-height,width-12,height);
       for(unsigned i=0;i<components.size();i++){
-		  glTranslatef(0, 0, 0.02f);
         components[i]->Render();
       }
+      //glDisable(GL_SCISSOR_TEST);
 
     glPopMatrix();
     glBlendFunc(GL_ONE,GL_ONE);
@@ -225,9 +227,7 @@ void Window::setEnableCloseButton(bool enabled){
 void Window::focusGain(){
     if(focusedComp != NULL)
         focusedComp->focusGain();
-    focused = true;
-    if(focusHandler != NULL)
-        focusHandler->focusGain(this);
+    Component::focusGain();
 }
 
 void Window::focusLost(){
@@ -235,11 +235,5 @@ void Window::focusLost(){
     
     if(focusedComp != NULL)
         focusedComp->focusLost();
-    focused = false;
-    if(focusHandler != NULL)
-        focusHandler->focusLost(this);
-}
-
-void Window::setFocusHandler(FocusHandler* handler){
-    focusHandler = handler;
+    Component::focusLost();
 }

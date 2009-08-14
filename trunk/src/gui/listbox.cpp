@@ -27,7 +27,6 @@
 ListBox::ListBox(int x, int y, int width, int height) : Component(x,y,width,height)
 {
     selected = -1;
-    action = NULL;
     upPressed = false;
     downPressed = false;
     drawIndex = 0;
@@ -37,12 +36,6 @@ ListBox::ListBox(int x, int y, int width, int height) : Component(x,y,width,heig
 
 ListBox::~ListBox(){
     delete fnt;
-    if(action != NULL)
-        delete action;
-}
-
-void ListBox::setAction(ListBoxListener* action){
-    this->action = action;
 }
 
 Font* ListBox::getFont(){
@@ -149,10 +142,7 @@ void ListBox::onMouseDown(int mx, int my){
             if(drawIndex > max)
                 drawIndex = max;
         }
-    } else
-        if(action != NULL){
-            action->onAction(this,items.at(selected));
-        }
+    }
 }
 
 void ListBox::onMouseUp(int mx, int my){
@@ -303,9 +293,6 @@ void ListBox::addItem(string item){
     items.push_back(item);
     if(items.size() == 1){
         selected = 0;
-        if(this->action != NULL){
-            action->onAction(this,item);
-        }
     }
 }
 
@@ -316,15 +303,11 @@ void ListBox::onKeyUp(int key){
             if(selected == -1 && size > 0){
                 selected = 0;
                 drawIndex = 0;
-                if(action != NULL)
-                    action->onAction(this,items.front());
             }
             if(selected+1 < size){
                 selected++;
                 if(drawIndex + canShow <= selected)
                     drawIndex = selected - canShow + 1;
-                if(action != NULL)
-                    action->onAction(this,items[selected]);
             }
             break;
         case GLFW_KEY_UP:
@@ -332,22 +315,18 @@ void ListBox::onKeyUp(int key){
                 selected = size - 1;
                 if(size > canShow)
                     drawIndex = size - canShow;
-                if(action != NULL)
-                    action->onAction(this,items.back());
             }
             if(selected-1 >= 0){
                 selected--;
                 if(drawIndex > selected)
                     drawIndex = selected;
-                if(action != NULL)
-                    action->onAction(this,items[selected]);
             }
             break;
         case GLFW_KEY_TAB:
             parent->focusNext();
             break;
     }
-    if(action != NULL && key != GLFW_KEY_TAB)
-        action->onKeyClick(this,key);
+    if(key != GLFW_KEY_TAB)
+        KeyUp(this,key);
 }
 

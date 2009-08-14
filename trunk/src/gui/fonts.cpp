@@ -24,6 +24,7 @@
 #include <GL/gl.h>
 #include <ft2build.h>
 #include "fonts.h"
+#include "gui.h"
 #include "../messages.h"
 
 Font::Font(const string& name){
@@ -39,11 +40,14 @@ Font::~Font(){
 void Font::writeText(int x, int y,string text){
     if(font == NULL)
         return;
+    glPushAttrib(GL_ALL_ATTRIB_BITS);
     glPushMatrix();
     glColor3f(r/255.0f,g/255.0f,b/255.0f);
     glTranslatef((float)x, (float)y, 0.02f);
     font->Render(text.c_str());
     glPopMatrix();
+    glPopAttrib();
+    //glColor3f(1,1,1);
 }
 
 float Font::stringWidth(string str){
@@ -53,7 +57,8 @@ float Font::stringWidth(string str){
 }
 
 int Font::getSize(){
-    return size;
+    //return size;
+    return font->FaceSize();
 }
 
 void Font::setSize(int size){

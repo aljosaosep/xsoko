@@ -26,9 +26,11 @@
 #include "component.h"
 #include "container.h"
 
-Component::Component(int xx, int yy, int cwidth, int cheight)  : x(xx), y(yy), width(cwidth),
-        height(cheight), visible(true), parent(NULL), focused(false)
-{ }
+Component::Component(int xx, int yy, int width, int height)  : x(xx), y(yy),
+        visible(true), parent(NULL), focused(false)
+{ 
+    setSize(width,height);
+}
 
 Position Component::getPosition(){
     Position pos;
@@ -39,10 +41,12 @@ Position Component::getPosition(){
 
 void Component::focusGain(){
     focused = true;
+    FocusGain(this);
 }
 
 void Component::focusLost(){
     focused = false;
+    FocusLost(this);
 }
 
 void Component::setFocusIndex(int index){
@@ -97,4 +101,18 @@ string Component::getName(){
 void Component::onKeyUp(int key){
     if(key == GLFW_KEY_TAB)
         parent->focusNext();
+    else
+        KeyUp(this,key);
+}
+
+void Component::onMouseDown(int mx, int my){
+    MouseDown(this,mx,my);
+}
+
+void Component::onMouseUp(int mx, int my){
+    MouseUp(this,mx,my);
+}
+
+void Component::onKeyDown(int key){
+    KeyDown(this,key);
 }

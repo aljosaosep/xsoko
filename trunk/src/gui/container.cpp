@@ -63,6 +63,7 @@ void Container::onMouseDown(int mx, int my){
             break;
         }
     }
+    MouseDown(this,mx,my);
 }
 
 void Container::onMouseUp(int mx, int my){
@@ -73,6 +74,7 @@ void Container::onMouseUp(int mx, int my){
     for(unsigned i=0;i<components.size();i++)
         if(components[i]->isContainer())
             components[i]->onMouseUp(mx,my);
+    MouseUp(this,mx,my);
 }
 
 Container::~Container(){
@@ -110,21 +112,30 @@ void Container::focusPrevious(){
 void Container::focusGain(){
     if(focusedComp != NULL)
         focusedComp->focusGain();
-    focused = true;
+    Component::focusGain();
 }
 
 void Container::focusLost(){
     if(focusedComp != NULL)
         focusedComp->focusLost();
-    focused = false;
+    Component::focusLost();
 }
 
 void Container::onKeyDown(int key){
     if(focusedComp != NULL)
         focusedComp->onKeyDown(key);
+    else
+        KeyDown(this,key);
 }
 
 void Container::onKeyUp(int key){
     if(focusedComp != NULL)
         focusedComp->onKeyUp(key);
+    else
+        KeyUp(this,key);
+}
+
+void Container::onCharClick(int c){
+    if(focusedComp != NULL)
+        focusedComp->onCharClick(c);
 }

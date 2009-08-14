@@ -35,6 +35,7 @@
 #include "gui/window.h"
 #include "gui/listbox.h"
 #include "gui/scrollbar.h"
+#include "gui/editbox.h"
 
 using namespace PacGame::RenderMaschine;
 using namespace PacGame::GameClasses::GameObjects;
@@ -43,7 +44,7 @@ namespace PacGame
 {   
     namespace GameClasses
     {           
-        class PGameSession : public ButtonClick
+        class PGameSession
         {
         private:
             PLevel *level; 
@@ -60,7 +61,7 @@ namespace PacGame
             //bool toggleMenu;
 
             //gui components
-            Gui &gui;
+            //Gui &gui;
             Window* mainMenu;
             Window* gameMenu;
             Window* freeMenu;
@@ -75,7 +76,10 @@ namespace PacGame
             
             // methods
             void mainLoop();
+
+            //events listeners
             void onAction(Component* button);
+            void onKeyClick(Component* listBox, int key);
             
             // setters
             //void setLevel(PLevel *level);
@@ -85,15 +89,6 @@ namespace PacGame
             // getters
             //PLevel *getLevel() const;
             //unsigned getScore() const; 
-        };
-
-        class ListBox1Events : public ListBoxListener{
-        private:
-            PGameSession* session;
-        public:
-            ListBox1Events(PGameSession* gamesession) : session(gamesession) {}
-            void onAction(Component* listBox, string selected) {}
-            void onKeyClick(Component* listBox, int key);
         };
     }
 }

@@ -39,27 +39,29 @@ struct msgHandle {
 /**
  *singleton class
  */
-class Gui : public ButtonClick, FocusHandler{
+class Gui {
 private:
     static int mouseX, mouseY;
     static int wndWidth, wndHeight;
     static int mclick;
     static int kclick;
+    static int character;
     static int key;
     static bool mprocessed;
     static bool kprocessed;
+    static bool cprocessed;
     static bool sizeRefreshed;
     static bool moved;
     
     vector<Window*> windows;
-    vector<Window*> focusQueue;
+    vector<Component*> focusQueue;
     vector<Window*> modals;
     vector<msgHandle*> msgnum;
 
     bool mVisible;
     Font* fnt;
     unsigned num;
-    Window* focusedWin;
+    Component* focusedWin;
 
 
     Gui(/*const char* guiTextureFileName*/);
@@ -70,6 +72,7 @@ public:
     static void onMouseMove(int x, int y);
     static void glResizeWnd(int Width, int Height);
     static void onKeyClick(int kkey, int action);
+    static void onCharacterSend(int c, int action);
     static Gui& getInstance();
     static GLuint skinTextureID;
 
@@ -79,8 +82,8 @@ public:
     unsigned showMessage(string title, string msg);
     bool isMessageActive(unsigned id);
     void onAction(Component* button);
-    void focusGain(Window* sender);
-    void focusLost(Window* sender);
+    void focusGain(Component* sender);
+    void focusLost(Component* sender);
     void registerInput();
     void unregisterInput();
     //void addModal(Window* win);

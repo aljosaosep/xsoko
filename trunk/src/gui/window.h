@@ -28,14 +28,6 @@
 
 #include "container.h"
 
-class Window;
-
-class FocusHandler{
-public:
-    virtual void focusGain(Window* sender) = 0;
-    virtual void focusLost(Window* sender) = 0;
-};
-
 class Window : public Container{
 private:
     float alpha;
@@ -46,7 +38,6 @@ private:
     bool modal;
     string caption;
     Font* fnt;
-    FocusHandler* focusHandler;
 public:
     Window(int wX, int wY, int wWidth, int wHeight, string caption);
     ~Window();
@@ -57,7 +48,6 @@ public:
     void setEnableCloseButton(bool enabled);
     void setModal(bool modal);
     void setVisible(bool visible);
-    void setFocusHandler(FocusHandler* handler);
     void Render();
     void onMouseDown(int mx, int my);
     void onMouseMove(int mx, int my);
