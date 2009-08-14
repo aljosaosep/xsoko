@@ -59,7 +59,7 @@ namespace PacGame
         
         PGameSession::PGameSession() :
             level(NULL), player(NULL), camera(NULL), input(new PInputSystem()),  moves(0),
-            rotations_per_tick(0.1), levelLoaded(false), gameQuit(false), gui(Gui::getInstance())
+            rotations_per_tick(0.1), levelLoaded(false), gameQuit(false)//, gui(Gui::getInstance())
         {
             prepareGui();
         }
@@ -67,7 +67,7 @@ namespace PacGame
         void PGameSession::prepareGui(){
             Messages::infoMessage("Initialiazing GUI...");
             glfwSetWindowSizeCallback(Gui::glResizeWnd);
-            gui.registerInput();
+            Gui::getInstance().registerInput();
 
             #if defined(Linux_Release) || defined(Windows_Release) || defined(_RELEASE)
                 glfwDisable(GLFW_MOUSE_CURSOR);
@@ -77,29 +77,29 @@ namespace PacGame
             
             Button* btn = new Button(30, 40, 75, 25, "Campaing");
             btn->setName("campaing");
-            btn->setAction(this);
+            btn->onPressed.connect(bind(&PGameSession::onAction, this, _1));
             btn->setFocusIndex(1);
             mainMenu->AddComponent(btn);
 
             btn = new Button(30, 75, 75, 25, "Freeplay");
             btn->setName("freeplay");
-            btn->setAction(this);
+            btn->onPressed.connect(bind(&PGameSession::onAction, this, _1));
             btn->setFocusIndex(2);
             mainMenu->AddComponent(btn);
 
             btn = new Button(30, 110, 75, 25, "Exit");
             btn->setName("guiExit");
-            btn->setAction(this);
+            btn->onPressed.connect(bind(&PGameSession::onAction, this, _1));
             btn->setFocusIndex(3);
             mainMenu->AddComponent(btn);
             
-            gui.addWindow(mainMenu);
+            Gui::getInstance().addWindow(mainMenu);
 
-            freeMenu = new Window(210, 158, 220, 141, "Freeplay");
+            freeMenu = new Window(210, 158, 320, 141, "Freeplay");
             freeMenu->setVisible(false);
 
             listbox = new ListBox(10,40,115,68);
-            listbox->setAction(new ListBox1Events(this));
+            listbox->KeyUp.connect(bind(&PGameSession::onKeyClick, this, _1, _2));
             listbox->setFocusIndex(1);
             path dir_path("data");
             if(exists(dir_path)){
@@ -120,16 +120,19 @@ namespace PacGame
             btn = new Button(135,40,75,25,"Play");
             btn->setName("play");
             btn->setFocusIndex(2);
-            btn->setAction(this);
+            btn->onPressed.connect(bind(&PGameSession::onAction, this, _1));
             freeMenu->AddComponent(btn);
 
             btn = new Button(135,70,75,25,"Back");
             btn->setName("back");
             btn->setFocusIndex(3);
-            btn->setAction(this);
+            btn->onPressed.connect(bind(&PGameSession::onAction, this, _1));
             freeMenu->AddComponent(btn);
 
-            gui.addWindow(freeMenu);
+            EditBox* edit = new EditBox(220,40,90,20);
+            freeMenu->AddComponent(edit);
+
+            Gui::getInstance().addWindow(freeMenu);
             
             gameMenu = new Window(253, 158, 135, 165, "Menu");
             gameMenu->setVisible(false);
@@ -138,22 +141,22 @@ namespace PacGame
             btn = new Button(30, 40, 75, 25, "Save");
             btn->setName("save");
             btn->setFocusIndex(1);
-            btn->setAction(this);
+            btn->onPressed.connect(bind(&PGameSession::onAction, this, _1));
             gameMenu->AddComponent(btn);
 
             btn = new Button(30, 75, 75, 25, "Reset");
             btn->setName("reset");
             btn->setFocusIndex(2);
-            btn->setAction(this);
+            btn->onPressed.connect(bind(&PGameSession::onAction, this, _1));
             gameMenu->AddComponent(btn);
 
             btn = new Button(30, 110, 75, 25, "Exit");
             btn->setName("gameExit");
             btn->setFocusIndex(3);
-            btn->setAction(this);
+            btn->onPressed.connect(bind(&PGameSession::onAction, this, _1));
             gameMenu->AddComponent(btn);
             
-            gui.addWindow(gameMenu);
+            Gui::getInstance().addWindow(gameMenu);
         }
             
         void PGameSession::mainLoop()
@@ -196,7 +199,7 @@ namespace PacGame
                 
 
                 if(levelLoaded || msgid){
-                    gui.unregisterInput();
+                    Gui::getInstance().unregisterInput();
                     // calculate time elapsed, and the amount by which stuff rotates
                     //delta_rotate = (current_time - old_time) * rotations_per_tick * 360;
 
@@ -211,7 +214,7 @@ namespace PacGame
                         if(this->input->toggleGameMenu() != menuVisible){
                             menuVisible = !menuVisible;
                             gameMenu->setVisible(menuVisible);
-                            gui.setMouseVisible(menuVisible);
+                            Gui::getInstance().setMouseVisible(menuVisible);
                         }
 
                         // is game over? or level done?
@@ -219,10 +222,10 @@ namespace PacGame
                             levelLoaded = false;
                             gameMenu->setVisible(false);
                             if(level->getEndgameFlag())
-                               msgid = gui.showMessage("xSoko", "Congratulations, you won!");
+                               msgid = Gui::getInstance().showMessage("xSoko", "Congratulations, you won!");
                             else
                                mainMenu->setVisible(true);
-                            gui.setMouseVisible(true);
+                            Gui::getInstance().setMouseVisible(true);
                         }
 
                     }
@@ -239,13 +242,13 @@ namespace PacGame
                     //particles.process(delta_rotate*10);
                 }
 
-                if(msgid && !gui.isMessageActive(msgid)){
+                if(msgid && !Gui::getInstance().isMessageActive(msgid)){
                         msgid = 0;
                         mainMenu->setVisible(true);
                 }
 
-                gui.registerInput();
-                gui.Render();
+                Gui::getInstance().registerInput();
+                Gui::getInstance().Render();
 
                 if(levelLoaded || msgid){
                     glMatrixMode(GL_PROJECTION);						// Select The Projection Matrix
@@ -255,7 +258,7 @@ namespace PacGame
                     glMatrixMode(GL_MODELVIEW);						// Select The Modelview Matrix
                     glLoadIdentity();
                     // Aljosa: two lines that follows are blend-gui-to-game fix ;)
-                    glEnable(GL_DEPTH_TEST);    // after drawing GUI, enable depth test
+                    //glEnable(GL_DEPTH_TEST);    // after drawing GUI, enable depth test
                     glEnable(GL_BLEND);         // and blending
                 }
               
@@ -322,7 +325,7 @@ namespace PacGame
 			input->closeGameMenu();
             levelLoaded = true;
             forceLevelQuit = false;
-            gui.setMouseVisible(false);
+            Gui::getInstance().setMouseVisible(false);
             //setCallBacks();
         }
         
@@ -356,9 +359,9 @@ namespace PacGame
             }
             if(button->getName() == "reset"){
                 level->reset();
-                gui.setMouseVisible(false);
+                Gui::getInstance().setMouseVisible(false);
                 gameMenu->setVisible(false);
-				input->closeGameMenu();
+		input->closeGameMenu();
                 return;
             }
             if(button->getName() == "gameExit"){
@@ -377,15 +380,15 @@ namespace PacGame
             #endif
         }
 
-        void ListBox1Events::onKeyClick(Component* listBox, int key){
+        void PGameSession::onKeyClick(Component* listBox, int key){
             switch(key){
                 case GLFW_KEY_ENTER:
                     listBox->setName("play");
-                    session->onAction(listBox);
+                    onAction(listBox);
                     break;
                 case GLFW_KEY_ESC:
                     listBox->setName("back");
-                    session->onAction(listBox);
+                    onAction(listBox);
                     break;
             }
         }

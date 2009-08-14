@@ -28,12 +28,6 @@
 
 #include "component.h"
 
-class ListBoxListener{
-public:
-    virtual void onAction(Component* listBox, string selected) = 0;
-    virtual void onKeyClick(Component* listBox, int key) = 0;
-};
-
 class ListBox: public Component{
 private:
     vector<string> items;
@@ -44,7 +38,6 @@ private:
     bool downPressed;
     void drawButton(int x, int y,bool pressed,bool upArrow);
     void drawSelected(int x, int y,int width,string item);
-    ListBoxListener* action;
     Font* fnt;
 public:
     ListBox(int x, int y, int width, int height);
@@ -52,7 +45,6 @@ public:
     void addItem(string item);
     string getSelectedItem();
     Font* getFont();
-    void setAction(ListBoxListener* action);
     void Render();
     void onMouseDown(int mx, int my);
     void onMouseUp(int mx, int my);

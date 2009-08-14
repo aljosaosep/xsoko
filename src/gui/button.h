@@ -29,16 +29,10 @@
 
 #include "component.h"
 
-class ButtonClick{
-public:
-    virtual void onAction(Component* button) = 0;
-};
-
 class Button : public Component{
 private:
     bool pressed;
     string caption;
-    ButtonClick* action;
     Font* fnt;
 public:
     Button(int x, int y, int width, int height, string caption);
@@ -46,12 +40,14 @@ public:
     string getCaption();
     Font* getFont();
     void setCaption(const string& caption);
-    void setAction(ButtonClick* action);
     void Render();
     void onMouseDown(int mx, int my);
     void onMouseUp(int mx, int my);
     void onKeyUp(int key);
     void onKeyDown(int key);
+
+    //event
+    signal<void (Component*) > onPressed;
 };
 
 #endif	/* _BUTTON_H */

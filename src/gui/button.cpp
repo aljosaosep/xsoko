@@ -29,7 +29,6 @@ Button::Button(int x, int y, int width, int height, string caption) : Component(
 {
   this->pressed = false;
   this->caption = caption;
-  this->action = NULL;
   fnt = new Font("font");
 }
 
@@ -47,6 +46,8 @@ void Button::Render()
       return;
 
   glColor3f(1,1,1);
+  glBindTexture(GL_TEXTURE_2D,Gui::skinTextureID);
+  glPushMatrix();
   if (pressed)
   {
     glBegin(GL_QUADS);
@@ -69,7 +70,7 @@ void Button::Render()
       glTexCoord2f((float)71/128, (float)95/128); glVertex2i(x+width, -y);
     glEnd();
 
-    fnt->writeText(x+1+(int)(width - fnt->stringWidth(caption))/2, -y-21, caption);
+    glTranslatef(0,-1,0);
   }
   else
   {
@@ -92,21 +93,24 @@ void Button::Render()
       glTexCoord2f((float)55/128, (float)70/128); glVertex2i(x+width, -y-height);
       glTexCoord2f((float)55/128, (float)95/128); glVertex2i(x+width, -y);
     glEnd();
-
-    fnt->writeText(x + (int)(width-fnt->stringWidth(caption))/2, -y-20, caption);
   }
-  glBindTexture(GL_TEXTURE_2D,Gui::skinTextureID);
+  int deltay = (height - fnt->getSize())/2 + fnt->getSize();
+  fnt->writeText(x + (int)(width-fnt->stringWidth(caption))/2, -y-deltay, caption);
+
   if(focused){
-    glColor3f(1,0,0);
+    glColor3f(0,0,0);
     glTranslatef(0,0, 0.02f);
+    glLineWidth(1);
+
     glBegin(GL_LINE_STRIP);
-    glVertex2i(x+5,-y-5);
-    glVertex2i(x+width-5,-y-5);
-    glVertex2i(x+width-5,-y-height+5);
-    glVertex2i(x+5,-y-height+5);
-    glVertex2i(x+5,-y-5);
+    glVertex2i(x+4,-y-5);
+    glVertex2i(x+width-3,-y-5);
+    glVertex2i(x+width-3,-y-height+5);
+    glVertex2i(x+4,-y-height+5);
+    glVertex2i(x+4,-y-5);
     glEnd();
   }
+  glPopMatrix();
 }
 
 void Button::onMouseDown(int mx, int my){
@@ -115,8 +119,7 @@ void Button::onMouseDown(int mx, int my){
 
 void Button::onMouseUp(int mx, int my){
     pressed = false;
-    if(action != NULL)
-        action->onAction(this);
+    onPressed(this);
 }
 
 string Button::getCaption(){
@@ -127,10 +130,6 @@ void Button::setCaption(const string& caption){
     this->caption = caption;
 }
 
-void Button::setAction(ButtonClick* action){
-    this->action = action;
-}
-
 Font* Button::getFont(){
     return fnt;
 }
@@ -139,8 +138,7 @@ void Button::onKeyUp(int key){
     switch(key){
         case GLFW_KEY_ENTER:
             pressed = false;
-            if(action != NULL)
-                action->onAction(this);
+            onPressed(this);
             break;
         case GLFW_KEY_UP:
             parent->focusPrevious();

@@ -17,43 +17,38 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /* 
- * File:   container.h
+ * File:   editbox.h
  * Author: jernej
  *
- * Created on Ponedeljek, 20 julij 2009, 23:19
+ * Created on Torek, 28 julij 2009, 17:54
  */
 
-#ifndef _CONTAINER_H
-#define	_CONTAINER_H
+#ifndef _EDITBOX_H
+#define	_EDITBOX_H
 
 #include "component.h"
+#include "fonts.h"
 
-class Container : public Component{
-protected:
-    struct myclass {
-        bool operator() (Component* i,Component* j) { return (i->getFocusIndex() < j->getFocusIndex());}
-    } sortObj;
-
-    vector<Component*> components;
-    vector<Component*> focusComponents;
-    bool isInArea(Position p, Size s, int x, int y);
-    Component* compPressed;
-    Component* focusedComp;
+class EditBox : public Component{
+private:
+    Font *fnt;
+    string text;
+    unsigned carrotPos;
+    double time;
 public:
-    Container(int x, int y, int width, int height);
-    void AddComponent(Component* component);
-    ~Container();
-    void onMouseDown(int mx, int my);
-    virtual void onMouseUp(int mx, int my);
-    void focusNext();
-    void focusPrevious();
-    virtual void focusGain();
-    virtual void focusLost();
-    bool isContainer() { return true; }
-    void onKeyDown(int key);
+    EditBox(int x, int y, int width, int height);
+    void setText(string text);
+    string getText();
+    Font* getFont();
+    void setSize(int width, int height);
+    void focusGain();
+    void Render();
     void onKeyUp(int key);
     void onCharClick(int c);
+    virtual ~EditBox();
+private:
+
 };
 
-#endif	/* _CONTAINER_H */
+#endif	/* _EDITBOX_H */
 

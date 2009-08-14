@@ -17,6 +17,9 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <GL/gl.h>
+
+
 #include <GL/glfw.h>
 
 
@@ -91,6 +94,12 @@ void Gui::Render()
         }
         kprocessed = true;
     }
+    if(!cprocessed){
+        if(focusedWin != NULL){
+            focusedWin->onCharClick(character);
+        }
+        cprocessed = true;
+    }
 
   glMatrixMode(GL_PROJECTION);  // Change Matrix Mode to Projection
   glLoadIdentity();             // Reset View
@@ -100,13 +109,17 @@ void Gui::Render()
           
   glTranslatef(0, 0, -1);
   glDepthFunc(GL_LEQUAL);
+  //glDisable(GL_BLEND);         // disable blending
   glEnable(GL_TEXTURE_2D);
+  //glEnable(GL_SCISSOR_TEST);
   glBindTexture(GL_TEXTURE_2D,skinTextureID);
   for(unsigned i=0;i<windows.size();i++)
           windows[i]->Render();
+  //glDisable(GL_SCISSOR_TEST);
 
   if(mVisible){
       //draw the mouse
+      glBindTexture(GL_TEXTURE_2D,skinTextureID);
       glEnable(GL_BLEND);
       glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
       glEnable(GL_TEXTURE_2D);
@@ -163,8 +176,10 @@ int Gui::wndHeight = 0;
 int Gui::mclick = GLFW_RELEASE;
 int Gui::kclick = GLFW_RELEASE;
 int Gui::key = 0;
+int Gui::character = 0;
 bool Gui::mprocessed = true;
 bool Gui::kprocessed = true;
+bool Gui::cprocessed = true;
 bool Gui::sizeRefreshed = false;
 bool Gui::moved = false;
 GLuint Gui::skinTextureID = 0;
@@ -192,6 +207,13 @@ void Gui::onKeyClick(int kkey, int action){
     kclick = action;
     key = kkey;
     kprocessed = false;
+}
+
+void Gui::onCharacterSend(int c, int action){
+    if(action == GLFW_RELEASE){
+        cprocessed = false;
+        character = c;
+    }
 }
 
 Gui& Gui::getInstance(){
@@ -222,7 +244,7 @@ unsigned Gui::showMessage(string title, string msg){
     Window* dlg = new Window(wndWidth/2-width/2,wndHeight/2-64,width,100,title);
     dlg->AddComponent(new Text(25,35,msg));
     Button* btn = new Button(width/2-25,60,50,25,"OK");
-    btn->setAction(this);
+    btn->onPressed.connect(bind(&Gui::onAction, this, _1));
     dlg->AddComponent(btn);
     windows.push_back(dlg);
     //FIX: this...
@@ -263,7 +285,8 @@ bool Gui::isMessageActive(unsigned id){
 }
 
 void Gui::addWindow(Window* win){
-    win->setFocusHandler(this);
+    //win->setFocusHandler(this);
+    win->FocusGain.connect(bind(&Gui::focusGain,this,_1));
     windows.push_back(win);
     if(focusedWin == NULL){
         focusedWin = win;
@@ -275,15 +298,17 @@ void Gui::registerInput(){
     glfwSetMouseButtonCallback(Gui::onMouseClick);
     glfwSetMousePosCallback(Gui::onMouseMove);
     glfwSetKeyCallback(Gui::onKeyClick);
+    glfwSetCharCallback(Gui::onCharacterSend);
 }
 
 void Gui::unregisterInput(){
     glfwSetMouseButtonCallback(NULL);
     glfwSetMousePosCallback(NULL);
     glfwSetKeyCallback(NULL);
+    glfwSetCharCallback(NULL);
 }
 
-void Gui::focusGain(Window* sender){
+void Gui::focusGain(Component* sender){
     if(focusedWin == NULL){
         focusedWin = sender;
     }
@@ -295,7 +320,7 @@ void Gui::focusGain(Window* sender){
     }
 }
 
-void Gui::focusLost(Window* sender){
+void Gui::focusLost(Component* sender){
     if(!focusQueue.empty()){
         focusedWin = focusQueue.back();
         focusQueue.pop_back();

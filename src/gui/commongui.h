@@ -28,8 +28,16 @@
 
 //common includes for gui
 #ifdef _WINDOWS
-	#define WIN32_LEAN_AND_MEAN
-	#include <windows.h>
+    #define WIN32_LEAN_AND_MEAN
+    #include <windows.h>
+
+    #define BOOST_WINDOWS_API
+    #include <boost/filesystem/convenience.hpp>
+    #include <boost/filesystem/path.hpp>
+    #include <boost/filesystem/operations.hpp>
+#else
+    #include <boost/signals.hpp>
+    #include <boost/bind.hpp>
 #endif
 
 #include <GL/gl.h>
@@ -42,6 +50,7 @@
 #include <algorithm>
 
 using namespace std;
+using namespace boost;
 
 //common structures
 struct Position{

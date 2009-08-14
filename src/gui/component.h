@@ -40,14 +40,14 @@ protected:
     int focusIndex;
     bool focused;
 public:
-    Component(int xx, int yy, int cwidth, int cheight);
+    Component(int xx, int yy, int width, int height);
     virtual ~Component() {};
     Position getPosition();
     Size getSize();
     bool isVisible();
     Container* getParent();
     void setPosition(int x, int y);
-    void setSize(int width, int height);
+    virtual void setSize(int width, int height);
     virtual void setVisible(bool visible);
     void setParent(Container* parent);
     void setName(const string& name);
@@ -58,10 +58,22 @@ public:
     virtual void focusLost();
     virtual bool isContainer() { return false; }
     virtual void Render() = 0;
-    virtual void onMouseDown(int mx, int my) {}
-    virtual void onMouseUp(int mx, int my) {}
-    virtual void onKeyDown(int key) {}
+    virtual void onMouseDown(int mx, int my);
+    virtual void onMouseUp(int mx, int my);
+    virtual void onKeyDown(int key);
     virtual void onKeyUp(int key);
+    virtual void onCharClick(int c) {}
+
+    //events
+    //Focus events
+    signal<void (Component*) > FocusGain;
+    signal<void (Component*) > FocusLost;
+    //Mouse events
+    signal<void (Component*,int,int) > MouseDown;
+    signal<void (Component*,int,int) > MouseUp;
+    //Keyboard events
+    signal<void (Component*,int) > KeyDown;
+    signal<void (Component*,int) > KeyUp;
 };
 
 #endif	/* _COMPONENT_H */
