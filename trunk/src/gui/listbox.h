@@ -36,16 +36,29 @@ private:
     unsigned canShow;
     bool upPressed;
     bool downPressed;
-    void drawButton(int x, int y,bool pressed,bool upArrow);
-    void drawSelected(int x, int y,int width,string item);
     Font* fnt;
+
+    void drawButton(int verIndex,bool pressed,bool upArrow);
+    void recalculatePosition();
+
+    Rect vertex[15];
+    Rect texture[15];
+protected:
+    void onRender();
 public:
+    //constructors and destructor
     ListBox(int x, int y, int width, int height);
     ~ListBox();
+
+    //methods
     void addItem(string item);
+
+    //getters
     string getSelectedItem();
     Font* getFont();
-    void Render();
+
+    //events support
+    void invalidate();
     void onMouseDown(int mx, int my);
     void onMouseUp(int mx, int my);
     void onKeyUp(int key);

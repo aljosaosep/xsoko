@@ -27,8 +27,10 @@
 #include "container.h"
 
 Scrollbar::Scrollbar(int x, int y, int width, int height) : Component(x,y,width,height), min(0), max(100),
-        step(1),position(0),orient(Vertical), eventHandler(NULL), upPressed(false), downPressed(false)
-{ }
+        step(1),position(0),orient(Vertical), upPressed(false), downPressed(false)
+{
+    invalidate();
+}
 
 Scrollbar::~Scrollbar() {
 }
@@ -61,10 +63,6 @@ void Scrollbar::setOrientation(Orientation orientation){
     orient = orientation;
 }
 
-void Scrollbar::setEventHandler(ScrollbarEventHandler* handler){
-    eventHandler = handler;
-}
-
 int Scrollbar::getMinLimit(){
     return min;
 }
@@ -85,92 +83,117 @@ Orientation Scrollbar::getOrientation(){
     return orient;
 }
 
-void Scrollbar::Render(){
-    glColor3f(1,1,1);
-    drawButton(x,y,upPressed,true);
-    drawButton(x,y+height-16,downPressed,false);
-    glColor3f(1,1,1);
-    glBegin(GL_QUADS);
-          glTexCoord2f((float) 8/128, (float)61/128); glVertex2i(x+(float)width/2,  -y-16);
-          glTexCoord2f((float) 8/128, (float)34/128); glVertex2i(x+(float)width/2,  -y-height+16);
-          glTexCoord2f((float) 9/128, (float)34/128); glVertex2i(x+(float)width/2-1,-y-height+16);
-          glTexCoord2f((float) 9/128, (float)61/128); glVertex2i(x+(float)width/2-1,-y-16);
-    glEnd();
-    float dy = ((float)(height - 42) / (max - min)) * (position-min);
-    glTranslatef(0,0,0.02f);
-    glBegin(GL_QUADS);
-      glTexCoord2f((float)99/128, (float)61/128);	glVertex2f(x+(float)width/2-5,-y-dy-16);
-      glTexCoord2f((float)99/128, (float)53/128);	glVertex2f(x+(float)width/2-5,-y-dy-26);
-      glTexCoord2f((float)91/128, (float)53/128);	glVertex2f(x+(float)width/2+5,-y-dy-26);
-      glTexCoord2f((float)91/128, (float)61/128);	glVertex2f(x+(float)width/2+5,-y-dy-16);
-    glEnd();
+void Scrollbar::invalidate(){
+    //upper button
+    //left
+    vertex[0].x1 = 0;
+    vertex[0].y1 = 0;
+    vertex[0].x2 = 6;
+    vertex[0].y2 = 16;
+
+    //middle
+    vertex[1].x1 = 6;
+    vertex[1].y1 = 0;
+    vertex[1].x2 = width-6;
+    vertex[1].y2 = 16;
+
+    //right
+    vertex[2].x1 = width-6;
+    vertex[2].y1 = 0;
+    vertex[2].x2 = width;
+    vertex[2].y2 = 16;
+
+    //arrow
+    vertex[3].x1 = 0;
+    vertex[3].y1 = 0;
+    vertex[3].x2 = width;
+    vertex[3].y2 = 16;
+
+    //lover button
+    //left
+    vertex[4].x1 = 0;
+    vertex[4].y1 = height-16;
+    vertex[4].x2 = 6;
+    vertex[4].y2 = height;
+
+    //middle
+    vertex[5].x1 = 6;
+    vertex[5].y1 = height-16;
+    vertex[5].x2 = width-6;
+    vertex[5].y2 = height;
+
+    //right
+    vertex[6].x1 = width-6;
+    vertex[6].y1 = height-16;
+    vertex[6].x2 = width;
+    vertex[6].y2 = height;
+
+    //arrow
+    vertex[7].x1 = 0;
+    vertex[7].y1 = height-16;
+    vertex[7].x2 = width;
+    vertex[7].y2 = height;
+
+    //body
+    vertex[8].x1 = (float)width/2;
+    vertex[8].y1 = 16;
+    vertex[8].x2 = (float)width/2-1;
+    vertex[8].y2 = height-16;
+
+    recalculatePosition();
+
+    texture[0] = GuiRender::getInstance().getTextureLocation("buttonPL");
+    texture[1] = GuiRender::getInstance().getTextureLocation("buttonPM");
+    texture[2] = GuiRender::getInstance().getTextureLocation("buttonPR");
+    texture[3] = GuiRender::getInstance().getTextureLocation("buttonUL");
+    texture[4] = GuiRender::getInstance().getTextureLocation("buttonUM");
+    texture[5] = GuiRender::getInstance().getTextureLocation("buttonUR");
+    texture[6] = GuiRender::getInstance().getTextureLocation("scrollUA");
+    texture[7] = GuiRender::getInstance().getTextureLocation("scrollDA");
+    texture[8] = GuiRender::getInstance().getTextureLocation("scrollB");
+    texture[9] = GuiRender::getInstance().getTextureLocation("scrollP");
 }
 
-void Scrollbar::drawButton(int x, int y,bool pressed,bool upArrow)
+void Scrollbar::recalculatePosition(){
+    //position
+    float dy = ((float)(height - 42) / (max - min)) * (position-min);
+    vertex[9].x1 = (float)width/2-5;
+    vertex[9].y1 = dy+16;
+    vertex[9].x2 = (float)width/2+5;
+    vertex[9].y2 = dy+26;
+}
+
+void Scrollbar::onRender(){
+    drawButton(0,upPressed,true);
+    drawButton(4,downPressed,false);
+    GuiRender::getInstance().drawImage(texture[8],vertex[8]); //body
+    GuiRender::getInstance().nextLayer();
+    GuiRender::getInstance().drawImage(texture[0],vertex[9]); //positon
+}
+
+void Scrollbar::drawButton(int verIndex, bool pressed,bool upArrow)
 {
-  glPushMatrix();
+  GuiRender::getInstance().saveState();
   if (pressed)
   {
-    glBegin(GL_QUADS);
-      // left side
-      glTexCoord2f((float)57/128, (float)95/128); glVertex2i(x, -y);
-      glTexCoord2f((float)57/128, (float)70/128); glVertex2i(x, -y-16);
-      glTexCoord2f((float)62/128, (float)70/128); glVertex2i(x+6,-y-16);
-      glTexCoord2f((float)62/128, (float)95/128); glVertex2i(x+6, -y);
-
-      // middle
-      glTexCoord2f((float)62/128, (float)95/128); glVertex2i(x+6, -y);
-      glTexCoord2f((float)62/128, (float)70/128); glVertex2i(x+6, -y-16);
-      glTexCoord2f((float)66/128, (float)70/128); glVertex2i(x+10, -y-16);
-      glTexCoord2f((float)66/128, (float)95/128); glVertex2i(x+10, -y);
-
-      // right side
-      glTexCoord2f((float)66/128, (float)95/128); glVertex2i(x+10, -y);
-      glTexCoord2f((float)66/128, (float)70/128); glVertex2i(x+10, -y-16);
-      glTexCoord2f((float)71/128, (float)70/128); glVertex2i(x+16, -y-16);
-      glTexCoord2f((float)71/128, (float)95/128); glVertex2i(x+16, -y);
-    glEnd();
-    glTranslatef(1,0,0.2f);
+      GuiRender::getInstance().drawImage(texture[0],vertex[verIndex]); // left side
+      GuiRender::getInstance().drawImage(texture[1],vertex[verIndex+1]); // middle
+      GuiRender::getInstance().drawImage(texture[2],vertex[verIndex+2]); // right side
+      GuiRender::getInstance().move(0,-1);
   }
   else
   {
-    glBegin(GL_QUADS);
-      // left side
-      glTexCoord2f((float)41/128, (float)95/128); glVertex2i(x, -y);
-      glTexCoord2f((float)41/128, (float)70/128); glVertex2i(x, -y-16);
-      glTexCoord2f((float)46/128, (float)70/128); glVertex2i(x+6,-y-16);
-      glTexCoord2f((float)46/128, (float)95/128); glVertex2i(x+6, -y);
-
-      // middle
-      glTexCoord2f((float)46/128, (float)95/128); glVertex2i(x+6, -y);
-      glTexCoord2f((float)46/128, (float)70/128); glVertex2i(x+6, -y-16);
-      glTexCoord2f((float)50/128, (float)70/128); glVertex2i(x+10, -y-16);
-      glTexCoord2f((float)50/128, (float)95/128); glVertex2i(x+10, -y);
-
-      // right side
-      glTexCoord2f((float)50/128, (float)95/128); glVertex2i(x+10, -y);
-      glTexCoord2f((float)50/128, (float)70/128); glVertex2i(x+10, -y-16);
-      glTexCoord2f((float)55/128, (float)70/128); glVertex2i(x+16, -y-16);
-      glTexCoord2f((float)55/128, (float)95/128); glVertex2i(x+16, -y);
-    glEnd();
-    glTranslatef(0,0,0.2f);
+      GuiRender::getInstance().drawImage(texture[3],vertex[verIndex]); // left side
+      GuiRender::getInstance().drawImage(texture[4],vertex[verIndex+1]); // middle
+      GuiRender::getInstance().drawImage(texture[5],vertex[verIndex+2]); // right side
   }
-  if(upArrow){
-    glBegin(GL_QUADS);
-      glTexCoord2f((float)117/128, (float)63/128); glVertex2i(x, -y);
-      glTexCoord2f((float)117/128, (float)50/128); glVertex2i(x, -y-16);
-      glTexCoord2f((float)104/128, (float)50/128); glVertex2i(x+16,-y-16);
-      glTexCoord2f((float)104/128, (float)63/128); glVertex2i(x+16, -y);
-    glEnd();
-  } else {
-      glBegin(GL_QUADS);
-        glTexCoord2f((float)104/128, (float)50/128); glVertex2i(x, -y);
-        glTexCoord2f((float)104/128, (float)63/128); glVertex2i(x, -y-16);
-        glTexCoord2f((float)117/128, (float)63/128); glVertex2i(x+16,-y-16);
-        glTexCoord2f((float)117/128, (float)50/128); glVertex2i(x+16, -y);
-      glEnd();
-  }
-  glPopMatrix();
+
+  GuiRender::getInstance().nextLayer();
+  if(upArrow)
+      GuiRender::getInstance().drawImage(texture[6],vertex[verIndex+3]);
+  else
+      GuiRender::getInstance().drawImage(texture[7],vertex[verIndex+3]);
+  GuiRender::getInstance().restoreState();
 }
 
 void Scrollbar::onMouseDown(int mx, int my){
@@ -190,8 +213,9 @@ void Scrollbar::onMouseDown(int mx, int my){
             position = min;
         if(position > max)
             position = max;
-        if(oldPos != position && eventHandler != NULL)
-            eventHandler->PositionChanged(this,position);
+        recalculatePosition();
+        if(oldPos != position)
+            PositionChanged(this,position);
     }
 }
 
@@ -214,18 +238,16 @@ void Scrollbar::onKeyUp(int key){
         case GLFW_KEY_DOWN:
             if(position + step <= max){
                 position += step;
-                if(eventHandler != NULL){
-                    eventHandler->PositionChanged(this, position);
-                }
+                recalculatePosition();
+                PositionChanged(this, position);
             }
             downPressed= false;
             break;
         case GLFW_KEY_UP:
             if(position - step >= min){
                 position -= step;
-                if(eventHandler != NULL){
-                    eventHandler->PositionChanged(this, position);
-                }
+                recalculatePosition();
+                PositionChanged(this, position);
             }
             upPressed= false;
             break;
@@ -238,18 +260,16 @@ void Scrollbar::onMouseUp(int mx, int my){
     if(upPressed){
         if(position - step >= min){
             position -= step;
-            if(eventHandler != NULL){
-                eventHandler->PositionChanged(this, position);
-            }
+            recalculatePosition();
+            PositionChanged(this, position);
         }
         upPressed= false;
     }
     if(downPressed){
         if(position + step <= max){
             position += step;
-            if(eventHandler != NULL){
-                eventHandler->PositionChanged(this, position);
-            }
+            recalculatePosition();
+            PositionChanged(this, position);
         }
         downPressed= false;
     }

@@ -17,100 +17,83 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <GL/gl.h>
-
 #include "button.h"
-#include "gui.h"
+#include "container.h"
 
 /*------------------------------------------------------------------*
  *  initialise a button                                             *
  *------------------------------------------------------------------*/
-Button::Button(int x, int y, int width, int height, string caption) : Component(x,y,width,height)
+Button::Button(int x, int y, int width, int height, string bCaption) : Component(x,y,width,height), pressed(false),
+        caption(bCaption), fnt(new Font("font"))
 {
-  this->pressed = false;
-  this->caption = caption;
-  fnt = new Font("font");
+  invalidate();
 }
 
 Button::~Button(){
     delete fnt;
 }
 
+void Button::invalidate(){
+    //left
+    vertex[0].x1 = 0;
+    vertex[0].y1 = 0;
+    vertex[0].x2 = 6;
+    vertex[0].y2 = height;
+
+    //middle
+    vertex[1].x1 = 6;
+    vertex[1].y1 = 0;
+    vertex[1].x2 = width-6;
+    vertex[1].y2 = height;
+
+    //right
+    vertex[2].x1 = width-6;
+    vertex[2].y1 = 0;
+    vertex[2].x2 = width;
+    vertex[2].y2 = height;
+
+    //focus
+    vertex[3].x1 = 3;
+    vertex[3].y1 = 5;
+    vertex[3].x2 = width-3;
+    vertex[3].y2 = height-5;
+
+    texture[0] = GuiRender::getInstance().getTextureLocation("buttonPL");
+    texture[1] = GuiRender::getInstance().getTextureLocation("buttonPM");
+    texture[2] = GuiRender::getInstance().getTextureLocation("buttonPR");
+    texture[3] = GuiRender::getInstance().getTextureLocation("buttonUL");
+    texture[4] = GuiRender::getInstance().getTextureLocation("buttonUM");
+    texture[5] = GuiRender::getInstance().getTextureLocation("buttonUR");
+}
+
 
 /*------------------------------------------------------------------*
  *  Render the button                                               *
  *------------------------------------------------------------------*/
-void Button::Render()
+void Button::onRender()
 {
-  if(!visible)
-      return;
-
-  glColor3f(1,1,1);
-  glBindTexture(GL_TEXTURE_2D,Gui::skinTextureID);
-  glPushMatrix();
   if (pressed)
   {
-    glBegin(GL_QUADS);
-      // left side
-      glTexCoord2f((float)57/128, (float)95/128); glVertex2i(x, -y);
-      glTexCoord2f((float)57/128, (float)70/128); glVertex2i(x, -y-height);
-      glTexCoord2f((float)62/128, (float)70/128); glVertex2i(x+6,-y-height);
-      glTexCoord2f((float)62/128, (float)95/128); glVertex2i(x+6, -y);
-
-      // middle
-      glTexCoord2f((float)62/128, (float)95/128); glVertex2i(x+6, -y);
-      glTexCoord2f((float)62/128, (float)70/128); glVertex2i(x+6, -y-height);
-      glTexCoord2f((float)66/128, (float)70/128); glVertex2i(x+width-6, -y-height);
-      glTexCoord2f((float)66/128, (float)95/128); glVertex2i(x+width-6, -y);
-
-      // right side
-      glTexCoord2f((float)66/128, (float)95/128); glVertex2i(x+width-6, -y);
-      glTexCoord2f((float)66/128, (float)70/128); glVertex2i(x+width-6, -y-height);
-      glTexCoord2f((float)71/128, (float)70/128); glVertex2i(x+width, -y-height);
-      glTexCoord2f((float)71/128, (float)95/128); glVertex2i(x+width, -y);
-    glEnd();
-
-    glTranslatef(0,-1,0);
+      GuiRender::getInstance().drawImage(texture[0],vertex[0]); // left side
+      GuiRender::getInstance().drawImage(texture[1],vertex[1]); // middle
+      GuiRender::getInstance().drawImage(texture[2],vertex[2]); // right side
+      GuiRender::getInstance().move(0,-1);
   }
   else
   {
-    glBegin(GL_QUADS);
-      // left side
-      glTexCoord2f((float)41/128, (float)95/128); glVertex2i(x, -y);
-      glTexCoord2f((float)41/128, (float)70/128); glVertex2i(x, -y-height);
-      glTexCoord2f((float)46/128, (float)70/128); glVertex2i(x+6,-y-height);
-      glTexCoord2f((float)46/128, (float)95/128); glVertex2i(x+6, -y);
-
-      // middle
-      glTexCoord2f((float)46/128, (float)95/128); glVertex2i(x+6, -y);
-      glTexCoord2f((float)46/128, (float)70/128); glVertex2i(x+6, -y-height);
-      glTexCoord2f((float)50/128, (float)70/128); glVertex2i(x+width-6, -y-height);
-      glTexCoord2f((float)50/128, (float)95/128); glVertex2i(x+width-6, -y);
-
-      // right side
-      glTexCoord2f((float)50/128, (float)95/128); glVertex2i(x+width-6, -y);
-      glTexCoord2f((float)50/128, (float)70/128); glVertex2i(x+width-6, -y-height);
-      glTexCoord2f((float)55/128, (float)70/128); glVertex2i(x+width, -y-height);
-      glTexCoord2f((float)55/128, (float)95/128); glVertex2i(x+width, -y);
-    glEnd();
+      GuiRender::getInstance().drawImage(texture[3],vertex[0]); // left side
+      GuiRender::getInstance().drawImage(texture[4],vertex[1]); // middle
+      GuiRender::getInstance().drawImage(texture[5],vertex[2]); // right side
   }
+  
   int deltay = (height - fnt->getSize())/2 + fnt->getSize();
-  fnt->writeText(x + (int)(width-fnt->stringWidth(caption))/2, -y-deltay, caption);
+  fnt->writeText((int)(width-fnt->stringWidth(caption))/2, deltay, caption);
 
   if(focused){
-    glColor3f(0,0,0);
-    glTranslatef(0,0, 0.02f);
-    glLineWidth(1);
-
-    glBegin(GL_LINE_STRIP);
-    glVertex2i(x+4,-y-5);
-    glVertex2i(x+width-3,-y-5);
-    glVertex2i(x+width-3,-y-height+5);
-    glVertex2i(x+4,-y-height+5);
-    glVertex2i(x+4,-y-5);
-    glEnd();
+    GuiRender::getInstance().nextLayer();
+    GuiRender::getInstance().setColor(0,0,0,1);
+    GuiRender::getInstance().drawRect(vertex[3], 1);
   }
-  glPopMatrix();
 }
 
 void Button::onMouseDown(int mx, int my){

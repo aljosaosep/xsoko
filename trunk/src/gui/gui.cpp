@@ -24,6 +24,7 @@
 
 
 #include "gui.h"
+#include "guirender.h"
 
 Gui::~Gui(){
     glDeleteTextures(1,&skinTextureID);
@@ -48,10 +49,17 @@ Gui::Gui(/*const char* guiTextureFileName*/) : mVisible(true), num(0), focusedWi
        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
     }
+    GuiRender::getInstance().loadSkin(skinTextureID, "data/skin.position");
 
     fnt = new Font("font");
+    glfwGetMousePos(&mouseX,&mouseY);
+    mouseVer.x1 = mouseX;
+    mouseVer.y1 = mouseY;
+    mouseVer.x2 = mouseX + 32;
+    mouseVer.y2 = mouseY + 32;
 
     glfwGetWindowSize(&wndWidth,&wndHeight);
+    mouseTex = GuiRender::getInstance().getTextureLocation("mouse");
 }
 
 /*------------------------------------------------------------------*
@@ -77,6 +85,10 @@ void Gui::Render()
               Position pos = windows[i]->getPosition();
               windows[i]->onMouseMove(mouseX-pos.x,mouseY-pos.y);
           }
+          mouseVer.x1 = mouseX;
+          mouseVer.y1 = mouseY;
+          mouseVer.x2 = mouseX + 32;
+          mouseVer.y2 = mouseY + 32;
           moved = false;
       }
     }
@@ -101,37 +113,19 @@ void Gui::Render()
         cprocessed = true;
     }
 
-  glMatrixMode(GL_PROJECTION);  // Change Matrix Mode to Projection
-  glLoadIdentity();             // Reset View
-  glOrtho(0, wndWidth, 0, wndHeight, 0, 100);
-  glMatrixMode(GL_MODELVIEW);   // Change Projection to Matrix Mode
-  glLoadIdentity();
+  GuiRender::getInstance().initRendering();
           
-  glTranslatef(0, 0, -1);
-  glDepthFunc(GL_LEQUAL);
-  //glDisable(GL_BLEND);         // disable blending
-  glEnable(GL_TEXTURE_2D);
-  //glEnable(GL_SCISSOR_TEST);
-  glBindTexture(GL_TEXTURE_2D,skinTextureID);
   for(unsigned i=0;i<windows.size();i++)
           windows[i]->Render();
-  //glDisable(GL_SCISSOR_TEST);
 
   if(mVisible){
       //draw the mouse
-      glBindTexture(GL_TEXTURE_2D,skinTextureID);
-      glEnable(GL_BLEND);
-      glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-      glEnable(GL_TEXTURE_2D);
-      glColor4f(1,1,1,1);
-      glBegin(GL_QUADS);
-        glTexCoord2f((float)41/128, (float)64/128); glVertex3i(mouseX,    wndHeight - mouseY, 1);
-        glTexCoord2f((float)72/128, (float)64/128); glVertex3i(mouseX+32, wndHeight - mouseY, 1);
-        glTexCoord2f((float)72/128, (float)32/128); glVertex3i(mouseX+32, wndHeight - mouseY-32, 1);
-        glTexCoord2f((float)41/128, (float)32/128); glVertex3i(mouseX,    wndHeight - mouseY-32, 1);
-      glEnd();
-      glDisable(GL_BLEND);
+      GuiRender::getInstance().mouseDepth();
+      GuiRender::getInstance().setColor(1,1,1,1);
+      GuiRender::getInstance().drawImage(mouseTex,mouseVer);
   }
+
+  GuiRender::getInstance().deinitRendering();
 }
 
 Font* Gui::getFont(){
@@ -148,7 +142,7 @@ void Gui::onMouseDown()
         Position winPos = modals.back()->getPosition();
         Size winSize = modals.back()->getSize();
         if ((mouseX > winPos.x) && (mouseX < winPos.x + winSize.width))
-            if ((mouseY - 26 > winPos.y) && (mouseY - 26 < winPos.y + winSize.height))
+            if ((mouseY > winPos.y) && (mouseY < winPos.y + winSize.height))
                 modals.back()->onMouseDown(mouseX, mouseY);
         return;
     }
@@ -157,7 +151,7 @@ void Gui::onMouseDown()
           Position winPos = windows[i]->getPosition();
           Size winSize = windows[i]->getSize();
           if ((mouseX > winPos.x) && (mouseX < winPos.x + winSize.width))
-              if ((mouseY - 26 > winPos.y) && (mouseY - 26 < winPos.y + winSize.height)){
+              if ((mouseY > winPos.y) && (mouseY < winPos.y + winSize.height)){
                   if(focusedWin != NULL)
                       focusedWin->focusLost();
                   focusedWin = windows[i];
@@ -180,7 +174,6 @@ int Gui::character = 0;
 bool Gui::mprocessed = true;
 bool Gui::kprocessed = true;
 bool Gui::cprocessed = true;
-bool Gui::sizeRefreshed = false;
 bool Gui::moved = false;
 GLuint Gui::skinTextureID = 0;
 
@@ -233,7 +226,6 @@ void Gui::glResizeWnd(int Width, int Height){
   gluPerspective(45.0, Width/Height, 1.0, 100.0);  // Do the perspective calculations. Last value = max clipping depth
   wndWidth = Width;
   wndHeight = Height;
-  sizeRefreshed = true;
   
   glMatrixMode(GL_MODELVIEW);         // Return to the modelview matrix
   glLoadIdentity();                   // Reset View

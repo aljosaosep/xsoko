@@ -920,8 +920,8 @@ namespace PacGame
 
               if(!endgameFlag)
                   time = glfwGetTime();
-              fnt->writeText(10,-30,"Elapsed time: "+Functions::toString<int>((int)(time-starttime)));
-              fnt->writeText(170,-30,"Moves: "+Functions::toString<int>(moves));
+              fnt->writeTextAbs(10,-30,"Elapsed time: "+Functions::toString<int>((int)(time-starttime)));
+              fnt->writeTextAbs(170,-30,"Moves: "+Functions::toString<int>(moves));
           }
           /****************************************
            * animate

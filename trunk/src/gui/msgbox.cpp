@@ -16,56 +16,15 @@
  * You should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/* 
- * File:   commongui.h
- * Author: jernej
- *
- * Created on Ponedeljek, 20 julij 2009, 23:22
- */
 
-#ifndef _COMMONGUI_H
-#define	_COMMONGUI_H
+#include "msgbox.h"
 
-//common includes for gui
-#ifdef _WINDOWS
-    #define WIN32_LEAN_AND_MEAN
-    #include <windows.h>
-
-    #define BOOST_WINDOWS_API
-    #include <boost/filesystem/convenience.hpp>
-    #include <boost/filesystem/path.hpp>
-    #include <boost/filesystem/operations.hpp>
-#else
-    #include <boost/signals.hpp>
-    #include <boost/bind.hpp>
-#endif
-
-#include <GL/gl.h>
-#include <GL/glfw.h>
-#include <stdlib.h>
-#include <iostream>
-#include <vector>
-#include <cmath>
-#include <algorithm>
-
-#include "fonts.h"
-
-using namespace std;
-using namespace boost;
-
-//common structures
-struct Position{
-    int x,y;
-};
-
-struct Size{
-    int width, height;
-};
-
-struct Rect{
-    int x1, y1;
-    int x2, y2;
-};
-
-#endif	/* _COMMONGUI_H */
-
+MsgBox::MsgBox(string title, string msg, int buttons) : Window(1,1,1,100,title)
+{
+    /*int width = (int)fnt->stringWidth(msg)+50;
+    width =wndWidth/2-width/2,wndHeight/2-64,width,100,title);
+    dlg->AddComponent(new Text(25,35,msg));
+    Button* btn = new Button(width/2-25,60,50,25,"OK");
+    btn->onPressed.connect(bind(&Gui::onAction, this, _1));
+    dlg->AddComponent(btn);*/
+}

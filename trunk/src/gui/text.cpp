@@ -17,16 +17,19 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "fonts.h"
+
+
 #include "text.h"
-#include "gui.h"
 
 /*------------------------------------------------------------------*
  *  initialise the Text                                             *
  *------------------------------------------------------------------*/
-Text::Text(int x,int y,string text) : Component(x,y,6*text.length(),16), caption(text)
+Text::Text(int x,int y,string text) : Component(x,y,0,0), caption(text),
+        fnt(new Font("font"))
 {
-  fnt = new Font("font");
-  focusIndex = -1;
+    focusIndex = -1;
+    setSize(fnt->stringWidth(text),fnt->getSize());
 }
 
 Text::~Text(){
@@ -36,12 +39,9 @@ Text::~Text(){
 /*------------------------------------------------------------------*
  *  Render Radio Text                                               *
  *------------------------------------------------------------------*/
-void Text::Render()
+void Text::onRender()
 {
-    if(visible){
-        fnt->writeText(x, -y-16, caption);
-        glBindTexture(GL_TEXTURE_2D,Gui::skinTextureID);
-    }
+    fnt->writeText(0, fnt->getSize(), caption);
 }
 
 string Text::getText(){

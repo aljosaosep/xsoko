@@ -34,13 +34,26 @@ private:
     bool pressed;
     string caption;
     Font* fnt;
+
+    //for rendering
+    Rect vertex[4];
+    Rect texture[6];
+protected:
+    void onRender();
 public:
-    Button(int x, int y, int width, int height, string caption);
+    //constructors and destructor
+    Button(int x, int y, int width, int height, string bCaption);
     ~Button();
+
+    //getters
     string getCaption();
     Font* getFont();
+
+    //setters
     void setCaption(const string& caption);
-    void Render();
+
+    //event support
+    void invalidate();
     void onMouseDown(int mx, int my);
     void onMouseUp(int mx, int my);
     void onKeyUp(int key);

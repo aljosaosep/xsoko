@@ -35,17 +35,31 @@ private:
     string text;
     unsigned carrotPos;
     double time;
+
+    Rect vertex[5];
+    Rect texture[5];
+protected:
+    void onRender();
 public:
+    //constructors and destructor
     EditBox(int x, int y, int width, int height);
-    void setText(string text);
+    virtual ~EditBox();
+
+    //getters
     string getText();
     Font* getFont();
+
+    //setters
+    void setText(string text);
     void setSize(int width, int height);
+
+    //methods
     void focusGain();
-    void Render();
+
+    //events support
+    void invalidate();
     void onKeyUp(int key);
     void onCharClick(int c);
-    virtual ~EditBox();
 private:
 
 };

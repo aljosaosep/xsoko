@@ -17,55 +17,22 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /* 
- * File:   commongui.h
+ * File:   MsgBox.h
  * Author: jernej
  *
- * Created on Ponedeljek, 20 julij 2009, 23:22
+ * Created on Petek, 21 avgust 2009, 23:39
  */
 
-#ifndef _COMMONGUI_H
-#define	_COMMONGUI_H
+#ifndef _MSGBOX_H
+#define	_MSGBOX_H
 
-//common includes for gui
-#ifdef _WINDOWS
-    #define WIN32_LEAN_AND_MEAN
-    #include <windows.h>
+#include "window.h"
 
-    #define BOOST_WINDOWS_API
-    #include <boost/filesystem/convenience.hpp>
-    #include <boost/filesystem/path.hpp>
-    #include <boost/filesystem/operations.hpp>
-#else
-    #include <boost/signals.hpp>
-    #include <boost/bind.hpp>
-#endif
-
-#include <GL/gl.h>
-#include <GL/glfw.h>
-#include <stdlib.h>
-#include <iostream>
-#include <vector>
-#include <cmath>
-#include <algorithm>
-
-#include "fonts.h"
-
-using namespace std;
-using namespace boost;
-
-//common structures
-struct Position{
-    int x,y;
+class MsgBox : public Window{
+public:
+    MsgBox(string title, string msg, int buttons);
+    ~MsgBox(){}
 };
 
-struct Size{
-    int width, height;
-};
-
-struct Rect{
-    int x1, y1;
-    int x2, y2;
-};
-
-#endif	/* _COMMONGUI_H */
+#endif	/* _MSGBOX_H */
 

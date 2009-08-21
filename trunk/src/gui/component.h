@@ -27,6 +27,7 @@
 #define	_COMPONENT_H
 
 #include "commongui.h"
+#include "guirender.h"
 
 class Container;
 
@@ -39,6 +40,8 @@ protected:
     string name;
     int focusIndex;
     bool focused;
+
+    virtual void onRender() = 0;
 public:
     Component(int xx, int yy, int width, int height);
     virtual ~Component() {};
@@ -54,10 +57,11 @@ public:
     string getName();
     void setFocusIndex(int index);
     int getFocusIndex();
+    void Render();
     virtual void focusGain();
     virtual void focusLost();
     virtual bool isContainer() { return false; }
-    virtual void Render() = 0;
+    virtual void invalidate() {}
     virtual void onMouseDown(int mx, int my);
     virtual void onMouseUp(int mx, int my);
     virtual void onKeyDown(int key);

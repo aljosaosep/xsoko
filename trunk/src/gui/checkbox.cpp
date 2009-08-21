@@ -22,50 +22,35 @@
 /*------------------------------------------------------------------*
  *  initialise a checkbox                                           *
  *------------------------------------------------------------------*/
-CheckBox::CheckBox(int x,int y,bool checked) : Component(x,y,16,16)
+CheckBox::CheckBox(int x,int y,bool checked) : Component(x,y,16,16), checked(false)
 {
-  this->checked = false;
-  action = NULL;
+    invalidate();
 }
-
-void CheckBox::setAction(CheckBoxClick* action){
-    this->action = action;
-}
-
 
 /*------------------------------------------------------------------*
  *  Render a Checkbox                                               *
  *------------------------------------------------------------------*/
-void CheckBox::Render()
+void CheckBox::onRender()
 {
-  if(visible)
-  {
-    glColor3f(1,1,1);
     if (checked)
-    {
-      glBegin(GL_QUADS);
-        glTexCoord2f((float)88/128, (float)96/128);		glVertex2i(x, -y);
-        glTexCoord2f((float)88/128, (float)80/128);		glVertex2i(x, -y-16);
-        glTexCoord2f((float)104/128, (float)80/128);	glVertex2i(x+16,-y-16);
-        glTexCoord2f((float)104/128, (float)96/128);	glVertex2i(x+16, -y);
-      glEnd();
-    }
+      GuiRender::getInstance().drawImage(texture[0],vertex);
     else
-    {
-      glBegin(GL_QUADS);
-        glTexCoord2f((float)72/128, (float)96/128); glVertex2i(x, -y);
-        glTexCoord2f((float)72/128, (float)80/128); glVertex2i(x, -y-16);
-        glTexCoord2f((float)88/128, (float)80/128); glVertex2i(x+16,-y-16);
-        glTexCoord2f((float)88/128, (float)96/128); glVertex2i(x+16, -y);
-      glEnd();
-    }
-  }
+      GuiRender::getInstance().drawImage(texture[1],vertex);
+}
+
+void CheckBox::invalidate(){
+    vertex.x1 = 0;
+    vertex.y1 = 0;
+    vertex.x2 = width;
+    vertex.y2 = height;
+
+    texture[0] = GuiRender::getInstance().getTextureLocation("checkboxC");
+    texture[1] = GuiRender::getInstance().getTextureLocation("checkboxU");
 }
 
 void CheckBox::onMouseDown(int mx, int my){
     checked = !checked;
-    if(action != NULL)
-        action->onAction(this,checked);
+    onAction(this,checked);
 }
 
 bool CheckBox::isChecked(){

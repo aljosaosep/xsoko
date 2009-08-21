@@ -175,8 +175,6 @@ namespace PacGame
               glEnable(GL_BLEND);
               glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-                          glVertexPointer(3, GL_FLOAT, 0, box);
-                          glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
                           glEnableClientState(GL_VERTEX_ARRAY);
                           glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
@@ -199,6 +197,8 @@ namespace PacGame
            ********************************************/
           void PRenderer::drawCube(float x, float y, float size)
           {
+              glVertexPointer(3, GL_FLOAT, 0, box);
+              glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
                   glPushMatrix();
                     glTranslatef(x, y, 0.0);
 			// FRONT AND BACK

@@ -13,7 +13,9 @@
         <itemPath>src/gui/editbox.h</itemPath>
         <itemPath>src/gui/fonts.h</itemPath>
         <itemPath>src/gui/gui.h</itemPath>
+        <itemPath>src/gui/guirender.h</itemPath>
         <itemPath>src/gui/listbox.h</itemPath>
+        <itemPath>src/gui/msgbox.h</itemPath>
         <itemPath>src/gui/panel.h</itemPath>
         <itemPath>src/gui/radiobutton.h</itemPath>
         <itemPath>src/gui/radiobuttongroup.h</itemPath>
@@ -66,7 +68,9 @@
         <itemPath>src/gui/editbox.cpp</itemPath>
         <itemPath>src/gui/fonts.cpp</itemPath>
         <itemPath>src/gui/gui.cpp</itemPath>
+        <itemPath>src/gui/guirender.cpp</itemPath>
         <itemPath>src/gui/listbox.cpp</itemPath>
+        <itemPath>src/gui/msgbox.cpp</itemPath>
         <itemPath>src/gui/panel.cpp</itemPath>
         <itemPath>src/gui/radiobutton.cpp</itemPath>
         <itemPath>src/gui/radiobuttongroup.cpp</itemPath>
@@ -223,10 +227,22 @@
       <item path="src/gui/gui.h">
         <itemTool>3</itemTool>
       </item>
+      <item path="src/gui/guirender.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/guirender.h">
+        <itemTool>1</itemTool>
+      </item>
       <item path="src/gui/listbox.cpp">
         <itemTool>1</itemTool>
       </item>
       <item path="src/gui/listbox.h">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/msgbox.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/msgbox.h">
         <itemTool>1</itemTool>
       </item>
       <item path="src/gui/panel.cpp">
@@ -489,10 +505,22 @@
       <item path="src/gui/gui.h">
         <itemTool>3</itemTool>
       </item>
+      <item path="src/gui/guirender.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/guirender.h">
+        <itemTool>1</itemTool>
+      </item>
       <item path="src/gui/listbox.cpp">
         <itemTool>1</itemTool>
       </item>
       <item path="src/gui/listbox.h">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/msgbox.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/msgbox.h">
         <itemTool>1</itemTool>
       </item>
       <item path="src/gui/panel.cpp">
@@ -751,10 +779,22 @@
       <item path="src/gui/gui.h">
         <itemTool>3</itemTool>
       </item>
+      <item path="src/gui/guirender.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/guirender.h">
+        <itemTool>1</itemTool>
+      </item>
       <item path="src/gui/listbox.cpp">
         <itemTool>1</itemTool>
       </item>
       <item path="src/gui/listbox.h">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/msgbox.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/msgbox.h">
         <itemTool>1</itemTool>
       </item>
       <item path="src/gui/panel.cpp">
@@ -1019,10 +1059,22 @@
       <item path="src/gui/gui.h">
         <itemTool>3</itemTool>
       </item>
+      <item path="src/gui/guirender.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/guirender.h">
+        <itemTool>1</itemTool>
+      </item>
       <item path="src/gui/listbox.cpp">
         <itemTool>1</itemTool>
       </item>
       <item path="src/gui/listbox.h">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/msgbox.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/msgbox.h">
         <itemTool>1</itemTool>
       </item>
       <item path="src/gui/panel.cpp">
