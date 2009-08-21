@@ -40,16 +40,21 @@ protected:
     Component* compPressed;
     Component* focusedComp;
 public:
+    //constructors and destructor
     Container(int x, int y, int width, int height);
-    void AddComponent(Component* component);
     ~Container();
-    void onMouseDown(int mx, int my);
-    virtual void onMouseUp(int mx, int my);
+
+    //methods
+    void AddComponent(Component* component);
     void focusNext();
     void focusPrevious();
     virtual void focusGain();
     virtual void focusLost();
     bool isContainer() { return true; }
+
+    //event support
+    void onMouseDown(int mx, int my);
+    virtual void onMouseUp(int mx, int my);
     void onKeyDown(int key);
     void onKeyUp(int key);
     void onCharClick(int c);

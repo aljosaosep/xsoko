@@ -30,25 +30,34 @@
 
 class RadioButtonGroup;
 
-class RadioButtonClick{
-public:
-    virtual void onAction(Component* c, bool selected) = 0;
-};
-
 class RadioButton : public Component{
 private:
     RadioButtonGroup* group;
     bool checked;
-    RadioButtonClick* action;
+
+    //for rendering
+    Rect ver;
+    Rect texture[2];
+protected:
+    void onRender();
 public:
+    //constructors and destructor
     RadioButton(int x, int y,RadioButtonGroup* group,bool checked);
+
+    //getters
     RadioButtonGroup* getRadioButtonGroup();
     bool isChecked();
+
+    //setters
     void setChecked(bool checked);
     void setRadioButtonGroup(RadioButtonGroup* group);
-    void setAction(RadioButtonClick* action);
-    void Render();
+
+    //events support
+    void invalidate();
     void onMouseDown(int mx, int my);
+
+    //events
+    signal< void (Component*, bool) > onAction;
 };
 
 #endif	/* _RADIOBUTTON_H */

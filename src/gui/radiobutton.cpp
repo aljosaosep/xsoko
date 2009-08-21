@@ -28,47 +28,33 @@ RadioButton::RadioButton(int x, int y,RadioButtonGroup* group,bool checked) : Co
   this->group = group;
   group->addToGroup(this);
   setChecked(checked);
-  action = NULL;
+  invalidate();
 }
 
-void RadioButton::setAction(RadioButtonClick* action){
-    this->action = action;
+void RadioButton::invalidate(){
+    ver.x1 = 0;
+    ver.y1 = 0;
+    ver.x2 = width;
+    ver.y2 = height;
+
+    texture[0] = GuiRender::getInstance().getTextureLocation("radioBtnC");
+    texture[1] = GuiRender::getInstance().getTextureLocation("radioBtnU");
 }
 
 /*------------------------------------------------------------------*
  *  Render Radio Button                                             *
  *------------------------------------------------------------------*/
-void RadioButton::Render()
+void RadioButton::onRender()
 {
-  if(visible)
-  {
-    glColor3f(1,1,1);
-    if(checked)
-    {
-      glBegin(GL_QUADS);
-        glTexCoord2f((float)88/128, (float)80/128);		glVertex2i(x, -y);
-        glTexCoord2f((float)88/128, (float)64/128);		glVertex2i(x, -y-16);
-        glTexCoord2f((float)104/128, (float)64/128);	glVertex2i(x+16,-y-16);
-        glTexCoord2f((float)104/128, (float)80/128);	glVertex2i(x+16, -y);
-      glEnd();
-    }
-    else
-    {
-      glBegin(GL_QUADS);
-        glTexCoord2f((float)72/128, (float)80/128); glVertex2i(x, -y);
-        glTexCoord2f((float)72/128, (float)64/128); glVertex2i(x, -y-16);
-        glTexCoord2f((float)88/128, (float)64/128); glVertex2i(x+16,-y-16);
-        glTexCoord2f((float)88/128, (float)80/128); glVertex2i(x+16, -y);
-      glEnd();
-    }
-  }
+  if (checked)
+    GuiRender::getInstance().drawImage(texture[0],ver);
+  else
+    GuiRender::getInstance().drawImage(texture[1],ver);
 }
 
 void RadioButton::onMouseDown(int mx, int my){
     setChecked(true);
-    if(action != NULL){
-        action->onAction(this,true);
-    }
+    onAction(this,true);
 }
 
 bool RadioButton::isChecked(){
@@ -83,6 +69,7 @@ void RadioButton::setChecked(bool checked){
         }
     }
     this->checked = checked;
+    onAction(this,checked);
 }
 
 RadioButtonGroup* RadioButton::getRadioButtonGroup(){

@@ -50,7 +50,6 @@ private:
     static bool mprocessed;
     static bool kprocessed;
     static bool cprocessed;
-    static bool sizeRefreshed;
     static bool moved;
     
     vector<Window*> windows;
@@ -62,6 +61,8 @@ private:
     Font* fnt;
     unsigned num;
     Component* focusedWin;
+    Rect mouseVer;
+    Rect mouseTex;
 
 
     Gui(/*const char* guiTextureFileName*/);

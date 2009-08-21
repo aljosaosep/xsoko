@@ -17,10 +17,6 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <GL/gl.h>
-
-#include "fonts.h"
-
 /* 
  * File:   editbox.cpp
  * Author: jernej
@@ -34,7 +30,9 @@
 
 EditBox::EditBox(int x, int y, int width, int height) : Component(x,y,width,height), fnt(new Font("font")),
         text(""), carrotPos(0)
-{ }
+{
+    invalidate();
+}
 
 EditBox::~EditBox() {
     delete fnt;
@@ -42,6 +40,9 @@ EditBox::~EditBox() {
 
 void EditBox::setText(string text){
     this->text = text;
+    while(fnt->stringWidth(text) > width-8){
+        text.erase(text.begin()+(text.size()-1));
+    }
     carrotPos = text.length();
 }
 
@@ -53,64 +54,64 @@ Font* EditBox::getFont(){
     return fnt;
 }
 
-void EditBox::Render(){
-    if(visible){
-        glColor3f(1,1,1);
-        glBindTexture(GL_TEXTURE_2D,Gui::skinTextureID);
-        glBegin(GL_QUADS);
-          // top of panel.
-          glTexCoord2f((float)10/128, (float)33/128); glVertex2i(x+2, -y);
-          glTexCoord2f((float)10/128, (float)32/128); glVertex2i(x+2, -y-2);
-          glTexCoord2f((float)37/128, (float)32/128); glVertex2i(x+2+(width-4), -y-2);
-          glTexCoord2f((float)37/128, (float)33/128); glVertex2i(x+2+(width-4), -y);
+void EditBox::invalidate(){
+    // top of panel.
+    vertex[0].x1 = 2;
+    vertex[0].y1 = 0;
+    vertex[0].x2 = width-2;
+    vertex[0].y2 = 2;
 
-          // left side of panel.
-          glTexCoord2f((float)38/128, (float)61/128); glVertex2i(x, -y);
-          glTexCoord2f((float)38/128, (float)34/128); glVertex2i(x, -y-height+2);
-          glTexCoord2f((float)39/128, (float)34/128); glVertex2i(x+2, -y-height+2);
-          glTexCoord2f((float)39/128, (float)61/128); glVertex2i(x+2, -y);
+    // left side of panel.
+    vertex[1].x1 = 0;
+    vertex[1].y1 = 0;
+    vertex[1].x2 = 2;
+    vertex[1].y2 = height-2;
 
-          // middle of panel.
-          glTexCoord2f((float)18/128, (float)54/128); glVertex2i(x+2, -y-2);
-          glTexCoord2f((float)18/128, (float)42/128); glVertex2i(x+2, -y-height+2);
-          glTexCoord2f((float)30/128, (float)42/128); glVertex2i(x+2+(width-4), -y-height+2);
-          glTexCoord2f((float)30/128, (float)54/128); glVertex2i(x+2+(width-4), -y-2);
+    // middle of panel.
+    vertex[2].x1 = 2;
+    vertex[2].y1 = 2;
+    vertex[2].x2 = width-2;
+    vertex[2].y2 = height-2;
 
-          // right side of panel.
-          glTexCoord2f((float) 8/128, (float)61/128); glVertex2i(x+width-2, -y);
-          glTexCoord2f((float) 8/128, (float)34/128); glVertex2i(x+width-2, -y-height+2);
-          glTexCoord2f((float) 9/128, (float)34/128); glVertex2i(x+width, -y-height+2);
-          glTexCoord2f((float) 9/128, (float)61/128); glVertex2i(x+width, -y);
+    // right side of panel.
+    vertex[3].x1 = width-2;
+    vertex[3].y1 = 0;
+    vertex[3].x2 = width;
+    vertex[3].y2 = height-2;
 
-          // bottom middle of panel.
-          glTexCoord2f((float)10/128, (float)62/128); glVertex2i(x+2, -y-height+2);
-          glTexCoord2f((float)10/128, (float)63/128); glVertex2i(x+2, -y-height);
-          glTexCoord2f((float)37/128, (float)63/128); glVertex2i(x+2+(width-2), -y-height);
-          glTexCoord2f((float)37/128, (float)62/128); glVertex2i(x+2+(width-2), -y-height+2);
+    // bottom middle of panel.
+    vertex[4].x1 = 2;
+    vertex[4].y1 = height-2;
+    vertex[4].x2 = width;
+    vertex[4].y2 = height;
 
-        glEnd();
+    texture[0] = GuiRender::getInstance().getTextureLocation("panelT");
+    texture[1] = GuiRender::getInstance().getTextureLocation("panelL");
+    texture[2] = GuiRender::getInstance().getTextureLocation("panelM");
+    texture[3] = GuiRender::getInstance().getTextureLocation("panelR");
+    texture[4] = GuiRender::getInstance().getTextureLocation("panelB");
+}
 
-        int deltay = (height - fnt->getSize())/2 + fnt->getSize();
-        //glEnable(GL_SCISSOR_TEST);
-        //glScissor(x,600-y-height,width,height);
+void EditBox::onRender(){
+    GuiRender::getInstance().drawImage(texture[0],vertex[0]); // top of panel.
+    GuiRender::getInstance().drawImage(texture[1],vertex[1]); // left side of panel.
+    GuiRender::getInstance().drawImage(texture[2],vertex[2]); // middle of panel.
+    GuiRender::getInstance().drawImage(texture[3],vertex[3]); // right side of panel.
+    GuiRender::getInstance().drawImage(texture[4],vertex[4]); // bottom middle of panel.
 
-        fnt->writeText(x+3,-y-deltay,text);
+    int deltay = (height - fnt->getSize())/2 + fnt->getSize();
+    fnt->writeText(3,deltay,text);
 
-        //draw carrot
-        if(focused && !((int)((glfwGetTime()-time)/0.5)&1)){
-            glTranslatef(0,0,0.02f);
-            string first = text.substr(0,carrotPos);
-            int offset = fnt->stringWidth(first) + 4;
-            
-            glColor3f(0,0,0);
-            glLineWidth(2);
-            glBegin(GL_LINE);
-            glVertex2i(x+offset,-y-deltay);
-            glVertex2i(x+offset,-y-deltay+fnt->getSize());
-            glEnd();
-        }
-        //glDisable(GL_SCISSOR_TEST);
+    //draw carrot
+    if(focused && !((int)((glfwGetTime()-time)/0.5)&1)){
+        GuiRender::getInstance().saveState();
+        GuiRender::getInstance().nextLayer();
+        string first = text.substr(0,carrotPos);
+        int offset = fnt->stringWidth(first) + 4;
 
+        GuiRender::getInstance().setColor(0,0,0,1);
+        GuiRender::getInstance().drawLine(offset,deltay,offset,deltay-fnt->getSize(),2);
+        GuiRender::getInstance().restoreState();
     }
 }
 

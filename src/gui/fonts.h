@@ -38,15 +38,23 @@ private:
     int size;
     unsigned char r,g,b;
 
+private:
     void loadFont();
 public:
+    //constructors and destructor
     Font(const string& name);
-    void writeText(int x, int y, string text);
-    float stringWidth(string str);
     ~Font();
 
+    //methods
+    void writeText(int x, int y, string text);
+    void writeTextAbs(int x, int y, string text);
+    float stringWidth(string str);
+
+    //getters
     int getSize();
     string getName();
+
+    //setters
     void setSize(int size);
     void setColor(unsigned char R, unsigned char G, unsigned char B);
     void setName(string name);

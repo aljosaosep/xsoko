@@ -29,33 +29,47 @@
 #include "container.h"
 
 class Window : public Container{
-private:
+protected:
     float alpha;
-    float zorder;
-    int screenHeight;
-    MouseDrag mouseDrag;
+    struct {
+        bool drag;     // window draggin enabled
+        int x,y;       // X and Y coords when drag started
+    } mouseDrag;
     bool enableCloseButton;
     bool modal;
     string caption;
     Font* fnt;
+
+    //for rendering
+    Rect vertex[9];
+    Rect texture[9];
+protected:
+    void onRender();
 public:
-    Window(int wX, int wY, int wWidth, int wHeight, string caption);
+    //constructors and destructor
+    Window(int x, int y, int width, int height, string wCaption);
     ~Window();
+    
+    //setters
+    bool isCloseButtonEnabled();
+    bool isModal();
     float getAlpha();
-    float getZOrder();
-    void setZOrder(float zorder);
+    Font* getFont();
+    string getCaption();
+
+    //getters
     void setAlpha(float alpha);
     void setEnableCloseButton(bool enabled);
     void setModal(bool modal);
-    void setVisible(bool visible);
-    void Render();
+    void setCaption(string caption);
+
+    //event support
+    void invalidate();
     void onMouseDown(int mx, int my);
     void onMouseMove(int mx, int my);
     void onMouseUp(int mx, int my);
-    void onScreenResize();
     void focusGain();
     void focusLost();
-    Font* getFont();
 };
 
 #endif	/* _WINDOW_H */

@@ -26,6 +26,7 @@
 #include "fonts.h"
 #include "gui.h"
 #include "../messages.h"
+#include "guirender.h"
 
 Font::Font(const string& name){
     this->name = name;
@@ -38,12 +39,17 @@ Font::~Font(){
 }
 
 void Font::writeText(int x, int y,string text){
+    State ren = GuiRender::getInstance().getCurrentState();
+    writeTextAbs(ren.x+x,ren.y-y,text);
+}
+
+void Font::writeTextAbs(int x, int y, string text){
     if(font == NULL)
         return;
     glPushAttrib(GL_ALL_ATTRIB_BITS);
     glPushMatrix();
     glColor3f(r/255.0f,g/255.0f,b/255.0f);
-    glTranslatef((float)x, (float)y, 0.02f);
+    glTranslatef(x, y, 0.02f);
     font->Render(text.c_str());
     glPopMatrix();
     glPopAttrib();

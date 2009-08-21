@@ -28,22 +28,31 @@
 
 #include "component.h"
 
-class CheckBoxClick{
-public:
-    virtual void onAction(Component* c, bool selected) = 0;
-};
-
 class CheckBox: public Component{
 private:
     bool checked;
-    CheckBoxClick* action;
+
+    //for rendering
+    Rect vertex;
+    Rect texture[2];
+protected:
+    void onRender();
 public:
+    //constructors and destructors
     CheckBox(int x, int y, bool checked);
+
+    //getters
     bool isChecked();
+
+    //setters
     void setChecked(bool checked);
-    void setAction(CheckBoxClick* action);
-    void Render();
+
+    //events support
+    void invalidate();
     void onMouseDown(int mx, int my);
+
+    //events
+    signal<void (Component*,bool) > onAction;
 };
 
 #endif	/* _CHECKBOX_H */

@@ -29,9 +29,18 @@
 #include "container.h"
 
 class Panel: public Container{
+private:
+    //for rendering
+    Rect vertex[5];
+    Rect texture[5];
+protected:
+    void onRender();
 public:
+    //constructors and destructor
     Panel(int x, int y, int width, int height);
-    void Render();
+
+    //events support
+    void invalidate();
 };
 
 #endif	/* _PANEL_H */

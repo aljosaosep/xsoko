@@ -32,13 +32,19 @@ class Text : public Component{
 private:
     string caption;
     Font* fnt;
+protected:
+    void onRender();
 public:
+    //constructors and destructor
     Text(int x,int y,string text);
     ~Text();
+
+    //getters
     string getText();
-    void setText(const string& text);
-    void Render();
     Font* getFont();
+
+    //setters
+    void setText(const string& text);
 };
 
 #endif	/* _TEXT_H */

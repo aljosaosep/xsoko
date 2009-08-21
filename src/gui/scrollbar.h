@@ -33,11 +33,6 @@ enum Orientation {
     Horizontal = 2
 };
 
-class ScrollbarEventHandler {
-public:
-    virtual void PositionChanged(Component* sender, int position) = 0;
-};
-
 class Scrollbar : public Component {
 private:
     int min;
@@ -45,28 +40,42 @@ private:
     int step;
     int position;
     Orientation orient;
-    ScrollbarEventHandler* eventHandler;
     bool upPressed;
     bool downPressed;
-    void drawButton(int x, int y,bool pressed,bool upArrow);
+    void drawButton(int verIndex,bool pressed,bool upArrow);
+    void recalculatePosition();
+
+    Rect vertex[10];
+    Rect texture[10];
+protected:
+    void onRender();
 public:
+    //constructors and destructors
     Scrollbar(int x, int y, int width, int height);
+    ~Scrollbar();
+
+    //setters
     void setLimits(int min, int max);
     void setStep(int step);
     void setPosition(int position);
     void setOrientation(Orientation orientation);
-    void setEventHandler(ScrollbarEventHandler* handler);
+
+    //getters
     int getMinLimit();
     int getMaxLimit();
     int getStep();
     int getPosition();
     Orientation getOrientation();
-    void Render();
+
+    //events support
+    void invalidate();
     void onMouseDown(int mx, int my);
     void onMouseUp(int mx, int my);
     void onKeyDown(int key);
     void onKeyUp(int key);
-    ~Scrollbar();
+
+    //events
+    signal< void(Component*,int) > PositionChanged;
 };
 
 #endif	/* _SCROLLBAR_H */

@@ -18,118 +18,127 @@
  */
 
 #include "window.h"
-#include "gui.h"
 
 /*------------------------------------------------------------------*
  *  initialise window and setup defaults                            *
  *------------------------------------------------------------------*/
-Window::Window(int wX, int wY, int wWidth, int wHeight,string caption) : Container(wX,wY,wWidth,wHeight)
+Window::Window(int x, int y, int width, int height,string wCaption) : Container(x,y,width,height), alpha(0.9f),
+        enableCloseButton(true), modal(false), caption(wCaption), fnt(new Font("font"))
 {
-  zorder = 0;         // used if you specifically want to set a window higher
-  visible = true;     // start off visible
-  alpha = 0.9f;        // defult for alpha bl}ing
-  onScreenResize();
-  enableCloseButton = true;
   mouseDrag.drag = false;
   mouseDrag.x = 0;
   mouseDrag.y = 0;
-  modal = false;
-  this->caption = caption;
-  fnt = new Font("font");
+  invalidate();
 };
 
 Window::~Window(){
     delete fnt;
 }
 
-void Window::setVisible(bool visible){
-    this->visible = visible;
-    if(visible)
-        focusGain();
-    else
-        focusLost();
-    
-}
-
 void Window::setModal(bool modal){
     this->modal = modal;
+}
+
+bool Window::isModal(){
+    return modal;
 }
 
 Font* Window::getFont(){
     return fnt;
 }
 
+void Window::setCaption(string caption){
+    this->caption = caption;
+}
+
+string Window::getCaption(){
+    return caption;
+}
+
+void Window::invalidate(){
+    // top left corner of window.
+    vertex[0].x1 = 0;
+    vertex[0].y1 = 0;
+    vertex[0].x2 = 63;
+    vertex[0].y2 = 27;
+
+    // top of window.
+    vertex[1].x1 = 63;
+    vertex[1].y1 = 0;
+    vertex[1].x2 = width-32;
+    vertex[1].y2 = 27;
+
+    // top right corder of window.
+    vertex[2].x1 = width-32;
+    vertex[2].y1 = 0;
+    vertex[2].x2 = width;
+    vertex[2].y2 = 27;
+
+    // left side of window.
+    vertex[3].x1 = 0;
+    vertex[3].y1 = 27;
+    vertex[3].x2 = 6;
+    vertex[3].y2 = height-27;
+
+    // draw the main body of the window
+    vertex[4].x1 = 6;
+    vertex[4].y1 = 27;
+    vertex[4].x2 = width-7;
+    vertex[4].y2 = height-25;
+
+    // right side of window.
+    vertex[5].x1 = width-7;
+    vertex[5].y1 = 27;
+    vertex[5].x2 = width;
+    vertex[5].y2 = height-27;
+
+    // bottom left corner of window.
+    vertex[6].x1 = 0;
+    vertex[6].y1 = height-27;
+    vertex[6].x2 = 63;
+    vertex[6].y2 = height;
+
+    // bottom of window.
+    vertex[7].x1 = 63;
+    vertex[7].y1 = height-27;
+    vertex[7].x2 = width-32;
+    vertex[7].y2 = height;
+
+    // bottom right corner of window.
+    vertex[8].x1 = width-32;
+    vertex[8].y1 = height-27;
+    vertex[8].x2 = width;
+    vertex[8].y2 = height;
+
+    texture[0] = GuiRender::getInstance().getTextureLocation("windowTL");
+    texture[1] = GuiRender::getInstance().getTextureLocation("windowT");
+    texture[2] = GuiRender::getInstance().getTextureLocation("windowTR");
+    texture[3] = GuiRender::getInstance().getTextureLocation("windowL");
+    texture[4] = GuiRender::getInstance().getTextureLocation("windowM");
+    texture[5] = GuiRender::getInstance().getTextureLocation("windowR");
+    texture[6] = GuiRender::getInstance().getTextureLocation("windowBL");
+    texture[7] = GuiRender::getInstance().getTextureLocation("windowB");
+    texture[8] = GuiRender::getInstance().getTextureLocation("windowBR");
+}
+
 /*------------------------------------------------------------------*
  *  Render the window. Calls render button, child windows ...       *
  *------------------------------------------------------------------*/
-void Window::Render()
+void Window::onRender()
 {
-  if (visible)
-  {
-    glBindTexture(GL_TEXTURE_2D, Gui::skinTextureID);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_BLEND);
-    glColor4f(1.0, 1.0, 1.0, alpha);
+    GuiRender::getInstance().setColor(1,1,1,alpha);
 
-    glPushMatrix();
-      glTranslatef((float)x, (float)screenHeight - 26 -y , zorder);
-      glBegin(GL_QUADS);
-        // top left corner of window.
-        glTexCoord2f( 0, 1);				glVertex2i(0, 0);
-        glTexCoord2f( 0, 1-(float)27/128);		glVertex2i(0, -27);
-        glTexCoord2f((float)64/128, 1-(float)27/128);	glVertex2i(63, -27);
-        glTexCoord2f((float)64/128, 1);			glVertex2i(63, 0);
+      GuiRender::getInstance().drawImage(texture[0],vertex[0]); // top left corner of window.
+      GuiRender::getInstance().drawImage(texture[1],vertex[1]); // top of window.
+      GuiRender::getInstance().drawImage(texture[2],vertex[2]); // top right corder of window.
+      GuiRender::getInstance().drawImage(texture[3],vertex[3]); // left side of window.
+      GuiRender::getInstance().drawImage(texture[4],vertex[4]); // draw the main body of the window
+      GuiRender::getInstance().drawImage(texture[5],vertex[5]); // right side of window.
+      GuiRender::getInstance().drawImage(texture[6],vertex[6]); // bottom left corner of window.
+      GuiRender::getInstance().drawImage(texture[7],vertex[7]); // bottom of window.
+      GuiRender::getInstance().drawImage(texture[8],vertex[8]); // bottom right corner of window.
 
-        // top of window.
-        glTexCoord2f((float)64/128, 1);			glVertex2i(63, 0);
-        glTexCoord2f((float)64/128, 1-(float)27/128);	glVertex2i(63, -27);
-        glTexCoord2f((float)96/128, 1-(float)27/128);	glVertex2i(width-32, -27);
-        glTexCoord2f((float)96/128, 1);			glVertex2i(width-32, 0);
-
-        // top right corder of window.
-        glTexCoord2f((float)96/128, 1);			glVertex2i(width-32, 0);
-        glTexCoord2f((float)96/128, 1-(float)27/128);	glVertex2i(width-32, -27);
-        glTexCoord2f(1, 1-(float)27/128);		glVertex2i(width, -27);
-        glTexCoord2f(1, 1);				glVertex2i(width, 0);
-
-
-        // left side of window.
-        glTexCoord2f(0, 1-(float)27/128);		glVertex2i(0, -27);
-        glTexCoord2f(0, (float)27/128);			glVertex2i(0, -height+27);
-        glTexCoord2f((float)6/128, (float)27/128);	glVertex2i(6,-height+27);
-        glTexCoord2f((float)6/128, 1-(float)27/128);	glVertex2i(6, -27);
-
-        // draw the main body of the window
-        glTexCoord2f((float) 9/128, (float)96/128);     glVertex2i(6, -27);
-        glTexCoord2f((float) 9/128, (float)64/128);     glVertex2i(6, 25-height);
-        glTexCoord2f((float)39/128, (float)64/128);     glVertex2i(width-7, 25-height);
-        glTexCoord2f((float)39/128, (float)96/128);     glVertex2i(width-7, -27);
-
-        // right side of window.
-        glTexCoord2f(1-(float)7/128, 1-(float)27/128);	glVertex2i(width-7, -27);
-        glTexCoord2f(1-(float)7/128, (float)27/128);	glVertex2i(width-7, -height+27);
-        glTexCoord2f(1,   (float)27/128);		glVertex2i(width,-height+27);
-        glTexCoord2f(1, 1-(float)27/128);		glVertex2i(width, -27);
-
-        // bottom left corner of window.
-        glTexCoord2f( 0, (float)27/128);		glVertex2i(0, 27-height);
-        glTexCoord2f( 0,  0);				glVertex2i(0, -height);
-        glTexCoord2f((float)64/128,  0);		glVertex2i(63, -height);
-        glTexCoord2f((float)64/128, (float)27/128);	glVertex2i(63, 27-height);
-
-        // bottom of window.
-        glTexCoord2f((float)64/128, (float)27/128);	glVertex2i(63, 27-height);
-        glTexCoord2f((float)64/128, 0);			glVertex2i(63, -height);
-        glTexCoord2f((float)96/128, 0);			glVertex2i(width-32, -height);
-        glTexCoord2f((float)96/128, (float)27/128);	glVertex2i(width-32, 27-height);
-
-        // bottom right corder of window.
-        glTexCoord2f((float)96/128, (float)27/128);	glVertex2i(width-32, 27-height);
-        glTexCoord2f((float)96/128, 0);			glVertex2i(width-32, -height);
-        glTexCoord2f(1, 0);				glVertex2i(width, -height);
-        glTexCoord2f(1, (float)27/128);			glVertex2i(width, 27-height);
-
+      //glBegin(GL_QUADS);
         /*if(enableCloseButton){
             // window close button
             glTexCoord2f((float)104/128, (float)96/128); glVertex3i(width-22, -8,  0.01);
@@ -137,23 +146,17 @@ void Window::Render()
             glTexCoord2f((float)120/128, (float)80/128); glVertex3i(width-6, -24, 0.01);
             glTexCoord2f((float)120/128, (float)96/128); glVertex3i(width-6, -8,  0.01);
         }*/
-      glEnd();
+      //glEnd();
 
-      fnt->writeText((int)(width-fnt->stringWidth(caption))/2,-24,caption);
-      glBindTexture(GL_TEXTURE_2D, Gui::skinTextureID);
+      fnt->writeText((int)(width-fnt->stringWidth(caption))/2,24,caption);
 
-      glTranslatef(0, 0, 0.02f);
+      GuiRender::getInstance().nextLayer();
       //glEnable(GL_SCISSOR_TEST);
       //glScissor(x+6,screenHeight-y-height,width-12,height);
       for(unsigned i=0;i<components.size();i++){
         components[i]->Render();
       }
       //glDisable(GL_SCISSOR_TEST);
-
-    glPopMatrix();
-    glBlendFunc(GL_ONE,GL_ONE);
-    glDisable(GL_BLEND);
-  }
 }
 
 void Window::onMouseUp(int mx, int my){
@@ -186,15 +189,14 @@ void Window::onMouseDown(int mx, int my){
     }*/
 
     // Test to see if user clicked in caption bar
-    if ((my - 26 > 1) && (my - 26 < 26))
-      {
+    if (my < 26) {
         mouseDrag.drag = true;
         mouseDrag.x    = mx;
         mouseDrag.y    = my;
         return;
-      }
+    }
 
-    Container::onMouseDown(mx,my-26);
+    Container::onMouseDown(mx,my);
 }
 
 float Window::getAlpha(){
@@ -207,21 +209,12 @@ void Window::setAlpha(float alpha){
         alpha = 0;
 }
 
-float  Window::getZOrder(){
-    return zorder;
-}
-
-void  Window::setZOrder(float zorder){
-    this->zorder = zorder;
-}
-
-void Window::onScreenResize(){
-    int temp;
-    glfwGetWindowSize(&temp,&screenHeight);
-}
-
 void Window::setEnableCloseButton(bool enabled){
     enableCloseButton = enabled;
+}
+
+bool Window::isCloseButtonEnabled(){
+    return enableCloseButton;
 }
 
 void Window::focusGain(){

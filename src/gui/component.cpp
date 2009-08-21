@@ -40,11 +40,13 @@ Position Component::getPosition(){
 }
 
 void Component::focusGain(){
+    if(focused) return;
     focused = true;
     FocusGain(this);
 }
 
 void Component::focusLost(){
+    if(!focused) return;
     focused = false;
     FocusLost(this);
 }
@@ -76,6 +78,7 @@ void Component::setPosition(int x, int y){
 void Component::setSize(int width, int height){
     this->width = width;
     this->height = height;
+    invalidate();
 }
 
 bool Component::isVisible(){
@@ -84,6 +87,10 @@ bool Component::isVisible(){
 
 void Component::setVisible(bool visible){
     this->visible = visible;
+    if(visible)
+        focusGain();
+    else
+        focusLost();
 }
 
 void Component::setParent(Container* parent){
@@ -96,6 +103,14 @@ void Component::setName(const string& name){
 
 string Component::getName(){
     return name;
+}
+
+void Component::Render(){
+    if(!visible) return;
+    GuiRender::getInstance().saveState();
+    GuiRender::getInstance().move((float)x,(float)y);
+    onRender();
+    GuiRender::getInstance().restoreState();
 }
 
 void Component::onKeyUp(int key){

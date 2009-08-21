@@ -19,19 +19,12 @@
 
 #include "listbox.h"
 #include "container.h"
-#include "gui.h"
 
-/*------------------------------------------------------------------*
- *  initialise a panel                                              *
- *------------------------------------------------------------------*/
-ListBox::ListBox(int x, int y, int width, int height) : Component(x,y,width,height)
+ListBox::ListBox(int x, int y, int width, int height) : Component(x,y,width,height), selected(-1), drawIndex(0),
+        upPressed(false), downPressed(false), fnt(new Font("font"))
 {
-    selected = -1;
-    upPressed = false;
-    downPressed = false;
-    drawIndex = 0;
     canShow = (height-4) / 16;
-    fnt = new Font("font");
+    invalidate();
 }
 
 ListBox::~ListBox(){
@@ -42,80 +35,151 @@ Font* ListBox::getFont(){
     return fnt;
 }
 
-/*------------------------------------------------------------------*
- *  Render the Panel                                                *
- *------------------------------------------------------------------*/
-void ListBox::Render()
+void ListBox::invalidate(){
+    // top of panel.
+    vertex[0].x1 = 2;
+    vertex[0].y1 = 0;
+    vertex[0].x2 = width-2;
+    vertex[0].y2 = 2;
+
+    // left side of panel.
+    vertex[1].x1 = 0;
+    vertex[1].y1 = 0;
+    vertex[1].x2 = 2;
+    vertex[1].y2 = height-2;
+
+    // middle of panel.
+    vertex[2].x1 = 2;
+    vertex[2].y1 = 2;
+    vertex[2].x2 = width-2;
+    vertex[2].y2 = height-2;
+
+    // right side of panel.
+    vertex[3].x1 = width-2;
+    vertex[3].y1 = 0;
+    vertex[3].x2 = width;
+    vertex[3].y2 = height-2;
+
+    // bottom middle of panel.
+    vertex[4].x1 = 2;
+    vertex[4].y1 = height-2;
+    vertex[4].x2 = width;
+    vertex[4].y2 = height;
+
+    //scrollbar body
+    vertex[5].x1 = width-10;
+    vertex[5].y1 = 18;
+    vertex[5].x2 = width-9;
+    vertex[5].y2 = height-18;
+
+    //upper button
+    //left
+    vertex[6].x1 = width-18;
+    vertex[6].y1 = 2;
+    vertex[6].x2 = width-12;
+    vertex[6].y2 = 18;
+
+    //middle
+    vertex[7].x1 = width-12;
+    vertex[7].y1 = 2;
+    vertex[7].x2 = width-8;
+    vertex[7].y2 = 18;
+
+    //right
+    vertex[8].x1 = width-8;
+    vertex[8].y1 = 2;
+    vertex[8].x2 = width-2;
+    vertex[8].y2 = 18;
+
+    //arrow
+    vertex[9].x1 = width-18;
+    vertex[9].y1 = 2;
+    vertex[9].x2 = width-2;
+    vertex[9].y2 = 18;
+
+    //lover button
+    //left
+    vertex[10].x1 = width-18;
+    vertex[10].y1 = height-18;
+    vertex[10].x2 = width-12;
+    vertex[10].y2 = height-2;
+
+    //middle
+    vertex[11].x1 = width-12;
+    vertex[11].y1 = height-18;
+    vertex[11].x2 = width-8;
+    vertex[11].y2 = height-2;
+
+    //right
+    vertex[12].x1 = width-8;
+    vertex[12].y1 = height-18;
+    vertex[12].x2 = width-2;
+    vertex[12].y2 = height-2;
+
+    //arrow
+    vertex[13].x1 = width-18;
+    vertex[13].y1 = height-18;
+    vertex[13].x2 = width-2;
+    vertex[13].y2 = height-2;
+
+    recalculatePosition();
+
+    texture[0] = GuiRender::getInstance().getTextureLocation("buttonPL");
+    texture[1] = GuiRender::getInstance().getTextureLocation("buttonPM");
+    texture[2] = GuiRender::getInstance().getTextureLocation("buttonPR");
+    texture[3] = GuiRender::getInstance().getTextureLocation("buttonUL");
+    texture[4] = GuiRender::getInstance().getTextureLocation("buttonUM");
+    texture[5] = GuiRender::getInstance().getTextureLocation("buttonUR");
+    texture[6] = GuiRender::getInstance().getTextureLocation("scrollUA");
+    texture[7] = GuiRender::getInstance().getTextureLocation("scrollDA");
+    texture[8] = GuiRender::getInstance().getTextureLocation("scrollB");
+    texture[9] = GuiRender::getInstance().getTextureLocation("scrollP");
+    texture[10] = GuiRender::getInstance().getTextureLocation("panelT");
+    texture[11] = GuiRender::getInstance().getTextureLocation("panelL");
+    texture[12] = GuiRender::getInstance().getTextureLocation("panelM");
+    texture[13] = GuiRender::getInstance().getTextureLocation("panelR");
+    texture[14] = GuiRender::getInstance().getTextureLocation("panelB");
+}
+
+void ListBox::recalculatePosition(){
+    //position
+    float dy = ((float)(height - 46) / (items.size() - canShow))*drawIndex;
+    vertex[14].x1 = width-14;
+    vertex[14].y1 = dy+18;
+    vertex[14].x2 = width-4;
+    vertex[14].y2 = dy+28;
+}
+
+void ListBox::onRender()
 {
-  if(visible)
-  {
-    glColor3f(1,1,1);
-    glBegin(GL_QUADS);
-      // top of panel.
-      glTexCoord2f((float)10/128, (float)33/128); glVertex2i(x+2, -y);
-      glTexCoord2f((float)10/128, (float)32/128); glVertex2i(x+2, -y-2);
-      glTexCoord2f((float)37/128, (float)32/128); glVertex2i(x+2+(width-4), -y-2);
-      glTexCoord2f((float)37/128, (float)33/128); glVertex2i(x+2+(width-4), -y);
+    GuiRender::getInstance().drawImage(texture[10],vertex[0]); // top of panel.
+    GuiRender::getInstance().drawImage(texture[11],vertex[1]); // left side of panel.
+    GuiRender::getInstance().drawImage(texture[12],vertex[2]); // middle of panel.
+    GuiRender::getInstance().drawImage(texture[13],vertex[3]); // right side of panel.
+    GuiRender::getInstance().drawImage(texture[14],vertex[4]); // bottom middle of panel.
 
-      // left side of panel.
-      glTexCoord2f((float)38/128, (float)61/128); glVertex2i(x, -y);
-      glTexCoord2f((float)38/128, (float)34/128); glVertex2i(x, -y-height+2);
-      glTexCoord2f((float)39/128, (float)34/128); glVertex2i(x+2, -y-height+2);
-      glTexCoord2f((float)39/128, (float)61/128); glVertex2i(x+2, -y);
-
-      // middle of panel.
-      glTexCoord2f((float)18/128, (float)54/128); glVertex2i(x+2, -y-2);
-      glTexCoord2f((float)18/128, (float)42/128); glVertex2i(x+2, -y-height+2);
-      glTexCoord2f((float)30/128, (float)42/128); glVertex2i(x+2+(width-4), -y-height+2);
-      glTexCoord2f((float)30/128, (float)54/128); glVertex2i(x+2+(width-4), -y-2);
-
-      // right side of panel.
-      glTexCoord2f((float) 8/128, (float)61/128); glVertex2i(x+width-2, -y);
-      glTexCoord2f((float) 8/128, (float)34/128); glVertex2i(x+width-2, -y-height+2);
-      glTexCoord2f((float) 9/128, (float)34/128); glVertex2i(x+width, -y-height+2);
-      glTexCoord2f((float) 9/128, (float)61/128); glVertex2i(x+width, -y);
-
-      // bottom middle of panel.
-      glTexCoord2f((float)10/128, (float)62/128); glVertex2i(x+2, -y-height+2);
-      glTexCoord2f((float)10/128, (float)63/128); glVertex2i(x+2, -y-height);
-      glTexCoord2f((float)37/128, (float)63/128); glVertex2i(x+2+(width-2), -y-height);
-      glTexCoord2f((float)37/128, (float)62/128); glVertex2i(x+2+(width-2), -y-height+2);
-
-    glEnd();
-
-    glTranslatef(0,0,0.02f);
+    GuiRender::getInstance().nextLayer();
     unsigned limit = (canShow<items.size()) ? canShow : items.size();
     for(unsigned i=0;i<limit;i++){
-        if(selected == i+drawIndex)
-            drawSelected(x+2,y+2+(i*16),width-20,items.at(i+drawIndex));
-        else {
-            fnt->writeText(x+5,-y-17-(i*16),items.at(i+drawIndex));
-            glBindTexture(GL_TEXTURE_2D,Gui::skinTextureID);
+        if(selected == i+drawIndex){
+            //GuiRender::getInstance().nextLayer();
+            Rect selected = {2,2+(i*16),width-18,18+(i*16)};
+            GuiRender::getInstance().setColor((float)89/255,(float)97/255,(float)102/255,1);
+            GuiRender::getInstance().drawFilledRect(selected);
+            fnt->writeText(6,18+(i*16),items.at(i+drawIndex));
+        } else {
+            fnt->writeText(5,17+(i*16),items.at(i+drawIndex));
         }
     }
 
-    glColor3f(1,1,1);
-    drawButton(x+width-18,y+2,upPressed,true);
-    drawButton(x+width-18,y+height-18,downPressed,false);
-    glColor3f(1,1,1);
-    glBegin(GL_QUADS);
-          glTexCoord2f((float) 8/128, (float)61/128); glVertex2i(x+width-10, -y-18);
-          glTexCoord2f((float) 8/128, (float)34/128); glVertex2i(x+width-10, -y-height+18);
-          glTexCoord2f((float) 9/128, (float)34/128); glVertex2i(x+width-9, -y-height+18);
-          glTexCoord2f((float) 9/128, (float)61/128); glVertex2i(x+width-9, -y-18);
-    glEnd();
+    drawButton(6,upPressed,true);
+    drawButton(10,downPressed,false);
+
+    GuiRender::getInstance().drawImage(texture[8],vertex[5]); //scrollbar body
     if(items.size() > canShow){
-        float length = (float)(height - 46) / (items.size() - canShow);
-        float dy = length * drawIndex;
-        glTranslatef(0,0,0.02f);
-        glBegin(GL_QUADS);
-          glTexCoord2f((float)99/128, (float)61/128);	glVertex2f((float)x+width-14,-y-dy-18);
-          glTexCoord2f((float)99/128, (float)53/128);	glVertex2f((float)x+width-14,-y-dy-28);
-          glTexCoord2f((float)91/128, (float)53/128);	glVertex2f((float)x+width-4, -y-dy-28);
-          glTexCoord2f((float)91/128, (float)61/128);	glVertex2f((float)x+width-4, -y-dy-18);
-        glEnd();
+        GuiRender::getInstance().nextLayer();
+        GuiRender::getInstance().drawImage(texture[9],vertex[14]); // scrollbar position
     }
-  }
 }
 
 void ListBox::onMouseDown(int mx, int my){
@@ -141,6 +205,7 @@ void ListBox::onMouseDown(int mx, int my){
                 drawIndex = 0;
             if(drawIndex > max)
                 drawIndex = max;
+            recalculatePosition();
         }
     }
 }
@@ -149,13 +214,17 @@ void ListBox::onMouseUp(int mx, int my){
     if(!visible) return;
 
     if(upPressed){
-        if(drawIndex > 0)
+        if(drawIndex > 0){
             drawIndex--;
+            recalculatePosition();
+        }
         upPressed= false;
     }
     if(downPressed){
-        if(drawIndex+canShow < items.size())
+        if(drawIndex+canShow < items.size()){
             drawIndex++;
+            recalculatePosition();
+        }
         downPressed= false;
     }
 }
@@ -164,162 +233,72 @@ string  ListBox::getSelectedItem(){
     return items.at(selected);
 }
 
-void ListBox::drawButton(int x, int y,bool pressed,bool upArrow)
+void ListBox::drawButton(int verIndex, bool pressed,bool upArrow)
 {
-  glPushMatrix();
+  GuiRender::getInstance().saveState();
   if (pressed)
   {
-    glBegin(GL_QUADS);
-      // left side
-      glTexCoord2f((float)57/128, (float)95/128); glVertex2i(x, -y);
-      glTexCoord2f((float)57/128, (float)70/128); glVertex2i(x, -y-16);
-      glTexCoord2f((float)62/128, (float)70/128); glVertex2i(x+6,-y-16);
-      glTexCoord2f((float)62/128, (float)95/128); glVertex2i(x+6, -y);
-
-      // middle
-      glTexCoord2f((float)62/128, (float)95/128); glVertex2i(x+6, -y);
-      glTexCoord2f((float)62/128, (float)70/128); glVertex2i(x+6, -y-16);
-      glTexCoord2f((float)66/128, (float)70/128); glVertex2i(x+10, -y-16);
-      glTexCoord2f((float)66/128, (float)95/128); glVertex2i(x+10, -y);
-
-      // right side
-      glTexCoord2f((float)66/128, (float)95/128); glVertex2i(x+10, -y);
-      glTexCoord2f((float)66/128, (float)70/128); glVertex2i(x+10, -y-16);
-      glTexCoord2f((float)71/128, (float)70/128); glVertex2i(x+16, -y-16);
-      glTexCoord2f((float)71/128, (float)95/128); glVertex2i(x+16, -y);
-    glEnd();
-    glTranslatef(1,0,0.2f);
+      GuiRender::getInstance().drawImage(texture[0],vertex[verIndex]); // left side
+      GuiRender::getInstance().drawImage(texture[1],vertex[verIndex+1]); // middle
+      GuiRender::getInstance().drawImage(texture[2],vertex[verIndex+2]); // right side
+      GuiRender::getInstance().move(0,-1);
   }
   else
   {
-    glBegin(GL_QUADS);
-      // left side
-      glTexCoord2f((float)41/128, (float)95/128); glVertex2i(x, -y);
-      glTexCoord2f((float)41/128, (float)70/128); glVertex2i(x, -y-16);
-      glTexCoord2f((float)46/128, (float)70/128); glVertex2i(x+6,-y-16);
-      glTexCoord2f((float)46/128, (float)95/128); glVertex2i(x+6, -y);
-
-      // middle
-      glTexCoord2f((float)46/128, (float)95/128); glVertex2i(x+6, -y);
-      glTexCoord2f((float)46/128, (float)70/128); glVertex2i(x+6, -y-16);
-      glTexCoord2f((float)50/128, (float)70/128); glVertex2i(x+10, -y-16);
-      glTexCoord2f((float)50/128, (float)95/128); glVertex2i(x+10, -y);
-
-      // right side
-      glTexCoord2f((float)50/128, (float)95/128); glVertex2i(x+10, -y);
-      glTexCoord2f((float)50/128, (float)70/128); glVertex2i(x+10, -y-16);
-      glTexCoord2f((float)55/128, (float)70/128); glVertex2i(x+16, -y-16);
-      glTexCoord2f((float)55/128, (float)95/128); glVertex2i(x+16, -y);
-    glEnd();
-    glTranslatef(0,0,0.2f);
+      GuiRender::getInstance().drawImage(texture[3],vertex[verIndex]); // left side
+      GuiRender::getInstance().drawImage(texture[4],vertex[verIndex+1]); // middle
+      GuiRender::getInstance().drawImage(texture[5],vertex[verIndex+2]); // right side
   }
-  if(upArrow){
-    glBegin(GL_QUADS);
-      glTexCoord2f((float)117/128, (float)63/128); glVertex2i(x, -y);
-      glTexCoord2f((float)117/128, (float)50/128); glVertex2i(x, -y-16);
-      glTexCoord2f((float)104/128, (float)50/128); glVertex2i(x+16,-y-16);
-      glTexCoord2f((float)104/128, (float)63/128); glVertex2i(x+16, -y);
-    glEnd();
-  } else {
-      glBegin(GL_QUADS);
-        glTexCoord2f((float)104/128, (float)50/128); glVertex2i(x, -y);
-        glTexCoord2f((float)104/128, (float)63/128); glVertex2i(x, -y-16);
-        glTexCoord2f((float)117/128, (float)63/128); glVertex2i(x+16,-y-16);
-        glTexCoord2f((float)117/128, (float)50/128); glVertex2i(x+16, -y);
-      glEnd();
-  }
-  glPopMatrix();
+
+  GuiRender::getInstance().nextLayer();
+  if(upArrow)
+      GuiRender::getInstance().drawImage(texture[6],vertex[verIndex+3]);
+  else
+      GuiRender::getInstance().drawImage(texture[7],vertex[verIndex+3]);
+  GuiRender::getInstance().restoreState();
 }
 
-void ListBox::drawSelected(int x, int y,int width,string item){
-    glTranslatef(0,0,0.02f);
-	glColor3f(1,1,1);
-    glBegin(GL_QUADS);
-      // top left corner of panel.
-      glTexCoord2f((float) 8/128, (float)64/128); glVertex2i(x, -y);
-      glTexCoord2f((float) 8/128, (float)54/128); glVertex2i(x, -y-10);
-      glTexCoord2f((float)18/128, (float)54/128); glVertex2i(x+10, -y-10);
-      glTexCoord2f((float)18/128, (float)64/128); glVertex2i(x+10, -y);
 
-      // top of panel.
-      glTexCoord2f((float)18/128, (float)64/128); glVertex2i(x+10, -y);
-      glTexCoord2f((float)18/128, (float)54/128); glVertex2i(x+10, -y-10);
-      glTexCoord2f((float)30/128, (float)54/128); glVertex2i(x+10+(width-20), -y-10);
-      glTexCoord2f((float)30/128, (float)64/128); glVertex2i(x+10+(width-20), -y);
-
-      // top right corder of panel.
-      glTexCoord2f((float)30/128, (float)64/128); glVertex2i(x+width-10, -y);
-      glTexCoord2f((float)30/128, (float)54/128); glVertex2i(x+width-10, -y-10);
-      glTexCoord2f((float)40/128, (float)54/128); glVertex2i(x+width, -y-10);
-      glTexCoord2f((float)40/128, (float)64/128); glVertex2i(x+width, -y);
-
-      // left side of panel.
-      glTexCoord2f((float) 8/128, (float)54/128); glVertex2i(x, -y-10);
-      glTexCoord2f((float) 8/128, (float)42/128); glVertex2i(x, -y-16+10);
-      glTexCoord2f((float)18/128, (float)42/128); glVertex2i(x+10, -y-16+10);
-      glTexCoord2f((float)18/128, (float)54/128); glVertex2i(x+10, -y-10);
-
-      // right side of panel.
-      glTexCoord2f((float)30/128, (float)54/128); glVertex2i(x+width-10, -y-10);
-      glTexCoord2f((float)30/128, (float)42/128); glVertex2i(x+width-10, -y-16+10);
-      glTexCoord2f((float)40/128, (float)42/128); glVertex2i(x+width, -y-16+10);
-      glTexCoord2f((float)40/128, (float)54/128); glVertex2i(x+width, -y-10);
-
-      // bottom left corner of panel.
-      glTexCoord2f((float) 8/128, (float)42/128); glVertex2i(x, -y-16+10);
-      glTexCoord2f((float) 8/128, (float)32/128); glVertex2i(x, -y-16);
-      glTexCoord2f((float)18/128, (float)32/128); glVertex2i(x+10, -y-16);
-      glTexCoord2f((float)18/128, (float)42/128); glVertex2i(x+10, -y-16+10);
-
-      // bottom middle of panel.
-      glTexCoord2f((float)18/128, (float)42/128); glVertex2i(x+10, -y-16+10);
-      glTexCoord2f((float)18/128, (float)32/128); glVertex2i(x+10, -y-16);
-      glTexCoord2f((float)30/128, (float)32/128); glVertex2i(x+10+(width-20), -y-16);
-      glTexCoord2f((float)30/128, (float)42/128); glVertex2i(x+10+(width-20), -y-16+10);
-
-      // bottom right corner of panel.
-      glTexCoord2f((float)30/128, (float)42/128); glVertex2i(x+width-10, -y-16+10);
-      glTexCoord2f((float)30/128, (float)32/128); glVertex2i(x+width-10, -y-16);
-      glTexCoord2f((float)40/128, (float)32/128); glVertex2i(x+width, -y-16);
-      glTexCoord2f((float)40/128, (float)42/128); glVertex2i(x+width, -y-16+10);
-
-    glEnd();
-
-    fnt->writeText(x+4,-y-16,item);
-    glBindTexture(GL_TEXTURE_2D,Gui::skinTextureID);
-}
 
 void ListBox::addItem(string item){
     items.push_back(item);
     if(items.size() == 1){
         selected = 0;
     }
+    recalculatePosition();
 }
 
 void ListBox::onKeyUp(int key){
-    int size = items.size();
+    unsigned size = items.size();
     switch(key){
         case GLFW_KEY_DOWN:
             if(selected == -1 && size > 0){
                 selected = 0;
                 drawIndex = 0;
+                recalculatePosition();
             }
             if(selected+1 < size){
                 selected++;
-                if(drawIndex + canShow <= selected)
+                if(drawIndex + canShow <= selected){
                     drawIndex = selected - canShow + 1;
+                    recalculatePosition();
+                }
             }
             break;
         case GLFW_KEY_UP:
             if(selected == -1 && size > 0){
                 selected = size - 1;
-                if(size > canShow)
+                if(size > canShow){
                     drawIndex = size - canShow;
+                    recalculatePosition();
+                }
             }
             if(selected-1 >= 0){
                 selected--;
-                if(drawIndex > selected)
+                if(drawIndex > selected){
                     drawIndex = selected;
+                    recalculatePosition();
+                }
             }
             break;
         case GLFW_KEY_TAB:
