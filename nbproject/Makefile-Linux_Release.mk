@@ -36,6 +36,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/src/session.o \
 	${OBJECTDIR}/src/md2loader/md2model.o \
 	${OBJECTDIR}/src/zip/unzip.o \
+	${OBJECTDIR}/src/gui/msgbox.o \
 	${OBJECTDIR}/src/resource.o \
 	${OBJECTDIR}/src/input.o \
 	${OBJECTDIR}/src/main.o \
@@ -48,6 +49,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/src/gui/editbox.o \
 	${OBJECTDIR}/src/player.o \
 	${OBJECTDIR}/src/object.o \
+	${OBJECTDIR}/src/gui/guirender.o \
 	${OBJECTDIR}/src/gui/text.o \
 	${OBJECTDIR}/src/messages.o \
 	${OBJECTDIR}/src/game-render.o \
@@ -143,6 +145,16 @@ ${OBJECTDIR}/src/zip/unzip.o: src/zip/unzip.c
 	${RM} $@.d
 	$(COMPILE.c) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/zip/unzip.o src/zip/unzip.c
 
+${OBJECTDIR}/src/gui/msgbox.o: src/gui/msgbox.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src/gui
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -DLinux_Release -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/gui/msgbox.o src/gui/msgbox.cpp
+
+${OBJECTDIR}/src/gui/guirender.h.gch: src/gui/guirender.h 
+	${MKDIR} -p ${OBJECTDIR}/src/gui
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -DLinux_Release -MMD -MP -MF $@.d -o $@ src/gui/guirender.h
+
 ${OBJECTDIR}/src/gui/commongui.h.gch: src/gui/commongui.h 
 	${MKDIR} -p ${OBJECTDIR}/src/gui
 	${RM} $@.d
@@ -172,6 +184,11 @@ ${OBJECTDIR}/src/gui/component.o: src/gui/component.cpp
 	${MKDIR} -p ${OBJECTDIR}/src/gui
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -DLinux_Release -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/gui/component.o src/gui/component.cpp
+
+${OBJECTDIR}/src/gui/msgbox.h.gch: src/gui/msgbox.h 
+	${MKDIR} -p ${OBJECTDIR}/src/gui
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -DLinux_Release -MMD -MP -MF $@.d -o $@ src/gui/msgbox.h
 
 ${OBJECTDIR}/src/zip/zipfile.o: src/zip/zipfile.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/zip
@@ -227,6 +244,11 @@ ${OBJECTDIR}/src/md2loader/md2model.h.gch: src/md2loader/md2model.h
 	${MKDIR} -p ${OBJECTDIR}/src/md2loader
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -DLinux_Release -MMD -MP -MF $@.d -o $@ src/md2loader/md2model.h
+
+${OBJECTDIR}/src/gui/guirender.o: src/gui/guirender.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src/gui
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -DLinux_Release -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/gui/guirender.o src/gui/guirender.cpp
 
 ${OBJECTDIR}/src/gui/text.o: src/gui/text.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/gui
