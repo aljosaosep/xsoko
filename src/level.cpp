@@ -910,7 +910,7 @@ namespace PacGame
               glDisable(GL_LIGHTING);
 
               //Change mode for text
-              glMatrixMode(GL_PROJECTION);  // Change Matrix Mode to Projection
+              /*glMatrixMode(GL_PROJECTION);  // Change Matrix Mode to Projection
               glLoadIdentity();             // Reset View
               glOrtho(0, 800, 0, 600, 0, 100);
               glMatrixMode(GL_MODELVIEW);   // Change Projection to Matrix Mode
@@ -921,7 +921,7 @@ namespace PacGame
               if(!endgameFlag)
                   time = glfwGetTime();
               fnt->writeTextAbs(10,-30,"Elapsed time: "+Functions::toString<int>((int)(time-starttime)));
-              fnt->writeTextAbs(170,-30,"Moves: "+Functions::toString<int>(moves));
+              fnt->writeTextAbs(170,-30,"Moves: "+Functions::toString<int>(moves));*/
           }
           /****************************************
            * animate
@@ -1071,9 +1071,9 @@ namespace PacGame
                         this->checkAndApplyBombBlast(firstDroppedBomb->i, firstDroppedBomb->j+1);
                         
                         // remove first dropped bomb
+						data[firstDroppedBomb->i][firstDroppedBomb->j]->toogleBombActivity();
                         delete bombs[0];
                         this->bombs.erase(this->bombs.begin());
-                        data[firstDroppedBomb->i][firstDroppedBomb->j]->toogleBombActivity();
                     }
                 }              
           }

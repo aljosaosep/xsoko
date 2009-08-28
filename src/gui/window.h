@@ -42,7 +42,6 @@ protected:
 
     //for rendering
     Rect vertex[9];
-    Rect texture[9];
 protected:
     void onRender();
 public:

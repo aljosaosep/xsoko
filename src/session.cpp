@@ -372,9 +372,9 @@ namespace PacGame
 
         PGameSession::~PGameSession()
         {
-            delete freeMenu;
-            delete gameMenu;
-            delete mainMenu;
+            //delete freeMenu;
+            //delete gameMenu;
+            //delete mainMenu;
             #if defined(Linux_Release) || defined(Windows_Release) || defined(_RELEASE)
                 glfwEnable(GLFW_MOUSE_CURSOR);
             #endif

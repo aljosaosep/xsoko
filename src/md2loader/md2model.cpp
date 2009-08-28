@@ -157,6 +157,7 @@ namespace PacGame
 			float interpolate = frame - (float)((int)frame); // decimal part of frame
 			
 			prev_frame = &frames[(int)frame];
+
 			
 			if(textured)
 			{

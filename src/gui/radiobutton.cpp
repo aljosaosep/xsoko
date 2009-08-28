@@ -36,9 +36,6 @@ void RadioButton::invalidate(){
     ver.y1 = 0;
     ver.x2 = width;
     ver.y2 = height;
-
-    texture[0] = GuiRender::getInstance().getTextureLocation("radioBtnC");
-    texture[1] = GuiRender::getInstance().getTextureLocation("radioBtnU");
 }
 
 /*------------------------------------------------------------------*
@@ -47,9 +44,9 @@ void RadioButton::invalidate(){
 void RadioButton::onRender()
 {
   if (checked)
-    GuiRender::getInstance().drawImage(texture[0],ver);
+	  GuiRender::getInstance().drawImage(GUI_TEX_RADIOBTN_CHECKED,ver);
   else
-    GuiRender::getInstance().drawImage(texture[1],ver);
+	  GuiRender::getInstance().drawImage(GUI_TEX_RADIOBTN_UNCHECKED,ver);
 }
 
 void RadioButton::onMouseDown(int mx, int my){

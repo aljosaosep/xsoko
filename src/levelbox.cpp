@@ -68,7 +68,7 @@ namespace PacGame
             
             void PLevelObject::toogleBombActivity()
             {
-                this->containsActiveBomb == false ? this->containsActiveBomb = true : this->containsActiveBomb = false;
+                this->containsActiveBomb = !this->containsActiveBomb;
             }
 
             int PLevelObject::getI() const  // i index getter

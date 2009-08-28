@@ -75,7 +75,7 @@ public:
     void onKeyUp(int key);
 
     //events
-    signal< void(Component*,int) > PositionChanged;
+    signal<void(Component*,int)> PositionChanged;
 };
 
 #endif	/* _SCROLLBAR_H */

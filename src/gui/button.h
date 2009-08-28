@@ -37,7 +37,6 @@ private:
 
     //for rendering
     Rect vertex[4];
-    Rect texture[6];
 protected:
     void onRender();
 public:
@@ -60,7 +59,7 @@ public:
     void onKeyDown(int key);
 
     //event
-    signal<void (Component*) > onPressed;
+    signal<void (Component*)> onPressed;
 };
 
 #endif	/* _BUTTON_H */

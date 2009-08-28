@@ -123,22 +123,6 @@ void ListBox::invalidate(){
     vertex[13].y2 = height-2;
 
     recalculatePosition();
-
-    texture[0] = GuiRender::getInstance().getTextureLocation("buttonPL");
-    texture[1] = GuiRender::getInstance().getTextureLocation("buttonPM");
-    texture[2] = GuiRender::getInstance().getTextureLocation("buttonPR");
-    texture[3] = GuiRender::getInstance().getTextureLocation("buttonUL");
-    texture[4] = GuiRender::getInstance().getTextureLocation("buttonUM");
-    texture[5] = GuiRender::getInstance().getTextureLocation("buttonUR");
-    texture[6] = GuiRender::getInstance().getTextureLocation("scrollUA");
-    texture[7] = GuiRender::getInstance().getTextureLocation("scrollDA");
-    texture[8] = GuiRender::getInstance().getTextureLocation("scrollB");
-    texture[9] = GuiRender::getInstance().getTextureLocation("scrollP");
-    texture[10] = GuiRender::getInstance().getTextureLocation("panelT");
-    texture[11] = GuiRender::getInstance().getTextureLocation("panelL");
-    texture[12] = GuiRender::getInstance().getTextureLocation("panelM");
-    texture[13] = GuiRender::getInstance().getTextureLocation("panelR");
-    texture[14] = GuiRender::getInstance().getTextureLocation("panelB");
 }
 
 void ListBox::recalculatePosition(){
@@ -152,20 +136,17 @@ void ListBox::recalculatePosition(){
 
 void ListBox::onRender()
 {
-    GuiRender::getInstance().drawImage(texture[10],vertex[0]); // top of panel.
-    GuiRender::getInstance().drawImage(texture[11],vertex[1]); // left side of panel.
-    GuiRender::getInstance().drawImage(texture[12],vertex[2]); // middle of panel.
-    GuiRender::getInstance().drawImage(texture[13],vertex[3]); // right side of panel.
-    GuiRender::getInstance().drawImage(texture[14],vertex[4]); // bottom middle of panel.
+    GuiRender::getInstance().drawImage(GUI_TEX_PANEL_TOP,   vertex[0]);
+    GuiRender::getInstance().drawImage(GUI_TEX_PANEL_LEFT,  vertex[1]);
+    GuiRender::getInstance().drawImage(GUI_TEX_PANEL_MIDLLE,vertex[2]);
+    GuiRender::getInstance().drawImage(GUI_TEX_PANEL_RIGHT, vertex[3]);
+    GuiRender::getInstance().drawImage(GUI_TEX_PANEL_BOTTOM,vertex[4]);
 
-    GuiRender::getInstance().nextLayer();
     unsigned limit = (canShow<items.size()) ? canShow : items.size();
     for(unsigned i=0;i<limit;i++){
         if(selected == i+drawIndex){
-            //GuiRender::getInstance().nextLayer();
-            Rect selected = {2,2+(i*16),width-18,18+(i*16)};
             GuiRender::getInstance().setColor((float)89/255,(float)97/255,(float)102/255,1);
-            GuiRender::getInstance().drawFilledRect(selected);
+            GuiRender::getInstance().drawFilledRect(2,2+(i*16),width-19,18+(i*16));
             fnt->writeText(6,18+(i*16),items.at(i+drawIndex));
         } else {
             fnt->writeText(5,17+(i*16),items.at(i+drawIndex));
@@ -175,10 +156,9 @@ void ListBox::onRender()
     drawButton(6,upPressed,true);
     drawButton(10,downPressed,false);
 
-    GuiRender::getInstance().drawImage(texture[8],vertex[5]); //scrollbar body
+	GuiRender::getInstance().drawImage(GUI_TEX_SCROLL_BODY,vertex[5]);
     if(items.size() > canShow){
-        GuiRender::getInstance().nextLayer();
-        GuiRender::getInstance().drawImage(texture[9],vertex[14]); // scrollbar position
+		GuiRender::getInstance().drawImage(GUI_TEX_SCROLL_POSITION,vertex[14]);
     }
 }
 
@@ -235,27 +215,24 @@ string  ListBox::getSelectedItem(){
 
 void ListBox::drawButton(int verIndex, bool pressed,bool upArrow)
 {
-  GuiRender::getInstance().saveState();
   if (pressed)
   {
-      GuiRender::getInstance().drawImage(texture[0],vertex[verIndex]); // left side
-      GuiRender::getInstance().drawImage(texture[1],vertex[verIndex+1]); // middle
-      GuiRender::getInstance().drawImage(texture[2],vertex[verIndex+2]); // right side
+	  GuiRender::getInstance().drawImage(GUI_TEX_BTN_PRESSED_LEFT,  vertex[verIndex]);
+	  GuiRender::getInstance().drawImage(GUI_TEX_BTN_PRESSED_MIDDLE,vertex[verIndex+1]);
+	  GuiRender::getInstance().drawImage(GUI_TEX_BTN_PRESSED_RIGHT, vertex[verIndex+2]);
       GuiRender::getInstance().move(0,-1);
   }
   else
   {
-      GuiRender::getInstance().drawImage(texture[3],vertex[verIndex]); // left side
-      GuiRender::getInstance().drawImage(texture[4],vertex[verIndex+1]); // middle
-      GuiRender::getInstance().drawImage(texture[5],vertex[verIndex+2]); // right side
+	  GuiRender::getInstance().drawImage(GUI_TEX_BTN_UNPRESSED_LEFT,  vertex[verIndex]);
+	  GuiRender::getInstance().drawImage(GUI_TEX_BTN_UNPRESSED_MIDDLE,vertex[verIndex+1]);
+	  GuiRender::getInstance().drawImage(GUI_TEX_BTN_UNPRESSED_RIGHT,vertex[verIndex+2]);
   }
 
-  GuiRender::getInstance().nextLayer();
   if(upArrow)
-      GuiRender::getInstance().drawImage(texture[6],vertex[verIndex+3]);
+	  GuiRender::getInstance().drawImage(GUI_TEX_SCROLL_UP_ARROW,vertex[verIndex+3]);
   else
-      GuiRender::getInstance().drawImage(texture[7],vertex[verIndex+3]);
-  GuiRender::getInstance().restoreState();
+	  GuiRender::getInstance().drawImage(GUI_TEX_SCROLL_DOWN_ARROW,vertex[verIndex+3]);
 }
 
 

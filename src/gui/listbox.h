@@ -42,7 +42,6 @@ private:
     void recalculatePosition();
 
     Rect vertex[15];
-    Rect texture[15];
 protected:
     void onRender();
 public:

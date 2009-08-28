@@ -57,13 +57,6 @@ void Button::invalidate(){
     vertex[3].y1 = 5;
     vertex[3].x2 = width-3;
     vertex[3].y2 = height-5;
-
-    texture[0] = GuiRender::getInstance().getTextureLocation("buttonPL");
-    texture[1] = GuiRender::getInstance().getTextureLocation("buttonPM");
-    texture[2] = GuiRender::getInstance().getTextureLocation("buttonPR");
-    texture[3] = GuiRender::getInstance().getTextureLocation("buttonUL");
-    texture[4] = GuiRender::getInstance().getTextureLocation("buttonUM");
-    texture[5] = GuiRender::getInstance().getTextureLocation("buttonUR");
 }
 
 
@@ -74,23 +67,22 @@ void Button::onRender()
 {
   if (pressed)
   {
-      GuiRender::getInstance().drawImage(texture[0],vertex[0]); // left side
-      GuiRender::getInstance().drawImage(texture[1],vertex[1]); // middle
-      GuiRender::getInstance().drawImage(texture[2],vertex[2]); // right side
+	  GuiRender::getInstance().drawImage(GUI_TEX_BTN_PRESSED_LEFT,  vertex[0]);
+      GuiRender::getInstance().drawImage(GUI_TEX_BTN_PRESSED_MIDDLE,vertex[1]);
+      GuiRender::getInstance().drawImage(GUI_TEX_BTN_PRESSED_RIGHT, vertex[2]);
       GuiRender::getInstance().move(0,-1);
   }
   else
   {
-      GuiRender::getInstance().drawImage(texture[3],vertex[0]); // left side
-      GuiRender::getInstance().drawImage(texture[4],vertex[1]); // middle
-      GuiRender::getInstance().drawImage(texture[5],vertex[2]); // right side
+	  GuiRender::getInstance().drawImage(GUI_TEX_BTN_UNPRESSED_LEFT,  vertex[0]);
+      GuiRender::getInstance().drawImage(GUI_TEX_BTN_UNPRESSED_MIDDLE,vertex[1]);
+      GuiRender::getInstance().drawImage(GUI_TEX_BTN_UNPRESSED_RIGHT, vertex[2]);
   }
   
   int deltay = (height - fnt->getSize())/2 + fnt->getSize();
   fnt->writeText((int)(width-fnt->stringWidth(caption))/2, deltay, caption);
 
   if(focused){
-    GuiRender::getInstance().nextLayer();
     GuiRender::getInstance().setColor(0,0,0,1);
     GuiRender::getInstance().drawRect(vertex[3], 1);
   }

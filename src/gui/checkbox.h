@@ -34,7 +34,6 @@ private:
 
     //for rendering
     Rect vertex;
-    Rect texture[2];
 protected:
     void onRender();
 public:

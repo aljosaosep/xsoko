@@ -31,6 +31,9 @@
 #ifndef __COMMON_STRUCTURES_H
 #define __COMMON_STRUCTURES_H
 
+#ifdef _WINDOWS
+	#include <windows.h>
+#endif
 #include <GL/glfw.h>
 #include <sstream>
 

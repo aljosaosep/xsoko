@@ -31,7 +31,6 @@
 #ifndef __RENDERER_H
 #define __RENDERER_H
 
-#include <GL/glfw.h>
 #include <stdio.h>
 #include <string>
 #include "../CommonStructures.h"

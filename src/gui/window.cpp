@@ -109,16 +109,6 @@ void Window::invalidate(){
     vertex[8].y1 = height-27;
     vertex[8].x2 = width;
     vertex[8].y2 = height;
-
-    texture[0] = GuiRender::getInstance().getTextureLocation("windowTL");
-    texture[1] = GuiRender::getInstance().getTextureLocation("windowT");
-    texture[2] = GuiRender::getInstance().getTextureLocation("windowTR");
-    texture[3] = GuiRender::getInstance().getTextureLocation("windowL");
-    texture[4] = GuiRender::getInstance().getTextureLocation("windowM");
-    texture[5] = GuiRender::getInstance().getTextureLocation("windowR");
-    texture[6] = GuiRender::getInstance().getTextureLocation("windowBL");
-    texture[7] = GuiRender::getInstance().getTextureLocation("windowB");
-    texture[8] = GuiRender::getInstance().getTextureLocation("windowBR");
 }
 
 /*------------------------------------------------------------------*
@@ -128,15 +118,15 @@ void Window::onRender()
 {
     GuiRender::getInstance().setColor(1,1,1,alpha);
 
-      GuiRender::getInstance().drawImage(texture[0],vertex[0]); // top left corner of window.
-      GuiRender::getInstance().drawImage(texture[1],vertex[1]); // top of window.
-      GuiRender::getInstance().drawImage(texture[2],vertex[2]); // top right corder of window.
-      GuiRender::getInstance().drawImage(texture[3],vertex[3]); // left side of window.
-      GuiRender::getInstance().drawImage(texture[4],vertex[4]); // draw the main body of the window
-      GuiRender::getInstance().drawImage(texture[5],vertex[5]); // right side of window.
-      GuiRender::getInstance().drawImage(texture[6],vertex[6]); // bottom left corner of window.
-      GuiRender::getInstance().drawImage(texture[7],vertex[7]); // bottom of window.
-      GuiRender::getInstance().drawImage(texture[8],vertex[8]); // bottom right corner of window.
+	GuiRender::getInstance().drawImage(GUI_TEX_WINDOW_TOP_LEFT,  vertex[0]);
+	GuiRender::getInstance().drawImage(GUI_TEX_WINDOW_TOP_MIDLLE,vertex[1]);
+	GuiRender::getInstance().drawImage(GUI_TEX_WINDOW_TOP_RIGHT, vertex[2]);
+    GuiRender::getInstance().drawImage(GUI_TEX_WINDOW_LEFT,  vertex[3]);
+    GuiRender::getInstance().drawImage(GUI_TEX_WINDOW_MIDLLE,vertex[4]);
+    GuiRender::getInstance().drawImage(GUI_TEX_WINDOW_RIGHT, vertex[5]);
+	GuiRender::getInstance().drawImage(GUI_TEX_WINDOW_BOTTOM_LEFT,  vertex[6]);
+	GuiRender::getInstance().drawImage(GUI_TEX_WINDOW_BOTTOM_MIDLLE,vertex[7]);
+	GuiRender::getInstance().drawImage(GUI_TEX_WINDOW_BOTTOM_RIGHT, vertex[8]);
 
       //glBegin(GL_QUADS);
         /*if(enableCloseButton){
@@ -150,7 +140,6 @@ void Window::onRender()
 
       fnt->writeText((int)(width-fnt->stringWidth(caption))/2,24,caption);
 
-      GuiRender::getInstance().nextLayer();
       //glEnable(GL_SCISSOR_TEST);
       //glScissor(x+6,screenHeight-y-height,width-12,height);
       for(unsigned i=0;i<components.size();i++){

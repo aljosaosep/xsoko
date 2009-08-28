@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=""
+				AdditionalIncludeDirectories="&quot;C:\Program Files\boost\boost_1_39&quot;"
 				PreprocessorDefinitions="_WINDOWS;WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -63,7 +63,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="alut.lib glfw.lib openal32.lib zlib1.lib opengl32.lib ftgl.lib glu32.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories=""
+				AdditionalLibraryDirectories="&quot;C:\Program Files\boost\boost_1_39\lib&quot;"
 				IgnoreDefaultLibraryNames="LIBCMT"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -251,11 +251,67 @@
 				Name="gui"
 				>
 				<File
+					RelativePath="..\..\src\gui\button.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\gui\checkbox.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\gui\component.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\gui\container.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\gui\editbox.cpp"
+					>
+				</File>
+				<File
 					RelativePath="..\..\src\gui\fonts.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\src\gui\win.cpp"
+					RelativePath="..\..\src\gui\gui.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\gui\guirender.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\gui\listbox.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\gui\msgbox.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\gui\panel.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\gui\radiobutton.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\gui\radiobuttongroup.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\gui\scrollbar.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\gui\text.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\gui\window.cpp"
 					>
 				</File>
 			</Filter>
@@ -373,11 +429,71 @@
 				Name="gui"
 				>
 				<File
+					RelativePath="..\..\src\gui\button.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\gui\checkbox.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\gui\commongui.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\gui\component.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\gui\container.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\gui\editbox.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\src\gui\fonts.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\src\gui\win.h"
+					RelativePath="..\..\src\gui\gui.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\gui\guirender.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\gui\listbox.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\gui\msgbox.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\gui\panel.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\gui\radiobutton.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\gui\radiobuttongroup.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\gui\scrollbar.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\gui\text.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\gui\window.h"
 					>
 				</File>
 			</Filter>
