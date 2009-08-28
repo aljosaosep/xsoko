@@ -37,7 +37,6 @@ private:
     double time;
 
     Rect vertex[5];
-    Rect texture[5];
 protected:
     void onRender();
 public:

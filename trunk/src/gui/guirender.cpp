@@ -16,15 +16,8 @@
  * You should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include <algorithm>
-
-
 #include <fstream>
 #include <sstream>
-
-
-#include <GL/gl.h>
-#include <vector>
 
 #include "guirender.h"
 
@@ -33,72 +26,67 @@ GuiRender& GuiRender::getInstance(){
     return render;
 }
 
-void GuiRender::loadSkin(unsigned skin, string skinFile){
-    skinID = skin;
+void GuiRender::loadSkin(string skinImage, string skinFile){
+    
+	glGenTextures(1,&skinID);
+    glBindTexture(GL_TEXTURE_2D,skinID);
+	if(glfwLoadTexture2D(skinImage.c_str(), GLFW_ORIGIN_UL_BIT)){
+       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+       glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+    }
+
     ifstream file;
     file.open(skinFile.c_str(),ios::in);
     if(file.good()){
-        string vrstica;
-        while(!file.eof()){
+        string vrstica,name;
+        for(int count=0;!file.eof();count++){
             getline(file,vrstica);
             stringstream stream(vrstica);
-            texInfo info;
-            stream >> info.name >> info.location.x1 >> info.location.y1 >>
-                    info.location.x2 >> info.location.y2;
-            textureInfo.push_back(info);
+			//Rect location;
+            //stream >> name >> location.x1 >> location.y1 >>
+            //        location.x2 >> location.y2;
+            //textures[count] = location;
+			stream >> name >> textures[count][0] >> textures[count][1] >>
+                    textures[count][4] >> textures[count][5];
+			textures[count][6] = textures[count][0] /= 128;
+			textures[count][3] = textures[count][1] /= 128;
+			textures[count][2] = textures[count][4] /= 128;
+			textures[count][7] = textures[count][5] /= 128;
         }
     }
-    sort(textureInfo.begin(),textureInfo.end(),sortObj);
 }
 
-Rect GuiRender::getTextureLocation(string name){
-    //int index = 0, i = 0, j=textureInfo.size();
-    texInfo temp;
-    Rect empty = {0,0,0,0};
-    temp.name = name;
-    int index = lower_bound(textureInfo.begin(),textureInfo.end(),temp) - textureInfo.begin();
-    temp = textureInfo[index];
-    if(name != temp.name)
-        return empty;
-    else
-        return temp.location;
-}
-
-void GuiRender::drawImage(Rect textureRect, Rect drawRect){
+void GuiRender::drawImage(int index, Rect drawRect){
     glBindTexture(GL_TEXTURE_2D,skinID);
 
     glColor4f(1,1,1,alpha);
-    /*int vertex[] = {drawRect.x1, -drawRect.y1,
-                    drawRect.x2, -drawRect.y1,
-                    drawRect.x2, -drawRect.y2,
-                    drawRect.x1, -drawRect.y2};
-    float texture[] = {(float)textureRect.x1/128, (float)textureRect.y1/128,
+	//Rect textureRect = textures[index];
+    int vertex[] = {x+drawRect.x1, y-drawRect.y1,
+                    x+drawRect.x2, y-drawRect.y1,
+                    x+drawRect.x2, y-drawRect.y2,
+                    x+drawRect.x1, y-drawRect.y2};
+    /*float texture[] = {(float)textureRect.x1/128, (float)textureRect.y1/128,
                        (float)textureRect.x2/128, (float)textureRect.y1/128,
                        (float)textureRect.x2/128, (float)textureRect.y2/128,
-                       (float)textureRect.x1/128, (float)textureRect.y2/128};
+                       (float)textureRect.x1/128, (float)textureRect.y2/128};*/
     glVertexPointer(2,GL_INT,0,vertex);
-    glTexCoordPointer(2,GL_FLOAT,0,texture);
-    glDrawArrays(GL_QUADS,0,4);*/
-    glBegin(GL_QUADS);
-      glTexCoord2f((float)textureRect.x1/128, (float)textureRect.y1/128); glVertex2i(x+drawRect.x1, y-drawRect.y1);
-      glTexCoord2f((float)textureRect.x2/128, (float)textureRect.y1/128); glVertex2i(x+drawRect.x2, y-drawRect.y1);
-      glTexCoord2f((float)textureRect.x2/128, (float)textureRect.y2/128); glVertex2i(x+drawRect.x2, y-drawRect.y2);
-      glTexCoord2f((float)textureRect.x1/128, (float)textureRect.y2/128); glVertex2i(x+drawRect.x1, y-drawRect.y2);
-    glEnd();
+    glTexCoordPointer(2,GL_FLOAT,0,textures[index]);
+    glDrawArrays(GL_QUADS,0,4);
     glColor4f(r,g,b,alpha);
 }
 
-void GuiRender::drawFilledRect(Rect rectangle){
-    glBegin(GL_QUADS);
-      glVertex2i(x+rectangle.x1, y-rectangle.y1);
-      glVertex2i(x+rectangle.x2, y-rectangle.y1);
-      glVertex2i(x+rectangle.x2, y-rectangle.y2);
-      glVertex2i(x+rectangle.x1, y-rectangle.y2);
-    glEnd();
+void GuiRender::drawFilledRect(int x1, int y1, int x2, int y2){
+	glDisable(GL_TEXTURE_2D);
+	int vertex[] = {x+x1, y-y1, x+x2, y-y1,
+					x+x2, y-y2, x+x1, y-y2};
+    glVertexPointer(2,GL_INT,0,vertex);
+    glDrawArrays(GL_QUADS,0,4);
+	glEnable(GL_TEXTURE_2D);
 }
 
 void GuiRender::drawRect(Rect rectangle, int width){
     glLineWidth(width);
+	glDisable(GL_TEXTURE_2D);
     glBegin(GL_LINE_STRIP);
         glVertex2i(x+rectangle.x1, y-rectangle.y1);
         glVertex2i(x+rectangle.x2, y-rectangle.y1);
@@ -106,20 +94,13 @@ void GuiRender::drawRect(Rect rectangle, int width){
         glVertex2i(x+rectangle.x1, y-rectangle.y2);
         glVertex2i(x+rectangle.x1, y-rectangle.y1);
     glEnd();
+	glEnable(GL_TEXTURE_2D);
     /*int vertex[] = {rectangle.x1, -rectangle.y1,
                     rectangle.x2, -rectangle.y1,
                     rectangle.x2, -rectangle.y2,
                     rectangle.x1, -rectangle.y2};
     glVertexPointer(2,GL_INT,0,vertex);
     glDrawArrays(GL_QUADS,0,4);*/
-}
-
-void GuiRender::drawLine(int x1, int y1, int x2, int y2, int width){
-    glLineWidth(width);
-    glBegin(GL_LINE);
-        glVertex2i(x+x1,y-y1);
-        glVertex2i(x+x2,y-y2);
-    glEnd();
 }
 
 void GuiRender::setColor(float r, float g, float b, float alpha){
@@ -130,23 +111,13 @@ void GuiRender::setColor(float r, float g, float b, float alpha){
     glColor4f(r,g,b,alpha);
 }
 
-void GuiRender::nextLayer(){
-    z += 0.02f;
-    glTranslatef(0,0,0.02f);
-}
-
-void GuiRender::mouseDepth(){
-    z += 0.75f;
-    glTranslatef(0,0,0.75f);
-}
-
 void GuiRender::move(float x, float y){
     this->x += x;
     this->y -= y;
 }
 
 void GuiRender::saveState(){
-    State temp = {x,y,z};
+    State temp = {x,y};
     savedStates.push_back(temp);
 }
 
@@ -156,33 +127,39 @@ void GuiRender::restoreState(){
     State restored = savedStates.back();
     savedStates.pop_back();
 
-    glTranslatef(0,0,restored.z - z);
     x = restored.x;
     y = restored.y;
-    z = restored.z;
 }
 
 State GuiRender::getCurrentState(){
-    State ret = {x,y,z};
+    State ret = {x,y};
     return ret;
 }
 
 void GuiRender::initRendering(){
   glPushAttrib(GL_ALL_ATTRIB_BITS);
   glPushClientAttrib(GL_ALL_CLIENT_ATTRIB_BITS);
-
   glMatrixMode(GL_PROJECTION);  // Change Matrix Mode to Projection
   glLoadIdentity();             // Reset View
-  glOrtho(0, 800, 0, 600, 0, 100);
+  glOrtho(0, width, 0, height, 0, 100);
   glMatrixMode(GL_MODELVIEW);   // Change Projection to Matrix Mode
   glLoadIdentity();
 
   glTranslatef(0, 0, -1);
   glDepthFunc(GL_LEQUAL);
+  glEnable(GL_DEPTH_TEST);                 // Enable Depth Buffer
+  
   glEnable(GL_TEXTURE_2D);
+  //glBindTexture(GL_TEXTURE_2D,skinID);
+
+  glEnableClientState(GL_VERTEX_ARRAY);
+  glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   glEnable(GL_BLEND);
+
+  y = height;
+  x = 0;
 }
 
 void GuiRender::deinitRendering(){
@@ -190,8 +167,23 @@ void GuiRender::deinitRendering(){
     glPopAttrib();
 }
 
-GuiRender::GuiRender() : r(0),g(0),b(0),alpha(1),x(0),y(600),z(0)
-{
-    /*glEnableClientState(GL_VERTEX_ARRAY);
-    glEnableClientState(GL_TEXTURE_COORD_ARRAY);*/
+void GuiRender::setWindowSize(int width, int height){
+	if (height == 0)               // prevent divide by zero exception
+		height = 1;
+	glViewport(0, 0, width, height);    // Set the viewport for the OpenGL window
+	glMatrixMode(GL_PROJECTION);        // Change Matrix Mode to Projection
+	glLoadIdentity();                   // Reset View
+	gluPerspective(45.0, width/height, 1.0, 100.0);  // Do the perspective calculations. Last value = max clipping depth
+	glMatrixMode(GL_MODELVIEW);         // Return to the modelview matrix
+	glLoadIdentity();                   // Reset View
+
+	this->width = width;
+	this->height = height;
+}
+
+GuiRender::GuiRender() : r(0),g(0),b(0),alpha(1)
+{ }
+
+GuiRender::~GuiRender(){
+	glDeleteTextures(1,&skinID);
 }

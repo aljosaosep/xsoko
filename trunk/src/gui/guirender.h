@@ -28,46 +28,64 @@
 
 #include "commongui.h"
 
+#define GUI_TEX_BTN_PRESSED_LEFT		0
+#define GUI_TEX_BTN_PRESSED_MIDDLE		1
+#define GUI_TEX_BTN_PRESSED_RIGHT		2
+#define GUI_TEX_BTN_UNPRESSED_LEFT		3
+#define GUI_TEX_BTN_UNPRESSED_MIDDLE	4
+#define GUI_TEX_BTN_UNPRESSED_RIGHT		5
+#define GUI_TEX_WINDOW_TOP_LEFT			6
+#define GUI_TEX_WINDOW_TOP_MIDLLE		7
+#define GUI_TEX_WINDOW_TOP_RIGHT		8
+#define GUI_TEX_WINDOW_LEFT				9
+#define GUI_TEX_WINDOW_MIDLLE			10
+#define GUI_TEX_WINDOW_RIGHT			11
+#define GUI_TEX_WINDOW_BOTTOM_LEFT		12
+#define GUI_TEX_WINDOW_BOTTOM_MIDLLE	13
+#define GUI_TEX_WINDOW_BOTTOM_RIGHT		14
+#define GUI_TEX_PANEL_TOP				15
+#define GUI_TEX_PANEL_LEFT				16
+#define GUI_TEX_PANEL_MIDLLE			17
+#define GUI_TEX_PANEL_RIGHT				18
+#define GUI_TEX_PANEL_BOTTOM			19
+#define GUI_TEX_SCROLL_UP_ARROW			20
+#define GUI_TEX_SCROLL_DOWN_ARROW		21
+#define GUI_TEX_SCROLL_BODY				22
+#define GUI_TEX_SCROLL_POSITION			23
+#define GUI_TEX_RADIOBTN_UNCHECKED		24
+#define GUI_TEX_RADIOBTN_CHECKED		25
+#define GUI_TEX_CHECKBOX_UNCHECKED		26
+#define GUI_TEX_CHECKBOX_CHECKED		27
+#define GUI_TEX_MOUSE					28
+
 struct State {
-        float x,y,z;
+        float x,y;
     };
 
 class GuiRender {
 private:
-    struct texInfo {
-        string name;
-        Rect location;
-        bool operator< (const texInfo &x) { return (name < x.name);}
-    };
-
-    struct myclass {
-        bool operator() (const texInfo &i, const texInfo &j) { return (i.name < j.name);}
-    } sortObj;
-
     GLuint skinID;
     float r,g,b,alpha;
-    float x,y,z;
+    float x,y;
     vector<State> savedStates;
-    vector<texInfo> textureInfo;
+	float textures[29][8];
+	int width, height;
 
     GuiRender();
-    ~GuiRender() {}
+    ~GuiRender();
 public:
-    void loadSkin(unsigned skin, string skinFile);
-    void drawImage(Rect textureRect, Rect drawRect);
+    void loadSkin(string skinImage, string skinFile);
+    void drawImage(int index, Rect drawRect);
     void drawRect(Rect rectangle, int width);
-    void drawFilledRect(Rect rectangle);
-    void drawLine(int x1, int y1, int x2, int y2, int width);
+    void drawFilledRect(int x1, int y1, int x2, int y2);
     void setColor(float r, float g, float b, float alpha);
-    void nextLayer();
     void move(float x, float y);
     void saveState();
     void restoreState();
+	void setWindowSize(int width, int height);
     void initRendering();
     void deinitRendering();
-    void mouseDepth();
     State getCurrentState();
-    Rect getTextureLocation(string name);
     static GuiRender& getInstance();
 };
 

@@ -31,7 +31,7 @@ void Container::AddComponent(Component* component){
     components.push_back(component);
     focusComponents.push_back(component);
     sort (focusComponents.begin(), focusComponents.end(), sortObj);
-    if(focusedComp == NULL)
+	if(focusedComp == NULL && component->getFocusIndex() != -1)
         focusedComp = component;
 }
 

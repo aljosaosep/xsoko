@@ -57,12 +57,6 @@ void Panel::invalidate(){
     vertex[4].y1 = height-2;
     vertex[4].x2 = width;
     vertex[4].y2 = height;
-
-    texture[0] = GuiRender::getInstance().getTextureLocation("panelT");
-    texture[1] = GuiRender::getInstance().getTextureLocation("panelL");
-    texture[2] = GuiRender::getInstance().getTextureLocation("panelM");
-    texture[3] = GuiRender::getInstance().getTextureLocation("panelR");
-    texture[4] = GuiRender::getInstance().getTextureLocation("panelB");
 }
 
 
@@ -72,11 +66,11 @@ void Panel::invalidate(){
 //TODO: do we really need a panel?
 void Panel::onRender()
 {
-    GuiRender::getInstance().drawImage(texture[0],vertex[0]); // top of panel.
-    GuiRender::getInstance().drawImage(texture[1],vertex[1]); // left side of panel.
-    GuiRender::getInstance().drawImage(texture[2],vertex[2]); // middle of panel.
-    GuiRender::getInstance().drawImage(texture[3],vertex[3]); // right side of panel.
-    GuiRender::getInstance().drawImage(texture[4],vertex[4]); // bottom middle of panel.
+    GuiRender::getInstance().drawImage(GUI_TEX_PANEL_TOP,   vertex[0]);
+    GuiRender::getInstance().drawImage(GUI_TEX_PANEL_LEFT,  vertex[1]);
+    GuiRender::getInstance().drawImage(GUI_TEX_PANEL_MIDLLE,vertex[2]);
+    GuiRender::getInstance().drawImage(GUI_TEX_PANEL_RIGHT, vertex[3]);
+    GuiRender::getInstance().drawImage(GUI_TEX_PANEL_BOTTOM,vertex[4]);
     /*glBegin(GL_QUADS);
       // top left corner of panel.
       glTexCoord2f((float) 8/128, (float)64/128); glVertex2i(x, -y);
@@ -134,7 +128,6 @@ void Panel::onRender()
 
     glEnd();*/
 
-    GuiRender::getInstance().nextLayer();
     for(unsigned i=0;i<components.size();i++){
         components[i]->Render();
       }

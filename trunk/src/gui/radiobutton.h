@@ -37,7 +37,6 @@ private:
 
     //for rendering
     Rect ver;
-    Rect texture[2];
 protected:
     void onRender();
 public:
@@ -57,7 +56,7 @@ public:
     void onMouseDown(int mx, int my);
 
     //events
-    signal< void (Component*, bool) > onAction;
+    signal<void(Component*,bool) > onAction;
 };
 
 #endif	/* _RADIOBUTTON_H */

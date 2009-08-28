@@ -49,7 +49,7 @@ void Font::writeTextAbs(int x, int y, string text){
     glPushAttrib(GL_ALL_ATTRIB_BITS);
     glPushMatrix();
     glColor3f(r/255.0f,g/255.0f,b/255.0f);
-    glTranslatef(x, y, 0.02f);
+    glTranslatef(x, y, 0);
     font->Render(text.c_str());
     glPopMatrix();
     glPopAttrib();

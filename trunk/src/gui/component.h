@@ -70,14 +70,14 @@ public:
 
     //events
     //Focus events
-    signal<void (Component*) > FocusGain;
-    signal<void (Component*) > FocusLost;
+    signal<void(Component*) > FocusGain;
+    signal<void(Component*) > FocusLost;
     //Mouse events
-    signal<void (Component*,int,int) > MouseDown;
-    signal<void (Component*,int,int) > MouseUp;
+    signal<void(Component*,int,int) > MouseDown;
+    signal<void(Component*,int,int) > MouseUp;
     //Keyboard events
-    signal<void (Component*,int) > KeyDown;
-    signal<void (Component*,int) > KeyUp;
+    signal<void(Component*,int) > KeyDown;
+    signal<void(Component*,int) > KeyUp;
 };
 
 #endif	/* _COMPONENT_H */

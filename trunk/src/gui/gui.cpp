@@ -17,41 +17,26 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <GL/gl.h>
-
-
-#include <GL/glfw.h>
-
-
 #include "gui.h"
 #include "guirender.h"
 
 Gui::~Gui(){
-    glDeleteTextures(1,&skinTextureID);
     delete fnt;
-    skinTextureID = 0;
+	for(unsigned i=0;i<windows.size();i++)
+		delete windows[i];
+    for(unsigned i=0;i<msgnum.size();i++)
+        delete msgnum[i];
 }
 
-Gui::Gui(/*const char* guiTextureFileName*/) : mVisible(true), num(0), focusedWin(NULL) {
-      //glClearColor(0.0, 0.0, 0.0, 0.0); 	   // Black Background
-      //glShadeModel(GL_SMOOTH);                 // Enables Smooth Color Shading
-      glClearDepth(1.0);                       // Depth Buffer Setup
-      glEnable(GL_DEPTH_TEST);                 // Enable Depth Buffer
-      //glDepthFunc(GL_LESS);		           // The Type Of Depth Test To Do
-
-      glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);   //Realy Nice perspective calculations
-
-      //glEnable(GL_TEXTURE_2D);
-
-    glGenTextures(1,&skinTextureID);
-    glBindTexture(GL_TEXTURE_2D,skinTextureID);
-    if(glfwLoadTexture2D("data/GUI.tga", GLFW_ORIGIN_UL_BIT)){
-       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-       glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-    }
-    GuiRender::getInstance().loadSkin(skinTextureID, "data/skin.position");
-
-    fnt = new Font("font");
+Gui::Gui() : mVisible(true), num(0), focusedWin(NULL) {
+    //glClearColor(0.0, 0.0, 0.0, 0.0); 	   // Black Background
+    //glShadeModel(GL_SMOOTH);                 // Enables Smooth Color Shading
+    //glClearDepth(1.0);                       // Depth Buffer Setup
+    //glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);   //Realy Nice perspective calculations
+    
+    GuiRender::getInstance().loadSkin("data/GUI.tga", "data/skin.position");
+    
+	fnt = new Font("font");
     glfwGetMousePos(&mouseX,&mouseY);
     mouseVer.x1 = mouseX;
     mouseVer.y1 = mouseY;
@@ -59,7 +44,7 @@ Gui::Gui(/*const char* guiTextureFileName*/) : mVisible(true), num(0), focusedWi
     mouseVer.y2 = mouseY + 32;
 
     glfwGetWindowSize(&wndWidth,&wndHeight);
-    mouseTex = GuiRender::getInstance().getTextureLocation("mouse");
+	GuiRender::getInstance().setWindowSize(wndWidth,wndHeight);
 }
 
 /*------------------------------------------------------------------*
@@ -94,7 +79,7 @@ void Gui::Render()
     }
 
     if(!kprocessed){
-        if(focusedWin != NULL){
+		if(focusedWin != NULL && focusedWin->isVisible()){
             switch(kclick){
               case GLFW_PRESS:
                   focusedWin->onKeyDown(key);
@@ -114,17 +99,12 @@ void Gui::Render()
     }
 
   GuiRender::getInstance().initRendering();
-          
   for(unsigned i=0;i<windows.size();i++)
           windows[i]->Render();
-
-  if(mVisible){
-      //draw the mouse
-      GuiRender::getInstance().mouseDepth();
+  if(mVisible){	//draw the mouse
       GuiRender::getInstance().setColor(1,1,1,1);
-      GuiRender::getInstance().drawImage(mouseTex,mouseVer);
+      GuiRender::getInstance().drawImage(GUI_TEX_MOUSE,mouseVer);
   }
-
   GuiRender::getInstance().deinitRendering();
 }
 
@@ -143,7 +123,7 @@ void Gui::onMouseDown()
         Size winSize = modals.back()->getSize();
         if ((mouseX > winPos.x) && (mouseX < winPos.x + winSize.width))
             if ((mouseY > winPos.y) && (mouseY < winPos.y + winSize.height))
-                modals.back()->onMouseDown(mouseX, mouseY);
+                modals.back()->onMouseDown(mouseX-winPos.x, mouseY-winPos.y);
         return;
     }
   for(unsigned i=0;i<windows.size();i++){
@@ -175,7 +155,6 @@ bool Gui::mprocessed = true;
 bool Gui::kprocessed = true;
 bool Gui::cprocessed = true;
 bool Gui::moved = false;
-GLuint Gui::skinTextureID = 0;
 
 void Gui::setMouseVisible(bool visible){
     mVisible = visible;
@@ -218,17 +197,9 @@ Gui& Gui::getInstance(){
 {  Handle window resize                                            }
 {------------------------------------------------------------------}*/
 void Gui::glResizeWnd(int Width, int Height){
-  if (Height == 0)               // prevent divide by zero exception
-    Height = 1;
-  glViewport(0, 0, Width, Height);    // Set the viewport for the OpenGL window
-  glMatrixMode(GL_PROJECTION);        // Change Matrix Mode to Projection
-  glLoadIdentity();                   // Reset View
-  gluPerspective(45.0, Width/Height, 1.0, 100.0);  // Do the perspective calculations. Last value = max clipping depth
   wndWidth = Width;
   wndHeight = Height;
-  
-  glMatrixMode(GL_MODELVIEW);         // Return to the modelview matrix
-  glLoadIdentity();                   // Reset View
+  GuiRender::getInstance().setWindowSize(Width,Height);
 }
 
 unsigned Gui::showMessage(string title, string msg){
@@ -238,9 +209,14 @@ unsigned Gui::showMessage(string title, string msg){
     Button* btn = new Button(width/2-25,60,50,25,"OK");
     btn->onPressed.connect(bind(&Gui::onAction, this, _1));
     dlg->AddComponent(btn);
-    windows.push_back(dlg);
     //FIX: this...
     modals.push_back(dlg);
+	if(focusedWin != NULL){
+		focusQueue.push_back(focusedWin);
+		focusedWin->focusLost();
+		focusedWin = NULL;
+	}
+	addWindow(dlg);
     if(!++num)  //ok, it could be if(num+1 == 0) num += 2 else ++num;
         ++num;
     msgHandle* hnd = new msgHandle;
@@ -253,10 +229,11 @@ unsigned Gui::showMessage(string title, string msg){
 void Gui::onAction(Component* button){
     Container* wnd = button->getParent();
     wnd->setVisible(false);
+	//we cannot delete window and then continue to handle events...
     for(unsigned i=0;i<modals.size();i++)
         if(modals[i] == wnd)
             modals.erase (modals.begin()+i);
-    for(unsigned i=0;i<windows.size();i++)
+    /*for(unsigned i=0;i<windows.size();i++)
         if(windows[i] == wnd){
             delete windows[i];
             windows.erase (windows.begin()+i);
@@ -265,6 +242,10 @@ void Gui::onAction(Component* button){
         if(msgnum[i]->ptr == wnd){
             delete msgnum[i];
             msgnum.erase(msgnum.begin()+i);
+        }*/
+	for(unsigned i=0;i<msgnum.size();i++)
+        if(msgnum[i]->ptr == wnd){
+            msgnum[i]->id = 0;
         }
 }
 
@@ -277,8 +258,8 @@ bool Gui::isMessageActive(unsigned id){
 }
 
 void Gui::addWindow(Window* win){
-    //win->setFocusHandler(this);
     win->FocusGain.connect(bind(&Gui::focusGain,this,_1));
+	win->FocusLost.connect(bind(&Gui::focusLost,this,_1));
     windows.push_back(win);
     if(focusedWin == NULL){
         focusedWin = win;
@@ -313,15 +294,10 @@ void Gui::focusGain(Component* sender){
 }
 
 void Gui::focusLost(Component* sender){
+	focusedWin = NULL;
     if(!focusQueue.empty()){
         focusedWin = focusQueue.back();
         focusQueue.pop_back();
         focusedWin->focusGain();
     }
-    /*if(windows.size()>1){
-        for(unsigned i=0;i<windows.size();i++)
-            if(windows[i] != sender){
-
-            }
-    }*/
 }

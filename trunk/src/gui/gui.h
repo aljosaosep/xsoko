@@ -62,10 +62,8 @@ private:
     unsigned num;
     Component* focusedWin;
     Rect mouseVer;
-    Rect mouseTex;
 
-
-    Gui(/*const char* guiTextureFileName*/);
+    Gui();
     ~Gui();
     void onMouseDown();
 public:
@@ -75,7 +73,6 @@ public:
     static void onKeyClick(int kkey, int action);
     static void onCharacterSend(int c, int action);
     static Gui& getInstance();
-    static GLuint skinTextureID;
 
     void Render();
     void setMouseVisible(bool visible);

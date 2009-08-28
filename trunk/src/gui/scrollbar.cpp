@@ -135,65 +135,50 @@ void Scrollbar::invalidate(){
     vertex[7].y2 = height;
 
     //body
-    vertex[8].x1 = (float)width/2;
+    vertex[8].x1 = width/2;
     vertex[8].y1 = 16;
-    vertex[8].x2 = (float)width/2-1;
+    vertex[8].x2 = width/2-1;
     vertex[8].y2 = height-16;
 
     recalculatePosition();
-
-    texture[0] = GuiRender::getInstance().getTextureLocation("buttonPL");
-    texture[1] = GuiRender::getInstance().getTextureLocation("buttonPM");
-    texture[2] = GuiRender::getInstance().getTextureLocation("buttonPR");
-    texture[3] = GuiRender::getInstance().getTextureLocation("buttonUL");
-    texture[4] = GuiRender::getInstance().getTextureLocation("buttonUM");
-    texture[5] = GuiRender::getInstance().getTextureLocation("buttonUR");
-    texture[6] = GuiRender::getInstance().getTextureLocation("scrollUA");
-    texture[7] = GuiRender::getInstance().getTextureLocation("scrollDA");
-    texture[8] = GuiRender::getInstance().getTextureLocation("scrollB");
-    texture[9] = GuiRender::getInstance().getTextureLocation("scrollP");
 }
 
 void Scrollbar::recalculatePosition(){
     //position
-    float dy = ((float)(height - 42) / (max - min)) * (position-min);
-    vertex[9].x1 = (float)width/2-5;
+    int dy = (int)(((float)(height - 42) / (max - min)) * (position-min));
+    vertex[9].x1 = width/2-5;
     vertex[9].y1 = dy+16;
-    vertex[9].x2 = (float)width/2+5;
+    vertex[9].x2 = width/2+5;
     vertex[9].y2 = dy+26;
 }
 
 void Scrollbar::onRender(){
     drawButton(0,upPressed,true);
     drawButton(4,downPressed,false);
-    GuiRender::getInstance().drawImage(texture[8],vertex[8]); //body
-    GuiRender::getInstance().nextLayer();
-    GuiRender::getInstance().drawImage(texture[0],vertex[9]); //positon
+	GuiRender::getInstance().drawImage(GUI_TEX_SCROLL_BODY,vertex[8]);
+	GuiRender::getInstance().drawImage(GUI_TEX_SCROLL_POSITION,vertex[9]);
 }
 
 void Scrollbar::drawButton(int verIndex, bool pressed,bool upArrow)
 {
-  GuiRender::getInstance().saveState();
   if (pressed)
   {
-      GuiRender::getInstance().drawImage(texture[0],vertex[verIndex]); // left side
-      GuiRender::getInstance().drawImage(texture[1],vertex[verIndex+1]); // middle
-      GuiRender::getInstance().drawImage(texture[2],vertex[verIndex+2]); // right side
+	  GuiRender::getInstance().drawImage(GUI_TEX_BTN_PRESSED_LEFT,  vertex[verIndex]);
+	  GuiRender::getInstance().drawImage(GUI_TEX_BTN_PRESSED_MIDDLE,vertex[verIndex+1]);
+	  GuiRender::getInstance().drawImage(GUI_TEX_BTN_PRESSED_RIGHT, vertex[verIndex+2]);
       GuiRender::getInstance().move(0,-1);
   }
   else
   {
-      GuiRender::getInstance().drawImage(texture[3],vertex[verIndex]); // left side
-      GuiRender::getInstance().drawImage(texture[4],vertex[verIndex+1]); // middle
-      GuiRender::getInstance().drawImage(texture[5],vertex[verIndex+2]); // right side
+	  GuiRender::getInstance().drawImage(GUI_TEX_BTN_UNPRESSED_LEFT,  vertex[verIndex]);
+	  GuiRender::getInstance().drawImage(GUI_TEX_BTN_UNPRESSED_MIDDLE,vertex[verIndex+1]);
+	  GuiRender::getInstance().drawImage(GUI_TEX_BTN_UNPRESSED_RIGHT,vertex[verIndex+2]);
   }
 
-  GuiRender::getInstance().nextLayer();
   if(upArrow)
-      GuiRender::getInstance().drawImage(texture[6],vertex[verIndex+3]);
+	  GuiRender::getInstance().drawImage(GUI_TEX_SCROLL_UP_ARROW,vertex[verIndex+3]);
   else
-      GuiRender::getInstance().drawImage(texture[7],vertex[verIndex+3]);
-  GuiRender::getInstance().restoreState();
+	  GuiRender::getInstance().drawImage(GUI_TEX_SCROLL_DOWN_ARROW,vertex[verIndex+3]);
 }
 
 void Scrollbar::onMouseDown(int mx, int my){
@@ -207,8 +192,8 @@ void Scrollbar::onMouseDown(int mx, int my){
     }
     if(my > 16 && my < height - 16){
         int oldPos = position;
-        position = (float)((max - min) * (my - 21)) / (height - 42) + min;
-        position = (position > 0.0) ? floor(position + 0.5) : ceil(position - 0.5);
+        float temp = (float)((max - min) * (my - 21)) / (height - 42) + min;
+        position = (temp > 0.0f) ? (int)floor(temp + 0.5) : (int)ceil(temp - 0.5);
         if(position < min)
             position = min;
         if(position > max)

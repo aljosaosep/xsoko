@@ -125,7 +125,7 @@ namespace PacGame
 
               public:
                   PLevelObject() : i(0), j(0), realI(0), realJ(0),direction(0),id(0),  containsActiveBomb(0) {}// constructors          
-                  PLevelObject(unsigned i, unsigned j) : i(i), j(j), realI(i),realJ(j),direction(0),containsActiveBomb(0) {}
+                  PLevelObject(int i, int j) : i(i), j(j), realI((float)i),realJ((float)j),direction(0),containsActiveBomb(0) {}
 
 
                   // setters
@@ -208,7 +208,7 @@ namespace PacGame
               {
               private:
               public:
-                  PUnsolidWall(int i, int j,PCore *core) { this->i = i; this->j = j; realI = i; realJ = j; this->id = U_WALL; this->core = core; }
+                  PUnsolidWall(int i, int j,PCore *core) { this->i = i; this->j = j; realI = (float)i; realJ = (float)j; this->id = U_WALL; this->core = core; }
                   void draw();
                   void print();             
                   short isPlayerMovePossible(int direction) ;
@@ -290,7 +290,7 @@ namespace PacGame
               {
               private:
               public:
-                  PCube(int i, int j, PCore *core) { this->i=i; this->j = j; realI = i; realJ = j; this->id=CUBE; this->core = core; }
+                  PCube(int i, int j, PCore *core) { this->i=i; this->j = j; realI = (float)i; realJ = (float)j; this->id=CUBE; this->core = core; }
                   void draw();
                   bool animate(double time);
                   void print();             
@@ -353,7 +353,7 @@ namespace PacGame
                   Aliases::PDirection dir; // tells in wich way os cube orientated
 
               public:            
-                  POnewayCube(Aliases::PDirection dir, int i, int j, unsigned short id, PCore *core) : dir(dir) { this->i=i; this->j = j; realI = i; realJ = j; this->core = core; this->id=id; }
+                  POnewayCube(Aliases::PDirection dir, int i, int j, unsigned short id, PCore *core) : dir(dir) { this->i=i; this->j = j; realI = (float)i; realJ = (float)j; this->core = core; this->id=id; }
                   void draw();
                   bool animate(double time);
                   void print();        
@@ -374,7 +374,7 @@ namespace PacGame
               {
               private:
               public:
-                  PBomb(int i, int j, PCore *core){ this->i=i; this->j = j; realI = i; realJ = j; this->id = BOMB; this->core = core; }
+                  PBomb(int i, int j, PCore *core){ this->i=i; this->j = j; realI = (float)i; realJ = (float)j; this->id = BOMB; this->core = core; }
                   void draw();
                   void print();
                   short isPlayerMovePossible(int direction) ;

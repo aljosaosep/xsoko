@@ -30,15 +30,14 @@
 #ifdef _WINDOWS
     #define WIN32_LEAN_AND_MEAN
     #include <windows.h>
-
+	#undef min
+	#undef max
+	#define GL_ALL_CLIENT_ATTRIB_BITS GL_CLIENT_ALL_ATTRIB_BITS
     #define BOOST_WINDOWS_API
-    #include <boost/filesystem/convenience.hpp>
-    #include <boost/filesystem/path.hpp>
-    #include <boost/filesystem/operations.hpp>
-#else
-    #include <boost/signals.hpp>
-    #include <boost/bind.hpp>
 #endif
+
+#include <boost/bind.hpp>
+#include <boost/signals.hpp>
 
 #include <GL/gl.h>
 #include <GL/glfw.h>
