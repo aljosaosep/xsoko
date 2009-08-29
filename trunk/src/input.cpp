@@ -91,7 +91,7 @@ namespace PacGame
                             
 
                             // vsekaj zvok
-                            ALuint helloBuffer, helloSource;
+                       /*     ALuint helloBuffer, helloSource;
                             ALenum error;
                             helloBuffer = alutCreateBufferFromFile("sound/bombtiq.wav");
                             if (helloBuffer == AL_NONE)
@@ -101,7 +101,7 @@ namespace PacGame
                             }
                             alGenSources (1, &helloSource);
                             alSourcei (helloSource, AL_BUFFER, helloBuffer);
-                            alSourcePlay (helloSource);
+                            alSourcePlay (helloSource);*/
                         }
 
                     }
