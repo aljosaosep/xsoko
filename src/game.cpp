@@ -29,7 +29,7 @@
  */
 
 #include "game.h"
-#include <AL/alut.h>
+//#include <AL/alut.h>
 
 using namespace PacGame;
 
@@ -49,15 +49,15 @@ namespace PacGame
                   windowHeight = _height;
                   windowTitle = _title;
                   
-                  alutInit (NULL, NULL); // inicializacija ALUT in OpenAL API
-                  alGetError(); // počisti napake
+             //     alutInit (NULL, NULL); // inicializacija ALUT in OpenAL API
+//                  alGetError(); // počisti napake
           }
 
           // destructor
           PGame::~PGame()
           {
                   terminateGLFW();
-                  alutExit ();
+//                  alutExit ();
           }
 
           // methods
