@@ -158,7 +158,7 @@ namespace PacGame
               glEnable(GL_TEXTURE_2D);
 
               // light related
-                          glEnable(GL_LIGHTING);
+              glEnable(GL_LIGHTING);
               glLightfv(GL_LIGHT0, GL_AMBIENT, lightAmbient);
               glLightfv(GL_LIGHT0, GL_DIFFUSE, lightDiffuse);
               glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
@@ -166,17 +166,19 @@ namespace PacGame
 
 
               glEnable(GL_COLOR_MATERIAL);
-              //glColorMaterial ( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE ) ;
-              //glMateriali(GL_FRONT_AND_BACK, GL_SHININESS, 0.0);
+             // glColorMaterial ( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE ) ;
+             // glMateriali(GL_FRONT_AND_BACK, GL_SHININESS, 0.0);
 
-              //glEnable(GL_CULL_FACE); // do not calculate inside of polys
+              glEnable(GL_CULL_FACE); // do not calculate inside of polys
+              glCullFace(GL_FRONT_AND_BACK);
+
 
               // blending
               glEnable(GL_BLEND);
               glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-                          glEnableClientState(GL_VERTEX_ARRAY);
-                          glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+              glEnableClientState(GL_VERTEX_ARRAY);
+              glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
               return true;
 
@@ -197,6 +199,9 @@ namespace PacGame
            ********************************************/
           void PRenderer::drawCube(float x, float y, float size)
           {
+          //    glEnable(GL_CULL_FACE);
+
+             //glCullFace(GL_FRONT_AND_BACK);
               glVertexPointer(3, GL_FLOAT, 0, box);
               glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
                   glPushMatrix();
@@ -219,6 +224,7 @@ namespace PacGame
 			glNormal3f(0.0f, -1.0f, 0.0f);
 			glDrawArrays(GL_TRIANGLE_STRIP, 20, 4);
                   glPopMatrix();
+               //   glDisable(GL_CULL_FACE);
           }
 
           /********************************************
@@ -227,11 +233,14 @@ namespace PacGame
            ********************************************/
           void PRenderer::drawFloor(float x, float y, float size)
           {
+         //     glEnable(GL_CULL_FACE);
+              glCullFace(GL_FRONT_AND_BACK);
               glPushMatrix();
                     glTranslatef(x, y, 0.0);
                     glNormal3f(0.0f, 0.0f, -1.0f);
                     glDrawArrays(GL_TRIANGLE_STRIP, 4, 4);
               glPopMatrix();
+          //    glDisable(GL_CULL_FACE);
           }
       }
 }
