@@ -144,6 +144,7 @@ void ListBox::onRender()
 
     unsigned limit = (canShow<items.size()) ? canShow : items.size();
     for(unsigned i=0;i<limit;i++){
+		GuiRender::getInstance().setClipping(2,2+(i*16),width-19,18+(i*16));
         if(selected == i+drawIndex){
             GuiRender::getInstance().setColor((float)89/255,(float)97/255,(float)102/255,1);
             GuiRender::getInstance().drawFilledRect(2,2+(i*16),width-19,18+(i*16));
@@ -151,6 +152,7 @@ void ListBox::onRender()
         } else {
             fnt->writeText(5,17+(i*16),items.at(i+drawIndex));
         }
+		GuiRender::getInstance().restoreClipping();
     }
 
     drawButton(6,upPressed,true);
