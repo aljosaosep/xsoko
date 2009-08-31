@@ -85,6 +85,13 @@ using namespace PacGame::RenderMaschine;
 #define BOMB_RES 9
 #define U_WALL_RES 10
 
+// button flag values
+#define KB_LEFT 1
+#define KB_RIGHT 2
+#define KB_UP 4
+#define KB_DOWN 8
+
+
 namespace PacGame
 {
 
@@ -116,6 +123,7 @@ namespace PacGame
                   double starttime;
                   double time;
                   int moves;
+                  int button_flags;
                   
            //       PDirection lastDirection;  // direction player is facing according to last move
                   
@@ -135,6 +143,8 @@ namespace PacGame
                   bool checkMoveTo(int toI, int toJ, PLevelObject *obj, PDirection dir);
                   inline void reattachNode(int i, int j, int i2, int j2, PLevelObject *obj);
                   inline bool isLevelDone(); // checks if all cubes are in places
+                  void setButtonFlag(int flag);
+                  void resetButtonFlag(int flag);
                   
                   // level data manipulation
                   bool reloadLevel();
