@@ -259,7 +259,7 @@ namespace PacGame
                     glLoadIdentity();
                     // Aljosa: two lines that follows are blend-gui-to-game fix ;)
                     //glEnable(GL_DEPTH_TEST);    // after drawing GUI, enable depth test
-                    glEnable(GL_BLEND);         // and blending
+                    //glEnable(GL_BLEND);         // and blending
                 }
               
                 glfwSwapBuffers();

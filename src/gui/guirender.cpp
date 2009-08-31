@@ -75,6 +75,39 @@ void GuiRender::drawImage(int index, Rect drawRect){
     glColor4f(r,g,b,alpha);
 }
 
+void GuiRender::setClipping(int x1, int y1, int x2, int y2){
+	Rect clip = {x+x1,y-y1,x+x2,y-y2};
+	if(!clippingPlace.empty()){
+		Rect oldClip = clippingPlace.back();
+		if(!(clip.x1 > oldClip.x2 || clip.x2 < oldClip.x1 ||
+			 clip.y1 < oldClip.y2 || clip.y2 > oldClip.y1))
+		{
+			clip.x1 = max(clip.x1, oldClip.x1);
+			clip.y1 = max(clip.y1, oldClip.y1);
+			clip.x2 = min(clip.x2, oldClip.x2);
+			clip.y2 = min(clip.y2, oldClip.y2);
+		} else {
+			clip.x1 = clip.x2 = clip.y1 = clip.y2 = 0;
+		}
+	} else {
+		glEnable(GL_SCISSOR_TEST);
+	}
+	glScissor(clip.x1,clip.y2,clip.x2-clip.x1,clip.y1-clip.y2);
+	clippingPlace.push_back(clip);
+}
+	
+void GuiRender::restoreClipping(){
+	if(!clippingPlace.empty()){
+		clippingPlace.pop_back();
+		if(!clippingPlace.empty()){
+			Rect restore = clippingPlace.back();
+			glScissor(restore.x1,restore.y2,restore.x2-restore.x1,restore.y1-restore.y2);
+		} else {
+			glDisable(GL_SCISSOR_TEST);
+		}
+	}
+}
+
 void GuiRender::drawFilledRect(int x1, int y1, int x2, int y2){
 	glDisable(GL_TEXTURE_2D);
 	int vertex[] = {x+x1, y-y1, x+x2, y-y1,
@@ -111,7 +144,7 @@ void GuiRender::setColor(float r, float g, float b, float alpha){
     glColor4f(r,g,b,alpha);
 }
 
-void GuiRender::move(float x, float y){
+void GuiRender::move(int x, int y){
     this->x += x;
     this->y -= y;
 }

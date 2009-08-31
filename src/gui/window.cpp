@@ -140,12 +140,9 @@ void Window::onRender()
 
       fnt->writeText((int)(width-fnt->stringWidth(caption))/2,24,caption);
 
-      //glEnable(GL_SCISSOR_TEST);
-      //glScissor(x+6,screenHeight-y-height,width-12,height);
       for(unsigned i=0;i<components.size();i++){
         components[i]->Render();
       }
-      //glDisable(GL_SCISSOR_TEST);
 }
 
 void Window::onMouseUp(int mx, int my){

@@ -59,15 +59,16 @@
 #define GUI_TEX_MOUSE					28
 
 struct State {
-        float x,y;
+        int x,y;
     };
 
 class GuiRender {
 private:
     GLuint skinID;
     float r,g,b,alpha;
-    float x,y;
+    int x,y;
     vector<State> savedStates;
+	vector<Rect> clippingPlace;
 	float textures[29][8];
 	int width, height;
 
@@ -79,7 +80,9 @@ public:
     void drawRect(Rect rectangle, int width);
     void drawFilledRect(int x1, int y1, int x2, int y2);
     void setColor(float r, float g, float b, float alpha);
-    void move(float x, float y);
+	void setClipping(int x1, int y1, int x2, int y2);
+	void restoreClipping();
+    void move(int x, int y);
     void saveState();
     void restoreState();
 	void setWindowSize(int width, int height);

@@ -108,8 +108,10 @@ string Component::getName(){
 void Component::Render(){
     if(!visible) return;
     GuiRender::getInstance().saveState();
-    GuiRender::getInstance().move((float)x,(float)y);
+    GuiRender::getInstance().move(x,y);
+	GuiRender::getInstance().setClipping(0,0,width,height);
     onRender();
+	GuiRender::getInstance().restoreClipping();
     GuiRender::getInstance().restoreState();
 }
 
