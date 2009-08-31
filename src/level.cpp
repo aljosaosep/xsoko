@@ -184,6 +184,41 @@ namespace PacGame
               return true; // otherwise, player won :)
           }
           
+          /******************************************************************
+           *  setButtonFlag
+           *  resetButtonFlag
+           * 
+           * The set function sets the button flag and reset releases it.
+           * This way we can remember whih buttons are down and which up.
+           ******************************************************************/
+           void PLevel::setButtonFlag(int flag)
+           {
+                   cout<<"Set button flag:"<<flag<<endl;
+                   button_flags = flag | button_flags;
+                   if((button_flags ^ flag) == 0) // the status of button_flags before adding this flag
+                   {
+                           switch(flag)
+                           {
+                                case KB_UP:
+                                        this->moveObject(Aliases::up, this->getPlayerHandle());
+                                        break;
+                                case KB_LEFT:
+                                        this->moveObject(Aliases::left, this->getPlayerHandle());
+                                        break;
+                                case KB_DOWN:
+                                        this->moveObject(Aliases::down, this->getPlayerHandle());
+                                        break;
+                                case KB_RIGHT:
+                                        this->moveObject(Aliases::right, this->getPlayerHandle());
+                                        break;
+                        }
+                   }
+           }
+           
+           void PLevel::resetButtonFlag(int flag)
+           {
+                   button_flags = button_flags &  (!flag);
+           }
 
           // gameplay related
            /*****************************************************************
@@ -369,7 +404,7 @@ namespace PacGame
                         return false;
                         
                 }
-                return false;
+                return true;
           }
           
           /***************************************
@@ -404,10 +439,8 @@ namespace PacGame
                           // PDirection dir = Aliases::left;
                           // adjustCameraAtTeleport(it, jt, object, dir);
                           // adjust the camera
-                          
-                                
-                      gameCore->getCamera()->rotateViewX((float)cameraAdjustX*0.5);
-                      gameCore->getCamera()->rotateViewY((float)cameraAdjustY*0.5);
+                          gameCore->getCamera()->rotateViewX((float)cameraAdjustX*0.5);
+                        gameCore->getCamera()->rotateViewY((float)cameraAdjustY*0.5);
                            
                   }else
                   if(floor_id == CUBE_PLACE)// if we put a cube in its place
@@ -417,7 +450,31 @@ namespace PacGame
                               this->endgameFlag = true;
                               Messages::infoMessage("You won!!!!! :))))");
                           }
+                  }else
+                  if(((PLevelObject*) data[i][j]->returnFirstChild())->getId() == PLAYER) // if the child object is a player
+                  {
+                        if(button_flags != 0)// if we are holding down the button, we want still to move the player
+                        {
+                                // check which button is still held down, and apply that movement
+                                if(button_flags & KB_UP)
+                                {
+                                        this->moveObject(Aliases::up, this->getPlayerHandle());
+                                }else
+                                if(button_flags & KB_LEFT)
+                                {
+                                        this->moveObject(Aliases::left, this->getPlayerHandle());
+                                 }else
+                                 if(button_flags & KB_DOWN)
+                                 {
+                                                this->moveObject(Aliases::down, this->getPlayerHandle());
+                                 }else
+                                  if(button_flags & KB_RIGHT)
+                                   { 
+                                                this->moveObject(Aliases::right, this->getPlayerHandle());
+                                  }
+                        }
                   }
+                  
           }
           
           // level functions implementation goes here! ;)
@@ -850,6 +907,7 @@ namespace PacGame
 
               starttime = glfwGetTime();
               moves = 0;
+              button_flags = 0;
               return true; // everything went ok
           }
           

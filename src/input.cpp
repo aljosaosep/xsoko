@@ -46,33 +46,53 @@ namespace PacGame
 
             // in next lines, we check if some keys has been pressed
             if(!toggleMenu){
-                if((glfwGetKey(GLFW_KEY_UP) == GLFW_PRESS) && (glfwGetKey(GLFW_KEY_UP) == GLFW_RELEASE))  // checks up key
+                if((glfwGetKey(GLFW_KEY_UP) == GLFW_PRESS) /*&& (glfwGetKey(GLFW_KEY_UP) == GLFW_RELEASE)*/)  // checks up key
                 {
                     //if(
-                    this->level->moveObject(Aliases::up, this->level->getPlayerHandle());
+                    this->level->setButtonFlag(KB_UP);
+                    //this->level->moveObject(Aliases::up, this->level->getPlayerHandle());
                     //)  // move object player up
                     //this->level->getGameCoreHandle()->getCamera()->rotateViewY(0.5);
                 }
-                else if((glfwGetKey(GLFW_KEY_DOWN) == GLFW_PRESS) && (glfwGetKey(GLFW_KEY_DOWN) == GLFW_RELEASE)) // checks down key
+                else if((glfwGetKey(GLFW_KEY_DOWN) == GLFW_PRESS) /*&& (glfwGetKey(GLFW_KEY_DOWN) == GLFW_RELEASE)*/) // checks down key
                 {
                     //if(
-                    this->level->moveObject(Aliases::down, this->level->getPlayerHandle());
+                    this->level->setButtonFlag(KB_DOWN);
+                    //this->level->moveObject(Aliases::down, this->level->getPlayerHandle());
                     //) // move object player down
                         //this->level->getGameCoreHandle()->getCamera()->rotateViewY(-0.5);
                 }
-                else if((glfwGetKey(GLFW_KEY_LEFT) == GLFW_PRESS) && (glfwGetKey(GLFW_KEY_LEFT) == GLFW_RELEASE)) // checks left key
+                else if((glfwGetKey(GLFW_KEY_LEFT) == GLFW_PRESS) /*&& (glfwGetKey(GLFW_KEY_LEFT) == GLFW_RELEASE)*/) // checks left key
                 {
                     //if(
-                    this->level->moveObject(Aliases::left, this->level->getPlayerHandle());
+                    this->level->setButtonFlag(KB_LEFT);
+                    //this->level->moveObject(Aliases::left, this->level->getPlayerHandle());
                     //) // move object player left
                     //this->level->getGameCoreHandle()->getCamera()->rotateViewX(-0.5);
                 }
-                else if((glfwGetKey(GLFW_KEY_RIGHT) == GLFW_PRESS) && (glfwGetKey(GLFW_KEY_RIGHT) == GLFW_RELEASE)) // checks right key
+                else if((glfwGetKey(GLFW_KEY_RIGHT) == GLFW_PRESS) /*&& (glfwGetKey(GLFW_KEY_RIGHT) == GLFW_RELEASE)*/) // checks right key
                 {
                     //if(
-                    this->level->moveObject(Aliases::right, this->level->getPlayerHandle());
+                    this->level->setButtonFlag(KB_RIGHT);
+                    //this->level->moveObject(Aliases::right, this->level->getPlayerHandle());
                     //) // move object player right
                     //this->level->getGameCoreHandle()->getCamera()->rotateViewX(0.5);
+                }
+                 else if(glfwGetKey(GLFW_KEY_UP) == GLFW_RELEASE) 
+                {
+                    this->level->resetButtonFlag(KB_UP);
+                }
+                else if(glfwGetKey(GLFW_KEY_DOWN) == GLFW_RELEASE) 
+                {
+                    this->level->resetButtonFlag(KB_DOWN);
+                }
+                else if(glfwGetKey(GLFW_KEY_LEFT) == GLFW_RELEASE)
+                {
+                    this->level->resetButtonFlag(KB_LEFT);
+                }
+                else if(glfwGetKey(GLFW_KEY_RIGHT) == GLFW_RELEASE)
+                {
+                    this->level->resetButtonFlag(KB_RIGHT);
                 }
                 else if((glfwGetKey(GLFW_KEY_SPACE) == GLFW_PRESS) && (glfwGetKey(GLFW_KEY_SPACE) == GLFW_RELEASE))
                 {
