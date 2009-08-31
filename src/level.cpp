@@ -193,7 +193,6 @@ namespace PacGame
            ******************************************************************/
            void PLevel::setButtonFlag(int flag)
            {
-                   cout<<"Set button flag:"<<flag<<endl;
                    button_flags = flag | button_flags;
                    if((button_flags ^ flag) == 0) // the status of button_flags before adding this flag
                    {
