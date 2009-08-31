@@ -169,8 +169,8 @@ namespace PacGame
              // glColorMaterial ( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE ) ;
              // glMateriali(GL_FRONT_AND_BACK, GL_SHININESS, 0.0);
 
-              glEnable(GL_CULL_FACE); // do not calculate inside of polys
-              glCullFace(GL_FRONT_AND_BACK);
+             // glEnable(GL_CULL_FACE); // do not calculate inside of polys
+   //           glCullFace(GL_BACK);
 
 
               // blending
@@ -199,9 +199,9 @@ namespace PacGame
            ********************************************/
           void PRenderer::drawCube(float x, float y, float size)
           {
-          //    glEnable(GL_CULL_FACE);
+              glEnable(GL_CULL_FACE);
 
-             //glCullFace(GL_FRONT_AND_BACK);
+             glCullFace(GL_BACK);
               glVertexPointer(3, GL_FLOAT, 0, box);
               glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
                   glPushMatrix();
@@ -222,9 +222,9 @@ namespace PacGame
 			glNormal3f(0.0f, 1.0f, 0.0f);
 			glDrawArrays(GL_TRIANGLE_STRIP, 16, 4);
 			glNormal3f(0.0f, -1.0f, 0.0f);
-			glDrawArrays(GL_TRIANGLE_STRIP, 20, 4);
+                        glDrawArrays(GL_TRIANGLE_STRIP, 20, 4);
                   glPopMatrix();
-               //   glDisable(GL_CULL_FACE);
+                  glDisable(GL_CULL_FACE);
           }
 
           /********************************************
@@ -233,14 +233,14 @@ namespace PacGame
            ********************************************/
           void PRenderer::drawFloor(float x, float y, float size)
           {
-         //     glEnable(GL_CULL_FACE);
-              glCullFace(GL_FRONT_AND_BACK);
+              glEnable(GL_CULL_FACE);
+              glCullFace(GL_FRONT);
               glPushMatrix();
                     glTranslatef(x, y, 0.0);
                     glNormal3f(0.0f, 0.0f, -1.0f);
                     glDrawArrays(GL_TRIANGLE_STRIP, 4, 4);
               glPopMatrix();
-          //    glDisable(GL_CULL_FACE);
+              glDisable(GL_CULL_FACE);
           }
       }
 }
