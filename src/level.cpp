@@ -430,7 +430,7 @@ namespace PacGame
                                 jt =destination->getJ();
                                 
                             cameraAdjustX = jt - object->getJ();   
-                            cameraAdjustY =   it - object->getI();
+                            cameraAdjustY = - it + object->getI();
                                 
                            object->setIndex(it, jt);
                            object->setRealI((float)it);
