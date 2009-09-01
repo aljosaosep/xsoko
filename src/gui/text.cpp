@@ -25,23 +25,35 @@
 /*------------------------------------------------------------------*
  *  initialise the Text                                             *
  *------------------------------------------------------------------*/
-Text::Text(int x,int y,string text) : Component(x,y,0,0), caption(text),
-        fnt(new Font("font"))
+Text::Text(int x,int y,string text) : Component(x,y,100,12),
+        fnt(new Font("font")), autoResize(true)
 {
     focusIndex = -1;
-    setSize(fnt->stringWidth(text),fnt->getSize());
+	setText(text);
 }
 
 Text::~Text(){
     delete fnt;
 }
 
-/*------------------------------------------------------------------*
- *  Render Radio Text                                               *
- *------------------------------------------------------------------*/
+bool Text::isAutoResize(){
+	return autoResize;
+}
+
+void Text::setAutoResize(bool autoResize){
+	this->autoResize = autoResize;
+}
+
 void Text::onRender()
 {
-    fnt->writeText(0, fnt->getSize(), caption);
+	int startofline = 0, lines = 0;
+	for(int i=0;i<caption.size();i++){
+		if(caption[i] == '\n'){
+			fnt->writeText(0, (++lines)*fnt->getSize(), caption.substr(startofline,i-startofline));
+			startofline = i+1;
+		}
+	}
+	fnt->writeText(0, (lines+1)*fnt->getSize(), caption.substr(startofline));
 }
 
 string Text::getText(){
@@ -50,6 +62,26 @@ string Text::getText(){
 
 void Text::setText(const string& text){
     caption = text;
+	if(autoResize){
+		string test;
+		int startofline = 0, maxlength = 0, lines = 0, len;
+		for(int i=0;i<text.size();i++){
+			if(text[i] == '\n'){
+				test = text.substr(startofline,i-startofline);
+				len = fnt->stringWidth(test);
+				if(len > maxlength)
+					maxlength = len;
+				lines ++;
+				startofline = i+1;
+			}
+		}
+		test = text.substr(startofline);
+		len = fnt->stringWidth(test);
+		if(len > maxlength)
+			maxlength = len;
+		width = maxlength;
+		height = lines*fnt->getSize();
+	}
 }
 
 Font* Text::getFont(){

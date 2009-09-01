@@ -65,6 +65,7 @@ namespace PacGame
             Window* mainMenu;
             Window* gameMenu;
             Window* freeMenu;
+			Window* creditsWnd;
             ListBox* listbox;
             
             void prepareGui();
