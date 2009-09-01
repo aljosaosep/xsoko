@@ -155,7 +155,7 @@ namespace PacGame
                                         if(realI > (float)i)    // move up
                                         {
                                                 realI -= moveOffset;
-                                                cameraAdjustY = - moveOffset;
+                                                cameraAdjustY =  moveOffset;
                                                 if(realI <= (float)i)
                                                 {
                                                         cameraAdjustY -= realI - (float)i;
@@ -166,7 +166,7 @@ namespace PacGame
                                         else     // move down
                                         {
                                                 realI += moveOffset;
-                                                cameraAdjustY = moveOffset;
+                                                cameraAdjustY =  - moveOffset;
                                                 if(realI >= (float)i)
                                                 {
                                                         cameraAdjustY -= realI - (float)i;

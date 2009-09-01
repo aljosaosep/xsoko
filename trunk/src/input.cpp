@@ -54,7 +54,7 @@ namespace PacGame
                     //)  // move object player up
                     //this->level->getGameCoreHandle()->getCamera()->rotateViewY(0.5);
                 }
-                else if((glfwGetKey(GLFW_KEY_DOWN) == GLFW_PRESS) /*&& (glfwGetKey(GLFW_KEY_DOWN) == GLFW_RELEASE)*/) // checks down key
+                 if((glfwGetKey(GLFW_KEY_DOWN) == GLFW_PRESS) /*&& (glfwGetKey(GLFW_KEY_DOWN) == GLFW_RELEASE)*/) // checks down key
                 {
                     //if(
                     this->level->setButtonFlag(KB_DOWN);
@@ -62,7 +62,7 @@ namespace PacGame
                     //) // move object player down
                         //this->level->getGameCoreHandle()->getCamera()->rotateViewY(-0.5);
                 }
-                else if((glfwGetKey(GLFW_KEY_LEFT) == GLFW_PRESS) /*&& (glfwGetKey(GLFW_KEY_LEFT) == GLFW_RELEASE)*/) // checks left key
+                 if((glfwGetKey(GLFW_KEY_LEFT) == GLFW_PRESS) /*&& (glfwGetKey(GLFW_KEY_LEFT) == GLFW_RELEASE)*/) // checks left key
                 {
                     //if(
                     this->level->setButtonFlag(KB_LEFT);
@@ -70,7 +70,7 @@ namespace PacGame
                     //) // move object player left
                     //this->level->getGameCoreHandle()->getCamera()->rotateViewX(-0.5);
                 }
-                else if((glfwGetKey(GLFW_KEY_RIGHT) == GLFW_PRESS) /*&& (glfwGetKey(GLFW_KEY_RIGHT) == GLFW_RELEASE)*/) // checks right key
+                 if((glfwGetKey(GLFW_KEY_RIGHT) == GLFW_PRESS) /*&& (glfwGetKey(GLFW_KEY_RIGHT) == GLFW_RELEASE)*/) // checks right key
                 {
                     //if(
                     this->level->setButtonFlag(KB_RIGHT);
@@ -78,28 +78,28 @@ namespace PacGame
                     //) // move object player right
                     //this->level->getGameCoreHandle()->getCamera()->rotateViewX(0.5);
                 }
-                 else if(glfwGetKey(GLFW_KEY_UP) == GLFW_RELEASE) 
+                  if(glfwGetKey(GLFW_KEY_UP) == GLFW_RELEASE) 
                 {
                     this->level->resetButtonFlag(KB_UP);
                 }
-                else if(glfwGetKey(GLFW_KEY_DOWN) == GLFW_RELEASE) 
+                 if(glfwGetKey(GLFW_KEY_DOWN) == GLFW_RELEASE) 
                 {
                     this->level->resetButtonFlag(KB_DOWN);
                 }
-                else if(glfwGetKey(GLFW_KEY_LEFT) == GLFW_RELEASE)
+                 if(glfwGetKey(GLFW_KEY_LEFT) == GLFW_RELEASE)
                 {
                     this->level->resetButtonFlag(KB_LEFT);
                 }
-                else if(glfwGetKey(GLFW_KEY_RIGHT) == GLFW_RELEASE)
+                 if(glfwGetKey(GLFW_KEY_RIGHT) == GLFW_RELEASE)
                 {
                     this->level->resetButtonFlag(KB_RIGHT);
                 }
-                else if((glfwGetKey(GLFW_KEY_SPACE) == GLFW_PRESS) && (glfwGetKey(GLFW_KEY_SPACE) == GLFW_RELEASE))
+                 if((glfwGetKey(GLFW_KEY_SPACE) == GLFW_PRESS) && (glfwGetKey(GLFW_KEY_SPACE) == GLFW_RELEASE))
                 {
                     Messages::infoMessage("Key space pressed, dumping...");                
                     this->level->print();              
                 }
-                else if((glfwGetKey('D') == GLFW_PRESS) && (glfwGetKey('D') == GLFW_RELEASE))
+                 if((glfwGetKey('D') == GLFW_PRESS) && (glfwGetKey('D') == GLFW_RELEASE))
                 {
                     if(this->level->getPlayerHandle()->getBombs() > 0)
                     {
