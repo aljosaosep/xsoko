@@ -73,7 +73,7 @@ namespace PacGame
                 glfwDisable(GLFW_MOUSE_CURSOR);
             #endif
             
-            mainMenu = new Window(253, 158, 135, 165, "Main Menu");
+            mainMenu = new Window(333, 200, 135, 200, "Main Menu");
             
             Button* btn = new Button(30, 40, 75, 25, "Campaing");
             btn->setName("campaing");
@@ -87,10 +87,16 @@ namespace PacGame
             btn->setFocusIndex(2);
             mainMenu->AddComponent(btn);
 
-            btn = new Button(30, 110, 75, 25, "Exit");
-            btn->setName("guiExit");
+			btn = new Button(30, 110, 75, 25, "Credits");
+            btn->setName("credits");
             btn->onPressed.connect(bind(&PGameSession::onAction, this, _1));
             btn->setFocusIndex(3);
+            mainMenu->AddComponent(btn);
+
+            btn = new Button(30, 145, 75, 25, "Exit");
+            btn->setName("guiExit");
+            btn->onPressed.connect(bind(&PGameSession::onAction, this, _1));
+            btn->setFocusIndex(4);
             mainMenu->AddComponent(btn);
             
             Gui::getInstance().addWindow(mainMenu);
@@ -155,8 +161,24 @@ namespace PacGame
             btn->setFocusIndex(3);
             btn->onPressed.connect(bind(&PGameSession::onAction, this, _1));
             gameMenu->AddComponent(btn);
+
+			Gui::getInstance().addWindow(gameMenu);
+
+			Text* label = new Text(25,35,"Programmers:\nAljosa Osep\nJernej Skrabec\nJernej Halozan\nMartin Savc\n\nLevel designers:\nCrtomir Osep\nNevena Sreckovic");
+			int width = label->getSize().width;
+			int height = label->getSize().height;
+			
+			creditsWnd = new Window(400-width/2-25,300-height/2-45,width+50,height+90,"Credits");
+			creditsWnd->setVisible(false);
+			creditsWnd->AddComponent(label);
+			
+			btn = new Button(width/2,height+50,50,25,"OK");
+			btn->setName("creditsBack");
+			btn->onPressed.connect(bind(&PGameSession::onAction, this, _1));
+			
+			creditsWnd->AddComponent(btn);
             
-            Gui::getInstance().addWindow(gameMenu);
+            Gui::getInstance().addWindow(creditsWnd);
         }
             
         void PGameSession::mainLoop()
@@ -222,7 +244,7 @@ namespace PacGame
                             levelLoaded = false;
                             gameMenu->setVisible(false);
                             if(level->getEndgameFlag())
-                               msgid = Gui::getInstance().showMessage("xSoko", "Congratulations, you won!");
+								msgid = Gui::getInstance().showMessage("xSoko", "Congratulations, you won!");
                             else
                                mainMenu->setVisible(true);
                             Gui::getInstance().setMouseVisible(true);
@@ -340,8 +362,18 @@ namespace PacGame
                 freeMenu->setVisible(true);
                 return;
             }
+			if(button->getName() == "credits"){
+                mainMenu->setVisible(false);
+                creditsWnd->setVisible(true);
+                return;
+            }
             if(button->getName() == "guiExit"){
                 gameQuit = true;
+                return;
+            }
+			if(button->getName() == "creditsBack"){
+				creditsWnd->setVisible(false);
+                mainMenu->setVisible(true);
                 return;
             }
             if(button->getName() == "play"){

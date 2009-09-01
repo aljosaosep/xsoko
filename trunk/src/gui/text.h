@@ -32,6 +32,7 @@ class Text : public Component{
 private:
     string caption;
     Font* fnt;
+	bool autoResize;
 protected:
     void onRender();
 public:
@@ -42,9 +43,11 @@ public:
     //getters
     string getText();
     Font* getFont();
+	bool isAutoResize();
 
     //setters
     void setText(const string& text);
+	void setAutoResize(bool autoResize);
 };
 
 #endif	/* _TEXT_H */

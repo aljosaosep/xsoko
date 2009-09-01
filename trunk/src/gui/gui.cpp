@@ -203,12 +203,16 @@ void Gui::glResizeWnd(int Width, int Height){
 }
 
 unsigned Gui::showMessage(string title, string msg){
-    int width = (int)fnt->stringWidth(msg)+50;
-    Window* dlg = new Window(wndWidth/2-width/2,wndHeight/2-64,width,100,title);
-    dlg->AddComponent(new Text(25,35,msg));
-    Button* btn = new Button(width/2-25,60,50,25,"OK");
+	Text* label = new Text(25,35,msg);
+	int width = label->getSize().width;
+	int height = label->getSize().height;
+    Window* dlg = new Window(wndWidth/2-width/2,wndHeight/2-64,width+50,height+90,title);
+    dlg->AddComponent(label);
+    Button* btn = new Button(width/2,height+50,50,25,"OK");
     btn->onPressed.connect(bind(&Gui::onAction, this, _1));
     dlg->AddComponent(btn);
+
+
     //FIX: this...
     modals.push_back(dlg);
 	if(focusedWin != NULL){
