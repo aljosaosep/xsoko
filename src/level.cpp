@@ -429,17 +429,20 @@ namespace PacGame
                            int it = destination->getI(),
                                 jt =destination->getJ();
                                 
-                            cameraAdjustX = jt - object->getJ();   
-                            cameraAdjustY = - it + object->getI();
+                                if(object->getId() == PLAYER)
+                                {
+                                    cameraAdjustX = jt - object->getJ();   
+                                    cameraAdjustY = - it + object->getI();
+                                  // adjustCameraAtTeleport(it, jt, object, dir);
+                                  // adjust the camera
+                                  gameCore->getCamera()->rotateViewX((float)cameraAdjustX*0.5);
+                                 gameCore->getCamera()->rotateViewY((float)cameraAdjustY*0.5);
+                         }
                                 
                            object->setIndex(it, jt);
                            object->setRealI((float)it);
                            object->setRealJ((float)jt);
                           // PDirection dir = Aliases::left;
-                          // adjustCameraAtTeleport(it, jt, object, dir);
-                          // adjust the camera
-                          gameCore->getCamera()->rotateViewX((float)cameraAdjustX*0.5);
-                        gameCore->getCamera()->rotateViewY((float)cameraAdjustY*0.5);
                            
                   }else
                   if(floor_id == CUBE_PLACE)// if we put a cube in its place
