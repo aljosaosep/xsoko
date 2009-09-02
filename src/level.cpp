@@ -278,7 +278,8 @@ namespace PacGame
                   {
                         obj->moveObject(dirFacing | PL_OBJECT_MOVE);
                         reattachNode(obj->getI(), obj->getJ(), toI, toJ, obj);
-                        moves++;
+						if(obj->getId() == PLAYER)
+							moves++;
                         return true;
                  }else
                  {
@@ -861,6 +862,7 @@ namespace PacGame
               holds.clear();
               endgameFlag = false;
               moves = 0;
+			  starttime = glfwGetTime();
               return reloadLevel();
           }
           
@@ -970,7 +972,7 @@ namespace PacGame
               glDisable(GL_LIGHTING);
 
               //Change mode for text
-              /*glMatrixMode(GL_PROJECTION);  // Change Matrix Mode to Projection
+              glMatrixMode(GL_PROJECTION);  // Change Matrix Mode to Projection
               glLoadIdentity();             // Reset View
               glOrtho(0, 800, 0, 600, 0, 100);
               glMatrixMode(GL_MODELVIEW);   // Change Projection to Matrix Mode
@@ -981,7 +983,7 @@ namespace PacGame
               if(!endgameFlag)
                   time = glfwGetTime();
               fnt->writeTextAbs(10,-30,"Elapsed time: "+Functions::toString<int>((int)(time-starttime)));
-              fnt->writeTextAbs(170,-30,"Moves: "+Functions::toString<int>(moves));*/
+              fnt->writeTextAbs(170,-30,"Moves: "+Functions::toString<int>(moves));
           }
           /****************************************
            * animate
