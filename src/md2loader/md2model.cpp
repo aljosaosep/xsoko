@@ -65,6 +65,9 @@ namespace PacGame
 			frames = NULL;
 			triangles = NULL;
 			oglCommands = NULL;
+			model_vertex_array = NULL;
+			model_normal_array = NULL;
+			model_skin_array = NULL;
 			
 			// load texture file names
 			texture_file_names = new md2_skin_t[md2Header.num_skins];
@@ -101,7 +104,9 @@ namespace PacGame
 				md2data.read((char*)frames[c].verts,sizeof(md2_vertex_t)*md2Header.num_vertices);
 			}
 			
-			
+			model_vertex_array = new float[md2Header.num_tris*3*3];
+			model_normal_array = new float[md2Header.num_tris*3*3]; 
+			model_skin_array =  new float[md2Header.num_tris*3*2];
 				
 		}	
 		
@@ -119,6 +124,15 @@ namespace PacGame
 			
 			if(oglCommands != NULL)
 				delete oglCommands;
+				
+			if(model_vertex_array != NULL)
+				delete[] model_vertex_array;
+			
+			if(model_normal_array != NULL)
+				delete[] model_normal_array;
+			
+			if(model_skin_array != NULL)
+				delete[] model_skin_array;
 				
 			
 			
@@ -169,8 +183,10 @@ namespace PacGame
 				next_frame = &frames[(int)frame+1];
 				
 				
-				glBegin(GL_TRIANGLES);
+				//glBegin(GL_TRIANGLES);
 				// triangles
+				// every tris has three vertexes, each vertex has 3 points
+				
 				for(int c = 0; c < md2Header.num_tris; c++)
 				{
 					// 3 vertexes of a triangle
@@ -182,8 +198,10 @@ namespace PacGame
 						// texture
 						if(textured)
 						{
-							glTexCoord2f (	(float)texture_coordinates[triangles[c].st[n]].s / md2Header.skinwidth,
-											(float)texture_coordinates[triangles[c].st[n]].t / md2Header.skinheight);
+							//glTexCoord2f (	(float)texture_coordinates[triangles[c].st[n]].s / md2Header.skinwidth,
+							//				(float)texture_coordinates[triangles[c].st[n]].t / md2Header.skinheight);
+							model_skin_array[c*6+n*2 + 0] =(float)texture_coordinates[triangles[c].st[n]].s / md2Header.skinwidth;
+							model_skin_array[c*6+n*2 + 1] =(float)texture_coordinates[triangles[c].st[n]].t / md2Header.skinheight;
 						}
 
 						// calculate the vertex that we actually want to draw, with interpolation
@@ -195,7 +213,10 @@ namespace PacGame
 																						anorms_table[prev_vertex->normalIndex] [1]);
 						norm[2] = anorms_table[prev_vertex->normalIndex] [2] + interpolate * (	anorms_table[next_vertex->normalIndex] [2] -
 																						anorms_table[prev_vertex->normalIndex] [2]);
-						glNormal3fv(norm);
+						//glNormal3fv(norm);
+						model_normal_array[c*9+n*3+0] = norm[0];
+						model_normal_array[c*9+n*3+1] = norm[1];
+						model_normal_array[c*9+n*3+2] = norm[2];
 						
 						
 						// vertex from previous frame
@@ -213,15 +234,35 @@ namespace PacGame
 						v[1] = v_p[1] + interpolate * ( v_n[1] - v_p[1]);
 						v[2] = v_p[2] + interpolate * ( v_n[2] - v_p[2]);
 						
+						model_vertex_array[c*9+n*3+0] = v[0];
+						model_vertex_array[c*9+n*3+1] = v[1];
+						model_vertex_array[c*9+n*3+2] = v[2];
+						
+						
 						// draw the vertex
-						glVertex3fv(v);
+						//glVertex3fv(v);
 					}
 				}
-				glEnd();
+				//glEnd();
+				
+             			 glEnable(GL_CULL_FACE);
+              			glEnableClientState(GL_NORMAL_ARRAY);
+
+             			glCullFace(GL_FRONT);
+              			
+				glTexCoordPointer(2, GL_FLOAT, 0, model_skin_array);
+				glNormalPointer(GL_FLOAT,0,model_normal_array);
+				glVertexPointer(3,GL_FLOAT,0,model_vertex_array);
+				
+				glDrawArrays(GL_TRIANGLES,0,md2Header.num_tris*3);
+				
+				
+              			glDisableClientState(GL_NORMAL_ARRAY);
+                  		glDisable(GL_CULL_FACE);
 				
 			}else //we want to draw one of the basic frames
 			{
-				glBegin(GL_TRIANGLES);
+				//glBegin(GL_TRIANGLES);
 				// triangles
 				for(int c = 0; c < md2Header.num_tris; c++)
 				{
@@ -233,20 +274,44 @@ namespace PacGame
 						// texture
 						if(textured)
 						{
-							glTexCoord2f (	(float)texture_coordinates[triangles[c].st[n]].s / md2Header.skinwidth,
-											(float)texture_coordinates[triangles[c].st[n]].t / md2Header.skinheight);
+							//glTexCoord2f (	(float)texture_coordinates[triangles[c].st[n]].s / md2Header.skinwidth,
+							//				(float)texture_coordinates[triangles[c].st[n]].t / md2Header.skinheight);
+							model_skin_array[c*6+n*2 + 0] =(float)texture_coordinates[triangles[c].st[n]].s / md2Header.skinwidth;
+							model_skin_array[c*6+n*2 + 1] =(float)texture_coordinates[triangles[c].st[n]].t / md2Header.skinheight;
 						}
 						// set the normal
-						glNormal3fv(anorms_table[prev_vertex->normalIndex]);
+						model_normal_array[c*9+n*3+0] = anorms_table[prev_vertex->normalIndex][0];
+						model_normal_array[c*9+n*3+1] = anorms_table[prev_vertex->normalIndex][1];
+						model_normal_array[c*9+n*3+2] = anorms_table[prev_vertex->normalIndex][2];
+						//glNormal3fv(anorms_table[prev_vertex->normalIndex]);
 						// calculate the vertex that we actually want to draw
 						v[0] = prev_frame->scale[0] * prev_vertex->v[0] + prev_frame->translate[0];
 						v[1] = prev_frame->scale[1] * prev_vertex->v[1] + prev_frame->translate[1];
 						v[2] = prev_frame->scale[2] * prev_vertex->v[2] + prev_frame->translate[2];
+						
+						model_vertex_array[c*9+n*3+0] = v[0];
+						model_vertex_array[c*9+n*3+1] = v[1];
+						model_vertex_array[c*9+n*3+2] = v[2];
 						// draw the vertex
-						glVertex3fv(v);
+						//glVertex3fv(v);
 					}
 				}
-				glEnd();
+				//glEnd();
+				
+             			 glEnable(GL_CULL_FACE);
+              			glEnableClientState(GL_NORMAL_ARRAY);
+
+             			glCullFace(GL_FRONT);
+              			
+				glTexCoordPointer(2, GL_FLOAT, 0, model_skin_array);
+				glNormalPointer(GL_FLOAT,0,model_normal_array);
+				glVertexPointer(3,GL_FLOAT,0,model_vertex_array);
+				
+				glDrawArrays(GL_TRIANGLES,0,md2Header.num_tris*3);
+				
+				
+              			glDisableClientState(GL_NORMAL_ARRAY);
+              			glDisable(GL_CULL_FACE);
 			}	
 			
 			return;

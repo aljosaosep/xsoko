@@ -78,6 +78,9 @@ int main(int argc, char** args)
 
 	glLightfv (GL_LIGHT0, GL_POSITION, lightpos);
 	
+	glEnableClientState(GL_VERTEX_ARRAY);
+        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	
 	glutReshapeFunc (Reshape);
 	glutDisplayFunc (Display);
 	glutKeyboardFunc (Keyboard);
