@@ -132,6 +132,10 @@ namespace PacGame
 			
 			bool textured;
 			int textureId;
+			
+			float *model_vertex_array;
+			float *model_normal_array;
+			float *model_skin_array;
 		
 		public:
 			Md2Model(istream& md2data);
