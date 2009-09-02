@@ -101,10 +101,10 @@ namespace PacGame
             
             Gui::getInstance().addWindow(mainMenu);
 
-            freeMenu = new Window(210, 158, 320, 141, "Freeplay");
+            freeMenu = new Window(235, 200, 330, 200, "Freeplay");
             freeMenu->setVisible(false);
 
-            listbox = new ListBox(10,40,115,68);
+            listbox = new ListBox(10,36,200,132);
             listbox->KeyUp.connect(bind(&PGameSession::onKeyClick, this, _1, _2));
             listbox->setFocusIndex(1);
             path dir_path("data");
@@ -123,20 +123,17 @@ namespace PacGame
             }
             freeMenu->AddComponent(listbox);
 
-            btn = new Button(135,40,75,25,"Play");
+            btn = new Button(230,40,75,25,"Play");
             btn->setName("play");
             btn->setFocusIndex(2);
             btn->onPressed.connect(bind(&PGameSession::onAction, this, _1));
             freeMenu->AddComponent(btn);
 
-            btn = new Button(135,70,75,25,"Back");
+            btn = new Button(230,70,75,25,"Back");
             btn->setName("back");
             btn->setFocusIndex(3);
             btn->onPressed.connect(bind(&PGameSession::onAction, this, _1));
             freeMenu->AddComponent(btn);
-
-            EditBox* edit = new EditBox(220,40,90,20);
-            freeMenu->AddComponent(edit);
 
             Gui::getInstance().addWindow(freeMenu);
             

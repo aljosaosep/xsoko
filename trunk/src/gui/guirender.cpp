@@ -42,10 +42,6 @@ void GuiRender::loadSkin(string skinImage, string skinFile){
         for(int count=0;!file.eof();count++){
             getline(file,vrstica);
             stringstream stream(vrstica);
-			//Rect location;
-            //stream >> name >> location.x1 >> location.y1 >>
-            //        location.x2 >> location.y2;
-            //textures[count] = location;
 			stream >> name >> textures[count][0] >> textures[count][1] >>
                     textures[count][4] >> textures[count][5];
 			textures[count][6] = textures[count][0] /= 128;
@@ -60,15 +56,10 @@ void GuiRender::drawImage(int index, Rect drawRect){
     glBindTexture(GL_TEXTURE_2D,skinID);
 
     glColor4f(1,1,1,alpha);
-	//Rect textureRect = textures[index];
     int vertex[] = {x+drawRect.x1, y-drawRect.y1,
                     x+drawRect.x2, y-drawRect.y1,
                     x+drawRect.x2, y-drawRect.y2,
                     x+drawRect.x1, y-drawRect.y2};
-    /*float texture[] = {(float)textureRect.x1/128, (float)textureRect.y1/128,
-                       (float)textureRect.x2/128, (float)textureRect.y1/128,
-                       (float)textureRect.x2/128, (float)textureRect.y2/128,
-                       (float)textureRect.x1/128, (float)textureRect.y2/128};*/
     glVertexPointer(2,GL_INT,0,vertex);
     glTexCoordPointer(2,GL_FLOAT,0,textures[index]);
     glDrawArrays(GL_QUADS,0,4);
