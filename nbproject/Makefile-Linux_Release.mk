@@ -65,9 +65,14 @@ OBJECTFILES= \
 	${OBJECTDIR}/src/CommonStructures.o \
 	${OBJECTDIR}/src/renderer/particle.o \
 	${OBJECTDIR}/src/levelbox.o \
+<<<<<<< .mine
+	${OBJECTDIR}/src/renderer/renderer-core.o \
+	${OBJECTDIR}/src/md2loader/md2model.o
+=======
 	${OBJECTDIR}/src/gui/radiobutton.o \
 	${OBJECTDIR}/src/renderer/renderer-core.o \
 	${OBJECTDIR}/src/gui/panel.o
+>>>>>>> .r288
 
 # C Compiler Flags
 CFLAGS=
@@ -370,11 +375,18 @@ ${OBJECTDIR}/src/renderer/renderer-core.o: src/renderer/renderer-core.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -DLinux_Release -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/renderer/renderer-core.o src/renderer/renderer-core.cpp
 
+<<<<<<< .mine
+${OBJECTDIR}/src/md2loader/md2model.o: src/md2loader/md2model.cpp
+	${MKDIR} -p ${OBJECTDIR}/src/md2loader
+	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/src/md2loader/md2model.o src/md2loader/md2model.cpp
+
+=======
 ${OBJECTDIR}/src/gui/panel.o: src/gui/panel.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/gui
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -DLinux_Release -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/gui/panel.o src/gui/panel.cpp
 
+>>>>>>> .r288
 # Subprojects
 .build-subprojects:
 

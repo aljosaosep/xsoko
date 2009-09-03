@@ -37,14 +37,17 @@ Gui::Gui() : mVisible(true), num(0), focusedWin(NULL) {
     GuiRender::getInstance().loadSkin("data/GUI.tga", "data/skin.position");
     
 	fnt = new Font("font");
-    glfwGetMousePos(&mouseX,&mouseY);
+    SDL_GetMouseState(&mouseX, &mouseY);//glfwGetMousePos(&mouseX,&mouseY);
     mouseVer.x1 = mouseX;
     mouseVer.y1 = mouseY;
     mouseVer.x2 = mouseX + 32;
     mouseVer.y2 = mouseY + 32;
 
-    glfwGetWindowSize(&wndWidth,&wndHeight);
-	GuiRender::getInstance().setWindowSize(wndWidth,wndHeight);
+        const SDL_VideoInfo* window_info = SDL_GetVideoInfo();
+        
+        //glfwGetWindowSize(&wndWidth,&wndHeight);
+        GuiRender::getInstance().setWindowSize(window_info->current_w, window_info->current_h);
+        
 }
 
 /*------------------------------------------------------------------*
@@ -55,10 +58,10 @@ void Gui::Render()
     if(mVisible){
       if(!mprocessed){
           switch(mclick){
-            case GLFW_PRESS:
+            case SDL_MOUSEBUTTONDOWN://GLFW_PRESS:
                 onMouseDown();
                 break;
-            case GLFW_RELEASE:
+            case SDL_MOUSEBUTTONUP://GLFW_RELEASE:
                 for(unsigned i=0;i<windows.size();i++)
                     windows[i]->onMouseUp(mouseX,mouseY);
                 break;
@@ -81,10 +84,10 @@ void Gui::Render()
     if(!kprocessed){
 		if(focusedWin != NULL && focusedWin->isVisible()){
             switch(kclick){
-              case GLFW_PRESS:
+              case SDL_KEYDOWN://GLFW_PRESS:
                   focusedWin->onKeyDown(key);
                   break;
-              case GLFW_RELEASE:
+              case SDL_KEYUP://GLFW_RELEASE:
                   focusedWin->onKeyUp(key);
                   break;
             }
@@ -147,8 +150,8 @@ int Gui::mouseX = 0;
 int Gui::mouseY = 0;
 int Gui::wndWidth = 0;
 int Gui::wndHeight = 0;
-int Gui::mclick = GLFW_RELEASE;
-int Gui::kclick = GLFW_RELEASE;
+int Gui::mclick = SDL_MOUSEBUTTONUP;//GLFW_RELEASE;
+int Gui::kclick = SDL_KEYUP;//GLFW_RELEASE;
 int Gui::key = 0;
 int Gui::character = 0;
 bool Gui::mprocessed = true;
@@ -182,7 +185,7 @@ void Gui::onKeyClick(int kkey, int action){
 }
 
 void Gui::onCharacterSend(int c, int action){
-    if(action == GLFW_RELEASE){
+    if(action == SDL_KEYUP){//GLFW_RELEASE){
         cprocessed = false;
         character = c;
     }
@@ -272,17 +275,17 @@ void Gui::addWindow(Window* win){
 }
     
 void Gui::registerInput(){
-    glfwSetMouseButtonCallback(Gui::onMouseClick);
+    /*glfwSetMouseButtonCallback(Gui::onMouseClick);
     glfwSetMousePosCallback(Gui::onMouseMove);
     glfwSetKeyCallback(Gui::onKeyClick);
-    glfwSetCharCallback(Gui::onCharacterSend);
+    glfwSetCharCallback(Gui::onCharacterSend);*/
 }
 
 void Gui::unregisterInput(){
-    glfwSetMouseButtonCallback(NULL);
+    /*glfwSetMouseButtonCallback(NULL);
     glfwSetMousePosCallback(NULL);
     glfwSetKeyCallback(NULL);
-    glfwSetCharCallback(NULL);
+    glfwSetCharCallback(NULL);*/
 }
 
 void Gui::focusGain(Component* sender){

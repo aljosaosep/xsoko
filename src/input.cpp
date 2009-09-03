@@ -28,6 +28,7 @@
 
 #include "level.h"
 #include "input.h"
+#include "gui/gui.h"
 #include <AL/alut.h>
 
 using namespace PacGame::GameClasses::GameObjects;
@@ -39,128 +40,108 @@ namespace PacGame
 
         void PInputSystem::process()
         {
-            // gets renderer handle, for camera
-//             PRenderer *rn = this->level->getGameCoreHandle()->getRenderer();
-
-            glfwEnable(GLFW_STICKY_KEYS);  // enables sticky keys            
-
-            // in next lines, we check if some keys has been pressed
-            if(!toggleMenu){
-                if((glfwGetKey(GLFW_KEY_UP) == GLFW_PRESS) /*&& (glfwGetKey(GLFW_KEY_UP) == GLFW_RELEASE)*/)  // checks up key
+                SDL_Event event;
+                while(SDL_PollEvent(&event))
                 {
-                    //if(
-                    this->level->setButtonFlag(KB_UP);
-                    //this->level->moveObject(Aliases::up, this->level->getPlayerHandle());
-                    //)  // move object player up
-                    //this->level->getGameCoreHandle()->getCamera()->rotateViewY(0.5);
-                }
-                 if((glfwGetKey(GLFW_KEY_DOWN) == GLFW_PRESS) /*&& (glfwGetKey(GLFW_KEY_DOWN) == GLFW_RELEASE)*/) // checks down key
-                {
-                    //if(
-                    this->level->setButtonFlag(KB_DOWN);
-                    //this->level->moveObject(Aliases::down, this->level->getPlayerHandle());
-                    //) // move object player down
-                        //this->level->getGameCoreHandle()->getCamera()->rotateViewY(-0.5);
-                }
-                 if((glfwGetKey(GLFW_KEY_LEFT) == GLFW_PRESS) /*&& (glfwGetKey(GLFW_KEY_LEFT) == GLFW_RELEASE)*/) // checks left key
-                {
-                    //if(
-                    this->level->setButtonFlag(KB_LEFT);
-                    //this->level->moveObject(Aliases::left, this->level->getPlayerHandle());
-                    //) // move object player left
-                    //this->level->getGameCoreHandle()->getCamera()->rotateViewX(-0.5);
-                }
-                 if((glfwGetKey(GLFW_KEY_RIGHT) == GLFW_PRESS) /*&& (glfwGetKey(GLFW_KEY_RIGHT) == GLFW_RELEASE)*/) // checks right key
-                {
-                    //if(
-                    this->level->setButtonFlag(KB_RIGHT);
-                    //this->level->moveObject(Aliases::right, this->level->getPlayerHandle());
-                    //) // move object player right
-                    //this->level->getGameCoreHandle()->getCamera()->rotateViewX(0.5);
-                }
-                  if(glfwGetKey(GLFW_KEY_UP) == GLFW_RELEASE) 
-                {
-                    this->level->resetButtonFlag(KB_UP);
-                }
-                 if(glfwGetKey(GLFW_KEY_DOWN) == GLFW_RELEASE) 
-                {
-                    this->level->resetButtonFlag(KB_DOWN);
-                }
-                 if(glfwGetKey(GLFW_KEY_LEFT) == GLFW_RELEASE)
-                {
-                    this->level->resetButtonFlag(KB_LEFT);
-                }
-                 if(glfwGetKey(GLFW_KEY_RIGHT) == GLFW_RELEASE)
-                {
-                    this->level->resetButtonFlag(KB_RIGHT);
-                }
-                 if((glfwGetKey(GLFW_KEY_SPACE) == GLFW_PRESS) && (glfwGetKey(GLFW_KEY_SPACE) == GLFW_RELEASE))
-                {
-                    Messages::infoMessage("Key space pressed, dumping...");                
-                    this->level->print();              
-                }
-                 if((glfwGetKey('D') == GLFW_PRESS) && (glfwGetKey('D') == GLFW_RELEASE))
-                {
-                    if(this->level->getPlayerHandle()->getBombs() > 0)
-                    {
-                        if(this->level->addDroppedBomb(this->getLevel()->getPlayerHandle()->getI(), this->getLevel()->getPlayerHandle()->getJ()))
+                        if(!toggleMenu)
                         {
-                    //        this->level->
-                            this->level->getPlayerHandle()->decBombs();
-                            
-                            
+                                switch(event.type)
+                                {
+                                        case SDL_QUIT:
+                                                 toggleMenu = !toggleMenu;
+                                        break;
+                                        case SDL_KEYDOWN:
+                                                if(event.key.keysym.sym == SDLK_UP)
+                                                {
+                                                        this->level->setButtonFlag(KB_UP);
+                                                }else
+                                                if(event.key.keysym.sym == SDLK_DOWN)
+                                                {
+                                                        this->level->setButtonFlag(KB_DOWN);
+                                                }else
+                                                if(event.key.keysym.sym == SDLK_LEFT)
+                                                {
+                                                        this->level->setButtonFlag(KB_LEFT);
+                                                }else
+                                                if(event.key.keysym.sym == SDLK_RIGHT)
+                                                {
+                                                        this->level->setButtonFlag(KB_RIGHT);
+                                                }
+                                        break;
+                                        case SDL_KEYUP:
+                                                if(event.key.keysym.sym == SDLK_UP)
+                                                {
+                                                        this->level->resetButtonFlag(KB_UP);
+                                                }else
+                                                if(event.key.keysym.sym == SDLK_DOWN)
+                                                {
+                                                        this->level->resetButtonFlag(KB_DOWN);
+                                                }else
+                                                if(event.key.keysym.sym == SDLK_LEFT)
+                                                {
+                                                        this->level->resetButtonFlag(KB_LEFT);
+                                                }else
+                                                if(event.key.keysym.sym == SDLK_RIGHT)
+                                                {
+                                                        this->level->resetButtonFlag(KB_RIGHT);
+                                                }else
+                                                if(event.key.keysym.sym == SDLK_SPACE)
+                                                {
+                                                        Messages::infoMessage("Key space pressed, dumping...");                
+                                                        this->level->print(); 
+                                                }else
+                                                if(event.key.keysym.sym == SDLK_d)
+                                                {
+                                                        if(this->level->getPlayerHandle()->getBombs() > 0)
+                                                            {
+                                                                if(this->level->addDroppedBomb(this->getLevel()->getPlayerHandle()->getI(), this->getLevel()->getPlayerHandle()->getJ()))
+                                                                {
+                                                                    this->level->getPlayerHandle()->decBombs();
+                                                                    
+                                                                    // vsekaj zvok
+                                                               /*     ALuint helloBuffer, helloSource;
+                                                                    ALenum error;
+                                                                    helloBuffer = alutCreateBufferFromFile("sound/bombtiq.wav");
+                                                                    if (helloBuffer == AL_NONE)
+                                                                    {
+                                                                        error = alutGetError();
+                                                                        cout << "Napaka: " << alutGetErrorString(error) << endl;
+                                                                    }
+                                                                    alGenSources (1, &helloSource);
+                                                                    alSourcei (helloSource, AL_BUFFER, helloBuffer);
+                                                                    alSourcePlay (helloSource);*/
+                                                                }
 
-                            // vsekaj zvok
-                       /*     ALuint helloBuffer, helloSource;
-                            ALenum error;
-                            helloBuffer = alutCreateBufferFromFile("sound/bombtiq.wav");
-                            if (helloBuffer == AL_NONE)
-                            {
-                                error = alutGetError();
-                                cout << "Napaka: " << alutGetErrorString(error) << endl;
-                            }
-                            alGenSources (1, &helloSource);
-                            alSourcei (helloSource, AL_BUFFER, helloBuffer);
-                            alSourcePlay (helloSource);*/
+                                                            }
+                                                }else
+                                                if(event.key.keysym.sym == SDLK_ESCAPE)
+                                                { 
+                                                        toggleMenu = !toggleMenu;
+                                                }
+                                        break;
+                                }
+                        }else
+                        {
+                                switch(event.type)
+                                {
+                                        case SDL_QUIT:
+                                                 toggleMenu = !toggleMenu;
+                                        break;
+                                        case SDL_KEYUP:
+                                        case SDL_KEYDOWN:
+                                                Gui::onKeyClick(event.key.keysym.sym,event.key.type);
+                                                //GUI::onCharacterSend();
+                                        break;
+                                        case SDL_MOUSEBUTTONUP:
+                                        case SDL_MOUSEBUTTONDOWN:
+                                                  Gui::onMouseClick(event.button.button,event.button.type);
+                                        break;
+                                        case SDL_MOUSEMOTION:
+                                                Gui::onMouseMove(event.motion.x, event.motion.y);
+                                        break;
+                                }
                         }
-
-                    }
-                  //  this->level->setDetonatedBomb()
                 }
-            }
-            if((glfwGetKey(GLFW_KEY_ESC) == GLFW_PRESS) && (glfwGetKey(GLFW_KEY_ESC) == GLFW_RELEASE))
-            {
-                toggleMenu = !toggleMenu;
-                glfwDisable(GLFW_STICKY_KEYS);  // enables sticky keys
-            }
-            
-            // camera values; if you need to move camera, uncomment this code
-  /*          else if((glfwGetKey('W') == GLFW_PRESS) && (glfwGetKey('W') == GLFW_RELEASE))
-            {              
-         
-            }
-            else if((glfwGetKey('S') == GLFW_PRESS) && (glfwGetKey('S') == GLFW_RELEASE))
-            {              
-          
-            }
-            
-            else if((glfwGetKey('A') == GLFW_PRESS) && (glfwGetKey('A') == GLFW_RELEASE))
-            {              
-           
-            }
-            else if((glfwGetKey('F') == GLFW_PRESS) && (glfwGetKey('F') == GLFW_RELEASE))
-            {              
-     
-            }
-            
-            else if((glfwGetKey('Q') == GLFW_PRESS) && (glfwGetKey('Q') == GLFW_RELEASE))
-            {              
-         
-            }
-            else if((glfwGetKey('Z') == GLFW_PRESS) && (glfwGetKey('Z') == GLFW_RELEASE))
-            {              
-        
-            } */
         }
         
         // setters

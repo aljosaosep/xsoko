@@ -862,7 +862,7 @@ namespace PacGame
               holds.clear();
               endgameFlag = false;
               moves = 0;
-			  starttime = glfwGetTime();
+			  starttime = ((double)SDL_GetTicks())/1000.0;//glfwGetTime();
               return reloadLevel();
           }
           
@@ -909,7 +909,7 @@ namespace PacGame
               // temporary, dump state
               this->print();
 
-              starttime = glfwGetTime();
+              starttime = ((double)SDL_GetTicks())/1000.0;//glfwGetTime();
               moves = 0;
               button_flags = 0;
               return true; // everything went ok
@@ -981,7 +981,7 @@ namespace PacGame
               glTranslatef(0, 600, -0.5);
 
               if(!endgameFlag)
-                  time = glfwGetTime();
+                  time = ((double)SDL_GetTicks())/1000.0;//glfwGetTime();
               fnt->writeTextAbs(10,-30,"Elapsed time: "+Functions::toString<int>((int)(time-starttime)));
               fnt->writeTextAbs(170,-30,"Moves: "+Functions::toString<int>(moves));
           }
@@ -1011,7 +1011,7 @@ namespace PacGame
           bool PLevel::loadLevelFromFile(string filename){
               this->filename = filename;
               this->endgameFlag = false;
-              starttime = glfwGetTime();
+              starttime = ((double)SDL_GetTicks())/1000.0;//glfwGetTime();
               return reset();
           }
           

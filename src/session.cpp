@@ -20,8 +20,9 @@
 	#include <windows.h>
 #endif
 
-#include <GL/glfw.h>
-
+//#include <GL/glfw.h>
+#include <SDL/SDL.h>
+#include <SDL/SDL_opengl.h>
 
 #include "input.h"
 
@@ -66,11 +67,11 @@ namespace PacGame
         
         void PGameSession::prepareGui(){
             Messages::infoMessage("Initialiazing GUI...");
-            glfwSetWindowSizeCallback(Gui::glResizeWnd);
+            //glfwSetWindowSizeCallback(Gui::glResizeWnd);
             Gui::getInstance().registerInput();
-
+            //input->toggleGameMenu();
             #if defined(Linux_Release) || defined(Windows_Release) || defined(_RELEASE)
-                glfwDisable(GLFW_MOUSE_CURSOR);
+                //glfwDisable(GLFW_MOUSE_CURSOR);
             #endif
             
             mainMenu = new Window(333, 200, 135, 200, "Main Menu");
@@ -183,7 +184,7 @@ namespace PacGame
             Messages::infoMessage("Entering main loop...");
 
             // the time of the previous frame
-            double old_time = glfwGetTime();   
+            double old_time = ((double)SDL_GetTicks())/1000.0;//glfwGetTime();   
             double old_time_FPS = old_time;
 
             #if defined(Linux_Debug) || defined(Windows_Debug) || defined(_DEBUG)
@@ -198,7 +199,7 @@ namespace PacGame
 
             while(!gameQuit)
             {
-                double current_time = glfwGetTime();
+                double current_time = ((double)SDL_GetTicks())/1000.0;//glfwGetTime();
                 double diff_time = current_time - old_time;
                 old_time = current_time;
 
@@ -208,14 +209,16 @@ namespace PacGame
                 #if defined(Linux_Debug) || defined(Windows_Debug) || defined(_DEBUG)
                     if(current_time - old_time_FPS >= 1){
                       title = "xSoko project FPS: " + Functions::toString<int>(frames);
-                      glfwSetWindowTitle(title.c_str());
+                      // the second argument is the title of the minimized window
+                      SDL_WM_SetCaption(title.c_str(), title.c_str());//glfwSetWindowTitle(title.c_str());
                       old_time_FPS = current_time;
                       frames = 0;
                     } else
                         frames ++;
                 #endif
                 
-                
+                 this->input->process();
+
 
                 if(levelLoaded || msgid){
                     Gui::getInstance().unregisterInput();
@@ -228,7 +231,7 @@ namespace PacGame
                         this->level->processBombs(current_time);
 
                         // check for input every time
-                        this->input->process();
+                       // this->input->process();
 
                         if(this->input->toggleGameMenu() != menuVisible){
                             menuVisible = !menuVisible;
@@ -267,6 +270,7 @@ namespace PacGame
                 }
 
                 Gui::getInstance().registerInput();
+                Gui::getInstance();
                 Gui::getInstance().Render();
 
                 if(levelLoaded || msgid){
@@ -281,7 +285,8 @@ namespace PacGame
                     //glEnable(GL_BLEND);         // and blending
                 }
               
-                glfwSwapBuffers();
+                //glfwSwapBuffers();
+                SDL_GL_SwapBuffers();
             }
         }
         
@@ -405,17 +410,17 @@ namespace PacGame
             //delete gameMenu;
             //delete mainMenu;
             #if defined(Linux_Release) || defined(Windows_Release) || defined(_RELEASE)
-                glfwEnable(GLFW_MOUSE_CURSOR);
+                //glfwEnable(GLFW_MOUSE_CURSOR);
             #endif
         }
 
         void PGameSession::onKeyClick(Component* listBox, int key){
             switch(key){
-                case GLFW_KEY_ENTER:
+                case SDLK_RETURN://GLFW_KEY_ENTER:
                     listBox->setName("play");
                     onAction(listBox);
                     break;
-                case GLFW_KEY_ESC:
+                case SDLK_ESCAPE://GLFW_KEY_ESC:
                     listBox->setName("back");
                     onAction(listBox);
                     break;

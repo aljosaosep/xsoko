@@ -88,7 +88,8 @@ namespace PacGame
           void PGame::terminateGLFW()
           {
                Messages::infoMessage("Termination, destroying glfw...");
-               glfwTerminate();
+               //glfwTerminate();
+               SDL_Quit();
           }
       }
 }

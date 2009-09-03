@@ -26,7 +26,9 @@
 #ifndef _TEXTURE_H
 #define	_TEXTURE_H
 
-#include <GL/glfw.h>
+//#include <GL/glfw.h>
+#include <SDL/SDL.h>
+#include <SDL/SDL_opengl.h>
 #include <cstdio>
 #include <cstring> // for memcmp() func
 #include <string>

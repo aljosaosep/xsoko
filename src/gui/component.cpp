@@ -116,7 +116,7 @@ void Component::Render(){
 }
 
 void Component::onKeyUp(int key){
-    if(key == GLFW_KEY_TAB)
+    if(key == SDLK_TAB)//GLFW_KEY_TAB)
         parent->focusNext();
     else
         KeyUp(this,key);

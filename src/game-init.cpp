@@ -40,17 +40,20 @@ namespace PacGame
           {
               Messages::mainTitleMessage();
 
-              if (!glfwInit())  // is GLFW initialization successful?
+              if (SDL_Init(SDL_INIT_VIDEO) != 0)//!glfwInit())  // is GLFW initialization successful?
               {
                   Messages::errorMessage("OpenGL/glfw initialization failed."); // in case, it is not
                   terminateGLFW(); // terminate glfw and return false
                   return false;
               }
 
-              Messages::initMessage("GLFW", true); // prints out that initialization was success
+              Messages::initMessage("SDL", true); // prints out that initialization was success
+
+                SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER,1);
+                SDL_Surface* screen = SDL_SetVideoMode( windowWidth, windowHeight, 32, SDL_OPENGL );
 
               // 800 x 600, 16 bit color, no depth, alpha or stencil buffers, windowed
-              if (!glfwOpenWindow(windowWidth, windowHeight, 8, 8, 8, 8, 24, 0, GLFW_WINDOW)) // attemps to open window
+              if (screen == NULL)//!glfwOpenWindow(windowWidth, windowHeight, 8, 8, 8, 8, 24, 0, GLFW_WINDOW)) // attemps to open window
               {
                   Messages::errorMessage("OpenGL window creation failed.");  // failed
                   terminateGLFW();
@@ -59,7 +62,7 @@ namespace PacGame
 
               Messages::initMessage("OpenGL window", true);  // prints out success
 
-              glfwSetWindowTitle(this->windowTitle.c_str()); // temporary
+               SDL_WM_SetCaption(this->windowTitle.c_str(),this->windowTitle.c_str());//glfwSetWindowTitle(this->windowTitle.c_str()); // temporary
               
               /*glMatrixMode(GL_PROJECTION);						// Select The Projection Matrix
               glLoadIdentity();                                                         // Reset The Projection Matrix

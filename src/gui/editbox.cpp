@@ -97,7 +97,8 @@ void EditBox::onRender(){
     fnt->writeText(3,deltay,text);
 
     //draw carrot
-    if(focused && !((int)((glfwGetTime()-time)/0.5)&1)){
+    if(focused && !((int)(((((double)SDL_GetTicks())/1000.0)//glfwGetTime()
+                                                -time)/0.5)&1)){
         string first = text.substr(0,carrotPos);
         int offset = fnt->stringWidth(first) + 4;
 
@@ -108,33 +109,33 @@ void EditBox::onRender(){
 
 void EditBox::onKeyUp(int key){
     switch(key){
-        case GLFW_KEY_TAB:
+        case SDLK_UP://GLFW_KEY_TAB:
             parent->focusNext();
             break;
-        case GLFW_KEY_BACKSPACE:
+        case SDLK_BACKSPACE://GLFW_KEY_BACKSPACE:
             if(carrotPos>0){
                 text.erase(text.begin()+(carrotPos-1));
                 carrotPos--;
             }
             break;
-        case GLFW_KEY_DEL:
+        case SDLK_DELETE://GLFW_KEY_DEL:
             if(carrotPos < text.size()){
                 text.erase(text.begin()+carrotPos);
             }
             break;
-        case GLFW_KEY_LEFT:
+        case SDLK_LEFT://GLFW_KEY_LEFT:
             if(carrotPos > 0){
                 carrotPos--;
             }
             break;
-        case GLFW_KEY_RIGHT:
+        case SDLK_RIGHT://GLFW_KEY_RIGHT:
             if(carrotPos < text.size()){
                 carrotPos++;
             }
             break;
     }
     KeyUp(this,key);
-    time = glfwGetTime();
+    time = (((double)SDL_GetTicks())/1000.0);//glfwGetTime();
 }
 
 void EditBox::onCharClick(int c){
@@ -148,7 +149,7 @@ void EditBox::onCharClick(int c){
 
 void EditBox::focusGain(){
     Component::focusGain();
-    time = glfwGetTime();
+    time = (((double)SDL_GetTicks())/1000.0);//glfwGetTime();
 }
 
 void EditBox::setSize(int width, int height){

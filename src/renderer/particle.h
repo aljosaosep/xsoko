@@ -35,7 +35,9 @@
 #include <cstdio>
 #include <cstdlib>
 #include <ctime>
-#include <GL/glfw.h>
+//#include <GL/glfw.h>
+#include <SDL/SDL.h>
+#include <SDL/SDL_opengl.h>
 #include <cmath>
 
 using namespace std;

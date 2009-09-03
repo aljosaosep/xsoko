@@ -34,7 +34,9 @@
 #ifdef _WINDOWS
 	#include <windows.h>
 #endif
-#include <GL/glfw.h>
+//#include <GL/glfw.h>
+#include <SDL/SDL.h>
+#include <SDL/SDL_opengl.h>
 #include <sstream>
 
 using namespace std;
@@ -57,7 +59,8 @@ namespace PacGame
               double dropTime;  // time bomb has been dropped
               int i, j;  // index of bomb
 
-              PDroppedBomb(int i, int j) : dropTime(glfwGetTime()), i(i), j(j) {}  // constructor
+              PDroppedBomb(int i, int j) : dropTime(((double)SDL_GetTicks())/1000.0//glfwGetTime()
+                                                                                                                ), i(i), j(j) {}  // constructor
           };
       }
       

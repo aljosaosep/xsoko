@@ -18,6 +18,9 @@
  */
 #include <fstream>
 #include <sstream>
+#include <SDL/SDL.h>
+#include <SDL/SDL_opengl.h>
+#include <SDL/SDL_image.h>
 
 #include "guirender.h"
 
@@ -28,12 +31,41 @@ GuiRender& GuiRender::getInstance(){
 
 void GuiRender::loadSkin(string skinImage, string skinFile){
     
+    // temp loading procedure, doesn't do enough checks to safely load a texture
+    SDL_Surface* skin = IMG_Load(skinImage.c_str());
+    GLenum skinFormat;
+    GLint nOfColors = skin->format->BytesPerPixel;
+    
+    
+	if (nOfColors == 4)     // contains an alpha channel
+        {
+                if (skin->format->Rmask == 0x000000ff)
+                        skinFormat = GL_RGBA;
+                else
+                        skinFormat = GL_BGRA;
+        } else if (nOfColors == 3)     // no alpha channel
+        {
+                if (skin->format->Rmask == 0x000000ff)
+                        skinFormat = GL_RGB;
+                else
+                        skinFormat = GL_BGR;
+        }
+        
 	glGenTextures(1,&skinID);
     glBindTexture(GL_TEXTURE_2D,skinID);
-	if(glfwLoadTexture2D(skinImage.c_str(), GLFW_ORIGIN_UL_BIT)){
+    
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+       glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+    
+    glTexImage2D( GL_TEXTURE_2D, 0, nOfColors, skin->w, skin->h, 0,
+                      skinFormat, GL_UNSIGNED_BYTE, skin->pixels );
+	
+	SDL_FreeSurface(skin);
+	
+	/*if(glfwLoadTexture2D(skinImage.c_str(), GLFW_ORIGIN_UL_BIT)){
        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-    }
+    }*/
 
     ifstream file;
     file.open(skinFile.c_str(),ios::in);

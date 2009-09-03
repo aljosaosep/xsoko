@@ -111,15 +111,15 @@ Font* Button::getFont(){
 
 void Button::onKeyUp(int key){
     switch(key){
-        case GLFW_KEY_ENTER:
+        case SDLK_RETURN://GLFW_KEY_ENTER:
             pressed = false;
             onPressed(this);
             break;
-        case GLFW_KEY_UP:
+        case SDLK_UP://GLFW_KEY_UP:
             parent->focusPrevious();
             break;
-        case GLFW_KEY_DOWN:
-        case GLFW_KEY_TAB:
+        case SDLK_DOWN://GLFW_KEY_DOWN:
+        case SDLK_TAB://GLFW_KEY_TAB:
             parent->focusNext();
             break;
     }
@@ -127,7 +127,7 @@ void Button::onKeyUp(int key){
 
 void Button::onKeyDown(int key){
     switch(key){
-        case GLFW_KEY_ENTER:
+        case SDLK_RETURN://GLFW_KEY_ENTER:
             pressed = true;
             break;
     }

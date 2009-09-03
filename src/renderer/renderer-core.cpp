@@ -235,6 +235,8 @@ namespace PacGame
           {
               glEnable(GL_CULL_FACE);
               glCullFace(GL_FRONT);
+                 glVertexPointer(3, GL_FLOAT, 0, box);
+              glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
               glPushMatrix();
                     glTranslatef(x, y, 0.0);
                     glNormal3f(0.0f, 0.0f, -1.0f);

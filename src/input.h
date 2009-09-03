@@ -29,7 +29,9 @@
 #ifndef __INPUT_H
 #define	__INPUT_H
 
-#include <GL/glfw.h>
+//#include <GL/glfw.h>
+#include <SDL/SDL.h>
+#include <SDL/SDL_opengl.h>
 #include "level.h"
 
 using namespace PacGame::GameClasses::GameObjects;
@@ -44,10 +46,9 @@ namespace PacGame
             PLevel *level;    // level object
             bool toggleMenu;
         public:
-            
             // constructors
-            PInputSystem(PLevel *level) : level(level), toggleMenu(false) { }
-            PInputSystem() : level(NULL), toggleMenu(false) { }
+            PInputSystem(PLevel *level) : level(level), toggleMenu(true){ }
+            PInputSystem() : level(NULL), toggleMenu(true) { }
             
             // process function
             void process();

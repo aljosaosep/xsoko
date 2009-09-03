@@ -206,10 +206,10 @@ void Scrollbar::onMouseDown(int mx, int my){
 
 void Scrollbar::onKeyDown(int key){
     switch(key){
-        case GLFW_KEY_DOWN:
+        case SDLK_DOWN://GLFW_KEY_DOWN:
             downPressed = true;
             break;
-        case GLFW_KEY_UP:
+        case SDLK_UP://GLFW_KEY_UP:
             upPressed = true;
             break;
     }
@@ -217,10 +217,10 @@ void Scrollbar::onKeyDown(int key){
 
 void Scrollbar::onKeyUp(int key){
     switch(key){
-        case GLFW_KEY_TAB:
+        case SDLK_TAB://GLFW_KEY_TAB:
             parent->focusNext();
             break;
-        case GLFW_KEY_DOWN:
+        case SDLK_DOWN://GLFW_KEY_DOWN:
             if(position + step <= max){
                 position += step;
                 recalculatePosition();
@@ -228,7 +228,7 @@ void Scrollbar::onKeyUp(int key){
             }
             downPressed= false;
             break;
-        case GLFW_KEY_UP:
+        case SDLK_UP://GLFW_KEY_UP:
             if(position - step >= min){
                 position -= step;
                 recalculatePosition();

@@ -40,7 +40,9 @@
 #include <boost/signals.hpp>
 
 #include <GL/gl.h>
-#include <GL/glfw.h>
+//#include <GL/glfw.h>
+#include <SDL/SDL.h>
+#include <SDL/SDL_opengl.h>
 #include <stdlib.h>
 #include <iostream>
 #include <vector>

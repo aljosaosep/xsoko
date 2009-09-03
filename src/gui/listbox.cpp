@@ -250,7 +250,7 @@ void ListBox::addItem(string item){
 void ListBox::onKeyUp(int key){
     unsigned size = items.size();
     switch(key){
-        case GLFW_KEY_DOWN:
+        case SDLK_DOWN://GLFW_KEY_DOWN:
             if(selected == -1 && size > 0){
                 selected = 0;
                 drawIndex = 0;
@@ -264,7 +264,7 @@ void ListBox::onKeyUp(int key){
                 }
             }
             break;
-        case GLFW_KEY_UP:
+        case SDLK_UP://GLFW_KEY_UP:
             if(selected == -1 && size > 0){
                 selected = size - 1;
                 if(size > canShow){
@@ -280,11 +280,11 @@ void ListBox::onKeyUp(int key){
                 }
             }
             break;
-        case GLFW_KEY_TAB:
+        case SDLK_TAB://GLFW_KEY_TAB:
             parent->focusNext();
             break;
     }
-    if(key != GLFW_KEY_TAB)
+    if(key != SDLK_TAB)//GLFW_KEY_TAB)
         KeyUp(this,key);
 }
 

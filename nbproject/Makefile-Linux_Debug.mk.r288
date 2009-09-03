@@ -70,7 +70,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/src/gui/panel.o
 
 # C Compiler Flags
-CFLAGS=`sdl-config --cflags`
+CFLAGS=
 
 # CC Compiler Flags
 CCFLAGS=
@@ -80,9 +80,7 @@ CXXFLAGS=
 FFLAGS=
 
 # Link Libraries and Options
-
-LDLIBSOPTIONS=`sdl-config --libs` -lSDL_image -lGL -lGLU -lalut -lopenal -lboost_filesystem -lm -lXxf86vm -lXrandr -lftgl -lz -lboost_signals
-
+LDLIBSOPTIONS=-lglfw -lGL -lGLU -lalut -lopenal -lboost_filesystem -lm -lXxf86vm -lXrandr -lftgl -lz -lboost_signals
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
