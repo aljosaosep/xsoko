@@ -194,6 +194,7 @@ namespace PacGame
            void PLevel::setButtonFlag(int flag)
            {
                    button_flags = flag | button_flags;
+                   cout<<"button flags:"<<button_flags<<endl;
                    if((button_flags ^ flag) == 0) // the status of button_flags before adding this flag
                    {
                            switch(flag)
@@ -216,7 +217,30 @@ namespace PacGame
            
            void PLevel::resetButtonFlag(int flag)
            {
-                   button_flags = button_flags &  (!flag);
+                   //button_flags = button_flags & (!flag);
+                   button_flags = button_flags ^ flag;
+                   
+                   cout<<"button flags:"<<button_flags<<endl;
+                   
+                    if(button_flags != 0) // the status of button_flags before adding this flag
+                   {
+                        if(button_flags & KB_UP)
+                        {
+                                this->moveObject(Aliases::up, this->getPlayerHandle());
+                        }else
+                          if(button_flags & KB_LEFT)
+                        {
+                                        this->moveObject(Aliases::left, this->getPlayerHandle());
+                        }else
+                         if(button_flags & KB_DOWN)
+                        {
+                                        this->moveObject(Aliases::down, this->getPlayerHandle());
+                        }else
+                         if(button_flags & KB_RIGHT)
+                        {
+                                        this->moveObject(Aliases::right, this->getPlayerHandle());
+                        }
+                   }
            }
 
           // gameplay related
@@ -453,7 +477,8 @@ namespace PacGame
                               this->endgameFlag = true;
                               Messages::infoMessage("You won!!!!! :))))");
                           }
-                  }else
+                  }
+                  
                   if(((PLevelObject*) data[i][j]->returnFirstChild())->getId() == PLAYER) // if the child object is a player
                   {
                         if(button_flags != 0)// if we are holding down the button, we want still to move the player
