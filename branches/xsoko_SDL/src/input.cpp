@@ -125,7 +125,7 @@ namespace PacGame
                                 switch(event.type)
                                 {
                                         case SDL_QUIT:
-                                                 toggleMenu = !toggleMenu;
+                                                 //toggleMenu = !toggleMenu;
                                         break;
                                         case SDL_KEYUP:
                                         case SDL_KEYDOWN:

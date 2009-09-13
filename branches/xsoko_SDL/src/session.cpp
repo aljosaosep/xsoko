@@ -68,6 +68,8 @@ namespace PacGame
         void PGameSession::prepareGui(){
             Messages::infoMessage("Initialiazing GUI...");
             //glfwSetWindowSizeCallback(Gui::glResizeWnd);
+            const SDL_VideoInfo* vi = SDL_GetVideoInfo();
+            Gui::glResizeWnd(vi->current_w, vi->current_h);
             Gui::getInstance().registerInput();
             //input->toggleGameMenu();
             #if defined(Linux_Release) || defined(Windows_Release) || defined(_RELEASE)
