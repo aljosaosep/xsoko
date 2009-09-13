@@ -467,6 +467,8 @@ namespace PacGame
                            object->setIndex(it, jt);
                            object->setRealI((float)it);
                            object->setRealJ((float)jt);
+                           i = it;
+                           j = jt;
                           // PDirection dir = Aliases::left;
                            
                   }else
