@@ -48,10 +48,10 @@ void Text::onRender()
 {
 	int startofline = 0, lines = 0;
 	for(int i=0;i<caption.size();i++){
-		if(caption[i] == '\n'){
-			fnt->writeText(0, (++lines)*fnt->getSize(), caption.substr(startofline,i-startofline));
-			startofline = i+1;
-		}
+            if(caption[i] == '\n'){
+                    fnt->writeText(0, (++lines)*fnt->getSize(), caption.substr(startofline,i-startofline));
+                    startofline = i+1;
+            }
 	}
 	fnt->writeText(0, (lines+1)*fnt->getSize(), caption.substr(startofline));
 }
@@ -62,26 +62,26 @@ string Text::getText(){
 
 void Text::setText(const string& text){
     caption = text;
-	if(autoResize){
-		string test;
-		int startofline = 0, maxlength = 0, lines = 0, len;
-		for(int i=0;i<text.size();i++){
-			if(text[i] == '\n'){
-				test = text.substr(startofline,i-startofline);
-				len = fnt->stringWidth(test);
-				if(len > maxlength)
-					maxlength = len;
-				lines ++;
-				startofline = i+1;
-			}
-		}
-		test = text.substr(startofline);
-		len = fnt->stringWidth(test);
-		if(len > maxlength)
-			maxlength = len;
-		width = maxlength;
-		height = lines*fnt->getSize();
-	}
+    if(autoResize){
+        string test;
+        int startofline = 0, maxlength = 0, lines = 0, len;
+        for(int i=0;i<text.size();i++){
+                if(text[i] == '\n'){
+                        test = text.substr(startofline,i-startofline);
+                        len = fnt->stringWidth(test);
+                        if(len > maxlength)
+                                maxlength = len;
+                        lines ++;
+                        startofline = i+1;
+                }
+        }
+        test = text.substr(startofline);
+        len = fnt->stringWidth(test);
+        if(len > maxlength)
+                maxlength = len;
+        width = maxlength;
+        height = lines*fnt->getSize();
+    }
 }
 
 Font* Text::getFont(){

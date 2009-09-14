@@ -215,6 +215,11 @@ string  ListBox::getSelectedItem(){
     return items.at(selected);
 }
 
+void ListBox::setSelectedItem(int index){
+    if(index >= 0 && index < items.size())
+        selected = index;
+}
+
 void ListBox::drawButton(int verIndex, bool pressed,bool upArrow)
 {
   if (pressed)

@@ -28,6 +28,7 @@ Window::Window(int x, int y, int width, int height,string wCaption) : Container(
   mouseDrag.drag = false;
   mouseDrag.x = 0;
   mouseDrag.y = 0;
+  visible = false;
   invalidate();
 };
 
@@ -118,15 +119,15 @@ void Window::onRender()
 {
     GuiRender::getInstance().setColor(1,1,1,alpha);
 
-	GuiRender::getInstance().drawImage(GUI_TEX_WINDOW_TOP_LEFT,  vertex[0]);
-	GuiRender::getInstance().drawImage(GUI_TEX_WINDOW_TOP_MIDLLE,vertex[1]);
-	GuiRender::getInstance().drawImage(GUI_TEX_WINDOW_TOP_RIGHT, vertex[2]);
+    GuiRender::getInstance().drawImage(GUI_TEX_WINDOW_TOP_LEFT,  vertex[0]);
+    GuiRender::getInstance().drawImage(GUI_TEX_WINDOW_TOP_MIDLLE,vertex[1]);
+    GuiRender::getInstance().drawImage(GUI_TEX_WINDOW_TOP_RIGHT, vertex[2]);
     GuiRender::getInstance().drawImage(GUI_TEX_WINDOW_LEFT,  vertex[3]);
     GuiRender::getInstance().drawImage(GUI_TEX_WINDOW_MIDLLE,vertex[4]);
     GuiRender::getInstance().drawImage(GUI_TEX_WINDOW_RIGHT, vertex[5]);
-	GuiRender::getInstance().drawImage(GUI_TEX_WINDOW_BOTTOM_LEFT,  vertex[6]);
-	GuiRender::getInstance().drawImage(GUI_TEX_WINDOW_BOTTOM_MIDLLE,vertex[7]);
-	GuiRender::getInstance().drawImage(GUI_TEX_WINDOW_BOTTOM_RIGHT, vertex[8]);
+    GuiRender::getInstance().drawImage(GUI_TEX_WINDOW_BOTTOM_LEFT,  vertex[6]);
+    GuiRender::getInstance().drawImage(GUI_TEX_WINDOW_BOTTOM_MIDLLE,vertex[7]);
+    GuiRender::getInstance().drawImage(GUI_TEX_WINDOW_BOTTOM_RIGHT, vertex[8]);
 
       //glBegin(GL_QUADS);
         /*if(enableCloseButton){
@@ -138,11 +139,12 @@ void Window::onRender()
         }*/
       //glEnd();
 
-      fnt->writeText((int)(width-fnt->stringWidth(caption))/2,24,caption);
+    fnt->writeText((int)(width-fnt->stringWidth(caption))/2,24,caption);
 
-      for(unsigned i=0;i<components.size();i++){
+    GuiRender::getInstance().move(0,27);
+    for(unsigned i=0;i<components.size();i++){
         components[i]->Render();
-      }
+    }
 }
 
 void Window::onMouseUp(int mx, int my){
@@ -150,7 +152,7 @@ void Window::onMouseUp(int mx, int my){
         mouseDrag.drag = false;
         return;
     }
-    Container::onMouseUp(mx,my);
+    Container::onMouseUp(mx,my-27);
 }
 
 void Window::onMouseMove(int mx, int my){
@@ -182,7 +184,7 @@ void Window::onMouseDown(int mx, int my){
         return;
     }
 
-    Container::onMouseDown(mx,my);
+    Container::onMouseDown(mx,my-27);
 }
 
 float Window::getAlpha(){

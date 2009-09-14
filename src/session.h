@@ -36,6 +36,7 @@
 #include "gui/listbox.h"
 #include "gui/scrollbar.h"
 #include "gui/editbox.h"
+#include "gui/checkbox.h"
 
 using namespace PacGame::RenderMaschine;
 using namespace PacGame::GameClasses::GameObjects;
@@ -65,11 +66,16 @@ namespace PacGame
             Window* mainMenu;
             Window* gameMenu;
             Window* freeMenu;
-			Window* creditsWnd;
+            Window* creditsWnd;
+            Window* optionsWnd;
             ListBox* listbox;
+            CheckBox* chkFullscreen;
             
             void prepareGui();
             void LoadLevel(string levelPath);
+            //events listeners
+            void onAction(Component* button);
+            void onKeyClick(Component* listBox, int key);
         public:
             // constructors & destructor
             PGameSession();
@@ -77,10 +83,6 @@ namespace PacGame
             
             // methods
             void mainLoop();
-
-            //events listeners
-            void onAction(Component* button);
-            void onKeyClick(Component* listBox, int key);
             
             // setters
             //void setLevel(PLevel *level);
