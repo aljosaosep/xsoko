@@ -52,6 +52,9 @@ public:
     //methods
     void addItem(string item);
 
+    //setters
+    void setSelectedItem(int index);
+
     //getters
     string getSelectedItem();
     Font* getFont();

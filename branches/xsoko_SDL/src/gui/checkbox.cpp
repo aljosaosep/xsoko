@@ -33,9 +33,9 @@ CheckBox::CheckBox(int x,int y,bool checked) : Component(x,y,16,16), checked(fal
 void CheckBox::onRender()
 {
     if (checked)
-		GuiRender::getInstance().drawImage(GUI_TEX_CHECKBOX_CHECKED,vertex);
+	GuiRender::getInstance().drawImage(GUI_TEX_CHECKBOX_CHECKED,vertex);
     else
-		GuiRender::getInstance().drawImage(GUI_TEX_CHECKBOX_UNCHECKED,vertex);
+	GuiRender::getInstance().drawImage(GUI_TEX_CHECKBOX_UNCHECKED,vertex);
 }
 
 void CheckBox::invalidate(){

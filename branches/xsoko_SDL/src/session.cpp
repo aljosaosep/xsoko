@@ -73,41 +73,47 @@ namespace PacGame
             Gui::getInstance().registerInput();
             //input->toggleGameMenu();
             #if defined(Linux_Release) || defined(Windows_Release) || defined(_RELEASE)
-                //glfwDisable(GLFW_MOUSE_CURSOR);
+                SDL_ShowCursor(SDL_DISABLE);
             #endif
             
-            mainMenu = new Window(333, 200, 135, 200, "Main Menu");
+            mainMenu = new Window(333, 183, 135, 235, "Main Menu");
+            mainMenu->setVisible(true);
             
-            Button* btn = new Button(30, 40, 75, 25, "Campaing");
+            Button* btn = new Button(30, 10, 75, 25, "Campaing");
             btn->setName("campaing");
             btn->onPressed.connect(bind(&PGameSession::onAction, this, _1));
             btn->setFocusIndex(1);
             mainMenu->AddComponent(btn);
 
-            btn = new Button(30, 75, 75, 25, "Freeplay");
+            btn = new Button(30, 45, 75, 25, "Freeplay");
             btn->setName("freeplay");
             btn->onPressed.connect(bind(&PGameSession::onAction, this, _1));
             btn->setFocusIndex(2);
             mainMenu->AddComponent(btn);
 
-			btn = new Button(30, 110, 75, 25, "Credits");
-            btn->setName("credits");
+            btn = new Button(30, 80, 75, 25, "Options");
+            btn->setName("options");
             btn->onPressed.connect(bind(&PGameSession::onAction, this, _1));
             btn->setFocusIndex(3);
             mainMenu->AddComponent(btn);
 
-            btn = new Button(30, 145, 75, 25, "Exit");
-            btn->setName("guiExit");
+            btn = new Button(30, 115, 75, 25, "Credits");
+            btn->setName("credits");
             btn->onPressed.connect(bind(&PGameSession::onAction, this, _1));
             btn->setFocusIndex(4);
+            mainMenu->AddComponent(btn);
+
+            btn = new Button(30, 150, 75, 25, "Exit");
+            btn->setName("guiExit");
+            btn->onPressed.connect(bind(&PGameSession::onAction, this, _1));
+            btn->setFocusIndex(5);
             mainMenu->AddComponent(btn);
             
             Gui::getInstance().addWindow(mainMenu);
 
             freeMenu = new Window(235, 200, 330, 200, "Freeplay");
-            freeMenu->setVisible(false);
 
-            listbox = new ListBox(10,36,200,132);
+            listbox = new ListBox(10,10,200,132);
             listbox->KeyUp.connect(bind(&PGameSession::onKeyClick, this, _1, _2));
             listbox->setFocusIndex(1);
             path dir_path("data");
@@ -126,13 +132,13 @@ namespace PacGame
             }
             freeMenu->AddComponent(listbox);
 
-            btn = new Button(230,40,75,25,"Play");
+            btn = new Button(230,15,75,25,"Play");
             btn->setName("play");
             btn->setFocusIndex(2);
             btn->onPressed.connect(bind(&PGameSession::onAction, this, _1));
             freeMenu->AddComponent(btn);
 
-            btn = new Button(230,70,75,25,"Back");
+            btn = new Button(230,45,75,25,"Back");
             btn->setName("back");
             btn->setFocusIndex(3);
             btn->onPressed.connect(bind(&PGameSession::onAction, this, _1));
@@ -141,44 +147,75 @@ namespace PacGame
             Gui::getInstance().addWindow(freeMenu);
             
             gameMenu = new Window(253, 158, 135, 165, "Menu");
-            gameMenu->setVisible(false);
-            gameMenu->setEnableCloseButton(false);
+            //gameMenu->setEnableCloseButton(false);
 
-            btn = new Button(30, 40, 75, 25, "Save");
+            btn = new Button(30, 10, 75, 25, "Save");
             btn->setName("save");
             btn->setFocusIndex(1);
             btn->onPressed.connect(bind(&PGameSession::onAction, this, _1));
             gameMenu->AddComponent(btn);
 
-            btn = new Button(30, 75, 75, 25, "Reset");
+            btn = new Button(30, 45, 75, 25, "Reset");
             btn->setName("reset");
             btn->setFocusIndex(2);
             btn->onPressed.connect(bind(&PGameSession::onAction, this, _1));
             gameMenu->AddComponent(btn);
 
-            btn = new Button(30, 110, 75, 25, "Exit");
+            btn = new Button(30, 80, 75, 25, "Exit");
             btn->setName("gameExit");
             btn->setFocusIndex(3);
             btn->onPressed.connect(bind(&PGameSession::onAction, this, _1));
             gameMenu->AddComponent(btn);
 
-			Gui::getInstance().addWindow(gameMenu);
+            Gui::getInstance().addWindow(gameMenu);
 
-			Text* label = new Text(25,35,"Programmers:\nAljosa Osep\nJernej Skrabec\nJernej Halozan\nMartin Savc\n\nLevel designers:\nCrtomir Osep\nNevena Sreckovic");
-			int width = label->getSize().width;
-			int height = label->getSize().height;
-			
-			creditsWnd = new Window(400-width/2-25,300-height/2-45,width+50,height+90,"Credits");
-			creditsWnd->setVisible(false);
-			creditsWnd->AddComponent(label);
-			
-			btn = new Button(width/2,height+50,50,25,"OK");
-			btn->setName("creditsBack");
-			btn->onPressed.connect(bind(&PGameSession::onAction, this, _1));
-			
-			creditsWnd->AddComponent(btn);
+            Text* label = new Text(25,10,"Programmers:\nAljosa Osep\nJernej Skrabec\nJernej Halozan\nMartin Savc\n\nLevel designers:\nCrtomir Osep\nNevena Sreckovic");
+            int width = label->getSize().width;
+            int height = label->getSize().height;
+
+            creditsWnd = new Window(400-width/2-25,300-height/2-45,width+50,height+90,"Credits");
+            creditsWnd->AddComponent(label);
+
+            btn = new Button(width/2,height+20,50,25,"OK");
+            btn->setName("creditsBack");
+            btn->onPressed.connect(bind(&PGameSession::onAction, this, _1));
+            creditsWnd->AddComponent(btn);
             
             Gui::getInstance().addWindow(creditsWnd);
+
+            optionsWnd = new Window(300,175,200,250,"Options");
+
+            chkFullscreen = new CheckBox(10,15,false);
+            optionsWnd->AddComponent(chkFullscreen);
+
+            label = new Text(27,17,"Fullscreen");
+            optionsWnd->AddComponent(label);
+
+            label = new Text(10,45,"Video modes:");
+            optionsWnd->AddComponent(label);
+
+            ListBox* list = new ListBox(10,60,180,100);
+            SDL_Rect **modes = SDL_ListModes(NULL, SDL_FULLSCREEN|SDL_OPENGL);
+
+            for(int i=0;modes[i];++i){
+                list->addItem(Functions::toString(modes[i]->w) + "x" + Functions::toString(modes[i]->h));
+                if(modes[i]->w == 800 && modes[i]->h == 600)
+                    list->setSelectedItem(i);
+            }
+
+            optionsWnd->AddComponent(list);
+
+            btn = new Button(25,170,50,25,"Back");
+            btn->setName("optionsBack");
+            btn->onPressed.connect(bind(&PGameSession::onAction, this, _1));
+            optionsWnd->AddComponent(btn);
+
+            btn = new Button(100,170,50,25,"Apply");
+            btn->setName("optionsApply");
+            btn->onPressed.connect(bind(&PGameSession::onAction, this, _1));
+            optionsWnd->AddComponent(btn);
+
+            Gui::getInstance().addWindow(optionsWnd);
         }
             
         void PGameSession::mainLoop()
@@ -366,7 +403,7 @@ namespace PacGame
                 freeMenu->setVisible(true);
                 return;
             }
-			if(button->getName() == "credits"){
+            if(button->getName() == "credits"){
                 mainMenu->setVisible(false);
                 creditsWnd->setVisible(true);
                 return;
@@ -375,8 +412,18 @@ namespace PacGame
                 gameQuit = true;
                 return;
             }
-			if(button->getName() == "creditsBack"){
-				creditsWnd->setVisible(false);
+            if(button->getName() == "creditsBack"){
+                creditsWnd->setVisible(false);
+                mainMenu->setVisible(true);
+                return;
+            }
+            if(button->getName() == "options"){
+                mainMenu->setVisible(false);
+                optionsWnd->setVisible(true);
+                return;
+            }
+            if(button->getName() == "optionsBack"){
+                optionsWnd->setVisible(false);
                 mainMenu->setVisible(true);
                 return;
             }
@@ -404,6 +451,22 @@ namespace PacGame
                 forceLevelQuit = true;
                 return;
             }
+            if(button->getName() == "optionsApply"){
+                unsigned flag = 0;
+
+                if(chkFullscreen->isChecked())
+                    flag = SDL_FULLSCREEN;
+
+                SDL_Surface* screen = SDL_SetVideoMode( 800, 600, 32, SDL_OPENGL | flag );
+
+                // 800 x 600, 16 bit color, no depth, alpha or stencil buffers, windowed
+                //if (screen == NULL)//!glfwOpenWindow(windowWidth, windowHeight, 8, 8, 8, 8, 24, 0, GLFW_WINDOW)) // attemps to open window
+                //{
+                //    Messages::errorMessage("OpenGL window creation failed.");  // failed
+                //}
+
+                return;
+            }
         }
 
         PGameSession::~PGameSession()
@@ -412,7 +475,7 @@ namespace PacGame
             //delete gameMenu;
             //delete mainMenu;
             #if defined(Linux_Release) || defined(Windows_Release) || defined(_RELEASE)
-                //glfwEnable(GLFW_MOUSE_CURSOR);
+                SDL_ShowCursor(SDL_ENABLE);
             #endif
         }
 
