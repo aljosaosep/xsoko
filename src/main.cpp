@@ -17,7 +17,6 @@
  */
 
 /* 
- * Codename: xSoko
  * File: main.cpp
  *
  * Summary:
@@ -33,16 +32,9 @@
 	#include <windows.h>
 #endif
 
-#include <cstdlib>
-#include "level.h"
 #include "game.h"
-#include "messages.h"
-#include "input.h"
-#include "renderer/renderer.h"
-
 
 using namespace PacGame::GameClasses;
-using namespace PacGame::RenderMaschine;
 
 #ifdef _WINDOWS
 int WINAPI WinMain(HINSTANCE hInstance,	HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -50,24 +42,14 @@ int WINAPI WinMain(HINSTANCE hInstance,	HINSTANCE hPrevInstance, LPSTR lpCmdLine
 int main(int argc, char *argv[])
 #endif
 {
-    // game and window creation
-    PGame pacgame(800, 600, "xSoko project");
+    PGame &game = PGame::getInstance();
  
     // game initialization
-    if(!pacgame.initGame())
+    if(game.initialize(800, 600, "xSoko project"))
     {
-        PacGame::Messages::initMessage("game", false); 
-        return -1;
+        game.mainLoop();
+        game.terminate();
     }
     
-    //PGuiSession* guiSession = new PGuiSession(800,600);
-    PGameSession* gameSession = new PGameSession();
-    // loads session
-    pacgame.loadSession(gameSession);
-
-    // run game
-    pacgame.run();
-    
-    delete gameSession;
     return 0;
 }

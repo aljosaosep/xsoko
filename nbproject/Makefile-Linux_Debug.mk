@@ -33,7 +33,6 @@ OBJECTFILES= \
 	${OBJECTDIR}/src/gui/gui.o \
 	${OBJECTDIR}/src/game.o \
 	${OBJECTDIR}/src/gui/radiobuttongroup.o \
-	${OBJECTDIR}/src/session.o \
 	${OBJECTDIR}/src/md2loader/md2model.o \
 	${OBJECTDIR}/src/zip/unzip.o \
 	${OBJECTDIR}/src/gui/msgbox.o \
@@ -51,16 +50,14 @@ OBJECTFILES= \
 	${OBJECTDIR}/src/object.o \
 	${OBJECTDIR}/src/gui/guirender.o \
 	${OBJECTDIR}/src/gui/text.o \
+	${OBJECTDIR}/src/gui/forms.o \
 	${OBJECTDIR}/src/messages.o \
-	${OBJECTDIR}/src/game-render.o \
 	${OBJECTDIR}/src/gui/window.o \
 	${OBJECTDIR}/src/core.o \
-	${OBJECTDIR}/src/io.o \
 	${OBJECTDIR}/src/gui/scrollbar.o \
 	${OBJECTDIR}/src/renderer/renderer-texture.o \
 	${OBJECTDIR}/src/gui/container.o \
 	${OBJECTDIR}/src/gui/button.o \
-	${OBJECTDIR}/src/game-init.o \
 	${OBJECTDIR}/src/gui/listbox.o \
 	${OBJECTDIR}/src/CommonStructures.o \
 	${OBJECTDIR}/src/renderer/particle.o \
@@ -70,7 +67,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/src/gui/panel.o
 
 # C Compiler Flags
-CFLAGS=`sdl-config --cflags`
+CFLAGS=
 
 # CC Compiler Flags
 CCFLAGS=
@@ -80,22 +77,25 @@ CXXFLAGS=
 FFLAGS=
 
 # Link Libraries and Options
-
-LDLIBSOPTIONS=`sdl-config --libs` -lSDL_image -lGL -lGLU -lalut -lopenal -lboost_filesystem -lm -lXxf86vm -lXrandr -lftgl -lz -lboost_signals
-
+LDLIBSOPTIONS=-lglfw -lGL -lGLU -lalut -lopenal -lboost_filesystem -lm -lXxf86vm -lXrandr -lftgl -lz -lboost_signals -lSDL -lSDL_image
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	${MAKE}  -f nbproject/Makefile-Linux_Debug.mk dist/Linux_Debug/${PLATFORM}/xsoko
+	${MAKE}  -f nbproject/Makefile-Linux_Debug.mk dist/Linux_Debug/${PLATFORM}/xsoko_sdl
 
-dist/Linux_Debug/${PLATFORM}/xsoko: ${OBJECTFILES}
+dist/Linux_Debug/${PLATFORM}/xsoko_sdl: ${OBJECTFILES}
 	${MKDIR} -p dist/Linux_Debug/${PLATFORM}
-	${LINK.cc} -o dist/Linux_Debug/${PLATFORM}/xsoko ${OBJECTFILES} ${LDLIBSOPTIONS} 
+	${LINK.cc} -o dist/Linux_Debug/${PLATFORM}/xsoko_sdl ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
 ${OBJECTDIR}/src/md2loader/Anorms.h.gch: src/md2loader/Anorms.h 
 	${MKDIR} -p ${OBJECTDIR}/src/md2loader
 	${RM} $@.d
 	$(COMPILE.cc) -g -Wall -DLinux_Debug -MMD -MP -MF $@.d -o $@ src/md2loader/Anorms.h
+
+${OBJECTDIR}/src/gui/forms.h.gch: src/gui/forms.h 
+	${MKDIR} -p ${OBJECTDIR}/src/gui
+	${RM} $@.d
+	$(COMPILE.cc) -g -Wall -DLinux_Debug -MMD -MP -MF $@.d -o $@ src/gui/forms.h
 
 ${OBJECTDIR}/src/zip/ioapi.o: src/zip/ioapi.c 
 	${MKDIR} -p ${OBJECTDIR}/src/zip
@@ -126,11 +126,6 @@ ${OBJECTDIR}/src/gui/radiobuttongroup.o: src/gui/radiobuttongroup.cpp
 	${MKDIR} -p ${OBJECTDIR}/src/gui
 	${RM} $@.d
 	$(COMPILE.cc) -g -Wall -DLinux_Debug -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/gui/radiobuttongroup.o src/gui/radiobuttongroup.cpp
-
-${OBJECTDIR}/src/session.o: src/session.cpp 
-	${MKDIR} -p ${OBJECTDIR}/src
-	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -DLinux_Debug -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/session.o src/session.cpp
 
 ${OBJECTDIR}/src/md2loader/md2model.o: src/md2loader/md2model.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/md2loader
@@ -242,15 +237,15 @@ ${OBJECTDIR}/src/object.o: src/object.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -Wall -DLinux_Debug -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/object.o src/object.cpp
 
-${OBJECTDIR}/src/md2loader/md2model.h.gch: src/md2loader/md2model.h 
-	${MKDIR} -p ${OBJECTDIR}/src/md2loader
-	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -DLinux_Debug -MMD -MP -MF $@.d -o $@ src/md2loader/md2model.h
-
 ${OBJECTDIR}/src/gui/guirender.o: src/gui/guirender.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/gui
 	${RM} $@.d
 	$(COMPILE.cc) -g -Wall -DLinux_Debug -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/gui/guirender.o src/gui/guirender.cpp
+
+${OBJECTDIR}/src/md2loader/md2model.h.gch: src/md2loader/md2model.h 
+	${MKDIR} -p ${OBJECTDIR}/src/md2loader
+	${RM} $@.d
+	$(COMPILE.cc) -g -Wall -DLinux_Debug -MMD -MP -MF $@.d -o $@ src/md2loader/md2model.h
 
 ${OBJECTDIR}/src/gui/text.o: src/gui/text.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/gui
@@ -262,6 +257,11 @@ ${OBJECTDIR}/src/gui/radiobuttongroup.h.gch: src/gui/radiobuttongroup.h
 	${RM} $@.d
 	$(COMPILE.cc) -g -Wall -DLinux_Debug -MMD -MP -MF $@.d -o $@ src/gui/radiobuttongroup.h
 
+${OBJECTDIR}/src/gui/forms.o: src/gui/forms.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src/gui
+	${RM} $@.d
+	$(COMPILE.cc) -g -Wall -DLinux_Debug -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/gui/forms.o src/gui/forms.cpp
+
 ${OBJECTDIR}/src/gui/window.h.gch: src/gui/window.h 
 	${MKDIR} -p ${OBJECTDIR}/src/gui
 	${RM} $@.d
@@ -272,11 +272,6 @@ ${OBJECTDIR}/src/messages.o: src/messages.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -Wall -DLinux_Debug -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/messages.o src/messages.cpp
 
-${OBJECTDIR}/src/game-render.o: src/game-render.cpp 
-	${MKDIR} -p ${OBJECTDIR}/src
-	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -DLinux_Debug -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/game-render.o src/game-render.cpp
-
 ${OBJECTDIR}/src/gui/window.o: src/gui/window.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/gui
 	${RM} $@.d
@@ -286,11 +281,6 @@ ${OBJECTDIR}/src/core.o: src/core.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} $@.d
 	$(COMPILE.cc) -g -Wall -DLinux_Debug -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/core.o src/core.cpp
-
-${OBJECTDIR}/src/io.o: src/io.cpp 
-	${MKDIR} -p ${OBJECTDIR}/src
-	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -DLinux_Debug -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/io.o src/io.cpp
 
 ${OBJECTDIR}/src/gui/scrollbar.o: src/gui/scrollbar.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/gui
@@ -321,11 +311,6 @@ ${OBJECTDIR}/src/gui/button.o: src/gui/button.cpp
 	${MKDIR} -p ${OBJECTDIR}/src/gui
 	${RM} $@.d
 	$(COMPILE.cc) -g -Wall -DLinux_Debug -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/gui/button.o src/gui/button.cpp
-
-${OBJECTDIR}/src/game-init.o: src/game-init.cpp 
-	${MKDIR} -p ${OBJECTDIR}/src
-	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -DLinux_Debug -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/game-init.o src/game-init.cpp
 
 ${OBJECTDIR}/src/gui/listbox.o: src/gui/listbox.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/gui
@@ -383,7 +368,7 @@ ${OBJECTDIR}/src/gui/panel.o: src/gui/panel.cpp
 # Clean Targets
 .clean-conf:
 	${RM} -r build/Linux_Debug
-	${RM} dist/Linux_Debug/${PLATFORM}/xsoko
+	${RM} dist/Linux_Debug/${PLATFORM}/xsoko_sdl
 
 # Subprojects
 .clean-subprojects:

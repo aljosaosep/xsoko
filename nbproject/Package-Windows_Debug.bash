@@ -9,9 +9,9 @@ TOP=`pwd`
 PLATFORM=
 TMPDIR=build/Windows_Debug/${PLATFORM}/tmp-packaging
 TMPDIRNAME=tmp-packaging
-OUTPUT_PATH=dist/Windows_Debug/${PLATFORM}/xsoko
-OUTPUT_BASENAME=xsoko
-PACKAGE_TOP_DIR=xsoko/
+OUTPUT_PATH=dist/Windows_Debug/${PLATFORM}/xsoko_sdl
+OUTPUT_BASENAME=xsoko_sdl
+PACKAGE_TOP_DIR=xsokosdl/
 
 # Functions
 function checkReturnCode
@@ -56,15 +56,15 @@ mkdir -p ${TMPDIR}
 
 # Copy files and create directories and links
 cd "${TOP}"
-makeDirectory ${TMPDIR}/xsoko/bin
+makeDirectory ${TMPDIR}/xsokosdl/bin
 copyFileToTmpDir "${OUTPUT_PATH}" "${TMPDIR}/${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}" 0755
 
 
 # Generate tar file
 cd "${TOP}"
-rm -f dist/Windows_Debug/${PLATFORM}/package/xsoko.tar
+rm -f dist/Windows_Debug/${PLATFORM}/package/xsokosdl.tar
 cd ${TMPDIR}
-tar -vcf ../../../../dist/Windows_Debug/${PLATFORM}/package/xsoko.tar *
+tar -vcf ../../../../dist/Windows_Debug/${PLATFORM}/package/xsokosdl.tar *
 checkReturnCode
 
 # Cleanup

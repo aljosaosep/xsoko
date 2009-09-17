@@ -17,6 +17,9 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <vector>
+
+
 #include "gui.h"
 #include "guirender.h"
 
@@ -55,52 +58,6 @@ Gui::Gui() : mVisible(true), num(0), focusedWin(NULL) {
  *------------------------------------------------------------------*/
 void Gui::Render()
 {
-    if(mVisible){
-      if(!mprocessed){
-          switch(mclick){
-            case SDL_MOUSEBUTTONDOWN://GLFW_PRESS:
-                onMouseDown();
-                break;
-            case SDL_MOUSEBUTTONUP://GLFW_RELEASE:
-                for(unsigned i=0;i<windows.size();i++)
-                    windows[i]->onMouseUp(mouseX,mouseY);
-                break;
-          }
-          mprocessed = true;
-      }
-      if(moved){
-          for(unsigned i=0;i<windows.size();i++){
-              Position pos = windows[i]->getPosition();
-              windows[i]->onMouseMove(mouseX-pos.x,mouseY-pos.y);
-          }
-          mouseVer.x1 = mouseX;
-          mouseVer.y1 = mouseY;
-          mouseVer.x2 = mouseX + 32;
-          mouseVer.y2 = mouseY + 32;
-          moved = false;
-      }
-    }
-
-    if(!kprocessed){
-		if(focusedWin != NULL && focusedWin->isVisible()){
-            switch(kclick){
-              case SDL_KEYDOWN://GLFW_PRESS:
-                  focusedWin->onKeyDown(key);
-                  break;
-              case SDL_KEYUP://GLFW_RELEASE:
-                  focusedWin->onKeyUp(key);
-                  break;
-            }
-        }
-        kprocessed = true;
-    }
-    if(!cprocessed){
-        if(focusedWin != NULL){
-            focusedWin->onCharClick(character);
-        }
-        cprocessed = true;
-    }
-
   GuiRender::getInstance().initRendering();
   for(unsigned i=0;i<windows.size();i++)
           windows[i]->Render();
@@ -146,48 +103,59 @@ void Gui::onMouseDown()
   }
 }
 
-int Gui::mouseX = 0;
-int Gui::mouseY = 0;
-int Gui::wndWidth = 0;
-int Gui::wndHeight = 0;
-int Gui::mclick = SDL_MOUSEBUTTONUP;//GLFW_RELEASE;
-int Gui::kclick = SDL_KEYUP;//GLFW_RELEASE;
-int Gui::key = 0;
-int Gui::character = 0;
-bool Gui::mprocessed = true;
-bool Gui::kprocessed = true;
-bool Gui::cprocessed = true;
-bool Gui::moved = false;
-
 void Gui::setMouseVisible(bool visible){
     mVisible = visible;
 }
 
 void Gui::onMouseMove(int x, int y){
-  mouseX = x > 0 ? x : 0;
-  if(x > wndWidth)
-      mouseX = wndWidth;
-  mouseY = y > 0 ? y : 0;
-  if(y>wndHeight)
-      mouseY = wndHeight;
-  moved = true;
+    if(!mVisible) return;
+    mouseX = x > 0 ? x : 0;
+    if(x > wndWidth)
+        mouseX = wndWidth;
+    mouseY = y > 0 ? y : 0;
+    if(y>wndHeight)
+        mouseY = wndHeight;
+    for(unsigned i=0;i<windows.size();i++){
+        Position pos = windows[i]->getPosition();
+        windows[i]->onMouseMove(mouseX-pos.x,mouseY-pos.y);
+    }
+    mouseVer.x1 = mouseX;
+    mouseVer.y1 = mouseY;
+    mouseVer.x2 = mouseX + 32;
+    mouseVer.y2 = mouseY + 32;
 }
 
 void Gui::onMouseClick(int button, int action){
-    mclick = action;
-    mprocessed = false;
+    if(!mVisible) return;
+    switch(action){
+        case SDL_MOUSEBUTTONDOWN:
+            onMouseDown();
+            break;
+        case SDL_MOUSEBUTTONUP:
+            for(unsigned i=0;i<windows.size();i++)
+                windows[i]->onMouseUp(mouseX,mouseY);
+            break;
+    }
 }
 
 void Gui::onKeyClick(int kkey, int action){
-    kclick = action;
-    key = kkey;
-    kprocessed = false;
+    if(focusedWin != NULL && focusedWin->isVisible()){
+        switch(action){
+          case SDL_KEYDOWN:
+              focusedWin->onKeyDown(kkey);
+              break;
+          case SDL_KEYUP:
+              focusedWin->onKeyUp(kkey);
+              break;
+        }
+    }
 }
 
 void Gui::onCharacterSend(int c, int action){
-    if(action == SDL_KEYUP){//GLFW_RELEASE){
-        cprocessed = false;
-        character = c;
+    if(action == SDL_KEYUP){
+        if(focusedWin != NULL){
+            focusedWin->onCharClick(c);
+        }
     }
 }
 
@@ -307,4 +275,11 @@ void Gui::focusLost(Component* sender){
         focusQueue.pop_back();
         focusedWin->focusGain();
     }
+}
+
+Window* Gui::findWindowByName(string name) {
+    for(int i=0;i<windows.size();i++)
+        if(windows[i]->getName() == name)
+            return windows[i];
+    return NULL;
 }
