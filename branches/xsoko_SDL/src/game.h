@@ -33,9 +33,11 @@
 #define __GAME_H
 
 #include "messages.h"
-#include "session.h"
 #include "input.h"
 #include "renderer/renderer.h"
+#include "level.h"
+#include "gui/gui.h"
+#include "gui/window.h"
 
 using namespace PacGame::RenderMaschine;
 
@@ -55,41 +57,41 @@ namespace PacGame
           private:
               int windowWidth, windowHeight;
               string windowTitle;
-             // PLevel *currentLevel;  
-              PGameSession *session;  // pointer to current game class
 
-          public:
-              // variables
+              PLevel *level;
+              PPlayer *player;
+              PCamera *camera;
 
-              // prototypes
-              // constructors
+              PInputSystem *input;
+              double rotations_per_tick;
+              bool levelLoaded;
+              bool gameQuit;
+              bool forceLevelQuit;
+              //bool toggleMenu;
+
+              //gui components
+              //Gui &gui;
+              Window* mainMenu;
+              Window* gameMenu;
+
+          private:
+              // constructor
               PGame();
-              PGame(int _width, int _height, string _title);
-
               // destructor
-              ~PGame();
+              ~PGame(){}
 
-              // other
-              bool run();
-              bool initGame();
-              void terminateGLFW();
+              //methods
+              void prepareGui();
+          public:
+              bool initialize(int _width, int _height, string _title);
+              void mainLoop();
+              void quit();
+              void terminate();
 
-              // setters
-              void setWindow(int _width, int _height);
-              void setWindowTitle(string _title);
-            //  void setRenderer();
-                  
-              void loadSession(PGameSession *session);
+              void loadLevel(string levelPath);
 
-              /*******************************************
-               * processKey()
-               * function prototype; function takes action 
-               * based on key that is pressed
-               * ----------------------------------
-               * Jernej Skrabec
-               * modified by Aljosa
-               *******************************************/
-        //      static void GLFWCALL processKey(int key, int action); 
+              //getters
+              static PGame& getInstance();
           };       
       }       
 }

@@ -1,10 +1,10 @@
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	${MAKE}  -f nbproject/Makefile-Windows_Debug.mk dist/Windows_Debug/${PLATFORM}/xsoko.exe
+	${MAKE}  -f nbproject/Makefile-Windows_Debug.mk dist/Windows_Debug/${PLATFORM}/xsoko_sdl.exe
 
-dist/Windows_Debug/${PLATFORM}/xsoko.exe: ${OBJECTFILES}
+dist/Windows_Debug/${PLATFORM}/xsoko_sdl.exe: ${OBJECTFILES}
 	${MKDIR} -p dist/Windows_Debug/${PLATFORM}
-	${LINK.cc} -o dist/Windows_Debug/${PLATFORM}/xsoko ${OBJECTFILES} ${LDLIBSOPTIONS} 
+	${LINK.cc} -o dist/Windows_Debug/${PLATFORM}/xsoko_sdl ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
 # Subprojects
 .build-subprojects:
@@ -12,7 +12,7 @@ dist/Windows_Debug/${PLATFORM}/xsoko.exe: ${OBJECTFILES}
 # Clean Targets
 .clean-conf:
 	${RM} -r build/Windows_Debug
-	${RM} dist/Windows_Debug/${PLATFORM}/xsoko.exe
+	${RM} dist/Windows_Debug/${PLATFORM}/xsoko_sdl.exe
 
 # Subprojects
 .clean-subprojects:

@@ -41,16 +41,8 @@ struct msgHandle {
  */
 class Gui {
 private:
-    static int mouseX, mouseY;
-    static int wndWidth, wndHeight;
-    static int mclick;
-    static int kclick;
-    static int character;
-    static int key;
-    static bool mprocessed;
-    static bool kprocessed;
-    static bool cprocessed;
-    static bool moved;
+    int mouseX, mouseY;
+    int wndWidth, wndHeight;
     
     vector<Window*> windows;
     vector<Component*> focusQueue;
@@ -67,16 +59,17 @@ private:
     ~Gui();
     void onMouseDown();
 public:
-    static void onMouseClick(int button, int action);
-    static void onMouseMove(int x, int y);
-    static void glResizeWnd(int Width, int Height);
-    static void onKeyClick(int kkey, int action);
-    static void onCharacterSend(int c, int action);
+    void onMouseClick(int button, int action);
+    void onMouseMove(int x, int y);
+    void glResizeWnd(int Width, int Height);
+    void onKeyClick(int kkey, int action);
+    void onCharacterSend(int c, int action);
     static Gui& getInstance();
 
     void Render();
     void setMouseVisible(bool visible);
     void addWindow(Window* win);
+    Window* findWindowByName(string name);
     unsigned showMessage(string title, string msg);
     bool isMessageActive(unsigned id);
     void onAction(Component* button);

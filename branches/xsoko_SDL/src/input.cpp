@@ -129,15 +129,15 @@ namespace PacGame
                                         break;
                                         case SDL_KEYUP:
                                         case SDL_KEYDOWN:
-                                                Gui::onKeyClick(event.key.keysym.sym,event.key.type);
+                                                Gui::getInstance().onKeyClick(event.key.keysym.sym,event.key.type);
                                                 //GUI::onCharacterSend();
                                         break;
                                         case SDL_MOUSEBUTTONUP:
                                         case SDL_MOUSEBUTTONDOWN:
-                                                  Gui::onMouseClick(event.button.button,event.button.type);
+                                                  Gui::getInstance().onMouseClick(event.button.button,event.button.type);
                                         break;
                                         case SDL_MOUSEMOTION:
-                                                Gui::onMouseMove(event.motion.x, event.motion.y);
+                                                Gui::getInstance().onMouseMove(event.motion.x, event.motion.y);
                                         break;
                                 }
                         }

@@ -12,6 +12,7 @@
         <itemPath>src/gui/container.h</itemPath>
         <itemPath>src/gui/editbox.h</itemPath>
         <itemPath>src/gui/fonts.h</itemPath>
+        <itemPath>src/gui/forms.h</itemPath>
         <itemPath>src/gui/gui.h</itemPath>
         <itemPath>src/gui/guirender.h</itemPath>
         <itemPath>src/gui/listbox.h</itemPath>
@@ -42,15 +43,12 @@
       <itemPath>src/core.h</itemPath>
       <itemPath>src/game.h</itemPath>
       <itemPath>src/input.h</itemPath>
-      <itemPath>src/io.h</itemPath>
       <itemPath>src/level.h</itemPath>
       <itemPath>src/levelbox.h</itemPath>
-      <itemPath>src/maingameclasses.h</itemPath>
       <itemPath>src/messages.h</itemPath>
       <itemPath>src/object.h</itemPath>
       <itemPath>src/player.h</itemPath>
       <itemPath>src/resource.h</itemPath>
-      <itemPath>src/session.h</itemPath>
       <itemPath>src/vector.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
@@ -67,6 +65,7 @@
         <itemPath>src/gui/container.cpp</itemPath>
         <itemPath>src/gui/editbox.cpp</itemPath>
         <itemPath>src/gui/fonts.cpp</itemPath>
+        <itemPath>src/gui/forms.cpp</itemPath>
         <itemPath>src/gui/gui.cpp</itemPath>
         <itemPath>src/gui/guirender.cpp</itemPath>
         <itemPath>src/gui/listbox.cpp</itemPath>
@@ -94,11 +93,8 @@
       <itemPath>src/camera.cpp</itemPath>
       <itemPath>src/CommonStructures.cpp</itemPath>
       <itemPath>src/core.cpp</itemPath>
-      <itemPath>src/game-init.cpp</itemPath>
-      <itemPath>src/game-render.cpp</itemPath>
       <itemPath>src/game.cpp</itemPath>
       <itemPath>src/input.cpp</itemPath>
-      <itemPath>src/io.cpp</itemPath>
       <itemPath>src/level.cpp</itemPath>
       <itemPath>src/levelbox.cpp</itemPath>
       <itemPath>src/main.cpp</itemPath>
@@ -106,7 +102,6 @@
       <itemPath>src/object.cpp</itemPath>
       <itemPath>src/player.cpp</itemPath>
       <itemPath>src/resource.cpp</itemPath>
-      <itemPath>src/session.cpp</itemPath>
       <itemPath>src/vector.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
@@ -170,12 +165,6 @@
       <item path="src/core.h">
         <itemTool>3</itemTool>
       </item>
-      <item path="src/game-init.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/game-render.cpp">
-        <itemTool>1</itemTool>
-      </item>
       <item path="src/game.cpp">
         <itemTool>1</itemTool>
       </item>
@@ -220,6 +209,12 @@
       </item>
       <item path="src/gui/fonts.h">
         <itemTool>3</itemTool>
+      </item>
+      <item path="src/gui/forms.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/forms.h">
+        <itemTool>1</itemTool>
       </item>
       <item path="src/gui/gui.cpp">
         <itemTool>1</itemTool>
@@ -287,12 +282,6 @@
       <item path="src/input.h">
         <itemTool>3</itemTool>
       </item>
-      <item path="src/io.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/io.h">
-        <itemTool>3</itemTool>
-      </item>
       <item path="src/level.cpp">
         <itemTool>1</itemTool>
       </item>
@@ -307,9 +296,6 @@
       </item>
       <item path="src/main.cpp">
         <itemTool>1</itemTool>
-      </item>
-      <item path="src/maingameclasses.h">
-        <itemTool>3</itemTool>
       </item>
       <item path="src/md2loader/Anorms.h">
         <itemTool>1</itemTool>
@@ -360,12 +346,6 @@
         <itemTool>1</itemTool>
       </item>
       <item path="src/resource.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/session.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/session.h">
         <itemTool>3</itemTool>
       </item>
       <item path="src/vector.cpp">
@@ -448,12 +428,6 @@
       <item path="src/core.h">
         <itemTool>3</itemTool>
       </item>
-      <item path="src/game-init.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/game-render.cpp">
-        <itemTool>1</itemTool>
-      </item>
       <item path="src/game.cpp">
         <itemTool>1</itemTool>
       </item>
@@ -498,6 +472,12 @@
       </item>
       <item path="src/gui/fonts.h">
         <itemTool>3</itemTool>
+      </item>
+      <item path="src/gui/forms.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/forms.h">
+        <itemTool>1</itemTool>
       </item>
       <item path="src/gui/gui.cpp">
         <itemTool>1</itemTool>
@@ -565,12 +545,6 @@
       <item path="src/input.h">
         <itemTool>3</itemTool>
       </item>
-      <item path="src/io.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/io.h">
-        <itemTool>3</itemTool>
-      </item>
       <item path="src/level.cpp">
         <itemTool>1</itemTool>
       </item>
@@ -585,9 +559,6 @@
       </item>
       <item path="src/main.cpp">
         <itemTool>1</itemTool>
-      </item>
-      <item path="src/maingameclasses.h">
-        <itemTool>3</itemTool>
       </item>
       <item path="src/md2loader/Anorms.h">
         <itemTool>1</itemTool>
@@ -638,12 +609,6 @@
         <itemTool>1</itemTool>
       </item>
       <item path="src/resource.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/session.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/session.h">
         <itemTool>3</itemTool>
       </item>
       <item path="src/vector.cpp">
@@ -698,6 +663,8 @@
             <linkerLibLibItem>ftgl</linkerLibLibItem>
             <linkerLibLibItem>z</linkerLibLibItem>
             <linkerLibLibItem>boost_signals</linkerLibLibItem>
+            <linkerLibLibItem>SDL</linkerLibLibItem>
+            <linkerLibLibItem>SDL_image</linkerLibLibItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>
@@ -721,12 +688,6 @@
       </item>
       <item path="src/core.h">
         <itemTool>3</itemTool>
-      </item>
-      <item path="src/game-init.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/game-render.cpp">
-        <itemTool>1</itemTool>
       </item>
       <item path="src/game.cpp">
         <itemTool>1</itemTool>
@@ -772,6 +733,12 @@
       </item>
       <item path="src/gui/fonts.h">
         <itemTool>3</itemTool>
+      </item>
+      <item path="src/gui/forms.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/forms.h">
+        <itemTool>1</itemTool>
       </item>
       <item path="src/gui/gui.cpp">
         <itemTool>1</itemTool>
@@ -839,12 +806,6 @@
       <item path="src/input.h">
         <itemTool>3</itemTool>
       </item>
-      <item path="src/io.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/io.h">
-        <itemTool>3</itemTool>
-      </item>
       <item path="src/level.cpp">
         <itemTool>1</itemTool>
       </item>
@@ -859,9 +820,6 @@
       </item>
       <item path="src/main.cpp">
         <itemTool>1</itemTool>
-      </item>
-      <item path="src/maingameclasses.h">
-        <itemTool>3</itemTool>
       </item>
       <item path="src/md2loader/Anorms.h">
         <itemTool>1</itemTool>
@@ -912,12 +870,6 @@
         <itemTool>1</itemTool>
       </item>
       <item path="src/resource.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/session.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/session.h">
         <itemTool>3</itemTool>
       </item>
       <item path="src/vector.cpp">
@@ -1002,12 +954,6 @@
       <item path="src/core.h">
         <itemTool>3</itemTool>
       </item>
-      <item path="src/game-init.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/game-render.cpp">
-        <itemTool>1</itemTool>
-      </item>
       <item path="src/game.cpp">
         <itemTool>1</itemTool>
       </item>
@@ -1052,6 +998,12 @@
       </item>
       <item path="src/gui/fonts.h">
         <itemTool>3</itemTool>
+      </item>
+      <item path="src/gui/forms.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/gui/forms.h">
+        <itemTool>1</itemTool>
       </item>
       <item path="src/gui/gui.cpp">
         <itemTool>1</itemTool>
@@ -1119,12 +1071,6 @@
       <item path="src/input.h">
         <itemTool>3</itemTool>
       </item>
-      <item path="src/io.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/io.h">
-        <itemTool>3</itemTool>
-      </item>
       <item path="src/level.cpp">
         <itemTool>1</itemTool>
       </item>
@@ -1139,9 +1085,6 @@
       </item>
       <item path="src/main.cpp">
         <itemTool>1</itemTool>
-      </item>
-      <item path="src/maingameclasses.h">
-        <itemTool>3</itemTool>
       </item>
       <item path="src/md2loader/Anorms.h">
         <itemTool>1</itemTool>
@@ -1192,12 +1135,6 @@
         <itemTool>1</itemTool>
       </item>
       <item path="src/resource.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/session.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/session.h">
         <itemTool>3</itemTool>
       </item>
       <item path="src/vector.cpp">
