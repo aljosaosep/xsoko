@@ -182,14 +182,13 @@ namespace PacGame
                 }
 
                 Gui::getInstance().registerInput();
-                Gui::getInstance();
                 Gui::getInstance().Render();
 
                 if(levelLoaded || msgid){
                     glMatrixMode(GL_PROJECTION);						// Select The Projection Matrix
                     glLoadIdentity();                                                         // Reset The Projection Matrix
                     // Calculate The Aspect Ratio Of The Window
-                    gluPerspective(45.0f,640.0f/480,0.1f,100.0f);
+                    gluPerspective(45.0f,800.0f/600,0.1f,100.0f);
                     glMatrixMode(GL_MODELVIEW);						// Select The Modelview Matrix
                     glLoadIdentity();
                 }

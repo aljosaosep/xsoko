@@ -148,9 +148,9 @@ void ListBox::onRender()
         if(selected == i+drawIndex){
             GuiRender::getInstance().setColor((float)89/255,(float)97/255,(float)102/255,1);
             GuiRender::getInstance().drawFilledRect(2,2+(i*16),width-19,18+(i*16));
-            fnt->writeText(6,18+(i*16),items.at(i+drawIndex));
+            fnt->writeText(6,18+(i*16),items.at(i+drawIndex)->toString());
         } else {
-            fnt->writeText(5,17+(i*16),items.at(i+drawIndex));
+            fnt->writeText(5,17+(i*16),items.at(i+drawIndex)->toString());
         }
 		GuiRender::getInstance().restoreClipping();
     }
@@ -211,7 +211,7 @@ void ListBox::onMouseUp(int mx, int my){
     }
 }
 
-string  ListBox::getSelectedItem(){
+Item*  ListBox::getSelectedItem(){
     return items.at(selected);
 }
 
@@ -244,7 +244,7 @@ void ListBox::drawButton(int verIndex, bool pressed,bool upArrow)
 
 
 
-void ListBox::addItem(string item){
+void ListBox::addItem(Item* item){
     items.push_back(item);
     if(items.size() == 1){
         selected = 0;

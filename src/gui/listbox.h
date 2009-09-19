@@ -28,9 +28,15 @@
 
 #include "component.h"
 
+class Item{
+public:
+    virtual string toString()= 0;
+    virtual bool equals(Item* item) = 0;
+};
+
 class ListBox: public Component{
 private:
-    vector<string> items;
+    vector<Item*> items;
     int selected;
     int drawIndex;
     unsigned canShow;
@@ -50,13 +56,13 @@ public:
     ~ListBox();
 
     //methods
-    void addItem(string item);
+    void addItem(Item* item);
 
     //setters
     void setSelectedItem(int index);
 
     //getters
-    string getSelectedItem();
+    Item* getSelectedItem();
     Font* getFont();
 
     //events support
