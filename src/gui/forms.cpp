@@ -105,11 +105,8 @@ OptionsWnd::OptionsWnd() : Window(300,175,200,250,"Options"), mainMenu(NULL)
     setName("options");
 
     SDL_Rect **modes = SDL_ListModes(NULL, SDL_FULLSCREEN|SDL_OPENGL);
-    for(int i=0;modes[i];++i){
+    for(int i=0;modes[i];++i)
         lstModes->addItem(new ResItem(modes[i]->w,modes[i]->h));
-        if(modes[i]->w == 800 && modes[i]->h == 600)
-            lstModes->setSelectedItem(i);
-    }
 }
 
 void OptionsWnd::initializeComponents(){
@@ -132,15 +129,21 @@ void OptionsWnd::initializeComponents(){
     btnApply = new Button(100,170,50,25,"Apply");
     btnApply->onPressed.connect(bind(&OptionsWnd::btnApplyClick, this, _1));
     AddComponent(btnApply);
+
+    FocusGain.connect(bind(&OptionsWnd::wndVisible, this, _1));
+}
+
+void OptionsWnd::wndVisible(Component* sender)
+{
+    //TODO: add right values from config
+    const SDL_VideoInfo* vi = SDL_GetVideoInfo();
+    lstModes->setSelectedItem(new ResItem(vi->current_w,vi->current_h));
+    //chkFullscreen->setChecked(isFull);
 }
 
 void OptionsWnd::btnApplyClick(Component* sender){
-    unsigned flag = 0;
-
-    if(chkFullscreen->isChecked())
-        flag = SDL_FULLSCREEN;
-
-    SDL_Surface* screen = SDL_SetVideoMode( 800, 600, 32, SDL_OPENGL | flag );
+    ResItem* newRes = (ResItem*) lstModes->getSelectedItem();
+    PGame::getInstance().setResolution(newRes->resx,newRes->resy,chkFullscreen->isChecked());
 }
 
 void OptionsWnd::btnBackClick(Component* sender){

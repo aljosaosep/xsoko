@@ -92,10 +92,13 @@ void Gui::onMouseDown()
           Size winSize = windows[i]->getSize();
           if ((mouseX > winPos.x) && (mouseX < winPos.x + winSize.width))
               if ((mouseY > winPos.y) && (mouseY < winPos.y + winSize.height)){
-                  if(focusedWin != NULL)
-                      focusedWin->focusLost();
-                  focusedWin = windows[i];
-                  focusedWin->focusGain();
+                  if(focusedWin != windows[i])
+                  {
+                      if(focusedWin != NULL)
+                          focusedWin->focusLost();
+                      focusedWin = windows[i];
+                      focusedWin->focusGain();
+                  }
                   focusedWin->onMouseDown(mouseX-winPos.x, mouseY-winPos.y);
                   break;
               }
@@ -234,7 +237,7 @@ bool Gui::isMessageActive(unsigned id){
 
 void Gui::addWindow(Window* win){
     win->FocusGain.connect(bind(&Gui::focusGain,this,_1));
-	win->FocusLost.connect(bind(&Gui::focusLost,this,_1));
+    win->FocusLost.connect(bind(&Gui::focusLost,this,_1));
     windows.push_back(win);
     if(focusedWin == NULL){
         focusedWin = win;

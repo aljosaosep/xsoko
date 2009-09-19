@@ -55,7 +55,9 @@ namespace PacGame
           class PGame
           {
           private:
-              int windowWidth, windowHeight;
+              int windowWidth;
+              int windowHeight;
+              bool fullscreen;
               string windowTitle;
 
               PLevel *level;
@@ -86,6 +88,7 @@ namespace PacGame
               bool initialize(int _width, int _height, string _title);
               void mainLoop();
               void quit();
+              void setResolution(int width, int height, bool fullscreen);
               void terminate();
 
               void loadLevel(string levelPath);

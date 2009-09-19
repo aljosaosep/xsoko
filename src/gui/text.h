@@ -43,11 +43,11 @@ public:
     //getters
     string getText();
     Font* getFont();
-	bool isAutoResize();
+    bool isAutoResize();
 
     //setters
     void setText(const string& text);
-	void setAutoResize(bool autoResize);
+    void setAutoResize(bool autoResize);
 };
 
 #endif	/* _TEXT_H */

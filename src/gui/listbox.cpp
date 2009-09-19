@@ -17,6 +17,9 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <vector>
+
+
 #include "listbox.h"
 #include "container.h"
 
@@ -211,13 +214,27 @@ void ListBox::onMouseUp(int mx, int my){
     }
 }
 
-Item*  ListBox::getSelectedItem(){
+Item*  ListBox::getSelectedItem()
+{
     return items.at(selected);
 }
 
-void ListBox::setSelectedItem(int index){
+void ListBox::setSelectedItem(int index)
+{
     if(index >= 0 && index < items.size())
         selected = index;
+}
+
+void ListBox::setSelectedItem(Item* item)
+{
+    if(!item) return;
+
+    for(unsigned i=0;i<items.size();i++)
+        if(item->equals(items[i]))
+        {
+            selected = i;
+            return;
+        }
 }
 
 void ListBox::drawButton(int verIndex, bool pressed,bool upArrow)
@@ -227,7 +244,7 @@ void ListBox::drawButton(int verIndex, bool pressed,bool upArrow)
 	  GuiRender::getInstance().drawImage(GUI_TEX_BTN_PRESSED_LEFT,  vertex[verIndex]);
 	  GuiRender::getInstance().drawImage(GUI_TEX_BTN_PRESSED_MIDDLE,vertex[verIndex+1]);
 	  GuiRender::getInstance().drawImage(GUI_TEX_BTN_PRESSED_RIGHT, vertex[verIndex+2]);
-      GuiRender::getInstance().move(0,-1);
+          GuiRender::getInstance().move(0,-1);
   }
   else
   {

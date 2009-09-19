@@ -60,6 +60,7 @@ public:
 
     //setters
     void setSelectedItem(int index);
+    void setSelectedItem(Item* item);
 
     //getters
     Item* getSelectedItem();
