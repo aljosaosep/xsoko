@@ -161,8 +161,8 @@ namespace PacGame
         // functions that are drawing stuff
         void drawBackground();
         void drawSkyDome();
-        void drawCube(float x, float y, float size);
-        void drawFloor(float x, float y, float size);
+        void drawCube(float x, float y, float size, float *color, int texID);
+        void drawFloor(float x, float y, float size, float *color, int texID);
     };
   }
 }

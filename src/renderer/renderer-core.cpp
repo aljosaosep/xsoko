@@ -197,9 +197,12 @@ namespace PacGame
            * drawCube()
            * Draws simple cube
            ********************************************/
-          void PRenderer::drawCube(float x, float y, float size)
+          void PRenderer::drawCube(float x, float y, float size, float *color, int texID)
           {
-              glEnable(GL_CULL_FACE);
+              glColor4f(color[0], color[1], color[2], color[3]); // color of cube
+              glBindTexture(GL_TEXTURE_2D, texID); // texture
+
+             glEnable(GL_CULL_FACE);
 
              glCullFace(GL_BACK);
               glVertexPointer(3, GL_FLOAT, 0, box);
@@ -231,8 +234,11 @@ namespace PacGame
            * drawFloor()
            * Draws 2D polygon, flat surface
            ********************************************/
-          void PRenderer::drawFloor(float x, float y, float size)
+          void PRenderer::drawFloor(float x, float y, float size, float *color, int texID)
           {
+              glColor4f(color[0], color[1], color[2], color[3]); // color of floor
+              glBindTexture(GL_TEXTURE_2D, texID); // texture
+
               glEnable(GL_CULL_FACE);
               glCullFace(GL_FRONT);
                  glVertexPointer(3, GL_FLOAT, 0, box);
