@@ -105,7 +105,7 @@ namespace PacGame
                * --------------------------------------------------------
                * Aljosa 2007 - 2008
                * ********************************************************/
-              class PLevel : public PObject
+              class PLevel //: public PObject
               {
               private:
                   string filename;                   // level filename

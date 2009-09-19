@@ -32,6 +32,9 @@
 #include "editbox.h"
 #include "checkbox.h"
 #include "text.h"
+#include "../CommonStructures.h"
+
+using namespace PacGame;
 
 class MainMenu : public Window {
 private:
@@ -58,6 +61,20 @@ public:
 
 class FreeplayWnd: public Window {
 private:
+    class LevelItem : public Item {
+    private:
+        string _name;
+    public:
+        LevelItem(string name) : _name(name) {}
+        string toString() {
+            return _name;
+        }
+        bool equals(Item* item){
+            LevelItem* x = (LevelItem*) item;
+            return (x->_name == _name);
+        }
+    };
+private:
     ListBox* lstLevels;
     Button* btnBack;
     Button* btnPlay;
@@ -74,6 +91,20 @@ public:
 };
 
 class OptionsWnd : public Window {
+private:
+    class ResItem : public Item {
+    public:
+        ResItem(int x, int y) : resx(x), resy(y) {}
+        int resx, resy;
+        string toString() {
+            return Functions::toString(resx) + "x" + Functions::toString(resy);
+        }
+        bool equals(Item* item){
+            ResItem *x = (ResItem*) item;
+            return (resx == x->resx && resy == x->resy);
+        }
+    };
+
 private:
     Button* btnApply;
     Button* btnBack;

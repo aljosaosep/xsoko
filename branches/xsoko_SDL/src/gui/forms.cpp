@@ -18,16 +18,14 @@
 
 #include "forms.h"
 #include "../CommonStructures.h"
-#include "../messages.h"
 #include "../game.h"
+#include "../messages.h"
 #include "gui.h"
 #if defined(Windows_Release) || defined(Windows_Debug)
     #define BOOST_WINDOWS_API
 #endif
 #include <boost/filesystem.hpp>
 
-
-using namespace PacGame;
 using namespace PacGame::GameClasses;
 using namespace boost::filesystem;
 
@@ -108,7 +106,7 @@ OptionsWnd::OptionsWnd() : Window(300,175,200,250,"Options"), mainMenu(NULL)
 
     SDL_Rect **modes = SDL_ListModes(NULL, SDL_FULLSCREEN|SDL_OPENGL);
     for(int i=0;modes[i];++i){
-        lstModes->addItem(Functions::toString(modes[i]->w) + "x" + Functions::toString(modes[i]->h));
+        lstModes->addItem(new ResItem(modes[i]->w,modes[i]->h));
         if(modes[i]->w == 800 && modes[i]->h == 600)
             lstModes->setSelectedItem(i);
     }
@@ -197,7 +195,7 @@ FreeplayWnd::FreeplayWnd() : Window(235, 200, 330, 200, "Freeplay"), mainMenu(NU
             if ( !is_directory(*itr) && extension(*itr) == ".lvl" )
             {
                   string filename = itr->path().leaf();
-                  lstLevels->addItem(filename.substr(0,filename.find_last_of('.')));
+                  lstLevels->addItem(new LevelItem(filename.substr(0,filename.find_last_of('.'))));
             }
         }
     } else {
@@ -233,7 +231,7 @@ void FreeplayWnd::btnBackClick(Component* sender){
 
 void FreeplayWnd::btnPlayClick(Component* sender){
     setVisible(false);
-    PGame::getInstance().loadLevel("data/"+lstLevels->getSelectedItem()+".lvl");
+    PGame::getInstance().loadLevel("data/"+lstLevels->getSelectedItem()->toString()+".lvl");
 }
 
 void FreeplayWnd::lstLevelsKeyUp(Component* sender, int key){
