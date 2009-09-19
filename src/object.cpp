@@ -40,11 +40,88 @@ namespace PacGame
 {
       namespace GameClasses
       {
-          // constructors
-          PObject::PObject() 
-          {
-              root = NULL; // initiates linked list
-          }  
+            /*****************************************
+            PLevelBox methods
+            *****************************************/
+            void PObject::setIndex(int i, int j) // index setter
+            {
+                this->i = i;
+                this->j = j;
+            }
+
+            void PObject::setI(int i)  // i index setter
+            {
+                this->i = i;
+            }
+
+            void PObject::setJ(int j)  // j index setter
+            {
+                this->j = j;
+            }
+
+
+            void PObject::setRealI(float realI)
+            {
+                this->realI = realI;
+            }
+
+            void PObject::setRealJ(float realJ)
+            {
+                this->realJ = realJ;
+            }
+
+            void PObject::toogleBombActivity()
+            {
+                this->containsActiveBomb = !this->containsActiveBomb;
+            }
+
+            int PObject::getI() const  // i index getter
+            {
+                return this->i;
+            }
+
+            int PObject::getJ() const  // j index getter
+            {
+                return this->j;
+            }
+
+            float PObject::getRealI() const  // i index getter
+            {
+                return this->realI;
+            }
+
+            float PObject::getRealJ() const  // j index getter
+            {
+                return this->realJ;
+            }
+
+            bool PObject::isActiveBomb() const
+            {
+                return this->containsActiveBomb;
+            }
+
+            unsigned short PObject::getId() const
+            {
+                return id;
+            }
+
+
+            void PObject::moveObject(int direction)
+            {
+                 // set the direction of the object and the move bit
+                 this->direction = direction;
+            }
+
+            void PObject::print()
+            {
+                cout<<this->id<<' ';
+            }
+
+            // constructors
+         /*   PObject::PObject()
+            {
+                root = NULL; // initiates linked list
+            }*/
 
   /*        PObject::PObject(float x, float y)
           {
@@ -53,17 +130,17 @@ namespace PacGame
           }*/
 
 
-          PObject::~PObject()
-          {
-              releaseList();   // at destrution of class, release it's children from memory 
-          }
+            PObject::~PObject()
+            {
+                releaseList();   // at destrution of class, release it's children from memory
+            }
 
-          void PObject::print()
+         /* void PObject::print()
           {
               cout<<"=========== OBJECT INFO =============="<<endl;
 //              this->position.printCoordinates();
               cout<<"======================================"<<endl;
-          }
+          }*/
 
           // linked list related
           

@@ -95,73 +95,6 @@ namespace PacGame
       {
           namespace GameObjects
           {
-               /**********************************************************
-               * PLevelObject
-               *
-               * Represents a single level struct
-               * All object, that are on level, should be derived from this
-               * --------------------------------------------------------
-               * Aljosa 2008
-               * ********************************************************/
-              class PLevelObject : public PObject  
-              {
-              protected:
-                  int i, j;     // represents indexes of element on level matrix
-                  float realI, realJ;   // real coordinates, for smooth movement
-                  
-                  // direction that the object is facing
-                  // 5 important bits
-                  // bit 1: direction up, PL_OBJECT_FACE_UP
-                  // bit 2: direction right, PL_OBJECT_FACE_RIGHT
-                  // bit 4: direction down, PL_OBJECT_FACE_DOWN
-                  // bit 8: direction left, PL_OBJECT_FACE_LEFT
-                  // bit 16: movement bit, set when the object is moving, PL_OBJECT_MOVE
-                  // other bits can be used for special animation
-                  int direction; 
-                  
-                  unsigned short id; // number, that represents object in file
-                  bool containsActiveBomb;
-                  PCore *core;
-
-              public:
-                  PLevelObject() : i(0), j(0), realI(0), realJ(0),direction(0),id(0),  containsActiveBomb(0) {}// constructors          
-                  PLevelObject(int i, int j) : i(i), j(j), realI((float)i),realJ((float)j),direction(0),containsActiveBomb(0) {}
-
-
-                  // setters
-                  void setIndex(int i, int j);
-                  void setI(int i);
-                  void setJ(int j);
-                  void setRealI(float realI);
-                  void setRealJ(float realJ);
-                  void toogleBombActivity();
-
-                  // getters
-                  int getI() const;
-                  int getJ() const;
-                  float getRealI() const;
-                  float getRealJ() const;
-                  bool isActiveBomb() const;
-                  unsigned short getId() const;
-                  
-                  // animation objects
-                  virtual void moveObject(int direction);
-                  virtual bool animate(double time){return false;};
-
-                  // virtual functions to override
-                  virtual void draw()=0;        // code that draws object
-                  bool initialize() { return true; }  // override
-                  virtual void print()=0;       // object's console dump            
-                 
-                  // IsPlayerMovePossible
-                  // return values: 
-                  // 0 - no move possible
-                  // 1 - move possible
-                  // 2 - the object in the way must first be moved
-                  // 4 - pick up object, pbomb
-                  // 8 - teleport
-                  virtual short isPlayerMovePossible(int direction)=0;
-              };
 
                /**********************************************************
                * PFloor
@@ -170,7 +103,7 @@ namespace PacGame
                * --------------------------------------------------------
                * Aljosa 2008
                * ********************************************************/ 
-              class PFloor : public PLevelObject
+              class PFloor : public PObject
               {
               private:
               public:
@@ -187,7 +120,7 @@ namespace PacGame
                * --------------------------------------------------------
                * Aljosa 2008
                * ********************************************************/ 
-              class PSolidWall : public PLevelObject
+              class PSolidWall : public PObject
               {
               private:
               public:
@@ -204,7 +137,7 @@ namespace PacGame
                * --------------------------------------------------------
                * Aljosa 2008
                * ********************************************************/ 
-              class PUnsolidWall : public PLevelObject
+              class PUnsolidWall : public PObject
               {
               private:
               public:
@@ -221,7 +154,7 @@ namespace PacGame
                * --------------------------------------------------------
                * Aljosa 2008
                * ********************************************************/ 
-              class PTeleport : public PLevelObject
+              class PTeleport : public PObject
               {
               private:
                   int teleport_id;
@@ -252,7 +185,7 @@ namespace PacGame
                * --------------------------------------------------------
                * Aljosa 2008
                * ********************************************************/ 
-              class PBridge : public PLevelObject
+              class PBridge : public PObject
               {
               private:
               public:
@@ -269,7 +202,7 @@ namespace PacGame
                * --------------------------------------------------------
                * Aljosa 2008
                * ********************************************************/ 
-              class PVoid : public PLevelObject
+              class PVoid : public PObject
               {
               private:
               public:
@@ -286,7 +219,7 @@ namespace PacGame
                * --------------------------------------------------------
                * Aljosa 2008
                * ********************************************************/ 
-              class PCube : public PLevelObject
+              class PCube : public PObject
               {
               private:
               public:
@@ -304,7 +237,7 @@ namespace PacGame
                * --------------------------------------------------------
                * Aljosa 2008
                * ********************************************************/ 
-              class PCubeHolder : public PLevelObject
+              class PCubeHolder : public PObject
               {
               private:
               public:
@@ -321,7 +254,7 @@ namespace PacGame
                * --------------------------------------------------------
                * Aljosa 2008
                * ********************************************************/ 
-              class POnewayFloor : public PLevelObject
+              class POnewayFloor : public PObject
               {
               private:
                   Aliases::PDirection dir; // tells in wich way os cube orientated
@@ -347,7 +280,7 @@ namespace PacGame
                * ********************************************************/ 
               // attention : id 
               // TODO!
-              class POnewayCube : public PLevelObject
+              class POnewayCube : public PObject
               {
               private:
                   Aliases::PDirection dir; // tells in wich way os cube orientated
@@ -370,7 +303,7 @@ namespace PacGame
                * --------------------------------------------------------
                * Aljosa 2008
                * ********************************************************/ 
-              class PBomb : public PLevelObject
+              class PBomb : public PObject
               {
               private:
               public:
@@ -387,7 +320,7 @@ namespace PacGame
                * --------------------------------------------------------
                * Aljosa 2008
                * ********************************************************/ 
-              class PDetonatedBomb : public PLevelObject
+              class PDetonatedBomb : public PObject
               {
               private:
               public:

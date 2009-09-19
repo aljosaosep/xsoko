@@ -37,82 +37,6 @@ namespace PacGame
         namespace GameObjects
         {
             /*****************************************
-             PLevelBox methods
-             *****************************************/			  
-            void PLevelObject::setIndex(int i, int j) // index setter
-            {
-                    this->i = i;
-                    this->j = j;
-            }
-
-            void PLevelObject::setI(int i)  // i index setter
-            {
-                    this->i = i;
-            }
-
-            void PLevelObject::setJ(int j)  // j index setter
-            {
-                    this->j = j;
-            }
-            
-            
-            void PLevelObject::setRealI(float realI)
-            {
-                    this->realI = realI;
-            }
-            
-            void PLevelObject::setRealJ(float realJ)
-            {
-                    this->realJ = realJ;
-            }
-            
-            void PLevelObject::toogleBombActivity()
-            {
-                this->containsActiveBomb = !this->containsActiveBomb;
-            }
-
-            int PLevelObject::getI() const  // i index getter
-            {
-                    return this->i;
-            }
-
-            int PLevelObject::getJ() const  // j index getter
-            {
-                    return this->j;
-            }
-            
-            float PLevelObject::getRealI() const  // i index getter
-            {
-                    return this->realI;
-            }
-
-            float PLevelObject::getRealJ() const  // j index getter
-            {
-                    return this->realJ;
-            }
-            
-            bool PLevelObject::isActiveBomb() const
-            {
-                return this->containsActiveBomb;
-            }
-
-            unsigned short PLevelObject::getId() const
-            {
-                return id;
-            }
-
-             void PLevelObject::moveObject(int direction)
-             {
-                     // set the direction of the object and the move bit
-                     this->direction = direction;
-             }
-
-            void PLevelObject::print()
-            {
-                cout<<this->id<<' ';
-            }
-
-            /*****************************************
 
              * MATRIX I. ELEMENTS METHODS IMPLEMENTATION
              *
@@ -165,7 +89,7 @@ namespace PacGame
                         return 8;
                 }
                         
-                return 8 | static_cast<PLevelObject*>(returnFirstChild())->isPlayerMovePossible(direction);
+                return 8 | (returnFirstChild())->isPlayerMovePossible(direction);
             }
             /*****************************************
              PFloor methods
@@ -192,7 +116,7 @@ namespace PacGame
                         return 1;
                 }else
                 {
-                        return static_cast<PLevelObject*>(returnFirstChild())->isPlayerMovePossible(direction);
+                        return (returnFirstChild())->isPlayerMovePossible(direction);
                 }
             }
             /*****************************************
@@ -240,7 +164,7 @@ namespace PacGame
                         return 1;
                     }else
                     {
-                         return static_cast<PLevelObject*>(returnFirstChild())->isPlayerMovePossible(direction);
+                         return (returnFirstChild())->isPlayerMovePossible(direction);
                    } 
             }
 
@@ -322,7 +246,7 @@ namespace PacGame
                 }else
                 {
                         /// todo
-                         return static_cast<PLevelObject*>(returnFirstChild())->isPlayerMovePossible(direction);
+                         return (returnFirstChild())->isPlayerMovePossible(direction);
                 }
             }
 
@@ -367,7 +291,7 @@ namespace PacGame
                     }else
                     {
                         /// todo
-                         return static_cast<PLevelObject*>(returnFirstChild())->isPlayerMovePossible(direction);
+                         return (returnFirstChild())->isPlayerMovePossible(direction);
                 }
             }
 

@@ -36,6 +36,7 @@
 #include "CommonStructures.h"
 #include "renderer/renderer.h"
 #include "vector.h"
+#include "core.h"
 #include "messages.h"
 
 using namespace PacGame::Structures;
@@ -68,10 +69,49 @@ namespace PacGame
                node *root; // root of linked list
            public:
                // constructors
-               PObject();
-//               PObject(float x, float y);
-                                                       
+             //  PObject();
+               PObject() :  root(NULL) ,  i(0), j(0), realI(0), realJ(0),direction(0),id(0),  containsActiveBomb(0) {}// constructors
+               PObject(int i, int j) : root(NULL) , i(i), j(j), realI((float)i),realJ((float)j),direction(0),containsActiveBomb(0) {}
+
+                  // setters
+               void setIndex(int i, int j);
+               void setI(int i);
+               void setJ(int j);
+               void setRealI(float realI);
+               void setRealJ(float realJ);
+               void toogleBombActivity();
+
+               // getters
+               int getI() const;
+               int getJ() const;
+               float getRealI() const;
+               float getRealJ() const;
+               bool isActiveBomb() const;
+               unsigned short getId() const;
+
+               // animation objects
+               virtual void moveObject(int direction);
+               virtual bool animate(double time){return false;};
+
+               // virtual functions to override
+               virtual void draw()=0;        // code that draws object
+               bool initialize() { return true; }  // override
+               virtual void print()=0;       // object's console dump
+
+               // IsPlayerMovePossible
+               // return values:
+               // 0 - no move possible
+               // 1 - move possible
+               // 2 - the object in the way must first be moved
+               // 4 - pick up object, pbomb
+               // 8 - teleport
+               virtual short isPlayerMovePossible(int direction)=0;
+
+
+               // destructor
                virtual ~PObject();
+
+               //// low-level func
                // linked list
                void add(PObject *obj);  // attaches another object to this object 
                void attachToRoot(PObject *obj); // attaches new object to root; doesn't create new object
@@ -84,11 +124,27 @@ namespace PacGame
                void unlinkFirstChild();  // destroys connection with first child; WARNING: if there are more children, others are lost!
                
                // etc
-               virtual void draw()=0;
-               virtual bool initialize()=0;
-               virtual void print();    // print into console    
+             //  virtual void draw()=0;
+             //  virtual bool initialize()=0;
+             //  virtual void print();    // print into console
                                                 //	 string texFilename;
            protected:
+                  int i, j;     // represents indexes of element on level matrix
+                  float realI, realJ;   // real coordinates, for smooth movement
+
+                  // direction that the object is facing
+                  // 5 important bits
+                  // bit 1: direction up, PL_OBJECT_FACE_UP
+                  // bit 2: direction right, PL_OBJECT_FACE_RIGHT
+                  // bit 4: direction down, PL_OBJECT_FACE_DOWN
+                  // bit 8: direction left, PL_OBJECT_FACE_LEFT
+                  // bit 16: movement bit, set when the object is moving, PL_OBJECT_MOVE
+                  // other bits can be used for special animation
+                  int direction;
+
+                  unsigned short id; // number, that represents object in file
+                  bool containsActiveBomb;
+                  PCore *core;
 //               PVector2D position;  // position of object in OpenGL space, z coord is ignored
            };
       }
