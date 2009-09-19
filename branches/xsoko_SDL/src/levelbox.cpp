@@ -69,9 +69,8 @@ namespace PacGame
 
             void PTeleport::draw()
             {
-                glColor4f(0.0, 0.0, 1.0, 0.4f);
-                glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(TELEPORT_RES));
-                this->core->getRenderer()->drawCube(0.0, 0.0, 1.0);   
+                float color[] = {0.0, 0.0, 1.0, 0.4};
+                this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, color, this->core->getResources()->getTextureTesourceId(TELEPORT_RES) );
             }
 
             void PTeleport::print()
@@ -96,9 +95,8 @@ namespace PacGame
              *****************************************/	
             void PFloor::draw()
             {
-                glColor3f(1.0, 1.0, 1.0);
-                glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(FLOOR_RES));
-                this->core->getRenderer()->drawFloor(0.0, 0.0, 1.0);
+                float color[] = { 1.0, 1.0, 1.0, 1.0 };
+                this->core->getRenderer()->drawFloor(0.0, 0.0, 1.0, color, this->core->getResources()->getTextureTesourceId(FLOOR_RES) );
             }
 
             void PFloor::print()
@@ -124,7 +122,8 @@ namespace PacGame
              *****************************************/	       
             void POnewayFloor::draw()
             {
-                glColor3f(1.0, 1.0, 1.0);
+                float color[] = { 1.0, 1.0, 1.0, 1.0 };
+
                 switch(this->dir)
                 {
                         case Aliases::left:
@@ -142,8 +141,7 @@ namespace PacGame
                         default:
                         break;
                 }
-                glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(OW_FLOOR_RES));
-                this->core->getRenderer()->drawFloor(0.0, 0.0, 1.0);
+                this->core->getRenderer()->drawFloor(0.0, 0.0, 1.0, color, this->core->getResources()->getTextureTesourceId(OW_FLOOR_RES) );
             }
 
             void POnewayFloor::print()
@@ -183,9 +181,8 @@ namespace PacGame
              *****************************************/	    
             void PSolidWall::draw()
             {
-                glColor3f(0.9f, 0.87f, 0.87f);
-                glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(S_WALL_RES));
-                this->core->getRenderer()->drawCube(0.0, 0.0, 1.0);
+                float color[] = { 0.9f, 0.87f, 0.87f, 1.0 };
+                this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, color, this->core->getResources()->getTextureTesourceId(S_WALL_RES));
             }
 
             void PSolidWall::print()
@@ -204,9 +201,8 @@ namespace PacGame
              *****************************************/	
             void PUnsolidWall::draw()
             {
-                glColor3f(0.7f, 0.6f, 0.6f);
-                glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(U_WALL_RES));
-                this->core->getRenderer()->drawCube(0.0, 0.0, 1.0);
+                float color[] = { 0.7f, 0.6f, 0.6f, 1.0 };
+                this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, color, this->core->getResources()->getTextureTesourceId(U_WALL_RES));
             }
 
             void PUnsolidWall::print()
@@ -225,9 +221,8 @@ namespace PacGame
              *****************************************/	 
             void PBridge::draw()
             {
-                glColor4f(1.0, 1.0, 1.0, 0.8f);
-                glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(BRIDGE_RES));
-                this->core->getRenderer()->drawFloor(0.0, 0.0, 1.0);
+                float color[] = { 1.0, 1.0, 1.0, 0.8f };
+                this->core->getRenderer()->drawFloor(0.0, 0.0, 1.0, color, this->core->getResources()->getTextureTesourceId(BRIDGE_RES));
 
             }
 
@@ -271,9 +266,8 @@ namespace PacGame
              *****************************************/	   
             void PCubeHolder::draw()
             {
-                glColor3f(1.0, 0.4f, 0.4f);
-                glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(CUBE_RES));
-                this->core->getRenderer()->drawFloor(0.0, 0.0, 1.0);
+                float color[] = { 1.0, 0.4, 0.4, 1.0f };
+                this->core->getRenderer()->drawFloor(0.0, 0.0, 1.0, color, this->core->getResources()->getTextureTesourceId(CUBE_RES));
             }
 
             void PCubeHolder::print()
@@ -304,9 +298,8 @@ namespace PacGame
              *****************************************/	  
             void PCube::draw()
             {
-                glColor3f(1.0, 1.0, 1.0);
-                glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(CUBE_RES));
-                this->core->getRenderer()->drawCube(0.0, 0.0, 1.0);
+                float color[] = { 1.0, 1.0, 1.0, 1.0f };
+                this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, color, this->core->getResources()->getTextureTesourceId(CUBE_RES));
             }
 
 
@@ -378,7 +371,7 @@ namespace PacGame
              *****************************************/	 
             void POnewayCube::draw()
             {
-                glColor3f(1.0, 1.0, 1.0);
+                float color[] = { 1.0, 1.0, 1.0, 1.0f };
                 switch(this->dir)
                 {
                         case Aliases::left:
@@ -395,12 +388,11 @@ namespace PacGame
                         default:
                         break;
                 }
-                glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(OW_CUBE_RES));
-                this->core->getRenderer()->drawCube(0.0, 0.0, 1.0);
+                this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, color, this->core->getResources()->getTextureTesourceId(OW_CUBE_RES));
             }
             
             
-            bool POnewayCube::animate(double time)
+        bool POnewayCube::animate(double time)
         {
                   bool end_of_movement = false;
               
@@ -478,9 +470,8 @@ namespace PacGame
              *****************************************/	 
             void PBomb::draw()
             {
-                glColor3f(1.0, 1.0, 1.0);
-                glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(BOMB_RES));
-                this->core->getRenderer()->drawCube(0.0, 0.0, 1.0);
+                float color[] = { 1.0, 1.0, 1.0, 1.0f };
+                this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, color, this->core->getResources()->getTextureTesourceId(BOMB_RES));
             }
 
             void PBomb::print()

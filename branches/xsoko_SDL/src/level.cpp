@@ -987,9 +987,10 @@ namespace PacGame
                                   
                                   glPushMatrix();
                                   glTranslatef((float)this->bombs[i]->i, (float)this->bombs[i]->j, 0.0);
-                                  glColor3f(1.0, 0.0, 0.0);
-                                  glBindTexture(GL_TEXTURE_2D, this->resourceHandle->getTextureTesourceId(BOMB_RES));
-                                  this->gameCore->getRenderer()->drawCube(0.0, 0.0, 0.5);
+                                  float color[] = {1.0, 0.0, 0.0, 1.0};
+                               //   glColor3f(1.0, 0.0, 0.0);
+                               //   glBindTexture(GL_TEXTURE_2D, this->resourceHandle->getTextureTesourceId(BOMB_RES));
+                                  this->gameCore->getRenderer()->drawCube(0.0, 0.0, 0.5, color,this->resourceHandle->getTextureTesourceId(BOMB_RES));
                                   glPopMatrix();
                               }
                           }
