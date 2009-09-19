@@ -162,8 +162,8 @@ namespace PacGame
                   
                   // getters
                   bool getEndgameFlag();
-                  unsigned getWidth();
-                  unsigned getHeight();
+                  //unsigned getWidth();
+                  //unsigned getHeight();
                   
                   // bomb related
                   bool addDroppedBomb(int i, int j);

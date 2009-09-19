@@ -101,11 +101,12 @@ private:
         }
         bool equals(Item* item){
             ResItem *x = (ResItem*) item;
-            return (resx == x->resx && resy == x->resy);
+            return (item) ? (resx == x->resx && resy == x->resy) : false;
         }
     };
 
 private:
+    //components
     Button* btnApply;
     Button* btnBack;
     ListBox* lstModes;
@@ -119,6 +120,7 @@ private:
     void initializeComponents();
     void btnApplyClick(Component* sender);
     void btnBackClick(Component* sender);
+    void wndVisible(Component* sender);
 public:
     OptionsWnd();
 };

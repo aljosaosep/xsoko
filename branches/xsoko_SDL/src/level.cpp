@@ -176,7 +176,7 @@ namespace PacGame
                   if(this->holds[i]->returnFirstChild()==NULL) // if hold has no child
                       return false;  // level cant be done!
 
-                  else if(((this->holds[i]->returnFirstChild())->getId() & CUBE) == 0)
+                  else if((this->holds[i]->returnFirstChild()->getId() & CUBE) == 0)
                       return false; // on this holder there is no valid cubes (valid cubes have the CUBE bits set
               
               }
@@ -399,7 +399,7 @@ namespace PacGame
                         
                         
                         // the object at the other side
-                        PObject* otherObject = static_cast<PObject*>(data[it][jt]->returnFirstChild());
+                        PObject* otherObject = data[it][jt]->returnFirstChild();
                         
                         // no object, can teleport safely
                         if(otherObject == NULL)
@@ -447,7 +447,7 @@ namespace PacGame
                   
                           // we get the destination teleport, and the object to teleport
                            PTeleport* destination = static_cast<PTeleport*>(data[i][j])->getChildTeleport();
-                           PObject* object = static_cast<PObject*>(data[i][j]->returnFirstChild());
+                           PObject* object = data[i][j]->returnFirstChild();
                            
                            destination->attachToRoot(data[i][j]->returnFirstChild());
                            data[i][j]->unlinkFirstChild();
@@ -481,7 +481,7 @@ namespace PacGame
                           }
                   }
                   
-                  if(((PObject*) data[i][j]->returnFirstChild())->getId() == PLAYER) // if the child object is a player
+                  if(data[i][j]->returnFirstChild()->getId() == PLAYER) // if the child object is a player
                   {
                         if(button_flags != 0)// if we are holding down the button, we want still to move the player
                         {
@@ -552,7 +552,7 @@ namespace PacGame
                               {
                                   data[i][j] = new PTeleport(i, j, this->gameCore, num); // create object
                                   
-                                  if((resourceHandle->getTextureResource(TELEPORT_RES))==NULL)  // texture isn't in memory yet?
+                                  if(resourceHandle->getTextureResource(TELEPORT_RES)==NULL)  // texture isn't in memory yet?
                                       resourceHandle->loadTextureResource(TELEPORT_RES, "test.tga");  // load it!
 
                                   (static_cast<PTeleport*>(data[i][j]))->setId(num);                // set its id
@@ -606,7 +606,7 @@ namespace PacGame
                                       static_cast<POnewayFloor*>(data[i][j])->setDirection(Aliases::left);
                                    //   data[i][j]->add(p);
                                       
-                                      if((resourceHandle->getTextureResource(OW_FLOOR_RES))==NULL)  // texture isn't in memory yet?
+                                      if(resourceHandle->getTextureResource(OW_FLOOR_RES)==NULL)  // texture isn't in memory yet?
                                           resourceHandle->loadTextureResource(OW_FLOOR_RES, "onewayfloor.tga");  // load it!
                                       
                                   //    second_matrix[i][j] = 8;
@@ -618,7 +618,7 @@ namespace PacGame
                                       static_cast<POnewayFloor*>(data[i][j])->setDirection(Aliases::right);
                                   //    data[i][j]->add(p);
                                       
-                                      if((resourceHandle->getTextureResource(OW_FLOOR_RES))==NULL)  // texture isn't in memory yet?
+                                      if(resourceHandle->getTextureResource(OW_FLOOR_RES)==NULL)  // texture isn't in memory yet?
                                           resourceHandle->loadTextureResource(OW_FLOOR_RES, "onewayfloor.tga");  // load it!
                                       
                                   //    second_matrix[i][j] = 9;
@@ -631,7 +631,7 @@ namespace PacGame
                                       static_cast<POnewayFloor*>(data[i][j])->setDirection(Aliases::up);
                                   //    data[i][j]->add(p);
                                       
-                                      if((resourceHandle->getTextureResource(OW_FLOOR_RES))==NULL)  // texture isn't in memory yet?
+                                      if(resourceHandle->getTextureResource(OW_FLOOR_RES)==NULL)  // texture isn't in memory yet?
                                           resourceHandle->loadTextureResource(OW_FLOOR_RES, "onewayfloor.tga");  // load it!
                                       
                                  //     second_matrix[i][j] = 10;
@@ -643,7 +643,7 @@ namespace PacGame
                                       static_cast<POnewayFloor*>(data[i][j])->setDirection(Aliases::down);
                                  //     data[i][j]->add(p);
                                       
-                                      if((resourceHandle->getTextureResource(OW_FLOOR_RES))==NULL)  // texture isn't in memory yet?
+                                      if(resourceHandle->getTextureResource(OW_FLOOR_RES)==NULL)  // texture isn't in memory yet?
                                           resourceHandle->loadTextureResource(OW_FLOOR_RES, "onewayfloor.tga");  // load it!
                                       
                                 //      second_matrix[i][j] = 11;
@@ -679,9 +679,9 @@ namespace PacGame
                                   case PLAYER:
                                       p = new PPlayer(i, j, this->gameCore);
                                       
-                                      if((resourceHandle->getTextureResource(PLAYER_RES))==NULL)  // texture isn't in memory yet?
+                                      if(resourceHandle->getTextureResource(PLAYER_RES)==NULL)  // texture isn't in memory yet?
                                           resourceHandle->loadTextureResource(PLAYER_RES, "player.tga");  // load it!
-                                      if((resourceHandle->getModelResource(PLAYER_RES)) == NULL) // model isn't in memory yet?
+                                      if(resourceHandle->getModelResource(PLAYER_RES) == NULL) // model isn't in memory yet?
                                       {
                                           resourceHandle->loadModelResource(PLAYER_RES, "data/player.md2"); // load it!
                                           resourceHandle->getModelResource(PLAYER_RES)->SetTexture(resourceHandle->getTextureTesourceId(PLAYER_RES)); // set the texture
@@ -696,7 +696,7 @@ namespace PacGame
                                   case CUBE:
                                       p = new PCube(i, j, this->gameCore);
                                       
-                                      if((resourceHandle->getTextureResource(CUBE_RES))==NULL)  // texture isn't in memory yet?
+                                      if(resourceHandle->getTextureResource(CUBE_RES)==NULL)  // texture isn't in memory yet?
                                           resourceHandle->loadTextureResource(CUBE_RES, "crate.tga");  // load it!
 
                                       data[i][j]->add(p);
@@ -707,7 +707,7 @@ namespace PacGame
                                       p = new POnewayCube(Aliases::left, i, j, OW_CUBE_L, this->gameCore);
                                       data[i][j]->add(p);
                                       
-                                      if((resourceHandle->getTextureResource(OW_CUBE_RES))==NULL)  // texture isn't in memory yet?
+                                      if(resourceHandle->getTextureResource(OW_CUBE_RES)==NULL)  // texture isn't in memory yet?
                                           resourceHandle->loadTextureResource(OW_CUBE_RES, "onewaycube.tga");  // load it!
                                       
                                       second_matrix[i][j] = OW_CUBE_L;
@@ -717,7 +717,7 @@ namespace PacGame
                                       p = new POnewayCube(Aliases::right, i, j, OW_CUBE_R, this->gameCore);
                                       data[i][j]->add(p);
                                       
-                                      if((resourceHandle->getTextureResource(OW_CUBE_RES))==NULL)  // texture isn't in memory yet?
+                                      if(resourceHandle->getTextureResource(OW_CUBE_RES)==NULL)  // texture isn't in memory yet?
                                           resourceHandle->loadTextureResource(OW_CUBE_RES, "onewaycube.tga");  // load it!
                                       
                                       second_matrix[i][j] = OW_CUBE_R;
@@ -727,7 +727,7 @@ namespace PacGame
                                       p = new POnewayCube(Aliases::up, i, j, OW_CUBE_U, this->gameCore);
                                       data[i][j]->add(p);
                                       
-                                      if((resourceHandle->getTextureResource(OW_CUBE_RES))==NULL)  // texture isn't in memory yet?
+                                      if(resourceHandle->getTextureResource(OW_CUBE_RES)==NULL)  // texture isn't in memory yet?
                                           resourceHandle->loadTextureResource(OW_CUBE_RES, "onewaycube.tga");  // load it!
                                       
                                       second_matrix[i][j] = OW_CUBE_U;
@@ -737,7 +737,7 @@ namespace PacGame
                                       p = new POnewayCube(Aliases::down, i, j, OW_CUBE_D, this->gameCore);
                                       data[i][j]->add(p);
                                       
-                                      if((resourceHandle->getTextureResource(OW_CUBE_RES))==NULL)  // texture isn't in memory yet?
+                                      if(resourceHandle->getTextureResource(OW_CUBE_RES)==NULL)  // texture isn't in memory yet?
                                           resourceHandle->loadTextureResource(OW_CUBE_RES, "onewaycube.tga");  // load it!
                                       
                                       second_matrix[i][j] = OW_CUBE_D;
@@ -747,7 +747,7 @@ namespace PacGame
                                       p = new PBomb(i, j, this->gameCore);
                                       data[i][j]->add(p);
                                       
-                                      if((resourceHandle->getTextureResource(BOMB_RES))==NULL)  // texture isn't in memory yet?
+                                      if(resourceHandle->getTextureResource(BOMB_RES)==NULL)  // texture isn't in memory yet?
                                                resourceHandle->loadTextureResource(BOMB_RES, "bomb.tga");  // load it!
                                       
                                       second_matrix[i][j] = BOMB;
@@ -757,7 +757,7 @@ namespace PacGame
                                       p = new PUnsolidWall(i,j,this->gameCore);
                                       data[i][j]->add(p);
                                       
-                                      if((resourceHandle->getTextureResource(U_WALL_RES))==NULL)
+                                      if(resourceHandle->getTextureResource(U_WALL_RES)==NULL)
                                           resourceHandle->loadTextureResource(U_WALL_RES, "unsolidwall.tga"); 
                                       
                                       second_matrix[i][j] = U_WALL;
@@ -889,7 +889,7 @@ namespace PacGame
               holds.clear();
               endgameFlag = false;
               moves = 0;
-			  starttime = ((double)SDL_GetTicks())/1000.0;//glfwGetTime();
+              starttime = ((double)SDL_GetTicks())/1000.0;//glfwGetTime();
               return reloadLevel();
           }
           
@@ -953,8 +953,8 @@ namespace PacGame
                   {
                       for(unsigned j=0; j<this->height; j++)
                       {
-                          PObject *obj = (PObject*) data[i][j]->returnFirstChild(); 
-                          if(obj!=NULL) // if there is boject binded
+                          PObject *obj = data[i][j]->returnFirstChild(); 
+                          if(obj!=NULL) // if there is object binded
                           {
                               glPushMatrix();
                               glTranslatef(obj->getRealI(), obj->getRealJ(), 0.0);
@@ -962,7 +962,7 @@ namespace PacGame
                               
                               glPopMatrix();
                               // if child is player or movable cube, draw also parent
-                              if ((static_cast<PObject*>(obj)->getId() & (PLAYER | CUBE)) != 0) 
+                              if (obj->getId() & (PLAYER | CUBE)) 
                               {
                                    glPushMatrix();
                                    glTranslatef(float(i),float(j),0.0);
@@ -1131,7 +1131,7 @@ namespace PacGame
           }
           
           
-          unsigned PLevel::getWidth()
+          /*unsigned PLevel::getWidth()
           {
               return this->width;
           }
@@ -1139,7 +1139,7 @@ namespace PacGame
           unsigned PLevel::getHeight()
           {
               return this->height;
-          }
+          }*/
           
            /**************************************************************
            * Dropped Bombs
@@ -1191,10 +1191,10 @@ namespace PacGame
                   Messages::errorIndexOutOfRange();
                   return;
               }
-              if(data[i][j]->returnFirstChild() != NULL)
+              if(data[i][j]->returnFirstChild())
               {
                   
-                  if((this->data[i][j]->returnFirstChild())->getId()==U_WALL)  // is there unsolidWall ?
+                  if(this->data[i][j]->returnFirstChild()->getId()==U_WALL)  // is there unsolidWall ?
                   {
                       data[i][j]->releaseFirstChildObject();
                   } 

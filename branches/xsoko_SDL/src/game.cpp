@@ -90,6 +90,31 @@ namespace PacGame
           void PGame::quit(){
               gameQuit = true;
           }
+
+          void PGame::setResolution(int width, int height, bool fullscreen)
+          {
+              bool isChange = false;
+
+              if(fullscreen != this->fullscreen)
+              {
+                  this->fullscreen = fullscreen;
+                  isChange = true;
+              }
+              unsigned flag = fullscreen ? SDL_FULLSCREEN : 0;
+
+              if((windowWidth != width) || (windowHeight != height))
+              {
+                  windowWidth = width;
+                  windowHeight = height;
+                  isChange = true;
+              }
+
+              if(isChange)
+              {
+                  if(SDL_SetVideoMode( width, height, 32, SDL_OPENGL | flag ))
+                      Gui::getInstance().glResizeWnd(width,height);
+              }
+          }
           
           void PGame::mainLoop()
           {
@@ -188,7 +213,7 @@ namespace PacGame
                     glMatrixMode(GL_PROJECTION);						// Select The Projection Matrix
                     glLoadIdentity();                                                         // Reset The Projection Matrix
                     // Calculate The Aspect Ratio Of The Window
-                    gluPerspective(45.0f,800.0f/600,0.1f,100.0f);
+                    gluPerspective(45.0f,windowWidth/(float)windowHeight,0.1f,100.0f);
                     glMatrixMode(GL_MODELVIEW);						// Select The Modelview Matrix
                     glLoadIdentity();
                 }
