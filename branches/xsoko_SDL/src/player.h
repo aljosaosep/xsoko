@@ -50,7 +50,7 @@ namespace PacGame
                * --------------------------------------------------------
                * Aljosa 2008
                * ********************************************************/
-              class PPlayer : public PLevelObject
+              class PPlayer : public PObject
               {
               private:
            //       int score;   

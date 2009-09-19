@@ -141,7 +141,7 @@ namespace PacGame
            * releases node from original element in matrix
            * and changes indexes
            *****************************************************************/          
-          inline void PLevel::reattachNode(int i, int j, int i2, int j2, PLevelObject *obj)
+          inline void PLevel::reattachNode(int i, int j, int i2, int j2, PObject *obj)
           {
               data[i2][j2]->attachToRoot(data[i][j]->returnFirstChild());
               data[i][j]->unlinkFirstChild();
@@ -176,7 +176,7 @@ namespace PacGame
                   if(this->holds[i]->returnFirstChild()==NULL) // if hold has no child
                       return false;  // level cant be done!
 
-                  else if(((dynamic_cast<PLevelObject*>(this->holds[i]->returnFirstChild()))->getId() & CUBE) == 0)
+                  else if(((this->holds[i]->returnFirstChild())->getId() & CUBE) == 0)
                       return false; // on this holder there is no valid cubes (valid cubes have the CUBE bits set
               
               }
@@ -250,7 +250,7 @@ namespace PacGame
            * destination, to try to move it. 
            * A successful move return true, otherwise it returns false.
            *****************************************************************/
-         bool PLevel::moveObject(PDirection dir, PLevelObject *obj)
+         bool PLevel::moveObject(PDirection dir, PObject *obj)
           {
                   int toI, toJ, dirFacing;
                 
@@ -321,7 +321,7 @@ namespace PacGame
            * Returns true if its free, false if there is something
            * in the way.
            * **********************************************/
-          bool PLevel::checkMoveTo(int toI, int toJ,PLevelObject* obj, PDirection dir)
+          bool PLevel::checkMoveTo(int toI, int toJ,PObject* obj, PDirection dir)
           {
               
                   
@@ -333,7 +333,7 @@ namespace PacGame
               }
               short is_move_possible = data[toI][toJ]->isPlayerMovePossible(dir);
               
-                // if the default PLevelObject method is used, then it is a problem
+                // if the default PObject method is used, then it is a problem
               if(is_move_possible == -1)
               {
                       cout<<"!!! default isPlayerMovePossible used !!!"<<endl;
@@ -356,14 +356,14 @@ namespace PacGame
                 // we stat with move and pick up, since these are the easyest to undo
                 // teleport is left for last, so we never need to undo it
                 
-                PLevelObject* moved_object = NULL;
+                PObject* moved_object = NULL;
                 // first an object must be moved
                 if(is_move_possible & 2)
                 {
                         // only player is capable of moving other objects
                         if(obj->getId() == PLAYER)
                         {
-                                moved_object =  (PLevelObject*)data[toI][toJ]->returnFirstChild();
+                                moved_object = data[toI][toJ]->returnFirstChild();
                                 // if we can't move the object, we can stop right here
                                 if( !moveObject(dir, moved_object) )
                                         return false;
@@ -399,7 +399,7 @@ namespace PacGame
                         
                         
                         // the object at the other side
-                        PLevelObject* otherObject = static_cast<PLevelObject*>(data[it][jt]->returnFirstChild());
+                        PObject* otherObject = static_cast<PObject*>(data[it][jt]->returnFirstChild());
                         
                         // no object, can teleport safely
                         if(otherObject == NULL)
@@ -447,7 +447,7 @@ namespace PacGame
                   
                           // we get the destination teleport, and the object to teleport
                            PTeleport* destination = static_cast<PTeleport*>(data[i][j])->getChildTeleport();
-                           PLevelObject* object = static_cast<PLevelObject*>(data[i][j]->returnFirstChild());
+                           PObject* object = static_cast<PObject*>(data[i][j]->returnFirstChild());
                            
                            destination->attachToRoot(data[i][j]->returnFirstChild());
                            data[i][j]->unlinkFirstChild();
@@ -481,7 +481,7 @@ namespace PacGame
                           }
                   }
                   
-                  if(((PLevelObject*) data[i][j]->returnFirstChild())->getId() == PLAYER) // if the child object is a player
+                  if(((PObject*) data[i][j]->returnFirstChild())->getId() == PLAYER) // if the child object is a player
                   {
                         if(button_flags != 0)// if we are holding down the button, we want still to move the player
                         {
@@ -555,10 +555,10 @@ namespace PacGame
                                   if((resourceHandle->getTextureResource(TELEPORT_RES))==NULL)  // texture isn't in memory yet?
                                       resourceHandle->loadTextureResource(TELEPORT_RES, "test.tga");  // load it!
 
-                                  (dynamic_cast<PTeleport*>(data[i][j]))->setId(num);                // set its id
-                            //      (dynamic_cast<PTeleport*>(data[i][j]))->
+                                  (static_cast<PTeleport*>(data[i][j]))->setId(num);                // set its id
+                            //      (static_cast<PTeleport*>(data[i][j]))->
                               //    data[i][j] = teleport;               // attach it on level
-                                  this->teleports.push_back(dynamic_cast<PTeleport*>(data[i][j])); // push teleport info on vector
+                                  this->teleports.push_back(static_cast<PTeleport*>(data[i][j])); // push teleport info on vector
                               }
                               
                               switch(num)  // if it is, we create suitable object
@@ -596,14 +596,14 @@ namespace PacGame
                                       
                                   case CUBE_PLACE:
                                       data[i][j] = new PCubeHolder(this->gameCore);
-                                      this->holds.push_back(dynamic_cast<PCubeHolder*>(data[i][j])); // adds cuneHolder to holds array
+                                      this->holds.push_back(static_cast<PCubeHolder*>(data[i][j])); // adds cuneHolder to holds array
                                       if((resourceHandle->getTextureResource(CUBE_RES))==NULL)  // texture isn't in memory yet?
                                           resourceHandle->loadTextureResource(CUBE_RES, "crate.tga");  // load it!
                                       break;    
                                       
                                   case OW_FLOOR_L:
                                       data[i][j] = new POnewayFloor(this->gameCore, 5);
-                                      dynamic_cast<POnewayFloor*>(data[i][j])->setDirection(Aliases::left);
+                                      static_cast<POnewayFloor*>(data[i][j])->setDirection(Aliases::left);
                                    //   data[i][j]->add(p);
                                       
                                       if((resourceHandle->getTextureResource(OW_FLOOR_RES))==NULL)  // texture isn't in memory yet?
@@ -615,7 +615,7 @@ namespace PacGame
                                       
                                   case OW_FLOOR_R:
                                       data[i][j] = new POnewayFloor(this->gameCore, 6);
-                                      dynamic_cast<POnewayFloor*>(data[i][j])->setDirection(Aliases::right);
+                                      static_cast<POnewayFloor*>(data[i][j])->setDirection(Aliases::right);
                                   //    data[i][j]->add(p);
                                       
                                       if((resourceHandle->getTextureResource(OW_FLOOR_RES))==NULL)  // texture isn't in memory yet?
@@ -628,7 +628,7 @@ namespace PacGame
                                       
                                   case OW_FLOOR_U:
                                       data[i][j] = new POnewayFloor(this->gameCore, 7);
-                                      dynamic_cast<POnewayFloor*>(data[i][j])->setDirection(Aliases::up);
+                                      static_cast<POnewayFloor*>(data[i][j])->setDirection(Aliases::up);
                                   //    data[i][j]->add(p);
                                       
                                       if((resourceHandle->getTextureResource(OW_FLOOR_RES))==NULL)  // texture isn't in memory yet?
@@ -640,7 +640,7 @@ namespace PacGame
                                       
                                   case OW_FLOOR_D:
                                       data[i][j] = new POnewayFloor(this->gameCore, 8);
-                                      dynamic_cast<POnewayFloor*>(data[i][j])->setDirection(Aliases::down);
+                                      static_cast<POnewayFloor*>(data[i][j])->setDirection(Aliases::down);
                                  //     data[i][j]->add(p);
                                       
                                       if((resourceHandle->getTextureResource(OW_FLOOR_RES))==NULL)  // texture isn't in memory yet?
@@ -687,7 +687,7 @@ namespace PacGame
                                           resourceHandle->getModelResource(PLAYER_RES)->SetTexture(resourceHandle->getTextureTesourceId(PLAYER_RES)); // set the texture
                                        }
                                       
-                                      this->player = dynamic_cast<PPlayer*>(p); // set class player pointer to player element
+                                      this->player = static_cast<PPlayer*>(p); // set class player pointer to player element
                                       data[i][j]->add(p);
                                       second_matrix[i][j] = PLAYER;
                                       
@@ -953,7 +953,7 @@ namespace PacGame
                   {
                       for(unsigned j=0; j<this->height; j++)
                       {
-                          PLevelObject *obj = (PLevelObject*) data[i][j]->returnFirstChild(); 
+                          PObject *obj = (PObject*) data[i][j]->returnFirstChild(); 
                           if(obj!=NULL) // if there is boject binded
                           {
                               glPushMatrix();
@@ -962,7 +962,7 @@ namespace PacGame
                               
                               glPopMatrix();
                               // if child is player or movable cube, draw also parent
-                              if ((static_cast<PLevelObject*>(obj)->getId() & (PLAYER | CUBE)) != 0) 
+                              if ((static_cast<PObject*>(obj)->getId() & (PLAYER | CUBE)) != 0) 
                               {
                                    glPushMatrix();
                                    glTranslatef(float(i),float(j),0.0);
@@ -1024,7 +1024,7 @@ namespace PacGame
                   {
                       for(unsigned j=0; j<this->height; j++)
                       {
-                              PLevelObject *obj = (PLevelObject*) data[i][j]->returnFirstChild(); 
+                              PObject *obj = data[i][j]->returnFirstChild(); 
                               if(obj != NULL)
                               {
                                         if(obj->animate(time))
@@ -1055,7 +1055,7 @@ namespace PacGame
 
                   for(unsigned j=0; j<this->height; j++)
                   {
-                      PLevelObject *obj = dynamic_cast<PLevelObject*>(data[i][j]->returnFirstChild()); 
+                      PObject *obj = data[i][j]->returnFirstChild(); 
                       if(obj!=NULL) // if there is boject binded
                       {
                           obj->print(); // prints it
@@ -1193,14 +1193,14 @@ namespace PacGame
               if(data[i][j]->returnFirstChild() != NULL)
               {
                   
-                  if((dynamic_cast<PLevelObject*>(this->data[i][j]->returnFirstChild())->getId())==U_WALL)  // is there unsolidWall ?
+                  if((this->data[i][j]->returnFirstChild())->getId()==U_WALL)  // is there unsolidWall ?
                   {
                       data[i][j]->releaseFirstChildObject();
                   } 
               }
           }
 
-          void PLevel::adjustCameraAtTeleport(int it, int jt, PLevelObject *obj, PDirection dir)
+          void PLevel::adjustCameraAtTeleport(int it, int jt, PObject *obj, PDirection dir)
           {
               int delta_i = (int)this->data[it][jt]->getI() - (int)obj->getI()  ;
               int delta_j = (int)this->data[it][jt]->getJ() - (int)obj->getJ()  ; // 0.5

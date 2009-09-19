@@ -109,7 +109,7 @@ namespace PacGame
               {
               private:
                   string filename;                   // level filename
-                  PLevelObject* data[30][30];        // actual level data
+                  PObject* data[30][30];        // actual level data
                   int second_matrix[30][30];         // presentation of second matrix with id
                   vector<PTeleport*> teleports;      // vector of teleport pointers
                   unsigned width, height;            // level dimensions
@@ -138,10 +138,10 @@ namespace PacGame
                   void printLevelByMeta() const; // same, but it prints meta data(what is on level block)
                   
                   // gameplay related
-                  bool moveObject(PDirection dir, PLevelObject *obj);
+                  bool moveObject(PDirection dir, PObject *obj);
                   void activateFloor(int i, int j);
-                  bool checkMoveTo(int toI, int toJ, PLevelObject *obj, PDirection dir);
-                  inline void reattachNode(int i, int j, int i2, int j2, PLevelObject *obj);
+                  bool checkMoveTo(int toI, int toJ, PObject *obj, PDirection dir);
+                  inline void reattachNode(int i, int j, int i2, int j2, PObject *obj);
                   inline bool isLevelDone(); // checks if all cubes are in places
                   void setButtonFlag(int flag);
                   void resetButtonFlag(int flag);
@@ -170,7 +170,7 @@ namespace PacGame
                   void checkAndApplyBombBlast(int i, int j);
                   void processBombs(double current_time);
 
-                  void adjustCameraAtTeleport(int it, int jt, PLevelObject *obj, PDirection dir);
+                  void adjustCameraAtTeleport(int it, int jt, PObject *obj, PDirection dir);
 
                   // functions to override
                   void draw();  // draws whole level
