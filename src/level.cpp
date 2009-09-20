@@ -194,7 +194,6 @@ namespace PacGame
            void PLevel::setButtonFlag(int flag)
            {
                    button_flags = flag | button_flags;
-                   cout<<"button flags:"<<button_flags<<endl;
                    if((button_flags ^ flag) == 0) // the status of button_flags before adding this flag
                    {
                            switch(flag)
@@ -219,9 +218,6 @@ namespace PacGame
            {
                    //button_flags = button_flags & (!flag);
                    button_flags = button_flags ^ flag;
-                   
-                   cout<<"button flags:"<<button_flags<<endl;
-                   
                     if(button_flags != 0) // the status of button_flags before adding this flag
                    {
                         if(button_flags & KB_UP)
@@ -479,30 +475,6 @@ namespace PacGame
                               this->endgameFlag = true;
                               Messages::infoMessage("You won!!!!! :))))");
                           }
-                  }
-                  
-                  if(data[i][j]->returnFirstChild()->getId() == PLAYER) // if the child object is a player
-                  {
-                        if(button_flags != 0)// if we are holding down the button, we want still to move the player
-                        {
-                                // check which button is still held down, and apply that movement
-                                if(button_flags & KB_UP)
-                                {
-                                        this->moveObject(Aliases::up, this->getPlayerHandle());
-                                }else
-                                if(button_flags & KB_LEFT)
-                                {
-                                        this->moveObject(Aliases::left, this->getPlayerHandle());
-                                 }else
-                                 if(button_flags & KB_DOWN)
-                                 {
-                                                this->moveObject(Aliases::down, this->getPlayerHandle());
-                                 }else
-                                  if(button_flags & KB_RIGHT)
-                                   { 
-                                                this->moveObject(Aliases::right, this->getPlayerHandle());
-                                  }
-                        }
                   }
                   
           }
@@ -1029,11 +1001,38 @@ namespace PacGame
                               if(obj != NULL)
                               {
                                         if(obj->animate(time))
+                                        {
                                                 activateFloor(i,j);
+                                                cout<<"floor activate"<<endl;
+					}
                                 }
                       }
-                      
               }
+              
+              if(     player->getI() == player->getRealI() &&
+                        player->getJ() == player->getRealJ()  )
+                {
+                        if(button_flags != 0)// if we are holding down the button, we want still to move the player
+                        {       
+                                // check which button is still held down, and apply that movement
+                                if(button_flags & KB_UP)
+                                {
+                                        this->moveObject(Aliases::up, player);
+                                }else
+                                if(button_flags & KB_LEFT)
+                                {
+                                        this->moveObject(Aliases::left, player);
+                                }else
+                                if(button_flags & KB_DOWN)
+                                {
+                                        this->moveObject(Aliases::down, player);
+                                }else
+                                if(button_flags & KB_RIGHT)
+                                { 
+                                        this->moveObject(Aliases::right, player);
+                                }
+                        }
+                }
           }
           
           bool PLevel::loadLevelFromFile(string filename){
