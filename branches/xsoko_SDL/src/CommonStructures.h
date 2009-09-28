@@ -38,6 +38,7 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_opengl.h>
 #include <sstream>
+#include <string>
 
 using namespace std;
 
@@ -76,7 +77,15 @@ namespace PacGame
               stringstream ss;
               ss<<t;
               return ss.str();
-          }         
+          }
+
+          inline int strToInt(const string& text)
+          {
+            int number = 0;
+            istringstream ss( text );
+            ss >> number;
+            return number;
+          }
       }
 }
 

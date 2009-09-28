@@ -34,6 +34,7 @@
 #include "gui/forms.h"
 #include <SDL/SDL.h>
 #include <SDL/SDL_opengl.h>
+#include "config.h"
 
 using namespace PacGame;
 
@@ -51,21 +52,34 @@ namespace PacGame
           {
               Messages::mainTitleMessage();
 
-              windowWidth = _width;
-              windowHeight = _height;
+              //windowWidth = _width;
+              //windowHeight = _height;
               windowTitle = _title;
 
-              if (SDL_Init(SDL_INIT_VIDEO) != 0)  // is SDL initialization successful?
+              if (SDL_Init(SDL_INIT_VIDEO) != 0)  // was SDL initialization successful?
               {
-                  Messages::errorMessage("OpenGL/glfw initialization failed."); // in case, it is not
+                  Messages::initMessage("SDL", false); // in case, it is not
                   terminate(); // terminate and return false
                   return false;
               }
 
               Messages::initMessage("SDL", true); // prints out that initialization was success
 
+              if(!Config::ReadConfig("xsoko.conf"))
+              {
+                  Messages::errorMessage("Reading configuration file failed! (NOTE: this is ok at first run)");
+                  Config::SetValueInt("xres",800);
+                  Config::SetValueInt("yres",600);
+                  Config::SetValueBool("fullscreen",false);
+              }
+
+              windowWidth = Config::GetValueInt("xres");
+              windowHeight = Config::GetValueInt("yres");
+              fullscreen = Config::GetValueBool("fullscreen");
+              unsigned flag = fullscreen ? SDL_FULLSCREEN : 0;
+
               SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER,1);
-              SDL_Surface* screen = SDL_SetVideoMode( windowWidth, windowHeight, 32, SDL_OPENGL );
+              SDL_Surface* screen = SDL_SetVideoMode( windowWidth, windowHeight, 32, SDL_OPENGL | flag );
 
               // 800 x 600, 16 bit color, no depth, alpha or stencil buffers, windowed
               if (screen == NULL)
@@ -113,6 +127,10 @@ namespace PacGame
               {
                   if(SDL_SetVideoMode( width, height, 32, SDL_OPENGL | flag ))
                       Gui::getInstance().glResizeWnd(width,height);
+                  Config::SetValueInt("xres",width);
+                  Config::SetValueInt("yres",height);
+                  Config::SetValueBool("fullscreen",fullscreen);
+                  Config::_content["xxx"]="xxx";
               }
           }
           
@@ -225,6 +243,10 @@ namespace PacGame
           void PGame::terminate()
           {
                Messages::infoMessage("Termination...");
+               if(!Config::SaveConfig("xsoko.conf"))
+               {
+                   Messages::errorMessage("Writing configuration file failed! Changes will NOT be saved!");
+               }
                #if defined(Linux_Release) || defined(Windows_Release) || defined(_RELEASE)
                   SDL_ShowCursor(SDL_ENABLE);
                #endif

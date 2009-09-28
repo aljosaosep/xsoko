@@ -21,11 +21,13 @@
 #include "../game.h"
 #include "../messages.h"
 #include "gui.h"
+#include "../config.h"
 #if defined(Windows_Release) || defined(Windows_Debug)
     #define BOOST_WINDOWS_API
 #endif
 #include <boost/filesystem.hpp>
 
+using namespace PacGame;
 using namespace PacGame::GameClasses;
 using namespace boost::filesystem;
 
@@ -135,10 +137,8 @@ void OptionsWnd::initializeComponents(){
 
 void OptionsWnd::wndVisible(Component* sender)
 {
-    //TODO: add right values from config
-    const SDL_VideoInfo* vi = SDL_GetVideoInfo();
-    lstModes->setSelectedItem(new ResItem(vi->current_w,vi->current_h));
-    //chkFullscreen->setChecked(isFull);
+    lstModes->setSelectedItem(new ResItem(Config::GetValueInt("xres"),Config::GetValueInt("yres")));
+    chkFullscreen->setChecked(Config::GetValueBool("fullscreen"));
 }
 
 void OptionsWnd::btnApplyClick(Component* sender){
