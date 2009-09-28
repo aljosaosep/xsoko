@@ -40,6 +40,7 @@
       </logicalFolder>
       <itemPath>src/camera.h</itemPath>
       <itemPath>src/CommonStructures.h</itemPath>
+      <itemPath>src/config.h</itemPath>
       <itemPath>src/core.h</itemPath>
       <itemPath>src/game.h</itemPath>
       <itemPath>src/input.h</itemPath>
@@ -92,6 +93,7 @@
       </logicalFolder>
       <itemPath>src/camera.cpp</itemPath>
       <itemPath>src/CommonStructures.cpp</itemPath>
+      <itemPath>src/config.cpp</itemPath>
       <itemPath>src/core.cpp</itemPath>
       <itemPath>src/game.cpp</itemPath>
       <itemPath>src/input.cpp</itemPath>
@@ -158,6 +160,12 @@
       </item>
       <item path="src/camera.h">
         <itemTool>3</itemTool>
+      </item>
+      <item path="src/config.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/config.h">
+        <itemTool>1</itemTool>
       </item>
       <item path="src/core.cpp">
         <itemTool>1</itemTool>
@@ -422,6 +430,12 @@
       <item path="src/camera.h">
         <itemTool>3</itemTool>
       </item>
+      <item path="src/config.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/config.h">
+        <itemTool>1</itemTool>
+      </item>
       <item path="src/core.cpp">
         <itemTool>1</itemTool>
       </item>
@@ -682,6 +696,12 @@
       </item>
       <item path="src/camera.h">
         <itemTool>3</itemTool>
+      </item>
+      <item path="src/config.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/config.h">
+        <itemTool>1</itemTool>
       </item>
       <item path="src/core.cpp">
         <itemTool>1</itemTool>
@@ -947,6 +967,12 @@
       </item>
       <item path="src/camera.h">
         <itemTool>3</itemTool>
+      </item>
+      <item path="src/config.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="src/config.h">
+        <itemTool>1</itemTool>
       </item>
       <item path="src/core.cpp">
         <itemTool>1</itemTool>

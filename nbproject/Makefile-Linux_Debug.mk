@@ -61,6 +61,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/src/gui/listbox.o \
 	${OBJECTDIR}/src/CommonStructures.o \
 	${OBJECTDIR}/src/renderer/particle.o \
+	${OBJECTDIR}/src/config.o \
 	${OBJECTDIR}/src/levelbox.o \
 	${OBJECTDIR}/src/gui/radiobutton.o \
 	${OBJECTDIR}/src/renderer/renderer-core.o \
@@ -237,15 +238,15 @@ ${OBJECTDIR}/src/object.o: src/object.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -Wall -DLinux_Debug -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/object.o src/object.cpp
 
-${OBJECTDIR}/src/gui/guirender.o: src/gui/guirender.cpp 
-	${MKDIR} -p ${OBJECTDIR}/src/gui
-	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -DLinux_Debug -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/gui/guirender.o src/gui/guirender.cpp
-
 ${OBJECTDIR}/src/md2loader/md2model.h.gch: src/md2loader/md2model.h 
 	${MKDIR} -p ${OBJECTDIR}/src/md2loader
 	${RM} $@.d
 	$(COMPILE.cc) -g -Wall -DLinux_Debug -MMD -MP -MF $@.d -o $@ src/md2loader/md2model.h
+
+${OBJECTDIR}/src/gui/guirender.o: src/gui/guirender.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src/gui
+	${RM} $@.d
+	$(COMPILE.cc) -g -Wall -DLinux_Debug -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/gui/guirender.o src/gui/guirender.cpp
 
 ${OBJECTDIR}/src/gui/text.o: src/gui/text.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/gui
@@ -271,6 +272,11 @@ ${OBJECTDIR}/src/messages.o: src/messages.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} $@.d
 	$(COMPILE.cc) -g -Wall -DLinux_Debug -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/messages.o src/messages.cpp
+
+${OBJECTDIR}/src/config.h.gch: src/config.h 
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} $@.d
+	$(COMPILE.cc) -g -Wall -DLinux_Debug -MMD -MP -MF $@.d -o $@ src/config.h
 
 ${OBJECTDIR}/src/gui/window.o: src/gui/window.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/gui
@@ -341,6 +347,11 @@ ${OBJECTDIR}/src/renderer/particle.o: src/renderer/particle.cpp
 	${MKDIR} -p ${OBJECTDIR}/src/renderer
 	${RM} $@.d
 	$(COMPILE.cc) -g -Wall -DLinux_Debug -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/renderer/particle.o src/renderer/particle.cpp
+
+${OBJECTDIR}/src/config.o: src/config.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} $@.d
+	$(COMPILE.cc) -g -Wall -DLinux_Debug -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/config.o src/config.cpp
 
 ${OBJECTDIR}/src/levelbox.o: src/levelbox.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
