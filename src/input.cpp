@@ -128,6 +128,11 @@ namespace PacGame
                                                  //toggleMenu = !toggleMenu;
                                         break;
                                         case SDL_KEYUP:
+                                                if(event.key.keysym.sym == SDLK_ESCAPE)
+                                                { 
+                                                        toggleMenu = !toggleMenu;
+                                                        break;
+                                                }
                                         case SDL_KEYDOWN:
                                                 Gui::getInstance().onKeyClick(event.key.keysym.sym,event.key.type);
                                                 //GUI::onCharacterSend();
@@ -162,6 +167,10 @@ namespace PacGame
 
 		void PInputSystem::closeGameMenu(){
             toggleMenu = false;
+        }
+        
+        void PInputSystem::openGameMenu(){
+            toggleMenu = true;
         }
     }
 }

@@ -17,6 +17,7 @@ namespace PacGame
 
     namespace Config
     {
+        extern map<string,string> _content;
 
         bool ReadConfig(string configFile);
         bool SaveConfig(string configFile);

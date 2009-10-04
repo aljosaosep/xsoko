@@ -103,6 +103,7 @@ namespace PacGame
 
           void PGame::quit(){
               gameQuit = true;
+              cout<<"set gameQuit flag"<<endl;
           }
 
           void PGame::setResolution(int width, int height, bool fullscreen)
@@ -199,8 +200,12 @@ namespace PacGame
                             levelLoaded = false;
                             gameMenu->setVisible(false);
                             if(level->getEndgameFlag())
+                            {
                                                                 msgid = Gui::getInstance().showMessage("xSoko", "Congratulations, you won!");
-                            else
+                                                                // openGameMenu switches controls to GUI
+                                                                input->openGameMenu();
+                                                                Messages::infoMessage("You won!");
+                            }else
                                mainMenu->setVisible(true);
                             Gui::getInstance().setMouseVisible(true);
                         }
@@ -271,6 +276,25 @@ namespace PacGame
             levelLoaded = true;
             forceLevelQuit = false;
             Gui::getInstance().setMouseVisible(false);
+          }
+          
+          void PGame::resetLevel(){
+                  if(level != NULL)
+                  {
+                          level->reset();
+                          input->closeGameMenu();
+                  }
+          }
+          
+          void PGame::exitLevel(){
+                  if(level != NULL)
+                  {
+                        delete level;     
+                        level = NULL;
+                        levelLoaded = false;
+                        gameMenu->setVisible(false);
+                         mainMenu->setVisible(true);
+                  }
           }
 
           void PGame::prepareGui(){

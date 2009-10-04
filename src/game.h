@@ -92,6 +92,8 @@ namespace PacGame
               void terminate();
 
               void loadLevel(string levelPath);
+              void exitLevel();
+              void resetLevel();
 
               //getters
               static PGame& getInstance();
