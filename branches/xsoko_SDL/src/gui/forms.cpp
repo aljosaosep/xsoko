@@ -22,6 +22,8 @@
 #include "../messages.h"
 #include "gui.h"
 #include "../config.h"
+#include "../game.h"
+
 #if defined(Windows_Release) || defined(Windows_Debug)
     #define BOOST_WINDOWS_API
 #endif
@@ -272,9 +274,9 @@ void GameMenu::initializeComponents(){
 }
 
 void GameMenu::btnExitClick(Component* sender){
-
+        GameClasses::PGame::getInstance().exitLevel();
 }
 
 void GameMenu::btnResetClick(Component* sender){
-
+        GameClasses::PGame::getInstance().resetLevel();
 }

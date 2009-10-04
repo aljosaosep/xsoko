@@ -177,12 +177,12 @@ void Gui::glResizeWnd(int Width, int Height){
 }
 
 unsigned Gui::showMessage(string title, string msg){
-	Text* label = new Text(25,35,msg);
+	Text* label = new Text(25,15,msg);
 	int width = label->getSize().width;
 	int height = label->getSize().height;
     Window* dlg = new Window(wndWidth/2-width/2,wndHeight/2-64,width+50,height+90,title);
     dlg->AddComponent(label);
-    Button* btn = new Button(width/2,height+50,50,25,"OK");
+    Button* btn = new Button(width/2,height + 30,50,25,"OK");
     btn->onPressed.connect(bind(&Gui::onAction, this, _1));
     dlg->AddComponent(btn);
 
@@ -195,6 +195,7 @@ unsigned Gui::showMessage(string title, string msg){
 		focusedWin = NULL;
 	}
 	addWindow(dlg);
+	dlg->setVisible(true);
     if(!++num)  //ok, it could be if(num+1 == 0) num += 2 else ++num;
         ++num;
     msgHandle* hnd = new msgHandle;

@@ -473,7 +473,6 @@ namespace PacGame
                           if(this->isLevelDone())
                           {
                               this->endgameFlag = true;
-                              Messages::infoMessage("You won!!!!! :))))");
                           }
                   }
                   
@@ -1003,7 +1002,6 @@ namespace PacGame
                                         if(obj->animate(time))
                                         {
                                                 activateFloor(i,j);
-                                                cout<<"floor activate"<<endl;
 					}
                                 }
                       }
