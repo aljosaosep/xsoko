@@ -6,10 +6,12 @@
 
 # Macros
 TOP=`pwd`
-PLATFORM=
-TMPDIR=build/Windows_Release/${PLATFORM}/tmp-packaging
+CND_PLATFORM=
+CND_CONF=Windows_Release
+CND_DISTDIR=dist
+TMPDIR=build/${CND_CONF}/${CND_PLATFORM}/tmp-packaging
 TMPDIRNAME=tmp-packaging
-OUTPUT_PATH=dist/Windows_Release/${PLATFORM}/xsoko_sdl
+OUTPUT_PATH=${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/xsoko_sdl
 OUTPUT_BASENAME=xsoko_sdl
 PACKAGE_TOP_DIR=xsokosdl/
 
@@ -50,7 +52,7 @@ function copyFileToTmpDir
 
 # Setup
 cd "${TOP}"
-mkdir -p dist/Windows_Release/${PLATFORM}/package
+mkdir -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/package
 rm -rf ${TMPDIR}
 mkdir -p ${TMPDIR}
 
@@ -62,9 +64,9 @@ copyFileToTmpDir "${OUTPUT_PATH}" "${TMPDIR}/${PACKAGE_TOP_DIR}bin/${OUTPUT_BASE
 
 # Generate tar file
 cd "${TOP}"
-rm -f dist/Windows_Release/${PLATFORM}/package/xsokosdl.tar
+rm -f ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/package/xsokosdl.tar
 cd ${TMPDIR}
-tar -vcf ../../../../dist/Windows_Release/${PLATFORM}/package/xsokosdl.tar *
+tar -vcf ../../../../${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/package/xsokosdl.tar *
 checkReturnCode
 
 # Cleanup

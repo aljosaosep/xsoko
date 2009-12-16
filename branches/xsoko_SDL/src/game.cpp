@@ -51,9 +51,6 @@ namespace PacGame
           bool PGame::initialize(int _width, int _height, string _title)
           {
               Messages::mainTitleMessage();
-
-              //windowWidth = _width;
-              //windowHeight = _height;
               windowTitle = _title;
 
               if (SDL_Init(SDL_INIT_VIDEO) != 0)  // was SDL initialization successful?
@@ -68,8 +65,8 @@ namespace PacGame
               if(!Config::ReadConfig("xsoko.conf"))
               {
                   Messages::errorMessage("Reading configuration file failed! (NOTE: this is ok at first run)");
-                  Config::SetValueInt("xres",800);
-                  Config::SetValueInt("yres",600);
+                  Config::SetValueInt("xres",_width);
+                  Config::SetValueInt("yres",_height);
                   Config::SetValueBool("fullscreen",false);
               }
 
@@ -131,7 +128,6 @@ namespace PacGame
                   Config::SetValueInt("xres",width);
                   Config::SetValueInt("yres",height);
                   Config::SetValueBool("fullscreen",fullscreen);
-                  Config::_content["xxx"]="xxx";
               }
           }
           
