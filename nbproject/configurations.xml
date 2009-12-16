@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configurationDescriptor version="51">
+<configurationDescriptor version="62">
   <logicalFolder name="root" displayName="root" projectFiles="true">
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
@@ -38,8 +38,8 @@
         <itemPath>src/zip/unzip.h</itemPath>
         <itemPath>src/zip/zipfile.h</itemPath>
       </logicalFolder>
-      <itemPath>src/camera.h</itemPath>
       <itemPath>src/CommonStructures.h</itemPath>
+      <itemPath>src/camera.h</itemPath>
       <itemPath>src/config.h</itemPath>
       <itemPath>src/core.h</itemPath>
       <itemPath>src/game.h</itemPath>
@@ -91,8 +91,8 @@
         <itemPath>src/zip/unzip.c</itemPath>
         <itemPath>src/zip/zipfile.cpp</itemPath>
       </logicalFolder>
-      <itemPath>src/camera.cpp</itemPath>
       <itemPath>src/CommonStructures.cpp</itemPath>
+      <itemPath>src/camera.cpp</itemPath>
       <itemPath>src/config.cpp</itemPath>
       <itemPath>src/core.cpp</itemPath>
       <itemPath>src/game.cpp</itemPath>
@@ -119,21 +119,21 @@
       <toolsSet>
         <developmentServer>localhost</developmentServer>
         <compilerSet>Cygwin|Cygwin</compilerSet>
-        <platform>3</platform>
+        <platform>2</platform>
       </toolsSet>
       <compileType>
-        <ccCompilerTool>
-          <includeDirectories>
-            <directoryPath>E:/cygwin/usr/include/boost-1_33_1</directoryPath>
-          </includeDirectories>
+        <ccTool>
+          <incDir>
+            <pElem>E:/cygwin/usr/include/boost-1_33_1</pElem>
+          </incDir>
           <preprocessorList>
             <Elem>Windows_Debug</Elem>
           </preprocessorList>
           <warningLevel>2</warningLevel>
-        </ccCompilerTool>
+        </ccTool>
         <linkerTool>
           <linkerAddLib>
-            <directoryPath>/usr/local/lib</directoryPath>
+            <pElem>/usr/local/lib</pElem>
           </linkerAddLib>
           <linkerLibItems>
             <linkerLibLibItem>glfw</linkerLibLibItem>
@@ -146,260 +146,64 @@
           </linkerLibItems>
         </linkerTool>
       </compileType>
-      <item path="TODO">
-        <itemTool>3</itemTool>
+      <item path="src/config.h" ex="false" tool="1">
       </item>
-      <item path="src/CommonStructures.cpp">
-        <itemTool>1</itemTool>
+      <item path="src/gui/button.h" ex="false" tool="1">
       </item>
-      <item path="src/CommonStructures.h">
-        <itemTool>3</itemTool>
+      <item path="src/gui/checkbox.h" ex="false" tool="1">
       </item>
-      <item path="src/camera.cpp">
-        <itemTool>1</itemTool>
+      <item path="src/gui/commongui.h" ex="false" tool="1">
       </item>
-      <item path="src/camera.h">
-        <itemTool>3</itemTool>
+      <item path="src/gui/component.h" ex="false" tool="1">
       </item>
-      <item path="src/config.cpp">
-        <itemTool>1</itemTool>
+      <item path="src/gui/container.h" ex="false" tool="1">
       </item>
-      <item path="src/config.h">
-        <itemTool>1</itemTool>
+      <item path="src/gui/editbox.h" ex="false" tool="1">
       </item>
-      <item path="src/core.cpp">
-        <itemTool>1</itemTool>
+      <item path="src/gui/forms.h" ex="false" tool="1">
       </item>
-      <item path="src/core.h">
-        <itemTool>3</itemTool>
+      <item path="src/gui/guirender.h" ex="false" tool="1">
       </item>
-      <item path="src/game.cpp">
-        <itemTool>1</itemTool>
+      <item path="src/gui/listbox.h" ex="false" tool="1">
       </item>
-      <item path="src/game.h">
-        <itemTool>3</itemTool>
+      <item path="src/gui/msgbox.h" ex="false" tool="1">
       </item>
-      <item path="src/gui/button.cpp">
-        <itemTool>1</itemTool>
+      <item path="src/gui/panel.h" ex="false" tool="1">
       </item>
-      <item path="src/gui/button.h">
-        <itemTool>1</itemTool>
+      <item path="src/gui/radiobutton.h" ex="false" tool="1">
       </item>
-      <item path="src/gui/checkbox.cpp">
-        <itemTool>1</itemTool>
+      <item path="src/gui/radiobuttongroup.h" ex="false" tool="1">
       </item>
-      <item path="src/gui/checkbox.h">
-        <itemTool>1</itemTool>
+      <item path="src/gui/scrollbar.h" ex="false" tool="1">
       </item>
-      <item path="src/gui/commongui.h">
-        <itemTool>1</itemTool>
+      <item path="src/gui/text.h" ex="false" tool="1">
       </item>
-      <item path="src/gui/component.cpp">
-        <itemTool>1</itemTool>
+      <item path="src/gui/window.h" ex="false" tool="1">
       </item>
-      <item path="src/gui/component.h">
-        <itemTool>1</itemTool>
+      <item path="src/md2loader/Anorms.h" ex="false" tool="1">
       </item>
-      <item path="src/gui/container.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/container.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/editbox.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/editbox.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/fonts.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/fonts.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/gui/forms.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/forms.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/gui.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/gui.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/gui/guirender.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/guirender.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/listbox.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/listbox.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/msgbox.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/msgbox.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/panel.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/panel.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/radiobutton.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/radiobutton.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/radiobuttongroup.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/radiobuttongroup.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/scrollbar.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/scrollbar.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/text.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/text.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/window.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/window.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/input.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/input.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/level.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/level.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/levelbox.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/levelbox.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/main.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/md2loader/Anorms.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/md2loader/md2model.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/md2loader/md2model.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/messages.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/messages.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/object.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/object.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/player.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/player.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/renderer/particle.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/renderer/particle.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/renderer/renderer-core.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/renderer/renderer-texture.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/renderer/renderer.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/renderer/texture.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/resource.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/resource.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/vector.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/vector.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/zip/ioapi.c">
-        <itemTool>0</itemTool>
-      </item>
-      <item path="src/zip/ioapi.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/zip/unzip.c">
-        <itemTool>0</itemTool>
-      </item>
-      <item path="src/zip/unzip.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/zip/zipfile.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/zip/zipfile.h">
-        <itemTool>3</itemTool>
+      <item path="src/md2loader/md2model.h" ex="false" tool="1">
       </item>
     </conf>
     <conf name="Windows_Release" type="1">
       <toolsSet>
         <developmentServer>localhost</developmentServer>
         <compilerSet>Cygwin|Cygwin</compilerSet>
-        <platform>3</platform>
+        <platform>2</platform>
       </toolsSet>
       <compileType>
-        <cCompilerTool>
+        <cTool>
           <developmentMode>5</developmentMode>
-        </cCompilerTool>
-        <ccCompilerTool>
+        </cTool>
+        <ccTool>
           <developmentMode>5</developmentMode>
-          <includeDirectories>
-            <directoryPath>E:/cygwin/usr/include/boost-1_33_1</directoryPath>
-          </includeDirectories>
+          <incDir>
+            <pElem>E:/cygwin/usr/include/boost-1_33_1</pElem>
+          </incDir>
           <preprocessorList>
             <Elem>Windows_Release</Elem>
           </preprocessorList>
-        </ccCompilerTool>
+        </ccTool>
         <fortranCompilerTool>
           <developmentMode>5</developmentMode>
         </fortranCompilerTool>
@@ -415,239 +219,43 @@
           </linkerLibItems>
         </linkerTool>
       </compileType>
-      <item path="TODO">
-        <itemTool>3</itemTool>
+      <item path="src/config.h" ex="false" tool="1">
       </item>
-      <item path="src/CommonStructures.cpp">
-        <itemTool>1</itemTool>
+      <item path="src/gui/button.h" ex="false" tool="1">
       </item>
-      <item path="src/CommonStructures.h">
-        <itemTool>3</itemTool>
+      <item path="src/gui/checkbox.h" ex="false" tool="1">
       </item>
-      <item path="src/camera.cpp">
-        <itemTool>1</itemTool>
+      <item path="src/gui/commongui.h" ex="false" tool="1">
       </item>
-      <item path="src/camera.h">
-        <itemTool>3</itemTool>
+      <item path="src/gui/component.h" ex="false" tool="1">
       </item>
-      <item path="src/config.cpp">
-        <itemTool>1</itemTool>
+      <item path="src/gui/container.h" ex="false" tool="1">
       </item>
-      <item path="src/config.h">
-        <itemTool>1</itemTool>
+      <item path="src/gui/editbox.h" ex="false" tool="1">
       </item>
-      <item path="src/core.cpp">
-        <itemTool>1</itemTool>
+      <item path="src/gui/forms.h" ex="false" tool="1">
       </item>
-      <item path="src/core.h">
-        <itemTool>3</itemTool>
+      <item path="src/gui/guirender.h" ex="false" tool="1">
       </item>
-      <item path="src/game.cpp">
-        <itemTool>1</itemTool>
+      <item path="src/gui/listbox.h" ex="false" tool="1">
       </item>
-      <item path="src/game.h">
-        <itemTool>3</itemTool>
+      <item path="src/gui/msgbox.h" ex="false" tool="1">
       </item>
-      <item path="src/gui/button.cpp">
-        <itemTool>1</itemTool>
+      <item path="src/gui/panel.h" ex="false" tool="1">
       </item>
-      <item path="src/gui/button.h">
-        <itemTool>1</itemTool>
+      <item path="src/gui/radiobutton.h" ex="false" tool="1">
       </item>
-      <item path="src/gui/checkbox.cpp">
-        <itemTool>1</itemTool>
+      <item path="src/gui/radiobuttongroup.h" ex="false" tool="1">
       </item>
-      <item path="src/gui/checkbox.h">
-        <itemTool>1</itemTool>
+      <item path="src/gui/scrollbar.h" ex="false" tool="1">
       </item>
-      <item path="src/gui/commongui.h">
-        <itemTool>1</itemTool>
+      <item path="src/gui/text.h" ex="false" tool="1">
       </item>
-      <item path="src/gui/component.cpp">
-        <itemTool>1</itemTool>
+      <item path="src/gui/window.h" ex="false" tool="1">
       </item>
-      <item path="src/gui/component.h">
-        <itemTool>1</itemTool>
+      <item path="src/md2loader/Anorms.h" ex="false" tool="1">
       </item>
-      <item path="src/gui/container.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/container.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/editbox.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/editbox.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/fonts.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/fonts.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/gui/forms.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/forms.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/gui.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/gui.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/gui/guirender.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/guirender.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/listbox.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/listbox.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/msgbox.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/msgbox.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/panel.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/panel.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/radiobutton.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/radiobutton.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/radiobuttongroup.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/radiobuttongroup.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/scrollbar.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/scrollbar.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/text.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/text.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/window.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/window.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/input.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/input.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/level.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/level.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/levelbox.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/levelbox.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/main.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/md2loader/Anorms.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/md2loader/md2model.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/md2loader/md2model.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/messages.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/messages.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/object.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/object.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/player.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/player.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/renderer/particle.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/renderer/particle.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/renderer/renderer-core.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/renderer/renderer-texture.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/renderer/renderer.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/renderer/texture.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/resource.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/resource.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/vector.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/vector.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/zip/ioapi.c">
-        <itemTool>0</itemTool>
-      </item>
-      <item path="src/zip/ioapi.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/zip/unzip.c">
-        <itemTool>0</itemTool>
-      </item>
-      <item path="src/zip/unzip.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/zip/zipfile.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/zip/zipfile.h">
-        <itemTool>3</itemTool>
+      <item path="src/md2loader/md2model.h" ex="false" tool="1">
       </item>
     </conf>
     <conf name="Linux_Debug" type="1">
@@ -657,264 +265,65 @@
         <platform>2</platform>
       </toolsSet>
       <compileType>
-        <ccCompilerTool>
+        <ccTool>
           <preprocessorList>
             <Elem>Linux_Debug</Elem>
           </preprocessorList>
           <warningLevel>2</warningLevel>
-        </ccCompilerTool>
+        </ccTool>
         <linkerTool>
           <linkerLibItems>
-            <linkerLibLibItem>glfw</linkerLibLibItem>
             <linkerLibLibItem>GL</linkerLibLibItem>
             <linkerLibLibItem>GLU</linkerLibLibItem>
             <linkerLibLibItem>alut</linkerLibLibItem>
             <linkerLibLibItem>openal</linkerLibLibItem>
-            <linkerLibLibItem>boost_filesystem</linkerLibLibItem>
             <linkerLibLibItem>m</linkerLibLibItem>
-            <linkerLibLibItem>Xxf86vm</linkerLibLibItem>
-            <linkerLibLibItem>Xrandr</linkerLibLibItem>
             <linkerLibLibItem>ftgl</linkerLibLibItem>
             <linkerLibLibItem>z</linkerLibLibItem>
-            <linkerLibLibItem>boost_signals</linkerLibLibItem>
             <linkerLibLibItem>SDL</linkerLibLibItem>
             <linkerLibLibItem>SDL_image</linkerLibLibItem>
+            <linkerLibLibItem>boost_signals-mt</linkerLibLibItem>
+            <linkerLibLibItem>boost_filesystem-mt</linkerLibLibItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>
-      <item path="TODO">
-        <itemTool>3</itemTool>
+      <item path="src/config.h" ex="false" tool="1">
       </item>
-      <item path="src/CommonStructures.cpp">
-        <itemTool>1</itemTool>
+      <item path="src/gui/button.h" ex="false" tool="1">
       </item>
-      <item path="src/CommonStructures.h">
-        <itemTool>3</itemTool>
+      <item path="src/gui/checkbox.h" ex="false" tool="1">
       </item>
-      <item path="src/camera.cpp">
-        <itemTool>1</itemTool>
+      <item path="src/gui/commongui.h" ex="false" tool="1">
       </item>
-      <item path="src/camera.h">
-        <itemTool>3</itemTool>
+      <item path="src/gui/component.h" ex="false" tool="1">
       </item>
-      <item path="src/config.cpp">
-        <itemTool>1</itemTool>
+      <item path="src/gui/container.h" ex="false" tool="1">
       </item>
-      <item path="src/config.h">
-        <itemTool>1</itemTool>
+      <item path="src/gui/editbox.h" ex="false" tool="1">
       </item>
-      <item path="src/core.cpp">
-        <itemTool>1</itemTool>
+      <item path="src/gui/forms.h" ex="false" tool="1">
       </item>
-      <item path="src/core.h">
-        <itemTool>3</itemTool>
+      <item path="src/gui/guirender.h" ex="false" tool="1">
       </item>
-      <item path="src/game.cpp">
-        <itemTool>1</itemTool>
+      <item path="src/gui/listbox.h" ex="false" tool="1">
       </item>
-      <item path="src/game.h">
-        <itemTool>3</itemTool>
+      <item path="src/gui/msgbox.h" ex="false" tool="1">
       </item>
-      <item path="src/gui/button.cpp">
-        <itemTool>1</itemTool>
+      <item path="src/gui/panel.h" ex="false" tool="1">
       </item>
-      <item path="src/gui/button.h">
-        <itemTool>1</itemTool>
+      <item path="src/gui/radiobutton.h" ex="false" tool="1">
       </item>
-      <item path="src/gui/checkbox.cpp">
-        <itemTool>1</itemTool>
+      <item path="src/gui/radiobuttongroup.h" ex="false" tool="1">
       </item>
-      <item path="src/gui/checkbox.h">
-        <itemTool>1</itemTool>
+      <item path="src/gui/scrollbar.h" ex="false" tool="1">
       </item>
-      <item path="src/gui/commongui.h">
-        <itemTool>1</itemTool>
+      <item path="src/gui/text.h" ex="false" tool="1">
       </item>
-      <item path="src/gui/component.cpp">
-        <itemTool>1</itemTool>
+      <item path="src/gui/window.h" ex="false" tool="1">
       </item>
-      <item path="src/gui/component.h">
-        <itemTool>1</itemTool>
+      <item path="src/md2loader/Anorms.h" ex="false" tool="1">
       </item>
-      <item path="src/gui/container.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/container.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/editbox.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/editbox.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/fonts.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/fonts.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/gui/forms.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/forms.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/gui.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/gui.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/gui/guirender.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/guirender.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/listbox.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/listbox.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/msgbox.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/msgbox.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/panel.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/panel.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/radiobutton.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/radiobutton.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/radiobuttongroup.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/radiobuttongroup.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/scrollbar.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/scrollbar.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/text.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/text.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/window.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/window.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/input.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/input.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/level.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/level.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/levelbox.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/levelbox.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/main.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/md2loader/Anorms.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/md2loader/md2model.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/md2loader/md2model.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/messages.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/messages.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/object.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/object.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/player.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/player.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/renderer/particle.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/renderer/particle.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/renderer/renderer-core.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/renderer/renderer-texture.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/renderer/renderer.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/renderer/texture.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/resource.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/resource.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/vector.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/vector.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/zip/ioapi.c">
-        <itemTool>0</itemTool>
-      </item>
-      <item path="src/zip/ioapi.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/zip/unzip.c">
-        <itemTool>0</itemTool>
-      </item>
-      <item path="src/zip/unzip.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/zip/zipfile.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/zip/zipfile.h">
-        <itemTool>3</itemTool>
+      <item path="src/md2loader/md2model.h" ex="false" tool="1">
       </item>
     </conf>
     <conf name="Linux_Release" type="1">
@@ -924,15 +333,15 @@
         <platform>2</platform>
       </toolsSet>
       <compileType>
-        <cCompilerTool>
+        <cTool>
           <developmentMode>5</developmentMode>
-        </cCompilerTool>
-        <ccCompilerTool>
+        </cTool>
+        <ccTool>
           <developmentMode>5</developmentMode>
           <preprocessorList>
             <Elem>Linux_Release</Elem>
           </preprocessorList>
-        </ccCompilerTool>
+        </ccTool>
         <fortranCompilerTool>
           <developmentMode>5</developmentMode>
         </fortranCompilerTool>
@@ -953,239 +362,43 @@
           </linkerLibItems>
         </linkerTool>
       </compileType>
-      <item path="TODO">
-        <itemTool>3</itemTool>
+      <item path="src/config.h" ex="false" tool="1">
       </item>
-      <item path="src/CommonStructures.cpp">
-        <itemTool>1</itemTool>
+      <item path="src/gui/button.h" ex="false" tool="1">
       </item>
-      <item path="src/CommonStructures.h">
-        <itemTool>3</itemTool>
+      <item path="src/gui/checkbox.h" ex="false" tool="1">
       </item>
-      <item path="src/camera.cpp">
-        <itemTool>1</itemTool>
+      <item path="src/gui/commongui.h" ex="false" tool="1">
       </item>
-      <item path="src/camera.h">
-        <itemTool>3</itemTool>
+      <item path="src/gui/component.h" ex="false" tool="1">
       </item>
-      <item path="src/config.cpp">
-        <itemTool>1</itemTool>
+      <item path="src/gui/container.h" ex="false" tool="1">
       </item>
-      <item path="src/config.h">
-        <itemTool>1</itemTool>
+      <item path="src/gui/editbox.h" ex="false" tool="1">
       </item>
-      <item path="src/core.cpp">
-        <itemTool>1</itemTool>
+      <item path="src/gui/forms.h" ex="false" tool="1">
       </item>
-      <item path="src/core.h">
-        <itemTool>3</itemTool>
+      <item path="src/gui/guirender.h" ex="false" tool="1">
       </item>
-      <item path="src/game.cpp">
-        <itemTool>1</itemTool>
+      <item path="src/gui/listbox.h" ex="false" tool="1">
       </item>
-      <item path="src/game.h">
-        <itemTool>3</itemTool>
+      <item path="src/gui/msgbox.h" ex="false" tool="1">
       </item>
-      <item path="src/gui/button.cpp">
-        <itemTool>1</itemTool>
+      <item path="src/gui/panel.h" ex="false" tool="1">
       </item>
-      <item path="src/gui/button.h">
-        <itemTool>1</itemTool>
+      <item path="src/gui/radiobutton.h" ex="false" tool="1">
       </item>
-      <item path="src/gui/checkbox.cpp">
-        <itemTool>1</itemTool>
+      <item path="src/gui/radiobuttongroup.h" ex="false" tool="1">
       </item>
-      <item path="src/gui/checkbox.h">
-        <itemTool>1</itemTool>
+      <item path="src/gui/scrollbar.h" ex="false" tool="1">
       </item>
-      <item path="src/gui/commongui.h">
-        <itemTool>1</itemTool>
+      <item path="src/gui/text.h" ex="false" tool="1">
       </item>
-      <item path="src/gui/component.cpp">
-        <itemTool>1</itemTool>
+      <item path="src/gui/window.h" ex="false" tool="1">
       </item>
-      <item path="src/gui/component.h">
-        <itemTool>1</itemTool>
+      <item path="src/md2loader/Anorms.h" ex="false" tool="1">
       </item>
-      <item path="src/gui/container.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/container.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/editbox.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/editbox.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/fonts.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/fonts.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/gui/forms.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/forms.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/gui.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/gui.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/gui/guirender.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/guirender.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/listbox.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/listbox.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/msgbox.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/msgbox.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/panel.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/panel.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/radiobutton.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/radiobutton.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/radiobuttongroup.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/radiobuttongroup.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/scrollbar.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/scrollbar.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/text.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/text.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/window.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/gui/window.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/input.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/input.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/level.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/level.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/levelbox.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/levelbox.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/main.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/md2loader/Anorms.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/md2loader/md2model.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/md2loader/md2model.h">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/messages.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/messages.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/object.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/object.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/player.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/player.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/renderer/particle.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/renderer/particle.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/renderer/renderer-core.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/renderer/renderer-texture.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/renderer/renderer.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/renderer/texture.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/resource.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/resource.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/vector.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/vector.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/zip/ioapi.c">
-        <itemTool>0</itemTool>
-      </item>
-      <item path="src/zip/ioapi.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/zip/unzip.c">
-        <itemTool>0</itemTool>
-      </item>
-      <item path="src/zip/unzip.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="src/zip/zipfile.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="src/zip/zipfile.h">
-        <itemTool>3</itemTool>
+      <item path="src/md2loader/md2model.h" ex="false" tool="1">
       </item>
     </conf>
   </confs>
