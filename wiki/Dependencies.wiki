@@ -1,0 +1,8 @@
+#summary Libs required by xsoko.
+
+= List (linux) =
+
+Add your content here.  Format your content with:
+  * libftgl-dev
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
