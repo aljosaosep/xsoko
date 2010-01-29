@@ -2,7 +2,7 @@
 
 = List (linux) =
 
-Add your content here.  Format your content with:
   * libftgl-dev
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+  * boost-dev
+  * libsdl-dev
+  * libsdl-image-dev
