@@ -3,6 +3,7 @@
 = List (linux) =
 
   * libftgl-dev
-  * boost-dev
+  * libboost-signals-dev
   * libsdl-dev
   * libsdl-image-dev
+  * libsage-dev
