@@ -118,7 +118,13 @@ namespace PacGame
               // light properties
               lightAmbient[0] = 0.1f, lightAmbient[1] = 0.1f, lightAmbient[2] = 0.1f, lightAmbient[3] = 1.0f; 
               lightDiffuse[0] = 1.0f, lightDiffuse[1] = 1.0f, lightDiffuse[2] = 1.0f, lightDiffuse[3] = 1.0f;
-              lightPosition[0] = 1.0f, lightPosition[1] = 1.0f, lightPosition[2] = 0.0f, lightPosition[3] = 1.0f;   
+              lightSpecular[0] = 1.0f, lightSpecular[1] = 1.0f, lightSpecular[2] = 1.0f, lightSpecular[3] = 1.0f;
+              lightPosition[0] = 0.0f, lightPosition[1] = 0.3f, lightPosition[2] = 0.0f, lightPosition[3] = 1.0f;
+
+
+              g_materialDiffuse[0] = 1.0f, g_materialDiffuse[1] = 1.0f, g_materialDiffuse[2] = 0.0f, g_materialDiffuse[3] = 1.0f;
+              g_materialAmbient[0] = 1.0f, g_materialAmbient[1] = 1.0f, g_materialAmbient[2] = 0.0f, g_materialAmbient[3] = 1.0f;
+              g_materialSpecular[0] = 1.0f, g_materialSpecular[1] = 1.0f, g_materialSpecular[2] = 0.0f, g_materialSpecular[3] = 1.0f;
               
               // material properties
          //     matAmbient[0] = 1.0, matAmbient[1] = 1.0, matAmbient[2] = 1.0, matAmbient[3] = 1.0;
@@ -146,8 +152,7 @@ namespace PacGame
            ********************************************/
           bool PRenderer::init()
           {
-
-             glClearColor(0.0f, 0.0f, 0.0f, 0.0f);// Black Background
+              glClearColor(0.0f, 0.0f, 0.0f, 0.0f);// Black Background
               glShadeModel(GL_SMOOTH);  // Enables Smooth Shading
               glEnable(GL_DEPTH_TEST);  // Enables Depth Testing
               glDepthFunc(GL_LEQUAL);   // The Type Of Depth Test To Do
@@ -162,12 +167,18 @@ namespace PacGame
               glLightfv(GL_LIGHT0, GL_AMBIENT, lightAmbient);
               glLightfv(GL_LIGHT0, GL_DIFFUSE, lightDiffuse);
               glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
+              glLightfv(GL_LIGHT0, GL_SPECULAR, lightSpecular);
               glEnable(GL_LIGHT0);
 
 
+              // global material
               glEnable(GL_COLOR_MATERIAL);
              // glColorMaterial ( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE ) ;
-             // glMateriali(GL_FRONT_AND_BACK, GL_SHININESS, 0.0);
+              glMateriali(GL_FRONT_AND_BACK, GL_SHININESS, 500.0);
+
+              glMaterialfv(GL_FRONT, GL_AMBIENT, g_materialAmbient);
+              glMaterialfv(GL_FRONT, GL_DIFFUSE, g_materialDiffuse);
+              glMaterialfv(GL_FRONT, GL_SPECULAR, g_materialSpecular);
 
              // glEnable(GL_CULL_FACE); // do not calculate inside of polys
    //           glCullFace(GL_BACK);

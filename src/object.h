@@ -57,7 +57,7 @@ namespace PacGame
             * --------------------------------------------------------
             * Aljosa 2007 - 2008
             * ********************************************************/
-           class PObject //: public PVector2D
+           class PObject 
            {
            private:
                struct node  // linked list structure
@@ -66,12 +66,19 @@ namespace PacGame
                    node *next;
                };
 
+
+
                node *root; // root of linked list
            public:
+
+               enum PMaterial {
+                   AMBIENT, DIFFUSE, SPECULAR
+               };
+
                // constructors
              //  PObject();
-               PObject() :  root(NULL) ,  i(0), j(0), realI(0), realJ(0),direction(0),id(0),  containsActiveBomb(0) {}// constructors
-               PObject(int i, int j) : root(NULL) , i(i), j(j), realI((float)i),realJ((float)j),direction(0),containsActiveBomb(0) {}
+               PObject() :  root(NULL) ,  i(0), j(0), realI(0), realJ(0),direction(0),id(0),  containsActiveBomb(0), materialsSet(0) {}// constructors
+               PObject(int i, int j) : root(NULL) , i(i), j(j), realI((float)i),realJ((float)j),direction(0),containsActiveBomb(0), materialsSet(0) {}
 
                   // setters
                void setIndex(int i, int j);
@@ -108,6 +115,11 @@ namespace PacGame
                virtual short isPlayerMovePossible(int direction)=0;
 
 
+
+               void setMaterial(PMaterial material, float r, float g, float b, float a);
+               void setMaterialShininess(float s);
+               void setMaterialSet();
+
                // destructor
                virtual ~PObject();
 
@@ -115,7 +127,6 @@ namespace PacGame
                // linked list
                void add(PObject *obj);  // attaches another object to this object 
                void attachToRoot(PObject *obj); // attaches new object to root; doesn't create new object
-          //     void attachToHead(PObject *obj); // attaches object to head
                void dumpList() const;   // dumps children data into console
                void releaseList();      // releases this objects children from memory
                PObject* returnFirstChild() const;  // returns first child
@@ -123,11 +134,6 @@ namespace PacGame
                void releaseFirstChildObject();
                void unlinkFirstChild();  // destroys connection with first child; WARNING: if there are more children, others are lost!
                
-               // etc
-             //  virtual void draw()=0;
-             //  virtual bool initialize()=0;
-             //  virtual void print();    // print into console
-                                                //	 string texFilename;
            protected:
                   int i, j;     // represents indexes of element on level matrix
                   float realI, realJ;   // real coordinates, for smooth movement
@@ -145,7 +151,12 @@ namespace PacGame
                   unsigned short id; // number, that represents object in file
                   bool containsActiveBomb;
                   PCore *core;
-//               PVector2D position;  // position of object in OpenGL space, z coord is ignored
+
+                  bool materialsSet;
+                  float materialAmbient[4];
+                  float materialDiffuse[4];
+                  float materialSpecular[4];
+                  float materialShinines;
            };
       }
 }

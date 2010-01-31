@@ -32,7 +32,6 @@
 
 #include <iostream>
 #include "object.h"
-//#include "zip/zlib/zconf.in.h"
 
 using namespace std;
 
@@ -117,32 +116,12 @@ namespace PacGame
                 cout<<this->id<<' ';
             }
 
-            // constructors
-         /*   PObject::PObject()
-            {
-                root = NULL; // initiates linked list
-            }*/
-
-  /*        PObject::PObject(float x, float y)
-          {
-              root = NULL;			 // initiates linked list
-              position.setCoordinates(x, y);  // set vector coordinates	
-          }*/
-
 
             PObject::~PObject()
             {
                 releaseList();   // at destrution of class, release it's children from memory
             }
 
-         /* void PObject::print()
-          {
-              cout<<"=========== OBJECT INFO =============="<<endl;
-//              this->position.printCoordinates();
-              cout<<"======================================"<<endl;
-          }*/
-
-          // linked list related
           
           // adds object to lists head
           void PObject::add(PObject *obj)
@@ -216,6 +195,44 @@ namespace PacGame
           void PObject::unlinkFirstChild()
           {
               root->object = NULL;     // set pointer to NULL
+          }
+
+          void PObject::setMaterial(PMaterial material, float r, float g, float b, float a)
+          {
+              float *propList = NULL;
+
+              if (material == DIFFUSE)
+                  propList = this->materialDiffuse;
+              else if (material == AMBIENT)
+                  propList = this->materialAmbient;
+              else if (material == SPECULAR)
+                  propList = this->materialSpecular;
+              else return;
+
+              // we have material's properties pointer, so set the properties
+              propList[0] = r;
+              propList[1] = g;
+              propList[2] = b;
+              propList[3] = a;
+          }
+
+          void PObject::setMaterialShininess(float s)
+          {
+              this->materialShinines = s;
+          }
+
+          void PObject::setMaterialSet() {
+              this->materialsSet = true;
+          }
+
+          void PObject::draw() {
+              if (this->materialsSet) {
+                  glMaterialfv(GL_FRONT, GL_AMBIENT, this->materialDiffuse);
+                  glMaterialfv(GL_FRONT, GL_DIFFUSE, this->materialAmbient);
+                  glMaterialfv(GL_FRONT, GL_SPECULAR, this->materialSpecular);
+
+                  glMateriali(GL_FRONT_AND_BACK, GL_SHININESS, this->materialShinines);
+              }
           }
       }
 }

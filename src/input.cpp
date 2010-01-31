@@ -29,7 +29,7 @@
 #include "level.h"
 #include "input.h"
 #include "gui/gui.h"
-#include <AL/alut.h>
+//#include <AL/alut.h>
 
 using namespace PacGame::GameClasses::GameObjects;
 

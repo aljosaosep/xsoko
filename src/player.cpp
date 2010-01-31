@@ -97,11 +97,12 @@ namespace PacGame
               // ===== FUNCTIONS TO OVERRIDE ===== //
               void PPlayer::draw() 
               {
+                  PObject::draw();
                   /*static float frame;
                   frame += 0.5;
                   if(frame > 39)
                     frame = 0;*/
-                    glColor4f(1.0, 1.0, 0.7f, 0.8f);
+                    glColor4f(1.0, 1.0, 0.7f, 1.0f);
                     //glBindTexture(GL_TEXTURE_2D, this->core->getResources()->getTextureTesourceId(6));
                     //this->core->getRenderer()->drawCube(0.0, 0.0, 1.0);
                     glPushMatrix();

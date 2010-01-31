@@ -124,7 +124,15 @@ namespace PacGame
               {
               private:
               public:
-                  PSolidWall(PCore *core) { this->id = S_WALL; this->core = core; }
+                  PSolidWall(PCore *core) {
+                      this->id = S_WALL; this->core = core;
+                      
+                      this->setMaterial(AMBIENT, 0.9f, 0.0f, 0.5f, 0.8f);
+                      this->setMaterial(DIFFUSE, 0.0f, 0.8f, 0.0f, 1.0f);
+                      this->setMaterial(SPECULAR, 1.0f, 1.0f, 1.0f, 0.8f);
+                      this->setMaterialShininess(0.0f);
+                      this->setMaterialSet();
+                  }
                   void draw();
                   void print();             
                   short isPlayerMovePossible(int direction) ;
@@ -141,7 +149,15 @@ namespace PacGame
               {
               private:
               public:
-                  PUnsolidWall(int i, int j,PCore *core) { this->i = i; this->j = j; realI = (float)i; realJ = (float)j; this->id = U_WALL; this->core = core; }
+                  PUnsolidWall(int i, int j,PCore *core) {
+                      this->i = i; this->j = j; realI = (float)i; realJ = (float)j; this->id = U_WALL; this->core = core;
+                      
+                      this->setMaterial(AMBIENT, 0.5f, 0.7f, 0.5f, 0.8f);
+                      this->setMaterial(DIFFUSE, 0.2f, 0.7f, 0.2f, 0.8f);
+                      this->setMaterial(SPECULAR, 1.0f, 1.0f, 1.0f, 0.8f);
+                      this->setMaterialShininess(0.0f);
+                      this->setMaterialSet();
+                  }
                   void draw();
                   void print();             
                   short isPlayerMovePossible(int direction) ;
@@ -162,8 +178,26 @@ namespace PacGame
 
               public:
                   // constructor
-                  PTeleport(int id, PCore *core) : teleport_id(id) {  this->core = core; childTeleport = NULL; }
-                  PTeleport(int i, int j, PCore *core, unsigned int o_id) { this->i=i; this->j = j; this->core = core; this->id = o_id; childTeleport = NULL; }
+                /*  PTeleport(int id, PCore *core) : teleport_id(id) {
+                      this->core = core; childTeleport = NULL;
+
+
+                      this->setMaterial(AMBIENT, 1.0f, 0.0f, 0.0f, 1.0f);
+                      this->setMaterial(DIFFUSE, 1.0f, 0.0f, 0.0f, 1.0f);
+                      this->setMaterial(SPECULAR, 1.0f, 0.0f, 0.0f, 1.0f);
+                      this->setMaterialShininess(0.0f);
+                      this->setMaterialSet();
+                  }*/
+
+                  PTeleport(int i, int j, PCore *core, unsigned int o_id) { 
+                      this->i=i; this->j = j; this->core = core; this->id = o_id; childTeleport = NULL;
+
+                      this->setMaterial(AMBIENT, 0.4f, 0.7f, 0.8f, 0.5f);
+                      this->setMaterial(DIFFUSE, 0.7f, 0.7f, 0.9f, 0.5f);
+                      this->setMaterial(SPECULAR, 1.0f, 1.0f, 1.0f, 1.0f);
+                      this->setMaterialShininess(500.0f);
+                      this->setMaterialSet();
+                  }
 
                   // setters
                   void setId(int id);
@@ -223,7 +257,15 @@ namespace PacGame
               {
               private:
               public:
-                  PCube(int i, int j, PCore *core) { this->i=i; this->j = j; realI = (float)i; realJ = (float)j; this->id=CUBE; this->core = core; }
+                  PCube(int i, int j, PCore *core) {
+                      this->i=i; this->j = j; realI = (float)i; realJ = (float)j; this->id=CUBE; this->core = core;
+                      
+                      this->setMaterial(AMBIENT, 0.7f, 0.3f, 0.3f, 0.8f);
+                      this->setMaterial(DIFFUSE, 1.0f, 0.3f, 0.3f, 0.8f);
+                      this->setMaterial(SPECULAR, 1.0f, 1.0f, 1.0f, 0.8f);
+                      this->setMaterialShininess(0.0f);
+                      this->setMaterialSet();
+                  }
                   void draw();
                   bool animate(double time);
                   void print();             

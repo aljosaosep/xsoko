@@ -36,6 +36,7 @@
 #include <SDL/SDL_opengl.h>
 #include "config.h"
 
+
 using namespace PacGame;
 
 namespace PacGame

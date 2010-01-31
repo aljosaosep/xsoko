@@ -139,6 +139,12 @@ namespace PacGame
         float lightAmbient[4];
         float lightDiffuse[4];
         float lightPosition[4];
+        float lightSpecular[4];
+
+        float g_materialAmbient[4];
+        float g_materialDiffuse[4];
+        float g_materialSpecular[4];
+
 
       //  GLfloat box[24][4];
       //  GLfloat texCoords[24][2];
