@@ -82,9 +82,24 @@ namespace PacGame
               // 800 x 600, 16 bit color, no depth, alpha or stencil buffers, windowed
               if (screen == NULL)
               {
-                  Messages::errorMessage("OpenGL window creation failed.");  // failed
-                  terminate();
-                  return false;
+				  Messages::infoMessage("OpenGL window creation failed. Reverting to default mode.");
+				  // could not create OpenGL screen, try default mode
+				  Config::SetValueInt("xres",_width);
+                  Config::SetValueInt("yres",_height);
+                  Config::SetValueBool("fullscreen",false);
+				  windowWidth = _width;
+				  windowHeight = _height;
+				  fullscreen = false;
+				  flag = fullscreen ? SDL_FULLSCREEN : 0;
+				  screen = SDL_SetVideoMode( windowWidth, windowHeight, 32, SDL_OPENGL | flag );
+
+					// default mode did not work either, exit
+                  if (screen == NULL)
+				  {
+					Messages::errorMessage("OpenGL window creation failed.");  // failed
+					terminate();
+					return false;
+				  }
               }
 
               Messages::initMessage("OpenGL window", true);  // prints out success
