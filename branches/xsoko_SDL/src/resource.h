@@ -29,7 +29,7 @@
 #include "renderer/texture.h"
 #include "md2loader/md2model.h"
 
-#define ELEMENTS_TEXTURES 12
+#define ELEMENTS_TEXTURES 18 // 12 + 6 fpr skybox
 #define ELEMENTS_MODELS 12
 
 using namespace PacGame::RenderMaschine;

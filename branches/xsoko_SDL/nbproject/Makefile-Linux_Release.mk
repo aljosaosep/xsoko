@@ -16,7 +16,7 @@ CC=gcc
 CCC=g++
 CXX=g++
 FC=
-AS=
+AS=as
 
 # Macros
 CND_PLATFORM=GNU-Linux-x86
@@ -383,7 +383,7 @@ ${OBJECTDIR}/src/gui/panel.o: nbproject/Makefile-${CND_CONF}.mk src/gui/panel.cp
 .build-subprojects:
 
 # Clean Targets
-.clean-conf:
+.clean-conf: ${CLEAN_SUBPROJECTS}
 	${RM} -r build/Linux_Release
 	${RM} dist/Linux_Release/GNU-Linux-x86/xsoko_sdl
 

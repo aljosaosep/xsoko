@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=xsoko_sdl
+PROJECTNAME=xsoko_SDL
 
 # Active Configuration
 DEFAULTCONF=Windows_Debug

@@ -31,6 +31,7 @@
 #ifndef __RENDERER_H
 #define __RENDERER_H
 
+
 #include <stdio.h>
 #include <string>
 #include "../CommonStructures.h"
@@ -167,6 +168,7 @@ namespace PacGame
         // functions that are drawing stuff
         void drawBackground();
         void drawSkyDome();
+        void drawSkyCube(float x, float y, float z, float size, int textures[6]);
         void drawCube(float x, float y, float size, float *color, int texID);
         void drawFloor(float x, float y, float size, float *color, int texID);
     };

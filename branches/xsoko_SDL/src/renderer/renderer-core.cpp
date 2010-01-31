@@ -119,7 +119,7 @@ namespace PacGame
               lightAmbient[0] = 0.1f, lightAmbient[1] = 0.1f, lightAmbient[2] = 0.1f, lightAmbient[3] = 1.0f; 
               lightDiffuse[0] = 1.0f, lightDiffuse[1] = 1.0f, lightDiffuse[2] = 1.0f, lightDiffuse[3] = 1.0f;
               lightSpecular[0] = 1.0f, lightSpecular[1] = 1.0f, lightSpecular[2] = 1.0f, lightSpecular[3] = 1.0f;
-              lightPosition[0] = 0.0f, lightPosition[1] = 0.3f, lightPosition[2] = 0.0f, lightPosition[3] = 1.0f;
+              lightPosition[0] = 0.0f, lightPosition[1] = 0.6f, lightPosition[2] = 0.0f, lightPosition[3] = 1.0f;
 
 
               g_materialDiffuse[0] = 1.0f, g_materialDiffuse[1] = 1.0f, g_materialDiffuse[2] = 0.0f, g_materialDiffuse[3] = 1.0f;
@@ -239,6 +239,61 @@ namespace PacGame
                         glDrawArrays(GL_TRIANGLE_STRIP, 20, 4);
                   glPopMatrix();
                   glDisable(GL_CULL_FACE);
+          }
+
+          /********************************************
+           * drawSkyCube()
+           * Draws simple cube
+           ********************************************/
+          void PRenderer::drawSkyCube(float x, float y, float z, float size, int textures[6])
+          {
+            // glColor4f(color[0], color[1], color[2], color[3]); // color of cube
+            // glBindTexture(GL_TEXTURE_2D, texID); // texture
+             // glDisable(GL_LIGHTING);
+
+            // glEnable(GL_CULL_FACE);
+
+           //  glCullFace(GL_BACK);
+
+
+              glVertexPointer(3, GL_FLOAT, 0, box);
+              glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
+                  glPushMatrix();
+                    
+                    glTranslatef(x, y, z);
+                    glScalef(size, size, size);
+
+			// FRONT AND BACK
+                        glBindTexture(GL_TEXTURE_2D, textures[0]);
+			glNormal3f(0.0f, 0.0f, 1.0f);
+			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+
+                        glBindTexture(GL_TEXTURE_2D, textures[1]);
+			glNormal3f(0.0f, 0.0f, -1.0f);
+			glDrawArrays(GL_TRIANGLE_STRIP, 4, 4);
+
+			// LEFT AND RIGHT
+                        glBindTexture(GL_TEXTURE_2D, textures[2]);
+                        glNormal3f(-1.0f, 0.0f, 0.0f);
+			glDrawArrays(GL_TRIANGLE_STRIP, 8, 4);
+
+                        glBindTexture(GL_TEXTURE_2D, textures[3]);
+			glNormal3f(1.0f, 0.0f, 0.0f);
+			glDrawArrays(GL_TRIANGLE_STRIP, 12, 4);
+
+			// TOP AND BOTTOM
+                        glBindTexture(GL_TEXTURE_2D, textures[4]);
+			glNormal3f(0.0f, 1.0f, 0.0f);
+			glDrawArrays(GL_TRIANGLE_STRIP, 16, 4);
+
+                        glBindTexture(GL_TEXTURE_2D, textures[5]);
+			glNormal3f(0.0f, -1.0f, 0.0f);
+                        glDrawArrays(GL_TRIANGLE_STRIP, 20, 4);
+
+                  glPopMatrix();
+
+                 // glDisable(GL_CULL_FACE);
+              //    glEnable(GL_LIGHTING);
           }
 
           /********************************************
