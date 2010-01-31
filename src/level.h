@@ -85,6 +85,14 @@ using namespace PacGame::RenderMaschine;
 #define BOMB_RES 9
 #define U_WALL_RES 10
 
+// skybox
+#define SKY_RES_TOP 11
+#define SKY_RES_BOTTOM 12
+#define SKY_RES_LEFT 13
+#define SKY_RES_RIGHT 14
+#define SKY_RES_FRONT 15
+#define SKY_RES_BACK 16
+
 // button flag values
 #define KB_LEFT 1
 #define KB_RIGHT 2

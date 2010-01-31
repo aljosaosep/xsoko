@@ -224,9 +224,21 @@ namespace PacGame
 
                     }
 
+                   PResourceManager *rm =  this->level->getGameCoreHandle()->getResources();
+                    // FRONT, BACK, LEFT, RIGHT, TOP, BOTTOM
+                    int texIDs[] = { rm->getTextureTesourceId(SKY_RES_FRONT),
+                                rm->getTextureTesourceId(SKY_RES_BACK),
+                                rm->getTextureTesourceId(SKY_RES_LEFT),
+                                rm->getTextureTesourceId(SKY_RES_RIGHT),
+                                rm->getTextureTesourceId(SKY_RES_TOP),
+                                rm->getTextureTesourceId(SKY_RES_BOTTOM) };
+                    this->level->getGameCoreHandle()->getRenderer()->drawSkyCube(0.0f, 0.0f, -15.0f, 30.0f, texIDs);
+
                     gluLookAt(this->camera->view.getCoordX(), this->camera->view.getCoordY(), this->camera->view.getCoordZ(),
                             this->camera->position.getCoordX(), this->camera->position.getCoordY(), this->camera->position.getCoordZ(),
                             this->camera->up.getCoordX(), this->camera->up.getCoordY(), this->camera->up.getCoordZ());
+
+                    //this->level->getGameCoreHandle()->getResources()
 
                     glRotatef(-90.0, 0.0, 0.0, 1.0);
                     this->level->animate(diff_time);

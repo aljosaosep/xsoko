@@ -894,6 +894,27 @@ namespace PacGame
                   return 0;
               }
               // by now, matrix should be initialized with proper classes, if it went ok this far
+
+              // load skybox textures
+
+              if(resourceHandle->getTextureResource(SKY_RES_TOP)==NULL)  
+                 resourceHandle->loadTextureResource(SKY_RES_TOP, "alpine_up.tga");
+
+              if(resourceHandle->getTextureResource(SKY_RES_BOTTOM)==NULL)
+                 resourceHandle->loadTextureResource(SKY_RES_BOTTOM, "alpine_down.tga");
+
+              if(resourceHandle->getTextureResource(SKY_RES_LEFT)==NULL)
+                 resourceHandle->loadTextureResource(SKY_RES_LEFT, "alpine_west.tga");
+
+              if(resourceHandle->getTextureResource(SKY_RES_RIGHT)==NULL)
+                 resourceHandle->loadTextureResource(SKY_RES_RIGHT, "alpine_east.tga");
+
+              if(resourceHandle->getTextureResource(SKY_RES_FRONT)==NULL)
+                 resourceHandle->loadTextureResource(SKY_RES_FRONT, "alpine_north.tga");
+              
+              if(resourceHandle->getTextureResource(SKY_RES_BACK)==NULL)
+                 resourceHandle->loadTextureResource(SKY_RES_BACK, "alpine_south.tga");
+
               
               // try to initialize core
               if(!this->gameCore->init())
@@ -919,6 +940,11 @@ namespace PacGame
           void PLevel::draw()
           {
               glEnable(GL_LIGHTING);
+
+
+
+
+
               glPushMatrix();
                   for(unsigned i=0; i<this->width; i++)
                   {
@@ -969,6 +995,8 @@ namespace PacGame
                   }
               glPopMatrix();
               glDisable(GL_LIGHTING);
+
+
 
               //Change mode for text
               glMatrixMode(GL_PROJECTION);  // Change Matrix Mode to Projection
