@@ -20,6 +20,7 @@
 
 #include <fstream>
 
+
 using namespace std;
 
 namespace PacGame
@@ -131,5 +132,35 @@ namespace PacGame
                 }
             }
         }
+
+        LWObject* PResourceManager::getModelResourceLW(string fileName /*LWObject &objRef*/)  {
+
+            map<string, LWObject>::iterator it; // the iterator
+            it = this->modelsLW.find(fileName);
+
+
+
+            // is model with given path already in memory?
+             if (it!=this->modelsLW.end()) {
+                // PacGame::LWFormat::CLWObject obj = modelsLW[fileName];
+                // return &obj;
+               //  objRef = modelsLW[fileName];  // it is - return it over reference
+                 return &modelsLW[fileName];
+            //     objRef = *it;
+             }
+
+             // otherwise, load it
+             LWObject obj;
+             obj.Load(const_cast<char*>(fileName.c_str()));
+
+             // add to hash map
+             modelsLW.insert ( pair<string,LWObject>(fileName,obj) );
+
+             // return over ref.
+             //objRef = obj;
+             return &modelsLW[fileName];
+        }
+
+          //  void dropResources();
     }
 }

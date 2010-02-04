@@ -37,10 +37,7 @@
 #include "../CommonStructures.h"
 #include "../messages.h"
 #include "../LWObject.h"
-
-//using namespace PacGame::LWFormat;
-
-
+#include "../md2loader/md2model.h"
 
 using namespace PacGame::Structures;
 
@@ -49,87 +46,6 @@ namespace PacGame
 
   namespace RenderMaschine
   {
-      // TODO: indent code properly
-    /*  #ifndef __VERTICES_DATA
-      #define __VERTICES_DATA
-      		  GLfloat box[] = {
-				// FRONT
-				-0.5f, -0.5f,  0.5f,
-				 0.5f, -0.5f,  0.5f,
-				-0.5f,  0.5f,  0.5f,
-				 0.5f,  0.5f,  0.5f,
-
-				// BACK
-				-0.5f, -0.5f, -0.5f,
-				-0.5f,  0.5f, -0.5f,
-				 0.5f, -0.5f, -0.5f,
-				 0.5f,  0.5f, -0.5f,
-
-				// LEFT
-				-0.5f, -0.5f,  0.5f,
-				-0.5f,  0.5f,  0.5f,
-				-0.5f, -0.5f, -0.5f,
-				-0.5f,  0.5f, -0.5f,
-
-				// RIGHT
-				 0.5f, -0.5f, -0.5f,
-				 0.5f,  0.5f, -0.5f,
-				 0.5f, -0.5f,  0.5f,
-				 0.5f,  0.5f,  0.5f,
-
-				// TOP
-				-0.5f,  0.5f,  0.5f,
-				 0.5f,  0.5f,  0.5f,
-				 -0.5f,  0.5f, -0.5f,
-				 0.5f,  0.5f, -0.5f,
-
-				// BOTTOM
-				-0.5f, -0.5f,  0.5f,
-				-0.5f, -0.5f, -0.5f,
-				 0.5f, -0.5f,  0.5f,
-				 0.5f, -0.5f, -0.5f,
-			};
-
-
-
-			GLfloat texCoords[] = {
-				// FRONT
-				 0.0f, 0.0f,
-				 1.0f, 0.0f,
-				 0.0f, 1.0f,
-				 1.0f, 1.0f,
-
-				// BACK
-				 1.0f, 0.0f,
-				 1.0f, 1.0f,
-				 0.0f, 0.0f,
-				 0.0f, 1.0f,
-
-				// LEFT
-				 1.0f, 0.0f,
-				 1.0f, 1.0f,
-				 0.0f, 0.0f,
-				 0.0f, 1.0f,
-
-				// RIGHT
-				 1.0f, 0.0f,
-				 1.0f, 1.0f,
-				 0.0f, 0.0f,
-				 0.0f, 1.0f,
-
-				// TOP
-				 0.0f, 0.0f,
-				 1.0f, 0.0f,
-				 0.0f, 1.0f,
-				 1.0f, 1.0f,
-
-				// BOTTOM
-				 1.0f, 0.0f,
-				 1.0f, 1.0f,
-				 0.0f, 0.0f,
-				 0.0f, 1.0f
-			};
-     #endif*/
 
     /**********************************************************
     * PRenderer
@@ -177,7 +93,7 @@ namespace PacGame
         void drawCube(float x, float y, float size, float *color, int texID);
         void drawFloor(float x, float y, float size, float *color, int texID);
 
-        void drawLightwaveModel(float x, float y, float z, PacGame::LWFormat::CLWObject *lwo);
+        void drawLightwaveModel(float x, float y, float z, /*PacGame::LWFormat::*/LWObject *lwo);
     };
   }
 }

@@ -721,6 +721,9 @@ namespace PacGame
                                       
                                       if(resourceHandle->getTextureResource(BOMB_RES)==NULL)  // texture isn't in memory yet?
                                                resourceHandle->loadTextureResource(BOMB_RES, "bomb.tga");  // load it!
+
+                                      // load also bomb lwo obj
+                                      resourceHandle->getModelResourceLW("data/bomb.lwo");
                                       
                                       second_matrix[i][j] = BOMB;
                                       break; 
@@ -979,10 +982,12 @@ namespace PacGame
                                   
                                   glPushMatrix();
                                   glTranslatef((float)this->bombs[i]->i, (float)this->bombs[i]->j, 0.0);
-                                  float color[] = {1.0, 0.0, 0.0, 1.0};
+                             //     float color[] = {1.0, 0.0, 0.0, 1.0};
                                //   glColor3f(1.0, 0.0, 0.0);
                                //   glBindTexture(GL_TEXTURE_2D, this->resourceHandle->getTextureTesourceId(BOMB_RES));
-                                  this->gameCore->getRenderer()->drawCube(0.0, 0.0, 0.5, color,this->resourceHandle->getTextureTesourceId(BOMB_RES));
+                               //   this->gameCore->getRenderer()->drawCube(0.0, 0.0, 0.5, color,this->resourceHandle->getTextureTesourceId(BOMB_RES));
+
+                                  this->gameCore->getRenderer()->drawLightwaveModel(0.0f, 0.0f, 0.0f, this->gameCore->getResources()->getModelResourceLW("data/bomb.lwo") );
                                   glPopMatrix();
                               }
                           }

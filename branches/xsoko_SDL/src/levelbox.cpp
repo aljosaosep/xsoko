@@ -70,7 +70,7 @@ namespace PacGame
             void PTeleport::draw()
             {
                 PObject::draw();
-                float color[] = {0.0, 0.0, 1.0, 0.4};
+                float color[] = {0.0, 0.0, 1.0, 0.6};
                 this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, color, this->core->getResources()->getTextureTesourceId(TELEPORT_RES) );
             }
 
@@ -312,7 +312,7 @@ namespace PacGame
             {
                 PObject::draw();
 
-                float color[] = { 1.0, 0.6, 0.7, 0.6f };
+                float color[] = { 1.0, 0.6, 0.7, 0.9f };
                 this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, color, this->core->getResources()->getTextureTesourceId(CUBE_RES));
             }
 
@@ -387,7 +387,7 @@ namespace PacGame
             {
                 PObject::draw();
 
-                float color[] = { 1.0, 0.6, 0.7, 0.6f };
+                float color[] = { 1.0, 0.6, 0.7, 0.9f };
                 switch(this->dir)
                 {
                         case Aliases::left:
