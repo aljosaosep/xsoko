@@ -28,6 +28,7 @@
 
 #include "renderer.h"
 
+
 namespace PacGame
 {
       namespace RenderMaschine
@@ -316,6 +317,10 @@ namespace PacGame
                     glDrawArrays(GL_TRIANGLE_STRIP, 4, 4);
               glPopMatrix();
               glDisable(GL_CULL_FACE);
+          }
+
+          void PRenderer::drawLightwaveModel(float x, float y, float z, PacGame::LWFormat::CLWObject *lwo) {
+              
           }
       }
 }

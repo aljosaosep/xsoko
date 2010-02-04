@@ -63,8 +63,29 @@ namespace PacGame
               PDroppedBomb(int i, int j) : dropTime(((double)SDL_GetTicks())/1000.0//glfwGetTime()
                                                                                                                 ), i(i), j(j) {}  // constructor
           };
+
+          // for Lightwave models
+          typedef struct stVECTOR{
+              float x,y,z;
+              float px, py, pz;
+              int n;
+          } VECTOR;
+
+          typedef struct stSURFACE{
+              //BYTE red, green, blue;
+              short red, green, blue;
+              char name[40];
+          } SURFACE;
+
+          typedef struct stPOLYGON{
+              int p[4];
+              int numverts;
+              int srfID;
+              float nx, ny, nz;
+          } POLYGON;
       }
-      
+
+
       namespace Functions
       {
           /*********************************

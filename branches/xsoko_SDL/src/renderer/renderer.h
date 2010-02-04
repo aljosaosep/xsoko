@@ -36,6 +36,11 @@
 #include <string>
 #include "../CommonStructures.h"
 #include "../messages.h"
+#include "../LWObject.h"
+
+//using namespace PacGame::LWFormat;
+
+
 
 using namespace PacGame::Structures;
 
@@ -171,6 +176,8 @@ namespace PacGame
         void drawSkyCube(float x, float y, float z, float size, int textures[6]);
         void drawCube(float x, float y, float size, float *color, int texID);
         void drawFloor(float x, float y, float size, float *color, int texID);
+
+        void drawLightwaveModel(float x, float y, float z, PacGame::LWFormat::CLWObject *lwo);
     };
   }
 }
