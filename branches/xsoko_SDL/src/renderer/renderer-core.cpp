@@ -220,6 +220,7 @@ namespace PacGame
               glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
                   glPushMatrix();
                     glTranslatef(x, y, 0.0);
+                    glScalef(size, size, size);
 			// FRONT AND BACK
 			glNormal3f(0.0f, 0.0f, 1.0f);
 			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
