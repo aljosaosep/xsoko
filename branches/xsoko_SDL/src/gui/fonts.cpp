@@ -31,11 +31,17 @@
 Font::Font(const string& name){
     this->name = name;
     loadFont();
+	#ifdef _WINDOWS
+		FontManager::getInstance().addFont(this);
+	#endif
 }
 
 Font::~Font(){
     if(font != NULL)
        delete font;
+	#ifdef _WINDOWS
+		FontManager::getInstance().removeFont(this);
+	#endif
 }
 
 void Font::writeText(int x, int y,string text){
@@ -111,3 +117,43 @@ void Font::loadFont(){
     if(!font->CharMap(FT_ENCODING_UNICODE))
         PacGame::Messages::infoMessage("Warning: Font \""+name+"\" have no unicode support!");
 }
+
+#ifdef _WINDOWS
+
+void Font::reload()
+{
+	if(font != NULL)
+       delete font;
+	loadFont();
+}
+
+FontManager& FontManager::getInstance()
+{
+	static FontManager mgr;
+	return mgr;
+}
+
+void FontManager::addFont(Font* font)
+{
+	allFonts.push_back(font);
+}
+
+void FontManager::removeFont(Font* font)
+{
+	for(unsigned i=0;i<allFonts.size();i++)
+		if(allFonts[i] == font)
+		{
+			allFonts.erase(allFonts.begin()+i);
+		}
+}
+
+void FontManager::reload()
+{
+	for(unsigned i=0;i<allFonts.size();i++)
+	{
+		allFonts[i]->reload();
+	}
+}
+
+#endif
+

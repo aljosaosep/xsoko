@@ -28,6 +28,7 @@
 
 #include <string>
 #include <FTGL/ftgl.h>
+#include <vector>
 
 using namespace std;
 
@@ -49,6 +50,9 @@ public:
     void writeText(int x, int y, string text);
     void writeTextAbs(int x, int y, string text);
     float stringWidth(string str);
+	#ifdef _WINDOWS
+		void reload();
+	#endif
 
     //getters
     int getSize();
@@ -59,6 +63,21 @@ public:
     void setColor(unsigned char R, unsigned char G, unsigned char B);
     void setName(string name);
 };
+
+#ifdef _WINDOWS
+	class FontManager
+	{
+	private:
+		FontManager(){}
+		~FontManager(){}
+		vector<Font*> allFonts;
+	public:
+		static FontManager& getInstance();
+		void addFont(Font* font);
+		void removeFont(Font* font);
+		void reload();
+	};
+#endif
 
 #endif	/* _FONTS_H */
 
