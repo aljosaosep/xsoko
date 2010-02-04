@@ -37,6 +37,7 @@ protected:
     } mouseDrag;
     bool enableCloseButton;
     bool modal;
+    bool center;
     string caption;
     Font* fnt;
 
@@ -44,6 +45,7 @@ protected:
     Rect vertex[9];
 protected:
     void onRender();
+    void onResolutionChange(int width, int height);
 public:
     //constructors and destructor
     Window(int x, int y, int width, int height, string wCaption);
@@ -61,6 +63,7 @@ public:
     void setEnableCloseButton(bool enabled);
     void setModal(bool modal);
     void setCaption(string caption);
+    void setInCenter(bool center);
 
     //event support
     void invalidate();

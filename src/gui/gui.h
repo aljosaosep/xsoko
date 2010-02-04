@@ -61,7 +61,7 @@ private:
 public:
     void onMouseClick(int button, int action);
     void onMouseMove(int x, int y);
-    void glResizeWnd(int Width, int Height);
+    void onResolutionChange(int Width, int Height);
     void onKeyClick(int kkey, int action);
     void onCharacterSend(int c, int action);
     static Gui& getInstance();
@@ -75,10 +75,15 @@ public:
     void onAction(Component* button);
     void focusGain(Component* sender);
     void focusLost(Component* sender);
-    void registerInput();
-    void unregisterInput();
+    //void registerInput();
+    //void unregisterInput();
     //void addModal(Window* win);
     Font* getFont();
+    int getXResolution();
+    int getYResolution();
+
+    //events
+    signal<void(int,int) > ResolutionChange;
 };
 
 #endif	/* _WIN_H */
