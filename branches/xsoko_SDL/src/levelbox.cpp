@@ -489,7 +489,8 @@ namespace PacGame
                 PObject::draw();
                 
                 float color[] = { 1.0, 1.0, 1.0, 1.0f };
-                this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, color, this->core->getResources()->getTextureTesourceId(BOMB_RES));
+       
+                this->core->getRenderer()->drawCube(0.0, 0.0, 0.8, color, this->core->getResources()->getTextureTesourceId(BOMB_RES));
             }
 
             void PBomb::print()
