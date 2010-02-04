@@ -31,8 +31,13 @@ GuiRender& GuiRender::getInstance(){
 
 void GuiRender::loadSkin(string skinImage, string skinFile){
     
+	skimg.assign(skinImage); skfile.assign(skinFile);
+	//if(skinID != 0)
+	//	glDeleteTextures(1,&skinID);
+
     // temp loading procedure, doesn't do enough checks to safely load a texture
     SDL_Surface* skin = IMG_Load(skinImage.c_str());
+	char* test = IMG_GetError();
     GLenum skinFormat;
     GLint nOfColors = skin->format->BytesPerPixel;
     
@@ -82,6 +87,11 @@ void GuiRender::loadSkin(string skinImage, string skinFile){
 			textures[count][7] = textures[count][5] /= 128;
         }
     }
+}
+
+void GuiRender::reloadSkin()
+{
+	loadSkin(skimg, skfile);
 }
 
 void GuiRender::drawImage(int index, Rect drawRect){
@@ -237,7 +247,7 @@ void GuiRender::setWindowSize(int width, int height){
 	this->height = height;
 }
 
-GuiRender::GuiRender() : r(0),g(0),b(0),alpha(1)
+GuiRender::GuiRender() : r(0),g(0),b(0),alpha(1),skinID(0)
 { }
 
 GuiRender::~GuiRender(){

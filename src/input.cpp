@@ -29,7 +29,7 @@
 #include "level.h"
 #include "input.h"
 #include "gui/gui.h"
-//#include <AL/alut.h>
+#include <AL/alut.h>
 
 using namespace PacGame::GameClasses::GameObjects;
 
@@ -99,7 +99,7 @@ namespace PacGame
                                                                     this->level->getPlayerHandle()->decBombs();
                                                                     
                                                                     // vsekaj zvok
-                                                               /*     ALuint helloBuffer, helloSource;
+                                                                    ALuint helloBuffer, helloSource;
                                                                     ALenum error;
                                                                     helloBuffer = alutCreateBufferFromFile("sound/bombtiq.wav");
                                                                     if (helloBuffer == AL_NONE)
@@ -109,7 +109,7 @@ namespace PacGame
                                                                     }
                                                                     alGenSources (1, &helloSource);
                                                                     alSourcei (helloSource, AL_BUFFER, helloBuffer);
-                                                                    alSourcePlay (helloSource);*/
+                                                                    alSourcePlay (helloSource);
                                                                 }
 
                                                             }

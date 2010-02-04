@@ -61,9 +61,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="alut.lib glfw.lib openal32.lib zlib1.lib opengl32.lib ftgl.lib glu32.lib"
+				RegisterOutput="true"
+				AdditionalDependencies="alut.lib SDL.lib SDLmain.lib SDL_image.lib openal32.lib zlib1.lib opengl32.lib ftgl.lib glu32.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;C:\Program Files\boost\boost_1_39\lib&quot;"
+				AdditionalLibraryDirectories="&quot;C:\Program Files\boost\boost_1_38\lib&quot;"
 				IgnoreDefaultLibraryNames="LIBCMT"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -143,9 +144,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="alut.lib glfw.lib openal32.lib zlib1.lib opengl32.lib ftgl.lib glu32.lib"
+				AdditionalDependencies="alut.lib SDL.lib SDLmain.lib SDL_image.lib openal32.lib zlib1.lib opengl32.lib ftgl.lib glu32.lib"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories=""
+				AdditionalLibraryDirectories="&quot;C:\Program Files\boost\boost_1_38\lib&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -192,11 +193,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\core.cpp"
+				RelativePath="..\..\src\config.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\game-init.cpp"
+				RelativePath="..\..\src\core.cpp"
 				>
 			</File>
 			<File
@@ -205,10 +206,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\input.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\io.cpp"
 				>
 			</File>
 			<File
@@ -240,10 +237,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\session.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\vector.cpp"
 				>
 			</File>
@@ -272,6 +265,10 @@
 				</File>
 				<File
 					RelativePath="..\..\src\gui\fonts.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\gui\forms.cpp"
 					>
 				</File>
 				<File
@@ -370,6 +367,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\config.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\core.h"
 				>
 			</File>
@@ -382,19 +383,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\io.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\level.h"
 				>
 			</File>
 			<File
 				RelativePath="..\..\src\levelbox.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\maingameclasses.h"
 				>
 			</File>
 			<File
@@ -410,15 +403,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\PLevelBox.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\resource.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\session.h"
 				>
 			</File>
 			<File
@@ -454,6 +439,10 @@
 				</File>
 				<File
 					RelativePath="..\..\src\gui\fonts.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\gui\forms.h"
 					>
 				</File>
 				<File

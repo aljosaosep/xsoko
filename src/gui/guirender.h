@@ -71,11 +71,13 @@ private:
 	vector<Rect> clippingPlace;
 	float textures[29][8];
 	int width, height;
+	string skimg, skfile;
 
-    GuiRender();
+	GuiRender();
     ~GuiRender();
 public:
     void loadSkin(string skinImage, string skinFile);
+	void reloadSkin();
     void drawImage(int index, Rect drawRect);
     void drawRect(Rect rectangle, int width);
     void drawFilledRect(int x1, int y1, int x2, int y2);
