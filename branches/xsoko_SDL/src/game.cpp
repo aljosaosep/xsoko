@@ -140,7 +140,7 @@ namespace PacGame
               if(isChange)
               {
                   if(SDL_SetVideoMode( width, height, 32, SDL_OPENGL | flag ))
-                      Gui::getInstance().glResizeWnd(width,height);
+                      Gui::getInstance().onResolutionChange(width,height);
                   Config::SetValueInt("xres",width);
                   Config::SetValueInt("yres",height);
                   Config::SetValueBool("fullscreen",fullscreen);
@@ -189,7 +189,7 @@ namespace PacGame
 
 
                 if(levelLoaded || msgid){
-                    Gui::getInstance().unregisterInput();
+                    //Gui::getInstance().unregisterInput();
                     // calculate time elapsed, and the amount by which stuff rotates
                     //delta_rotate = (current_time - old_time) * rotations_per_tick * 360;
 
@@ -253,7 +253,7 @@ namespace PacGame
                         mainMenu->setVisible(true);
                 }
 
-                Gui::getInstance().registerInput();
+                //Gui::getInstance().registerInput();
                 Gui::getInstance().Render();
 
                 if(levelLoaded || msgid){
@@ -324,8 +324,8 @@ namespace PacGame
           void PGame::prepareGui(){
             Messages::infoMessage("Initialiazing GUI...");
             const SDL_VideoInfo* vi = SDL_GetVideoInfo();
-            Gui::getInstance().glResizeWnd(vi->current_w, vi->current_h);
-            Gui::getInstance().registerInput();
+            Gui::getInstance().onResolutionChange(vi->current_w, vi->current_h);
+            //Gui::getInstance().registerInput();
             //input->toggleGameMenu();
             #if defined(Linux_Release) || defined(Windows_Release) || defined(_RELEASE)
                 SDL_ShowCursor(SDL_DISABLE);

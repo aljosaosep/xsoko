@@ -18,26 +18,47 @@
  */
 
 #include "window.h"
+#include "gui.h"
 
 /*------------------------------------------------------------------*
  *  initialise window and setup defaults                            *
  *------------------------------------------------------------------*/
 Window::Window(int x, int y, int width, int height,string wCaption) : Container(x,y,width,height), alpha(0.9f),
-        enableCloseButton(true), modal(false), caption(wCaption), fnt(new Font("font"))
+        enableCloseButton(true), modal(false), center(false), caption(wCaption), fnt(new Font("font"))
 {
   mouseDrag.drag = false;
   mouseDrag.x = 0;
   mouseDrag.y = 0;
   visible = false;
   invalidate();
+  Gui::getInstance().ResolutionChange.connect(bind(&Window::onResolutionChange, this, _1, _2));
 };
 
 Window::~Window(){
     delete fnt;
 }
 
+void Window::onResolutionChange(int swidth, int sheight)
+{
+    if(center)
+    {
+        x = swidth/2 - width/2;
+        y = sheight/2 - height/2;
+    }
+}
+
 void Window::setModal(bool modal){
     this->modal = modal;
+}
+
+void Window::setInCenter(bool center)
+{
+    this->center = center;
+    if(center)
+    {
+        x = Gui::getInstance().getXResolution()/2 - width/2;
+        y = Gui::getInstance().getYResolution()/2 - height/2;
+    }
 }
 
 bool Window::isModal(){

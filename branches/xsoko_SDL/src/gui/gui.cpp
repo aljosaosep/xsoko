@@ -170,10 +170,21 @@ Gui& Gui::getInstance(){
 /*{------------------------------------------------------------------}
 {  Handle window resize                                            }
 {------------------------------------------------------------------}*/
-void Gui::glResizeWnd(int Width, int Height){
+void Gui::onResolutionChange(int Width, int Height){
   wndWidth = Width;
   wndHeight = Height;
   GuiRender::getInstance().setWindowSize(Width,Height);
+  ResolutionChange(Width,Height);
+}
+
+int Gui::getXResolution()
+{
+    return wndWidth;
+}
+
+int Gui::getYResolution()
+{
+    return wndHeight;
 }
 
 unsigned Gui::showMessage(string title, string msg){
@@ -246,19 +257,19 @@ void Gui::addWindow(Window* win){
     }
 }
     
-void Gui::registerInput(){
-    /*glfwSetMouseButtonCallback(Gui::onMouseClick);
+/*void Gui::registerInput(){
+    glfwSetMouseButtonCallback(Gui::onMouseClick);
     glfwSetMousePosCallback(Gui::onMouseMove);
     glfwSetKeyCallback(Gui::onKeyClick);
-    glfwSetCharCallback(Gui::onCharacterSend);*/
-}
+    glfwSetCharCallback(Gui::onCharacterSend);
+}*/
 
-void Gui::unregisterInput(){
-    /*glfwSetMouseButtonCallback(NULL);
+/*void Gui::unregisterInput(){
+    glfwSetMouseButtonCallback(NULL);
     glfwSetMousePosCallback(NULL);
     glfwSetKeyCallback(NULL);
-    glfwSetCharCallback(NULL);*/
-}
+    glfwSetCharCallback(NULL);
+}*/
 
 void Gui::focusGain(Component* sender){
     if(focusedWin == NULL){

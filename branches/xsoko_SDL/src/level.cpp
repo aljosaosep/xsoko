@@ -1009,8 +1009,9 @@ namespace PacGame
 
               if(!endgameFlag)
                   time = ((double)SDL_GetTicks())/1000.0;//glfwGetTime();
-              fnt->writeTextAbs(10,-30,"Elapsed time: "+Functions::toString<int>((int)(time-starttime)));
-              fnt->writeTextAbs(170,-30,"Moves: "+Functions::toString<int>(moves));
+              fnt->writeTextAbs(10,-30,"Elapsed time: "+Functions::toString((int)(time-starttime)));
+              fnt->writeTextAbs(170,-30,"Moves: "+Functions::toString(moves));
+              fnt->writeTextAbs(270,-30,"Bombs: "+Functions::toString(player->getBombs()));
           }
           /****************************************
            * animate

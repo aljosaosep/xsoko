@@ -23,7 +23,7 @@ namespace PacGame
         bool ReadConfig(string configFile)
         {
             ifstream file(configFile.c_str());
-            if(file.bad()) return false;
+            if(!file.good()) return false;
 
             string line;
             string name;

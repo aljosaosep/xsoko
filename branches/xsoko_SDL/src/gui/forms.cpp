@@ -33,9 +33,10 @@ using namespace PacGame;
 using namespace PacGame::GameClasses;
 using namespace boost::filesystem;
 
-MainMenu::MainMenu():Window(333, 183, 135, 235, "Main Menu"), credits(NULL),freeplay(NULL), options(NULL)
+MainMenu::MainMenu():Window(333, 183, 135, 235, "Main Menu"), freeplay(NULL), options(NULL), credits(NULL)
 {
     initializeComponents();
+    setInCenter(true);
     setVisible(true);
     setName("mainMenu");
 }
@@ -107,7 +108,7 @@ OptionsWnd::OptionsWnd() : Window(300,175,200,250,"Options"), mainMenu(NULL)
 {
     initializeComponents();
     setName("options");
-
+    setInCenter(true);
     SDL_Rect **modes = SDL_ListModes(NULL, SDL_FULLSCREEN|SDL_OPENGL);
     for(int i=0;modes[i];++i)
         lstModes->addItem(new ResItem(modes[i]->w,modes[i]->h));
@@ -161,6 +162,7 @@ CreditsWnd::CreditsWnd():Window(0,0,1,1,"Credits"), mainMenu(NULL)
 {
     intializeComponents();
     setName("credits");
+    setInCenter(true);
 
     int width = label->getSize().width;
     int height = label->getSize().height;
@@ -192,6 +194,7 @@ FreeplayWnd::FreeplayWnd() : Window(235, 200, 330, 200, "Freeplay"), mainMenu(NU
 {
     initializeComponents();
     setName("freeplay");
+    setInCenter(true);
 
     path dir_path("data");
     if(exists(dir_path)){
@@ -254,6 +257,7 @@ GameMenu::GameMenu() : Window(253, 158, 135, 165, "Menu")
 {
     initializeComponents();
     setName("gameMenu");
+    setInCenter(true);
 }
 
 void GameMenu::initializeComponents(){
