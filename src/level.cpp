@@ -958,8 +958,8 @@ namespace PacGame
                               obj->draw(); // prints it
                               
                               glPopMatrix();
-                              // if child is player or movable cube, draw also parent
-                              if (obj->getId() & (PLAYER | CUBE)) 
+                              // if child is player or movable cube bomb, draw also parent
+                              if (obj->getId() & (PLAYER | CUBE | BOMB | D_BOMB)) 
                               {
                                    glPushMatrix();
                                    glTranslatef(float(i),float(j),0.0);
