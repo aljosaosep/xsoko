@@ -107,7 +107,15 @@ namespace PacGame
               {
               private:
               public:
-                  PFloor(PCore *core) { this->id = FLOOR; this->core = core; }
+                  PFloor(PCore *core) {
+                      this->id = FLOOR; this->core = core;
+                      
+                      this->setMaterial(AMBIENT, 0.8f, 0.3f, 0.9f, 0.8f);
+                      this->setMaterial(DIFFUSE, 0.5f, 0.9f, 0.2f, 0.0f);
+                      this->setMaterial(SPECULAR, 0.2f, 0.2f, 0.2f, 0.8f);
+                      this->setMaterialShininess(50.0f);
+                      this->setMaterialSet();
+                  }
                   void draw();
                   void print();             
                   short isPlayerMovePossible(int direction) ;
@@ -260,10 +268,10 @@ namespace PacGame
                   PCube(int i, int j, PCore *core) {
                       this->i=i; this->j = j; realI = (float)i; realJ = (float)j; this->id=CUBE; this->core = core;
                       
-                      this->setMaterial(AMBIENT, 0.7f, 0.3f, 0.3f, 0.8f);
-                      this->setMaterial(DIFFUSE, 1.0f, 0.3f, 0.3f, 0.8f);
+                      this->setMaterial(AMBIENT, 0.2f, 0.5f, 0.5f, 0.8f);
+                      this->setMaterial(DIFFUSE, 0.0f, 0.8f, 0.6f, 0.8f);
                       this->setMaterial(SPECULAR, 1.0f, 1.0f, 1.0f, 0.8f);
-                      this->setMaterialShininess(0.0f);
+                      this->setMaterialShininess(400.0f);
                       this->setMaterialSet();
                   }
                   void draw();
@@ -283,7 +291,15 @@ namespace PacGame
               {
               private:
               public:
-                  PCubeHolder(PCore *core)  { this->id = 4; this->core = core; }
+                  PCubeHolder(PCore *core)  {
+                      this->id = 4; this->core = core;
+                      
+                      this->setMaterial(AMBIENT, 0.9f, 0.9f, 0.9f, 0.8f);
+                      this->setMaterial(DIFFUSE, 0.9f, 0.9f, 0.9f, 0.0f);
+                      this->setMaterial(SPECULAR, 0.2f, 0.2f, 0.2f, 0.8f);
+                      this->setMaterialShininess(200.0f);
+                      this->setMaterialSet();
+                  }
                   void draw();
                   void print();             
                   short isPlayerMovePossible(int direction) ;

@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   LWObject.cpp
  * Author: aljosa
  *
@@ -15,17 +15,17 @@
 #include "messages.h"
 
 
-namespace PacGame
+/*namespace PacGame
 {
     namespace LWFormat
-    {
+    {*/
 
 
         //////////////////////////////////////////////////////////////////////
         // Construction/Destruction
         //////////////////////////////////////////////////////////////////////
 
-        CLWObject::CLWObject()
+      /*  LWObject::LWObject()
         {
                 pts = NULL;
                 plys = NULL;
@@ -41,7 +41,7 @@ namespace PacGame
                 Clear();
         }
 
-        void CLWObject::Clear()
+        void LWObject::Clear()
         {
                 if (pts) delete [] pts;
                 if (plys) delete [] plys;
@@ -54,7 +54,7 @@ namespace PacGame
                 numsurfaces = 0;
         }
 
-        bool CLWObject::Load(char *path)
+        bool LWObject::Load(char *path)
         {
                 FILE *fp;
                 fp = fopen(path, "rb");
@@ -67,6 +67,8 @@ namespace PacGame
 
                     return false;
                 }
+
+
 
                 Clear();
 
@@ -95,10 +97,12 @@ namespace PacGame
                 CalcNormals();
 
                 fclose(fp);
+                PacGame::Messages::infoMessage("LW model "+ string(path) +" in memory");
+
                 return true;
         }
 
-        bool CLWObject::FindChunk(FILE *fp, const char *chunk){
+        bool LWObject::FindChunk(FILE *fp, const char *chunk){
                 char buf[4];
                 int length;
 
@@ -117,7 +121,7 @@ namespace PacGame
                 return true;
         }
 
-        bool CLWObject::FindNextChunk(FILE *fp, const char *chunk){
+        bool LWObject::FindNextChunk(FILE *fp, const char *chunk){
                 char buf[4];
                 int length;
 
@@ -134,7 +138,7 @@ namespace PacGame
                 return true;
         }
 
-        int CLWObject::LoadPoints(FILE *fp)
+        int LWObject::LoadPoints(FILE *fp)
         {
                 int numpts, count, length;
                 VECTOR *pt;
@@ -164,7 +168,7 @@ namespace PacGame
                 return numpts;
         }
 
-        int CLWObject::LoadPolygons(FILE *fp)
+        int LWObject::LoadPolygons(FILE *fp)
         {
                 int r,count,length;
                 char buf[4];
@@ -190,7 +194,7 @@ namespace PacGame
                 return numpolygons;
         }
 
-        bool CLWObject::ReadInt(FILE *fp, int &i)
+        bool LWObject::ReadInt(FILE *fp, int &i)
         {
                 int r;
                 char rd[4], *ci = (char*)&i;
@@ -200,7 +204,7 @@ namespace PacGame
                 return true;
         }
 
-        bool CLWObject::ReadFloat(FILE * fp, float &f)
+        bool LWObject::ReadFloat(FILE * fp, float &f)
         {
                 int r;
                 char rd[4], *cf = (char*)&f;
@@ -211,7 +215,7 @@ namespace PacGame
                 return true;
         }
 
-        int CLWObject::AddPolygon(FILE * fp)
+        int LWObject::AddPolygon(FILE * fp)
         {
                 int j;
                 unsigned short s, numverts;
@@ -239,7 +243,7 @@ namespace PacGame
                 return numverts * 2 + 2;
         }
 
-        bool CLWObject::ReadShort(FILE *fp, unsigned short &s)
+        bool LWObject::ReadShort(FILE *fp, unsigned short &s)
         {
                 char buf[2], *cs = (char*)&s;
                 int r;
@@ -251,7 +255,7 @@ namespace PacGame
                 return true;
         }
 
-        bool CLWObject::ReadSubChunk(char *buf, unsigned short &s, FILE *fp)
+        bool LWObject::ReadSubChunk(char *buf, unsigned short &s, FILE *fp)
         {
                 //Read header
                 if (!fread(buf,4,1,fp)) return false;
@@ -260,7 +264,7 @@ namespace PacGame
                 return true;
         }
 
-        bool CLWObject::LoadSurfaces(FILE* fp)
+        bool LWObject::LoadSurfaces(FILE* fp)
         {
                 char buf[4];
                 int i, length, count;
@@ -340,7 +344,7 @@ namespace PacGame
                 return true;
         }
 
-        void CLWObject::CalcNormals()
+        void LWObject::CalcNormals()
         {
             POLYGON *ply = plys;
             int a,b,c;
@@ -352,12 +356,7 @@ namespace PacGame
                 this->pts[i].pz = 0.0;
             }
 
-            //Calculate the normal
-          /*  for (int i=0; i < numpolygons;i++){
-                        a=ply->p[0]; b=ply->p[1], c=ply->p[2];
-                 // Vstavite izraun normal
-                        ply++;
-            }*/
+   
 
 
 
@@ -426,7 +425,7 @@ namespace PacGame
             }
         }
 
-        bool CLWObject::LoadTags(FILE *fp)
+        bool LWObject::LoadTags(FILE *fp)
         {
                 int count, length;
                 unsigned short plyID, srfID;
@@ -453,7 +452,8 @@ namespace PacGame
                 }
 
                 return true;
-        }
+        }*/
 
-    }
-}
+/*    }
+}*/
+

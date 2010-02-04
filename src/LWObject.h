@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   LWObject.h
  * Author: aljosa
  *
@@ -17,11 +17,11 @@
 using namespace PacGame::Structures;
 using namespace std;
 
-namespace PacGame
+/*namespace PacGame
 {
     namespace LWFormat
-    {
-        class CLWObject
+    {*/
+   /*     class LWObject
         {
         public:
                 VECTOR *pts;    // oglisca
@@ -31,8 +31,8 @@ namespace PacGame
                 int numpoints, numpolygons, numsurfaces;
                 int activeSurfIndex;
 
-                CLWObject();
-                virtual ~CLWObject();
+                LWObject();
+                //~CLWObject();  /// !!!!!!!!!!!!!!!!!!!!!!!!!!!! (memory leak warning)
                 bool LoadTags(FILE *fp);
                 bool FindChunk(FILE *fp, const char *chunk);
                 bool FindNextChunk(FILE *fp, const char *chunk);
@@ -47,9 +47,10 @@ namespace PacGame
                 void CalcNormals();
                 void Clear();
                 bool Load(char *path);
-        };
-    }
-}
+        };*/
+  /*  }
+}*/
 
 #endif	/* _LWOBJECT_H */
+
 
