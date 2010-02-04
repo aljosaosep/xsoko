@@ -132,6 +132,8 @@ namespace PacGame
                   double time;
                   int moves;
                   int button_flags;
+                  unsigned introtime;
+                  bool intro;
                   
            //       PDirection lastDirection;  // direction player is facing according to last move
                   

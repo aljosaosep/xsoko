@@ -65,7 +65,7 @@ namespace PacGame
 
           PLevel::PLevel(string filename) :
             filename(filename),  width(0), height(0), player(NULL), gameCore(new PCore),
-            resourceHandle(gameCore->getResources()), endgameFlag(false), fnt(new Font("font"))
+            resourceHandle(gameCore->getResources()), endgameFlag(false), fnt(new Font("font")), introtime(SDL_GetTicks()), intro(true)
           {
               fnt->setColor(255,255,0);
               fnt->setSize(15);
@@ -193,50 +193,51 @@ namespace PacGame
            ******************************************************************/
            void PLevel::setButtonFlag(int flag)
            {
-                   button_flags = flag | button_flags;
-                   if((button_flags ^ flag) == 0) // the status of button_flags before adding this flag
-                   {
-                           switch(flag)
-                           {
-                                case KB_UP:
-                                        this->moveObject(Aliases::up, this->getPlayerHandle());
-                                        break;
-                                case KB_LEFT:
-                                        this->moveObject(Aliases::left, this->getPlayerHandle());
-                                        break;
-                                case KB_DOWN:
-                                        this->moveObject(Aliases::down, this->getPlayerHandle());
-                                        break;
-                                case KB_RIGHT:
-                                        this->moveObject(Aliases::right, this->getPlayerHandle());
-                                        break;
-                        }
-                   }
+               if(intro) return;
+               button_flags = flag | button_flags;
+               if((button_flags ^ flag) == 0) // the status of button_flags before adding this flag
+               {
+                       switch(flag)
+                       {
+                            case KB_UP:
+                                    this->moveObject(Aliases::up, this->getPlayerHandle());
+                                    break;
+                            case KB_LEFT:
+                                    this->moveObject(Aliases::left, this->getPlayerHandle());
+                                    break;
+                            case KB_DOWN:
+                                    this->moveObject(Aliases::down, this->getPlayerHandle());
+                                    break;
+                            case KB_RIGHT:
+                                    this->moveObject(Aliases::right, this->getPlayerHandle());
+                                    break;
+                    }
+               }
            }
            
            void PLevel::resetButtonFlag(int flag)
            {
-                   //button_flags = button_flags & (!flag);
-                   button_flags = button_flags ^ flag;
-                    if(button_flags != 0) // the status of button_flags before adding this flag
-                   {
-                        if(button_flags & KB_UP)
-                        {
-                                this->moveObject(Aliases::up, this->getPlayerHandle());
-                        }else
-                          if(button_flags & KB_LEFT)
-                        {
-                                        this->moveObject(Aliases::left, this->getPlayerHandle());
-                        }else
-                         if(button_flags & KB_DOWN)
-                        {
-                                        this->moveObject(Aliases::down, this->getPlayerHandle());
-                        }else
-                         if(button_flags & KB_RIGHT)
-                        {
-                                        this->moveObject(Aliases::right, this->getPlayerHandle());
-                        }
-                   }
+               if(intro) return;
+               button_flags = button_flags ^ flag;
+               if(button_flags != 0) // the status of button_flags before adding this flag
+               {
+                    if(button_flags & KB_UP)
+                    {
+                            this->moveObject(Aliases::up, this->getPlayerHandle());
+                    }else
+                      if(button_flags & KB_LEFT)
+                    {
+                                    this->moveObject(Aliases::left, this->getPlayerHandle());
+                    }else
+                     if(button_flags & KB_DOWN)
+                    {
+                                    this->moveObject(Aliases::down, this->getPlayerHandle());
+                    }else
+                     if(button_flags & KB_RIGHT)
+                    {
+                                    this->moveObject(Aliases::right, this->getPlayerHandle());
+                    }
+               }
            }
 
           // gameplay related
@@ -928,7 +929,6 @@ namespace PacGame
               // temporary, dump state
               this->print();
 
-              starttime = ((double)SDL_GetTicks())/1000.0;//glfwGetTime();
               moves = 0;
               button_flags = 0;
               return true; // everything went ok
@@ -940,11 +940,6 @@ namespace PacGame
           void PLevel::draw()
           {
               glEnable(GL_LIGHTING);
-
-
-
-
-
               glPushMatrix();
                   for(unsigned i=0; i<this->width; i++)
                   {
@@ -996,8 +991,6 @@ namespace PacGame
               glPopMatrix();
               glDisable(GL_LIGHTING);
 
-
-
               //Change mode for text
               glMatrixMode(GL_PROJECTION);  // Change Matrix Mode to Projection
               glLoadIdentity();             // Reset View
@@ -1008,8 +1001,11 @@ namespace PacGame
               glTranslatef(0, 600, -0.5);
 
               if(!endgameFlag)
-                  time = ((double)SDL_GetTicks())/1000.0;//glfwGetTime();
-              fnt->writeTextAbs(10,-30,"Elapsed time: "+Functions::toString((int)(time-starttime)));
+                  time = ((double)SDL_GetTicks())/1000.0;
+              if(intro)
+                  fnt->writeTextAbs(10,-30,"Elapsed time: 0");
+              else
+                  fnt->writeTextAbs(10,-30,"Elapsed time: "+Functions::toString((int)(time-starttime)));
               fnt->writeTextAbs(170,-30,"Moves: "+Functions::toString(moves));
               fnt->writeTextAbs(270,-30,"Bombs: "+Functions::toString(player->getBombs()));
           }
@@ -1021,18 +1017,31 @@ namespace PacGame
            * **************************************/
           void PLevel::animate(double time)
           {
-                  for(unsigned i=0; i<this->width; i++)
+              if(intro)
+              {
+                  int ticks = SDL_GetTicks();
+                  if(introtime + height*300 < ticks)
+                  {
+                      intro = false;
+                      starttime = ((double)SDL_GetTicks())/1000.0;
+                  }
+                  double move = (ticks - introtime) / 300.0;
+                  glTranslatef(height-move,0,0);
+                  glRotatef(90*(1-(move/height)),0,1,0);
+                  return;
+              }
+              for(unsigned i=0; i<this->width; i++)
                   {
                       for(unsigned j=0; j<this->height; j++)
                       {
                               PObject *obj = data[i][j]->returnFirstChild(); 
                               if(obj != NULL)
                               {
-                                        if(obj->animate(time))
-                                        {
-                                                activateFloor(i,j);
-					}
-                                }
+                                    if(obj->animate(time))
+                                    {
+                                            activateFloor(i,j);
+                                    }
+                              }
                       }
               }
               
@@ -1065,7 +1074,7 @@ namespace PacGame
           bool PLevel::loadLevelFromFile(string filename){
               this->filename = filename;
               this->endgameFlag = false;
-              starttime = ((double)SDL_GetTicks())/1000.0;//glfwGetTime();
+              starttime = ((double)SDL_GetTicks())/1000.0;
               return reset();
           }
           
@@ -1090,7 +1099,6 @@ namespace PacGame
                       }
                       else
                           if(data[i][j]!=NULL)
-                            
                               data[i][j]->print();  // otherwise, print object
                   }
                   cout<<'|'<<endl;

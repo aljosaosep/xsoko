@@ -27,7 +27,7 @@
  */
 
 #include "game.h"
-#include <AL/alut.h>
+//#include <AL/alut.h>
 //#include "renderer/particle.h"
 #include <cstdio>
 #include <cmath>
@@ -107,8 +107,8 @@ namespace PacGame
 
               prepareGui();
 
-              alutInit (NULL, NULL); // inicializacija ALUT in OpenAL API
-              alGetError(); // počisti napake
+              //alutInit (NULL, NULL); // inicializacija ALUT in OpenAL API
+              //alGetError(); // počisti napake
 
               Messages::initMessage("Game", true);
               return true;
@@ -141,10 +141,10 @@ namespace PacGame
               {
                   if(SDL_SetVideoMode( width, height, 32, SDL_OPENGL | flag ))
                       Gui::getInstance().onResolutionChange(width,height);
-				  #ifdef _WINDOWS
-				  GuiRender::getInstance().reloadSkin();
-				  FontManager::getInstance().reload();
-				  #endif
+		  #ifdef _WINDOWS
+                    GuiRender::getInstance().reloadSkin();
+		    FontManager::getInstance().reload();
+		  #endif
                   Config::SetValueInt("xres",width);
                   Config::SetValueInt("yres",height);
                   Config::SetValueBool("fullscreen",fullscreen);
