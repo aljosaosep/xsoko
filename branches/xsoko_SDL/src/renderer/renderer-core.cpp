@@ -117,15 +117,21 @@ namespace PacGame
           PRenderer::PRenderer() //: cameraX(-10.0), cameraY(6.0), cameraZ(-25.0)
           {
               // light properties
-              lightAmbient[0] = 0.8f, lightAmbient[1] = 0.7f, lightAmbient[2] = 0.9f, lightAmbient[3] = 0.7f;
+             /* lightAmbient[0] = 0.8f, lightAmbient[1] = 0.7f, lightAmbient[2] = 0.9f, lightAmbient[3] = 0.7f;
               lightDiffuse[0] = 0.9f, lightDiffuse[1] = 0.8f, lightDiffuse[2] = 1.0f, lightDiffuse[3] = 0.8f;
               lightSpecular[0] = 1.0f, lightSpecular[1] = 1.0f, lightSpecular[2] = 1.0f, lightSpecular[3] = 1.0f;
-              lightPosition[0] = 0.0f, lightPosition[1] = 0.0f, lightPosition[2] = -25.0f, lightPosition[3] = 1.0f;
+ */
+
+                            lightAmbient[0] = 1.0f, lightAmbient[1] = 1.0f, lightAmbient[2] = 1.0f, lightAmbient[3] = 1.0f;
+              lightDiffuse[0] =1.0f, lightDiffuse[1] =1.0f, lightDiffuse[2] = 1.0f, lightDiffuse[3] = 1.0f;
+              lightSpecular[0] = 1.0f, lightSpecular[1] = 1.0f, lightSpecular[2] = 1.0f, lightSpecular[3] = 1.0f;
+
+              lightPosition[0] = 50.0f, lightPosition[1] = 50.0f, lightPosition[2] = -30.0f, lightPosition[3] = 0.0f;
 
 
-              g_materialDiffuse[0] = 0.7f, g_materialDiffuse[1] = 0.1f, g_materialDiffuse[2] = 0.9f, g_materialDiffuse[3] = 1.0f;
-              g_materialAmbient[0] = 0.4f, g_materialAmbient[1] = 0.2f, g_materialAmbient[2] = 0.6f, g_materialAmbient[3] = 1.0f;
-              g_materialSpecular[0] = 0.5f, g_materialSpecular[1] = 0.5f, g_materialSpecular[2] = 0.5f, g_materialSpecular[3] = 1.0f;
+              g_materialDiffuse[0] = 1.0f, g_materialDiffuse[1] = 1.0f, g_materialDiffuse[2] = 1.0f, g_materialDiffuse[3] = 1.0f;
+              g_materialAmbient[0] = 1.0f, g_materialAmbient[1] = 0.0f, g_materialAmbient[2] = 0.0f, g_materialAmbient[3] = 1.0f;
+              g_materialSpecular[0] = 1.0f, g_materialSpecular[1] = 1.0f, g_materialSpecular[2] = 1.0f, g_materialSpecular[3] = 1.0f;
               
               // material properties
          //     matAmbient[0] = 1.0, matAmbient[1] = 1.0, matAmbient[2] = 1.0, matAmbient[3] = 1.0;
@@ -325,20 +331,25 @@ namespace PacGame
                 VECTOR* pt;
                 POLYGON* ply = lwo->plys;
 
+             /*   glEnable(GL_LIGHTING);
+                glEnable(GL_LIGHT0);
+           //     glDisable(GL_BLEND);
+           //     glDisable(GL_TEXTURE_2D);
+
+                glEnable(GL_COLOR_MATERIAL);
+         //     glColorMaterial ( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE ) ;*/
+
+
+                glMateriali(GL_FRONT_AND_BACK, GL_SHININESS, 11.0);
+
+                glMaterialfv(GL_FRONT, GL_AMBIENT, g_materialAmbient);
+                glMaterialfv(GL_FRONT, GL_DIFFUSE, g_materialDiffuse);
+                glMaterialfv(GL_FRONT, GL_SPECULAR, g_materialSpecular);
+
                 glPushMatrix();
                 glTranslatef(x, y, z);
 
-                glEnable(GL_LIGHTING);
-
-              glEnable(GL_COLOR_MATERIAL);
-         //     glColorMaterial ( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE ) ;
-              glMateriali(GL_FRONT_AND_BACK, GL_SHININESS, 500.0);
-
-              glMaterialfv(GL_FRONT, GL_AMBIENT, g_materialAmbient);
-              glMaterialfv(GL_FRONT, GL_DIFFUSE, g_materialDiffuse);
-              glMaterialfv(GL_FRONT, GL_SPECULAR, g_materialSpecular);
-
-              //glScalef(0.5f, 0.5f, 0.5f);
+ 
 
                 for(int i=0; i<lwo->numpolygons; i++)
                 {
@@ -349,7 +360,17 @@ namespace PacGame
                         glColor3ub((GLubyte)lwo->srfs[ply->srfID].red,
                         (GLubyte)lwo->srfs[ply->srfID].green,
                         (GLubyte)lwo->srfs[ply->srfID].blue);
-                    
+
+                 //   glColor4f(0.0f, 0.0f ,0.0f, 1.0);
+
+
+                    // material setup
+                 //   glMaterialfv( GL_FRONT, GL_AMBIENT, lwo->srfs[ply->srfID].material.m_ambient );
+                //    glMaterialfv( GL_FRONT, GL_DIFFUSE, lwo->srfs[ply->srfID].material.m_diffuse );
+                //    glMaterialfv( GL_FRONT, GL_SPECULAR, lwo->srfs[ply->srfID].material.m_specular );
+                //    glMaterialfv( GL_FRONT, GL_EMISSION, m_pMaterials[materialIndex].m_emissive );
+                //    glMaterialf( GL_FRONT, GL_SHININESS, lwo->srfs[ply->srfID].material.m_shininess );
+
 
                     // izris posameznega oglišča
                     glNormal3f(ply->nx,ply->ny,ply->nz);
@@ -365,6 +386,7 @@ namespace PacGame
                     glVertex3f(lwo->pts[ply->p[2]].x,lwo->pts[ply->p[2]].y ,lwo->pts[ply->p[2]].z);
 
 
+
                     // Ali imamo več kot tri oglišča?
                     if(ply->numverts == 4) {
                     // podatki o oglišču p[3]
@@ -376,7 +398,9 @@ namespace PacGame
                 }
 
                 glPopMatrix();
-              
+
+               // glEnable(GL_BLEND);
+               // glEnable(GL_TEXTURE_2D);
           }
       }
 }

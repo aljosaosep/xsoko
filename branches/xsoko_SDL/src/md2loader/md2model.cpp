@@ -411,7 +411,7 @@ namespace PacGame
                 numsurfaces = 0;
                 activeSurfIndex = 0;
 
-                scalef = 0.37;
+                scalef =  0.37;
         }
 
        /* CLWObject::~CLWObject()
@@ -731,91 +731,91 @@ namespace PacGame
                 return true;
         }
 
-        void LWObject::CalcNormals()
-        {
-            PacGame::Structures::POLYGON *ply = plys;
-            int a,b,c;
-            PacGame::Structures::VECTOR v1,v2,v3;
+void LWObject::CalcNormals()
+{
+    PacGame::Structures::POLYGON *ply = plys;
+    int a,b,c;
+    PacGame::Structures::VECTOR v1,v2,v3;
 
-            for (int i=0; i<this->numpoints; i++) {
-                this->pts[i].px = 0.0;
-                this->pts[i].py = 0.0;
-                this->pts[i].pz = 0.0;
-            }
+    for (int i=0; i<this->numpoints; i++) {
+        this->pts[i].px = 0.0;
+        this->pts[i].py = 0.0;
+        this->pts[i].pz = 0.0;
+    }
 
-            //Calculate the normal
-          /*  for (int i=0; i < numpolygons;i++){
-                        a=ply->p[0]; b=ply->p[1], c=ply->p[2];
-                 // Vstavite izraun normal
-                        ply++;
-            }*/
-
-
-
-            float r1[3],r2[3],abs; // vektorja za izracun normale
-            // Vstavite izra?un normal
-            for (int i=0; i < numpolygons;i++)
-            {
-                a = plys[i].p[0]; // indeks prvega oglisca
-                b = plys[i].p[1]; // indeks drugega oglisca
-                c = plys[i].p[2]; // indeks tretjega oglisca
-
-                //Izra?un vektorjev r1 in r2
-                r1[0] = this->pts[a].x - this->pts[b].x;
-                r1[1] = this->pts[a].y - this->pts[b].y;
-                r1[2] = this->pts[a].z - this->pts[b].z;
-
-                r2[0] = this->pts[c].x - this->pts[b].x;
-                r2[1] = this->pts[c].y - this->pts[b].y;
-                r2[2] = this->pts[c].z - this->pts[b].z;
-
-                // Izra?un vektorskega produkta r1 x r2 in normiranje
-                plys[i].nx = r1[1]*r2[2] - r1[2]*r2[1];
-                plys[i].ny = r1[2]*r2[0] - r1[0]*r2[2];
-                plys[i].nz = r1[0]*r2[1] - r1[1]*r2[0];
-
-                abs = sqrt(plys[i].nx*plys[i].nx + plys[i].ny*plys[i].ny + plys[i].nz*plys[i].nz); // izracun dolzine vektorja r1xr2
-
-                // normiranje
-                plys[i].nx /= abs;
-                plys[i].ny /= abs;
-                plys[i].nz /= abs;
+    //Calculate the normal
+  /*  for (int i=0; i < numpolygons;i++){
+		a=ply->p[0]; b=ply->p[1], c=ply->p[2];
+         // Vstavite izraun normal
+		ply++;
+    }*/
 
 
-                // Izra?un normale ogli??a
 
-                // izracun nove normale prvega oglisca
-                this->pts[a].px = this->pts[a].px + ((plys[i].nx - this->pts[a].px) / i+1);
-                this->pts[a].py = this->pts[a].py + ((plys[i].ny - this->pts[a].py) / i+1);
-                this->pts[a].pz = this->pts[a].pz + ((plys[i].nz - this->pts[a].pz) / i+1);
-                // normala drugega oglisca
-                this->pts[b].px = this->pts[b].px + ((plys[i].nx - this->pts[b].px) / i+1);
-                this->pts[b].py = this->pts[b].py + ((plys[i].ny - this->pts[b].py) / i+1);
-                this->pts[b].pz = this->pts[b].pz + ((plys[i].nz - this->pts[b].pz) / i+1);
-                // normala tretjega oglisca
-                this->pts[c].px = this->pts[c].px + ((plys[i].nx - this->pts[c].px) / i+1);
-                this->pts[c].py = this->pts[c].py + ((plys[i].ny - this->pts[c].py) / i+1);
-                this->pts[c].pz = this->pts[c].pz + ((plys[i].nz - this->pts[c].pz) / i+1);
+    float r1[3],r2[3],abs; // vektorja za izracun normale
+    // Vstavite izra?un normal
+    for (int i=0; i < numpolygons;i++)
+    {
+        a = plys[i].p[0]; // indeks prvega oglisca
+        b = plys[i].p[1]; // indeks drugega oglisca
+        c = plys[i].p[2]; // indeks tretjega oglisca
 
-                if (this->plys[i].numverts == 4) {
-                    int d = plys[i].p[3];
+        //Izra?un vektorjev r1 in r2
+        r1[0] = this->pts[a].x - this->pts[b].x;
+        r1[1] = this->pts[a].y - this->pts[b].y;
+        r1[2] = this->pts[a].z - this->pts[b].z;
 
-                    // normala cetrtega oglisca
-                    this->pts[d].px = this->pts[d].px + ((plys[i].nx - this->pts[d].px) / i+1);
-                    this->pts[d].py = this->pts[d].py + ((plys[i].ny - this->pts[d].py) / i+1);
-                    this->pts[d].pz = this->pts[d].pz + ((plys[i].nz - this->pts[d].pz) / i+1);
-                }
-            }
+        r2[0] = this->pts[c].x - this->pts[b].x;
+        r2[1] = this->pts[c].y - this->pts[b].y;
+        r2[2] = this->pts[c].z - this->pts[b].z;
 
-            // normiranje vseh normal v ogliscih
-            for (int i=0; i<this->numpoints; i++)
-            {
-                abs = sqrt(this->pts[i].px*this->pts[i].px + this->pts[i].py*this->pts[i].py + this->pts[i].pz*this->pts[i].pz);
-                this->pts[i].px /= abs;
-                this->pts[i].py /= abs;
-                this->pts[i].pz /= abs;
-            }
+        // Izra?un vektorskega produkta r1 x r2 in normiranje
+        plys[i].nx = r1[1]*r2[2] - r1[2]*r2[1];
+        plys[i].ny = r1[2]*r2[0] - r1[0]*r2[2];
+        plys[i].nz = r1[0]*r2[1] - r1[1]*r2[0];
+
+        abs = sqrt(plys[i].nx*plys[i].nx + plys[i].ny*plys[i].ny + plys[i].nz*plys[i].nz); // izracun dolzine vektorja r1xr2
+
+        // normiranje
+        plys[i].nx /= abs;
+        plys[i].ny /= abs;
+        plys[i].nz /= abs;
+
+
+        // Izra?un normale ogli??a
+
+        // izracun nove normale prvega oglisca
+        this->pts[a].px = this->pts[a].px + ((plys[i].nx - this->pts[a].px) / (i+1));
+        this->pts[a].py = this->pts[a].py + ((plys[i].ny - this->pts[a].py) / (i+1));
+        this->pts[a].pz = this->pts[a].pz + ((plys[i].nz - this->pts[a].pz) / (i+1));
+        // normala drugega oglisca
+        this->pts[b].px = this->pts[b].px + ((plys[i].nx - this->pts[b].px) / (i+1));
+        this->pts[b].py = this->pts[b].py + ((plys[i].ny - this->pts[b].py) / (i+1));
+        this->pts[b].pz = this->pts[b].pz + ((plys[i].nz - this->pts[b].pz) / (i+1));
+        // normala tretjega oglisca
+        this->pts[c].px = this->pts[c].px + ((plys[i].nx - this->pts[c].px) / (i+1));
+        this->pts[c].py = this->pts[c].py + ((plys[i].ny - this->pts[c].py) / (i+1));
+        this->pts[c].pz = this->pts[c].pz + ((plys[i].nz - this->pts[c].pz) / (i+1));
+
+        if (this->plys[i].numverts == 4) {
+            int d = plys[i].p[3];
+
+            // normala cetrtega oglisca
+            this->pts[d].px = this->pts[d].px + ((plys[i].nx - this->pts[d].px) / (i+1));
+            this->pts[d].py = this->pts[d].py + ((plys[i].ny - this->pts[d].py) / (i+1));
+            this->pts[d].pz = this->pts[d].pz + ((plys[i].nz - this->pts[d].pz) / (i+1));
         }
+    }
+
+    // normiranje vseh normal v ogliscih
+    for (int i=0; i<this->numpoints; i++)
+    {
+        abs = sqrt(this->pts[i].px*this->pts[i].px + this->pts[i].py*this->pts[i].py + this->pts[i].pz*this->pts[i].pz);
+        this->pts[i].px /= abs;
+        this->pts[i].py /= abs;
+        this->pts[i].pz /= abs;
+    }
+}
 
         bool LWObject::LoadTags(FILE *fp)
         {
