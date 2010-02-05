@@ -255,7 +255,7 @@ namespace PacGame
            ********************************************/
           void PRenderer::drawSkyCube(float x, float y, float z, float size, int textures[6])
           {
-            // glColor4f(color[0], color[1], color[2], color[3]); // color of cube
+             glColor4f(1.0, 1.0, 1.0, 1.0); // color of cube
             // glBindTexture(GL_TEXTURE_2D, texID); // texture
               glDisable(GL_LIGHTING);
 
