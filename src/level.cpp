@@ -986,7 +986,7 @@ namespace PacGame
                                //   glColor3f(1.0, 0.0, 0.0);
                                //   glBindTexture(GL_TEXTURE_2D, this->resourceHandle->getTextureTesourceId(BOMB_RES));
                                //   this->gameCore->getRenderer()->drawCube(0.0, 0.0, 0.5, color,this->resourceHandle->getTextureTesourceId(BOMB_RES));
-
+                                  glRotatef(70.0f, 1.0f, 0.0f, 1.0f );
                                   this->gameCore->getRenderer()->drawLightwaveModel(0.0f, 0.0f, 0.0f, this->gameCore->getResources()->getModelResourceLW("data/bomb.lwo") );
                                   glPopMatrix();
                               }

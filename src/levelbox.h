@@ -203,7 +203,7 @@ namespace PacGame
                       this->setMaterial(AMBIENT, 0.4f, 0.7f, 0.8f, 0.5f);
                       this->setMaterial(DIFFUSE, 0.7f, 0.7f, 0.9f, 0.5f);
                       this->setMaterial(SPECULAR, 1.0f, 1.0f, 1.0f, 1.0f);
-                      this->setMaterialShininess(500.0f);
+                      this->setMaterialShininess(10.0f);
                       this->setMaterialSet();
                   }
 
