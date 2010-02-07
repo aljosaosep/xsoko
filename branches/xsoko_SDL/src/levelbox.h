@@ -135,10 +135,10 @@ namespace PacGame
                   PSolidWall(PCore *core) {
                       this->id = S_WALL; this->core = core;
                       
-                      this->setMaterial(AMBIENT, 0.9f, 0.0f, 0.5f, 0.8f);
-                      this->setMaterial(DIFFUSE, 0.0f, 0.8f, 0.0f, 1.0f);
-                      this->setMaterial(SPECULAR, 1.0f, 1.0f, 1.0f, 0.8f);
-                      this->setMaterialShininess(0.0f);
+                      this->setMaterial(AMBIENT, 0.1f, 0.1f, 0.1f, 0.8f);
+                      this->setMaterial(DIFFUSE, 0.9f, 0.0f, 0.0f, 1.0f);
+                      this->setMaterial(SPECULAR, 0.4f, 0.1f,0.0f, 0.1f);
+                      this->setMaterialShininess(10.0f);
                       this->setMaterialSet();
                   }
                   void draw();
@@ -268,10 +268,10 @@ namespace PacGame
                   PCube(int i, int j, PCore *core) {
                       this->i=i; this->j = j; realI = (float)i; realJ = (float)j; this->id=CUBE; this->core = core;
                       
-                      this->setMaterial(AMBIENT, 0.2f, 0.5f, 0.5f, 0.8f);
-                      this->setMaterial(DIFFUSE, 0.0f, 0.8f, 0.6f, 0.8f);
-                      this->setMaterial(SPECULAR, 1.0f, 1.0f, 1.0f, 0.8f);
-                      this->setMaterialShininess(400.0f);
+                      this->setMaterial(AMBIENT, 0.0f, 0.0f, 0.0f, 0.0f);
+                      this->setMaterial(DIFFUSE, 0.0f, 0.0f, 0.0f, 0.4f);
+                      this->setMaterial(SPECULAR, 0.0f, 0.0f,0.0f, 0.0f);
+                      this->setMaterialShininess(0.0f);
                       this->setMaterialSet();
                   }
                   void draw();

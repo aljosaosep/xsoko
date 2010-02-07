@@ -723,7 +723,7 @@ namespace PacGame
                                                resourceHandle->loadTextureResource(BOMB_RES, "bomb.tga");  // load it!
 
                                       // load also bomb lwo obj
-                                      resourceHandle->getModelResourceLW("data/bomb.lwo");
+                                   //   resourceHandle->getModelResourceLW("data/bomb.lwo");
                                       
                                       second_matrix[i][j] = BOMB;
                                       break; 
