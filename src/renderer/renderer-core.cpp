@@ -340,7 +340,7 @@ namespace PacGame
          //     glColorMaterial ( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE ) ;*/
 
 
-                glMateriali(GL_FRONT_AND_BACK, GL_SHININESS, 11.0);
+                glMateriali(GL_FRONT_AND_BACK, GL_SHININESS, 10.0);
 
                 glMaterialfv(GL_FRONT, GL_AMBIENT, g_materialAmbient);
                 glMaterialfv(GL_FRONT, GL_DIFFUSE, g_materialDiffuse);

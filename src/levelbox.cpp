@@ -187,7 +187,7 @@ namespace PacGame
             {
                 PObject::draw();
 
-                float color[] = { 0.9f, 0.87f, 0.87f, 1.0 };
+                float color[] = { 0.55f, 0.5f, 0.5f, 1.0 };
                 this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, color, this->core->getResources()->getTextureTesourceId(S_WALL_RES));
             }
 
@@ -210,7 +210,9 @@ namespace PacGame
                 PObject::draw();
 
                 float color[] = { 0.7f, 0.6f, 0.6f, 1.0 };
-                this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, color, this->core->getResources()->getTextureTesourceId(U_WALL_RES));
+               // this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, color, this->core->getResources()->getTextureTesourceId(U_WALL_RES));
+                                glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                  this->core->getRenderer()->drawLightwaveModel(0.0f, 0.0f, 0.0f, this->core->getResources()->getModelResourceLW("data/barrel.lwo") );
             }
 
             void PUnsolidWall::print()
@@ -312,7 +314,7 @@ namespace PacGame
             {
                 PObject::draw();
 
-                float color[] = { 1.0, 0.6, 0.7, 0.9f };
+                float color[] = { 0.3, 0.3, 0.3, 1.0f };
                 this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, color, this->core->getResources()->getTextureTesourceId(CUBE_RES));
             }
 
@@ -491,6 +493,7 @@ namespace PacGame
                 float color[] = { 1.0, 1.0, 1.0, 1.0f };
        
                 this->core->getRenderer()->drawCube(0.0, 0.0, 0.8, color, this->core->getResources()->getTextureTesourceId(BOMB_RES));
+
             }
 
             void PBomb::print()
