@@ -97,7 +97,7 @@ namespace PacGame
             void PFloor::draw()
             {
                 PObject::draw();
-                float color[] = { 1.0, 1.0, 1.0, 1.0 };
+                float color[] = { 0.3f, 0.3f, 0.3f, 1.0f };
                 this->core->getRenderer()->drawFloor(0.0, 0.0, 1.0, color, this->core->getResources()->getTextureTesourceId(FLOOR_RES) );
             }
 
