@@ -217,6 +217,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LWObject.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\main.cpp"
 				>
 			</File>
@@ -388,6 +392,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\levelbox.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LWObject.h"
 				>
 			</File>
 			<File
