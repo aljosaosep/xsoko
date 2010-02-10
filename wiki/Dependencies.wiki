@@ -1,9 +1,0 @@
-#summary Libs required by xsoko.
-
-= List (linux) =
-
-  * libftgl-dev
-  * libboost-signals-dev
-  * libsdl-dev
-  * libsdl-image-dev
-  * libsage-dev
