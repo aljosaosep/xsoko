@@ -34,6 +34,7 @@
 
 #define ELEMENTS_TEXTURES 18 // 12 + 6 fpr skybox
 #define ELEMENTS_MODELS 12
+#define ELEMENTS_LWOBJECTS 2
 
 using namespace PacGame::RenderMaschine;
 using namespace PacGame::Md2Format;
@@ -46,6 +47,7 @@ namespace PacGame
         {
         private:
             PTexture *textures[ELEMENTS_TEXTURES];
+            LWObject *lwos[ELEMENTS_LWOBJECTS];
             Md2Model *models[ELEMENTS_MODELS];             // Added by Martin Savc, Friday, June 19 2009
             map<string, /*PacGame::LWFormat::*/LWObject> modelsLW;
           //  map<string, > modelsLW;
@@ -59,8 +61,11 @@ namespace PacGame
             unsigned getTextureTesourceId(int offset);
             
             bool loadModelResource(int offset, string fileName);             // Added by Martin Savc, Friday, June 19 2009
-            
+            bool loadLWOResource(int offset, string fileName);
+
             Md2Model* getModelResource(int offset);             // Added by Martin Savc, Friday, June 19 2009
+
+            LWObject* getModelResourceLW(int offset);
 
             LWObject* getModelResourceLW(string fileName /*LWObject &objRef*/);
 

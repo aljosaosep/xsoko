@@ -33,7 +33,9 @@ namespace PacGame
         PResourceManager::PResourceManager()
         {
             for(int i=0; i<ELEMENTS_TEXTURES; textures[i++]=NULL); 
-            for(int i=0; i<ELEMENTS_MODELS; models[i++]=NULL); 
+            for(int i=0; i<ELEMENTS_MODELS; models[i++]=NULL);
+            for(int i=0; i<ELEMENTS_LWOBJECTS; lwos[i++]=NULL);
+
         }
         
         PResourceManager::~PResourceManager()
@@ -88,6 +90,22 @@ namespace PacGame
                 }else
                         return false;
         }
+
+        bool  PResourceManager::loadLWOResource(int offset, string fileName) {
+            if (this->lwos[offset] == NULL) {
+                LWObject *obj = new LWObject;
+                if (!obj->Load(const_cast<char*>(fileName.c_str()))) {
+                    delete obj;
+                    return false;
+                }
+                this->lwos[offset] = obj;
+
+                obj = NULL;
+            }
+
+            return true;
+
+        }
         
         /***********************************************
          * getModelResource
@@ -133,6 +151,11 @@ namespace PacGame
             }
         }
 
+        LWObject* PResourceManager::getModelResourceLW(int offset) {
+            return this->lwos[offset];
+
+        }
+
         LWObject* PResourceManager::getModelResourceLW(string fileName /*LWObject &objRef*/)  {
 
             map<string, LWObject>::iterator it; // the iterator
@@ -155,7 +178,7 @@ namespace PacGame
 
              // add to hash map
              modelsLW.insert ( pair<string,LWObject>(fileName,obj) );
-
+             cout<<"loaded res"<<endl;
              // return over ref.
              //objRef = obj;
              return &modelsLW[fileName];

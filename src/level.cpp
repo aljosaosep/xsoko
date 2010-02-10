@@ -499,6 +499,8 @@ namespace PacGame
                   Messages::errorMessage("Level data is in invalid format ot there is not level data at all!");
                   return false;  // if it isn't, end routine
               }
+
+
               
               // everything went ok so far
               Messages::infoMessage("Loading level data... please wait.");
@@ -723,7 +725,8 @@ namespace PacGame
                                                resourceHandle->loadTextureResource(BOMB_RES, "bomb.tga");  // load it!
 
                                       // load also bomb lwo obj
-                                   //   resourceHandle->getModelResourceLW("data/bomb.lwo");
+                                    //  resourceHandle->getModelResourceLW("data/bomb.lwo");
+                                      resourceHandle->loadLWOResource(0, "data/bomb.lwo");
                                       
                                       second_matrix[i][j] = BOMB;
                                       break; 
@@ -974,23 +977,25 @@ namespace PacGame
                                   glPopMatrix();
                               }
                           
-                          // draw activated bombs, if there are any
-                          if(this->bombs.size()>0)
-                          {
-                              for(unsigned i=0; i<bombs.size(); i++)
-                              {
-                                  
-                                  glPushMatrix();
-                                  glTranslatef((float)this->bombs[i]->i, (float)this->bombs[i]->j, 0.0);
-                             //     float color[] = {1.0, 0.0, 0.0, 1.0};
-                               //   glColor3f(1.0, 0.0, 0.0);
-                               //   glBindTexture(GL_TEXTURE_2D, this->resourceHandle->getTextureTesourceId(BOMB_RES));
-                               //   this->gameCore->getRenderer()->drawCube(0.0, 0.0, 0.5, color,this->resourceHandle->getTextureTesourceId(BOMB_RES));
-                                  glRotatef(70.0f, 1.0f, 0.0f, 1.0f );
-                                  this->gameCore->getRenderer()->drawLightwaveModel(0.0f, 0.0f, 0.0f, this->gameCore->getResources()->getModelResourceLW("data/bomb.lwo") );
-                                  glPopMatrix();
-                              }
-                          }
+ 
+                      }
+                  }
+
+                               // draw activated bombs, if there are any
+                  if(this->bombs.size()>0)
+                  {
+                      for(unsigned i=0; i<bombs.size(); i++)
+                      {
+
+                          glPushMatrix();
+                          glTranslatef((float)this->bombs[i]->i, (float)this->bombs[i]->j, 0.0);
+                     //     float color[] = {1.0, 0.0, 0.0, 1.0};
+                       //   glColor3f(1.0, 0.0, 0.0);
+                       //   glBindTexture(GL_TEXTURE_2D, this->resourceHandle->getTextureTesourceId(BOMB_RES));
+                       //   this->gameCore->getRenderer()->drawCube(0.0, 0.0, 0.5, color,this->resourceHandle->getTextureTesourceId(BOMB_RES));
+                          glRotatef(70.0f, 1.0f, 0.0f, 1.0f );
+                          this->gameCore->getRenderer()->drawLightwaveModel(0.0f, 0.0f, 0.0f, this->gameCore->getResources()->getModelResourceLW(0));
+                          glPopMatrix();
                       }
                   }
               glPopMatrix();

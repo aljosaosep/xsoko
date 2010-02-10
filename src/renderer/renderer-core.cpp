@@ -339,6 +339,8 @@ namespace PacGame
                 glEnable(GL_COLOR_MATERIAL);
          //     glColorMaterial ( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE ) ;*/
 
+              //  glVertexPointer(3, GL_FLOAT, 28, &(lwo->pts[0]));
+
 
                 glMateriali(GL_FRONT_AND_BACK, GL_SHININESS, 10.0);
 
@@ -360,16 +362,6 @@ namespace PacGame
                         glColor3ub((GLubyte)lwo->srfs[ply->srfID].red,
                         (GLubyte)lwo->srfs[ply->srfID].green,
                         (GLubyte)lwo->srfs[ply->srfID].blue);
-
-                 //   glColor4f(0.0f, 0.0f ,0.0f, 1.0);
-
-
-                    // material setup
-                 //   glMaterialfv( GL_FRONT, GL_AMBIENT, lwo->srfs[ply->srfID].material.m_ambient );
-                //    glMaterialfv( GL_FRONT, GL_DIFFUSE, lwo->srfs[ply->srfID].material.m_diffuse );
-                //    glMaterialfv( GL_FRONT, GL_SPECULAR, lwo->srfs[ply->srfID].material.m_specular );
-                //    glMaterialfv( GL_FRONT, GL_EMISSION, m_pMaterials[materialIndex].m_emissive );
-                //    glMaterialf( GL_FRONT, GL_SHININESS, lwo->srfs[ply->srfID].material.m_shininess );
 
 
                     // izris posameznega oglišča
@@ -394,6 +386,18 @@ namespace PacGame
                         glVertex3f(lwo->pts[ply->p[3]].x,lwo->pts[ply->p[3]].y ,lwo->pts[ply->p[3]].z);
                     }
                 glEnd();
+                   // glVertexPointer(3, GL_FLOAT, 16, &(lwo->pts[ply->p[0]]));
+
+             /*       if (ply->numverts == 4) {
+                        // draw quad
+                    }
+                    else
+                    {
+                        // draw triangle
+                        glDrawArrays(GL_TRIANGLES, ply->p[0], 3);
+                    }*/
+
+
                 ply++; // naslednje lice
                 }
 
