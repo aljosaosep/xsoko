@@ -31,6 +31,7 @@ OBJECTDIR=build/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/src/SoundManager.o \
 	${OBJECTDIR}/src/zip/ioapi.o \
 	${OBJECTDIR}/src/camera.o \
 	${OBJECTDIR}/src/gui/gui.o \
@@ -84,20 +85,25 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-lGL -lGLU -lm -lftgl -lz -lSDL -lSDL_image -lboost_signals-mt -lboost_filesystem-mt
+LDLIBSOPTIONS=-lGL -lGLU -lm -lftgl -lz -lSDL -lSDL_image -lboost_signals-mt -lboost_filesystem-mt -lSDL_mixer
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	${MAKE}  -f nbproject/Makefile-Linux_Debug.mk dist/Linux_Debug/GNU-Linux-x86/xsoko_sdl
+	${MAKE}  -f nbproject/Makefile-Linux_Debug.mk dist/Linux_Debug/GNU-Linux-x86/xsoko
 
-dist/Linux_Debug/GNU-Linux-x86/xsoko_sdl: ${OBJECTFILES}
+dist/Linux_Debug/GNU-Linux-x86/xsoko: ${OBJECTFILES}
 	${MKDIR} -p dist/Linux_Debug/GNU-Linux-x86
-	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/xsoko_sdl ${OBJECTFILES} ${LDLIBSOPTIONS} 
+	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/xsoko ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
 ${OBJECTDIR}/src/md2loader/Anorms.h.gch: nbproject/Makefile-${CND_CONF}.mk src/md2loader/Anorms.h 
 	${MKDIR} -p ${OBJECTDIR}/src/md2loader
 	${RM} $@.d
 	$(COMPILE.cc) -g -Wall -DLinux_Debug -MMD -MP -MF $@.d -o $@ src/md2loader/Anorms.h
+
+${OBJECTDIR}/src/SoundManager.o: nbproject/Makefile-${CND_CONF}.mk src/SoundManager.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} $@.d
+	$(COMPILE.cc) -g -Wall -DLinux_Debug -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/SoundManager.o src/SoundManager.cpp
 
 ${OBJECTDIR}/src/gui/forms.h.gch: nbproject/Makefile-${CND_CONF}.mk src/gui/forms.h 
 	${MKDIR} -p ${OBJECTDIR}/src/gui
@@ -385,7 +391,7 @@ ${OBJECTDIR}/src/gui/panel.o: nbproject/Makefile-${CND_CONF}.mk src/gui/panel.cp
 # Clean Targets
 .clean-conf: ${CLEAN_SUBPROJECTS}
 	${RM} -r build/Linux_Debug
-	${RM} dist/Linux_Debug/GNU-Linux-x86/xsoko_sdl
+	${RM} dist/Linux_Debug/GNU-Linux-x86/xsoko
 
 # Subprojects
 .clean-subprojects:

@@ -39,6 +39,7 @@
         <itemPath>src/zip/zipfile.h</itemPath>
       </logicalFolder>
       <itemPath>src/CommonStructures.h</itemPath>
+      <itemPath>src/SoundManager.h</itemPath>
       <itemPath>src/camera.h</itemPath>
       <itemPath>src/config.h</itemPath>
       <itemPath>src/core.h</itemPath>
@@ -92,6 +93,7 @@
         <itemPath>src/zip/zipfile.cpp</itemPath>
       </logicalFolder>
       <itemPath>src/CommonStructures.cpp</itemPath>
+      <itemPath>src/SoundManager.cpp</itemPath>
       <itemPath>src/camera.cpp</itemPath>
       <itemPath>src/config.cpp</itemPath>
       <itemPath>src/core.cpp</itemPath>
@@ -282,6 +284,7 @@
             <linkerLibLibItem>SDL_image</linkerLibLibItem>
             <linkerLibLibItem>boost_signals-mt</linkerLibLibItem>
             <linkerLibLibItem>boost_filesystem-mt</linkerLibLibItem>
+            <linkerLibLibItem>SDL_mixer</linkerLibLibItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>
@@ -344,6 +347,7 @@
           <developmentMode>5</developmentMode>
         </fortranCompilerTool>
         <linkerTool>
+          <output>${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/xsoko</output>
           <linkerLibItems>
             <linkerLibLibItem>glfw</linkerLibLibItem>
             <linkerLibLibItem>GL</linkerLibLibItem>

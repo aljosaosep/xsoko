@@ -107,8 +107,8 @@ namespace PacGame
 
               prepareGui();
 
-              //alutInit (NULL, NULL); // inicializacija ALUT in OpenAL API
-              //alGetError(); // počisti napake
+              sm = SoundManager();
+              sm.loadEffect("bomb","sound/bombtiq.wav"); //TODO: nalaganje soudna bombe se naj izvede samo, če so kake bombe v levelu
 
               Messages::initMessage("Game", true);
               return true;
@@ -347,6 +347,11 @@ namespace PacGame
           PGame& PGame::getInstance(){
               static PGame game;
               return game;
+          }
+
+          SoundManager* PGame::getSoundManagerInstance()
+          {
+              return &sm;
           }
       }
 }
