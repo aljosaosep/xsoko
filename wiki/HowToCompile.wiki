@@ -8,7 +8,7 @@
   # install zlib
   # install boost (including signals and filesystem)
   # install sdl (with image module)
-  # install ftgl and use next hack: "sudo ln -s /usr/include/freetype2/ freetype /usr/include/freetype")
+  # install ftgl and, at least in Ubuntu Linux 8.10 and higher, use next hack: "sudo ln -s /usr/include/freetype2/ freetype /usr/include/freetype")
   # compile and you're done
 
 = Dependencies (Linux) =
