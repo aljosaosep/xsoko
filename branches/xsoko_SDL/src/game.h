@@ -38,6 +38,7 @@
 #include "level.h"
 #include "gui/gui.h"
 #include "gui/window.h"
+#include "SoundManager.h"
 
 using namespace PacGame::RenderMaschine;
 
@@ -76,7 +77,8 @@ namespace PacGame
               Window* mainMenu;
               Window* gameMenu;
 
-          private:
+              SoundManager sm;
+          
               // constructor
               PGame();
               // destructor
@@ -95,8 +97,11 @@ namespace PacGame
               void exitLevel();
               void resetLevel();
 
+              SoundManager* getSoundManagerInstance();
+
               //getters
               static PGame& getInstance();
+
           };       
       }       
 }
