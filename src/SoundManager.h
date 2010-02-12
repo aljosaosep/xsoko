@@ -23,8 +23,11 @@ class SoundManager {
     int audio_channels;     //2 channels = stereo
     int audio_buffers;      //Size of the audio buffers in memory
 
-    map<string,Mix_Chunk*> effects; // todo: isti finto še za musik
+    map<string,Mix_Chunk*> effects;
+    map<string,Mix_Music*> musics;
 
+    bool musicStatus;       // true - music is playing, false - no backgound music
+    string currentMusic;    // name of currently playing music
 
 public:
     SoundManager();
@@ -33,8 +36,12 @@ public:
     void loadEffect(string name, string path);
     void playEffect(string name);
     void loadMusic(string name, string path);
+    void playMusic(string name);
     void playMusic();
     void stopMusic();
+    bool getMusicStatus();
+    void playNextMusic();
+    void playPreviousMusic();
 };
 
 #endif	/* _SOUNDMANAGER_H */
