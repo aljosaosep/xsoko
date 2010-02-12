@@ -85,7 +85,7 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-lglfw -lGL -lGLU -lXxf86vm -lm -lXrandr -lopenal -lboost_filesystem -lz -lalut -lftgl -lboost_signals
+LDLIBSOPTIONS=-lGL -lGLU -lm -lftgl -lz -lSDL -lSDL_image -lboost_signals-mt -lboost_filesystem-mt -lSDL_mixer
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
