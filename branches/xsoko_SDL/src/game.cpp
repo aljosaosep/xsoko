@@ -54,14 +54,16 @@ namespace PacGame
               Messages::mainTitleMessage();
               windowTitle = _title;
 
-              if (SDL_Init(SDL_INIT_VIDEO) != 0)  // was SDL initialization successful?
+              if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0)  // was SDL initialization successful?
               {
                   Messages::initMessage("SDL", false); // in case, it is not
+                  Messages::initMessage("SDL audio", false); // in case, it is not
                   terminate(); // terminate and return false
                   return false;
               }
 
               Messages::initMessage("SDL", true); // prints out that initialization was success
+              Messages::initMessage("SDL audio", true);
 
               if(!Config::ReadConfig("xsoko.conf"))
               {
@@ -109,6 +111,10 @@ namespace PacGame
 
               sm = SoundManager();
               sm.loadEffect("bomb","sound/bombtiq.wav"); //TODO: nalaganje soudna bombe se naj izvede samo, če so kake bombe v levelu
+              sm.loadMusic("guardian","sound/mirror.mp3");
+              //sm.playMusic("guardian");
+              sm.loadMusic("mortal","sound/mortal_kombat.mp3");
+              sm.playMusic("mortal");
 
               Messages::initMessage("Game", true);
               return true;

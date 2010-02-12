@@ -30,7 +30,7 @@
 #include "input.h"
 #include "gui/gui.h"
 #include "game.h"
-//#include <AL/alut.h>
+#include <iostream>
 
 using namespace PacGame::GameClasses::GameObjects;
 
@@ -107,7 +107,27 @@ namespace PacGame
                                                 if(event.key.keysym.sym == SDLK_ESCAPE)
                                                 { 
                                                         toggleMenu = !toggleMenu;
-                                                }
+                                                }else
+                                                if(event.key.keysym.sym == SDLK_s)
+                                                {
+                                                    bool musicStatus = PGame::getInstance().getSoundManagerInstance()->getMusicStatus();
+                                                    if (musicStatus) {
+                                                        PGame::getInstance().getSoundManagerInstance()->stopMusic();
+                                                    } else {
+                                                        PGame::getInstance().getSoundManagerInstance()->playMusic();
+                                                    }
+                                                }else
+                                                if (event.key.keysym.sym == SDLK_a)
+                                                {
+                                                    std::cout << "Key a" << endl;
+                                                    PGame::getInstance().getSoundManagerInstance()->playPreviousMusic();
+
+                                                }else
+                                                /*if (event.key.keysym.sym == SDLK_y)
+                                                {
+                                                    std::cout << "Key d" << endl;
+                                                    PGame::getInstance().getSoundManagerInstance()->playNextMusic();
+                                                }*/
                                         break;
                                 }
                         }else
