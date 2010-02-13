@@ -22,7 +22,6 @@ namespace PacGame
         class SoundManager {
 
             int channel0;           //effects channel
-            int channel1;           //music channel
             int audio_rate;         //Frequency of audio playback
             Uint16 audio_format;    //Format of the audio we're playing
             int audio_channels;     //2 channels = stereo
@@ -39,8 +38,10 @@ namespace PacGame
             SoundManager(const SoundManager& orig);
             virtual ~SoundManager();
             void loadEffect(string name, string path);
+            void unloadEffect(string name);
             void playEffect(string name);
             void loadMusic(string name, string path);
+            void unloadMusic(string name);
             void playMusic(string name);
             void playMusic();
             void stopMusic();
