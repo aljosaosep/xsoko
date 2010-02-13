@@ -108,7 +108,7 @@ namespace PacGame
                                                 { 
                                                         toggleMenu = !toggleMenu;
                                                 }else
-                                                if(event.key.keysym.sym == SDLK_s)
+                                                if(event.key.keysym.sym == SDLK_x)
                                                 {
                                                     bool musicStatus = PGame::getInstance().getSoundManagerInstance()->getMusicStatus();
                                                     if (musicStatus) {
@@ -117,17 +117,17 @@ namespace PacGame
                                                         PGame::getInstance().getSoundManagerInstance()->playMusic();
                                                     }
                                                 }else
-                                                if (event.key.keysym.sym == SDLK_a)
+                                                if (event.key.keysym.sym == SDLK_y)
                                                 {
-                                                    std::cout << "Key a" << endl;
+                                                    std::cout << "Key y" << endl;
                                                     PGame::getInstance().getSoundManagerInstance()->playPreviousMusic();
 
                                                 }else
-                                                /*if (event.key.keysym.sym == SDLK_y)
+                                                if (event.key.keysym.sym == SDLK_c)
                                                 {
-                                                    std::cout << "Key d" << endl;
+                                                    std::cout << "Key c" << endl;
                                                     PGame::getInstance().getSoundManagerInstance()->playNextMusic();
-                                                }*/
+                                                }
                                         break;
                                 }
                         }else
