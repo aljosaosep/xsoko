@@ -30,16 +30,24 @@ namespace PacGame
             if(Mix_OpenAudio(audio_rate, audio_format, audio_channels, audio_buffers) != 0) {
                 Messages::errorMessage("unable to initialize audio");
                 //exit(1); todo: handling napake
+            } else {
+                Mix_VolumeMusic(MIX_MAX_VOLUME/2.5);  // set music volume
+                musicStatus = false;                  // music status initialization
+                lastMusic = "";
+                Messages::initMessage("sound manager",true);
             }
-
-            Mix_VolumeMusic(MIX_MAX_VOLUME/2.5);  // set music volume
-            musicStatus = false;                  // music status initialization
-            lastMusic = "";
-
-            Messages::initMessage("sound manager",true);
         }
 
         SoundManager::SoundManager(const SoundManager& orig) {
+            this->audio_buffers  = orig.audio_buffers;
+            this->audio_channels = orig.audio_channels;
+            this->audio_format   = orig.audio_format;
+            this->audio_rate     = orig.audio_rate;
+            this->channel0       = orig.channel0;
+            this->effects        = orig.effects;
+            this->lastMusic      = orig.lastMusic;
+            this->musicStatus    = orig.musicStatus;
+            this->musics         = orig.musics;
         }
 
         SoundManager::~SoundManager() {
@@ -67,12 +75,34 @@ namespace PacGame
 
         void SoundManager::loadEffect(string name, string path) {
             //Load our WAV file from disk
-            Mix_Chunk* sound = Mix_LoadWAV(path.c_str());
-            if(sound == NULL) {
-                Messages::errorMessage("unable to load effect file '" + path + "'");
+
+            map<string,Mix_Chunk*>::iterator it;
+            it=effects.find(name);
+
+            if (it == effects.end()) {
+                Mix_Chunk* sound = Mix_LoadWAV(path.c_str());
+                if(sound == NULL) {
+                    Messages::errorMessage("unable to load effect file '" + path + "'");
+                } else {
+                    effects.insert(pair<string,Mix_Chunk*>(name,sound));
+                    Messages::infoMessage("sound effect '"+name+"' loaded successfully");
+                }
             } else {
-                effects.insert(pair<string,Mix_Chunk*>(name,sound));
-                Messages::infoMessage("sound effect '"+name+"' loaded successfully");
+                Messages::errorMessage("sound effect with name '"+name+"' already exist");
+            }
+        }
+
+        void SoundManager::unloadEffect(string name) {
+            map<string,Mix_Chunk*>::iterator it;
+            it=effects.find(name);
+
+            if (it != effects.end()) {
+                Mix_Chunk* sound = effects[(*it).first];
+                Mix_FreeChunk(sound);
+                effects.erase(it);
+                Messages::infoMessage("sound effect '"+name+"' deleted successfully");
+            } else {
+                Messages::errorMessage("sound effect with name '"+name+"' doesn't exist");
             }
         }
 
@@ -90,18 +120,40 @@ namespace PacGame
                 }
             }
             else {
-                Messages::errorMessage("effect with this name does not exist");
+                Messages::errorMessage("effect with name '"+name+"' does not exist");
             }
         }
 
         void SoundManager::loadMusic(string name, string path) {
-            Mix_Music *music = Mix_LoadMUS(path.c_str());
 
-            if(music == NULL) {
-                Messages::errorMessage("unable to load music file '" + path + "'");
+            map<string,Mix_Music*>::iterator it;
+            it=musics.find(name);
+
+            if (it == musics.end()) {
+                Mix_Music *music = Mix_LoadMUS(path.c_str());
+
+                if(music == NULL) {
+                    Messages::errorMessage("unable to load music file '" + path + "'");
+                } else {
+                    musics.insert(pair<string,Mix_Music *>(name,music));
+                    Messages::infoMessage("music '"+name+"' loaded successfully");
+                }
             } else {
-                musics.insert(pair<string,Mix_Music *>(name,music));
-                Messages::infoMessage("music '"+name+"' loaded successfully");
+                Messages::errorMessage("music with name '"+name+"' already exist");
+            }
+        }
+
+        void SoundManager::unloadMusic(string name) {
+            map<string,Mix_Music*>::iterator it;
+            it=musics.find(name);
+
+            if (it != musics.end()) {
+                Mix_Music* music = musics[(*it).first];
+                Mix_FreeMusic(music);
+                musics.erase(it);
+                Messages::infoMessage("music '"+name+"' deleted successfully");
+            } else {
+                Messages::errorMessage("music with name '"+name+"' does not exist");
             }
         }
 

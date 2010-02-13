@@ -93,16 +93,16 @@ namespace PacGame
                                                 }else
                                                 if(event.key.keysym.sym == SDLK_d)
                                                 {
-                                                        if(this->level->getPlayerHandle()->getBombs() > 0)
-                                                            {
-                                                                if(this->level->addDroppedBomb(this->getLevel()->getPlayerHandle()->getI(), this->getLevel()->getPlayerHandle()->getJ()))
-                                                                {
-                                                                    this->level->getPlayerHandle()->decBombs();
+                                                    if(this->level->getPlayerHandle()->getBombs() > 0)
+                                                    {
+                                                        if(this->level->addDroppedBomb(this->getLevel()->getPlayerHandle()->getI(), this->getLevel()->getPlayerHandle()->getJ()))
+                                                        {
+                                                            this->level->getPlayerHandle()->decBombs();
 
-                                                                    PGame::getInstance().getSoundManagerInstance()->playEffect("bomb");
-                                                                }
+                                                            PGame::getInstance().getSoundManagerInstance()->playEffect("bomb");
+                                                        }
 
-                                                            }
+                                                    }
                                                 }else
                                                 if(event.key.keysym.sym == SDLK_ESCAPE)
                                                 { 
@@ -119,13 +119,11 @@ namespace PacGame
                                                 }else
                                                 if (event.key.keysym.sym == SDLK_y)
                                                 {
-                                                    std::cout << "Key y" << endl;
                                                     PGame::getInstance().getSoundManagerInstance()->playPreviousMusic();
 
                                                 }else
                                                 if (event.key.keysym.sym == SDLK_c)
                                                 {
-                                                    std::cout << "Key c" << endl;
                                                     PGame::getInstance().getSoundManagerInstance()->playNextMusic();
                                                 }
                                         break;
