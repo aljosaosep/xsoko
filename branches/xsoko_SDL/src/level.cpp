@@ -904,7 +904,7 @@ namespace PacGame
 
               // load skybox textures
 
-              if(resourceHandle->getTextureResource(SKY_RES_TOP)==NULL)  
+            /*  if(resourceHandle->getTextureResource(SKY_RES_TOP)==NULL)
                  resourceHandle->loadTextureResource(SKY_RES_TOP, "alpine_up.tga");
 
               if(resourceHandle->getTextureResource(SKY_RES_BOTTOM)==NULL)
@@ -914,13 +914,13 @@ namespace PacGame
                  resourceHandle->loadTextureResource(SKY_RES_LEFT, "alpine_west.tga");
 
               if(resourceHandle->getTextureResource(SKY_RES_RIGHT)==NULL)
-                 resourceHandle->loadTextureResource(SKY_RES_RIGHT, "alpine_east.tga");
+                 resourceHandle->loadTextureResource(SKY_RES_RIGHT, "alpine_east.tga");*/
 
               if(resourceHandle->getTextureResource(SKY_RES_FRONT)==NULL)
-                 resourceHandle->loadTextureResource(SKY_RES_FRONT, "alpine_north.tga");
+                 resourceHandle->loadTextureResource(SKY_RES_FRONT, "background.tga");
               
-              if(resourceHandle->getTextureResource(SKY_RES_BACK)==NULL)
-                 resourceHandle->loadTextureResource(SKY_RES_BACK, "alpine_south.tga");
+           /*   if(resourceHandle->getTextureResource(SKY_RES_BACK)==NULL)
+                 resourceHandle->loadTextureResource(SKY_RES_BACK, "alpine_south.tga");*/
 
               
               // try to initialize core
