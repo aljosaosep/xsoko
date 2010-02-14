@@ -242,7 +242,7 @@ namespace PacGame
                                 rm->getTextureTesourceId(SKY_RES_RIGHT),
                                 rm->getTextureTesourceId(SKY_RES_TOP),
                                 rm->getTextureTesourceId(SKY_RES_BOTTOM) */};
-                    this->level->getGameCoreHandle()->getRenderer()->drawSkyCube(0.0f, 0.0f, -40.0f, 30.0f, texIDs);
+                    this->level->getGameCoreHandle()->getRenderer()->drawSkyCube(0.0f, 0.0f, -55.0f, 40.0f, texIDs);
 
                     gluLookAt(this->camera->view.getCoordX(), this->camera->view.getCoordY(), this->camera->view.getCoordZ(),
                             this->camera->position.getCoordX(), this->camera->position.getCoordY(), this->camera->position.getCoordZ(),
