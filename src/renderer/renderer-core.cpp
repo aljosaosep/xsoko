@@ -276,12 +276,12 @@ namespace PacGame
 			glNormal3f(0.0f, 0.0f, 1.0f);
 			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
-                        glBindTexture(GL_TEXTURE_2D, textures[1]);
+                      /*  glBindTexture(GL_TEXTURE_2D, textures[1]);
 			glNormal3f(0.0f, 0.0f, -1.0f);
-			glDrawArrays(GL_TRIANGLE_STRIP, 4, 4);
+			glDrawArrays(GL_TRIANGLE_STRIP, 4, 4);*/
 
 			// LEFT AND RIGHT
-                        glBindTexture(GL_TEXTURE_2D, textures[2]);
+                   /*     glBindTexture(GL_TEXTURE_2D, textures[2]);
                         glNormal3f(-1.0f, 0.0f, 0.0f);
 			glDrawArrays(GL_TRIANGLE_STRIP, 8, 4);
 
@@ -296,7 +296,7 @@ namespace PacGame
 
                         glBindTexture(GL_TEXTURE_2D, textures[5]);
 			glNormal3f(0.0f, -1.0f, 0.0f);
-                        glDrawArrays(GL_TRIANGLE_STRIP, 20, 4);
+                        glDrawArrays(GL_TRIANGLE_STRIP, 20, 4);*/
 
                   glPopMatrix();
 
@@ -333,14 +333,13 @@ namespace PacGame
 
              /*   glEnable(GL_LIGHTING);
                 glEnable(GL_LIGHT0);
-           //     glDisable(GL_BLEND);
+                glDisable(GL_BLEND);
            //     glDisable(GL_TEXTURE_2D);
 
                 glEnable(GL_COLOR_MATERIAL);
          //     glColorMaterial ( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE ) ;*/
 
               //  glVertexPointer(3, GL_FLOAT, 28, &(lwo->pts[0]));
-
 
                 glMateriali(GL_FRONT_AND_BACK, GL_SHININESS, 10.0);
 

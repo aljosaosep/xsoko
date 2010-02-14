@@ -236,13 +236,13 @@ namespace PacGame
 
                    PResourceManager *rm =  this->level->getGameCoreHandle()->getResources();
                     // FRONT, BACK, LEFT, RIGHT, TOP, BOTTOM
-                    int texIDs[] = { rm->getTextureTesourceId(SKY_RES_FRONT),
+                    int texIDs[] = { rm->getTextureTesourceId(SKY_RES_FRONT)/*,
                                 rm->getTextureTesourceId(SKY_RES_BACK),
                                 rm->getTextureTesourceId(SKY_RES_LEFT),
                                 rm->getTextureTesourceId(SKY_RES_RIGHT),
                                 rm->getTextureTesourceId(SKY_RES_TOP),
-                                rm->getTextureTesourceId(SKY_RES_BOTTOM) };
-                    this->level->getGameCoreHandle()->getRenderer()->drawSkyCube(0.0f, 0.0f, -15.0f, 30.0f, texIDs);
+                                rm->getTextureTesourceId(SKY_RES_BOTTOM) */};
+                    this->level->getGameCoreHandle()->getRenderer()->drawSkyCube(0.0f, 0.0f, -40.0f, 30.0f, texIDs);
 
                     gluLookAt(this->camera->view.getCoordX(), this->camera->view.getCoordY(), this->camera->view.getCoordZ(),
                             this->camera->position.getCoordX(), this->camera->position.getCoordY(), this->camera->position.getCoordZ(),
