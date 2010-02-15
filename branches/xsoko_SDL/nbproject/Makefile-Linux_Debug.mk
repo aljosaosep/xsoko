@@ -85,7 +85,6 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-
 LDLIBSOPTIONS=-lGL -lGLU -lm -lftgl -lz -lSDL -lSDL_image -lboost_signals-mt -lboost_filesystem-mt -lSDL_mixer
 
 # Build Targets
