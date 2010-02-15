@@ -27,7 +27,6 @@
  */
 
 #include "game.h"
-//#include <AL/alut.h>
 //#include "renderer/particle.h"
 #include <cstdio>
 #include <cmath>
@@ -110,10 +109,10 @@ namespace PacGame
               prepareGui();
 
               sm = SoundManager();
-              sm.loadEffect("bomb","sound/bombtiq.wav"); //TODO: nalaganje soudna bombe se naj izvede samo, če so kake bombe v levelu
-              sm.loadMusic("guardian","sound/mirror.mp3");
+              sm.loadEffect("bomb","data/sound/bombtiq.wav"); //TODO: nalaganje soudna bombe se naj izvede samo, če so kake bombe v levelu
+              sm.loadMusic("guardian","data/sound/mirror.mp3");
               //sm.playMusic("guardian");
-              sm.loadMusic("mortal","sound/mortal_kombat.mp3");
+              sm.loadMusic("mortal","data/sound/mortal_kombat.mp3");
               sm.playMusic("mortal");
 
               Messages::initMessage("Game", true);
