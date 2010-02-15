@@ -1,7 +1,0 @@
-Added by Aljosa(27.6.08) (lahko naredi kdorkoli, ce ne bom jaz):
-Implementacija naslednjih funkcij iz level.h:
------------------------------------------------------------------
-      void printLevelByType(); 
-      void printLevelByMeta();
-      bool loadLevelFromFile(char *filename); 
-      bool saveStateToFile(char *filename);  
