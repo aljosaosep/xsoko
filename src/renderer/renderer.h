@@ -56,7 +56,7 @@ namespace PacGame
     * ********************************************************/
     class PRenderer
     {
-    private:
+    public:
         // light properties
         float lightAmbient[4];
         float lightDiffuse[4];

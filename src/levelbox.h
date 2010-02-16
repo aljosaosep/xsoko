@@ -162,8 +162,8 @@ namespace PacGame
                       
                       this->setMaterial(AMBIENT, 0.5f, 0.7f, 0.5f, 0.8f);
                       this->setMaterial(DIFFUSE, 0.2f, 0.7f, 0.2f, 0.8f);
-                      this->setMaterial(SPECULAR, 1.0f, 1.0f, 1.0f, 0.8f);
-                      this->setMaterialShininess(0.0f);
+                      this->setMaterial(SPECULAR, 0.7f, 0.6f, 0.6f, 0.8f);
+                      this->setMaterialShininess(90.0f);
                       this->setMaterialSet();
                   }
                   void draw();
@@ -231,7 +231,15 @@ namespace PacGame
               {
               private:
               public:
-                  PBridge(PCore *core) { this->id = BRIDGE; this->core = core; }
+                  PBridge(PCore *core) {
+                      this->setMaterial(AMBIENT, 1.0f, 1.0f, 1.0f, 1.0f);
+                      this->setMaterial(DIFFUSE, 1.0f, 1.0f, 1.0f, 1.0f);
+                      this->setMaterial(SPECULAR, 1.0f, 1.0f, 1.0f, 1.0f);
+                      this->setMaterialShininess(20.0f);
+                      this->setMaterialSet();
+
+                      this->id = BRIDGE; this->core = core;
+                  }
                   void draw();
                   void print();             
                   short isPlayerMovePossible(int direction) ;
@@ -268,10 +276,10 @@ namespace PacGame
                   PCube(int i, int j, PCore *core) {
                       this->i=i; this->j = j; realI = (float)i; realJ = (float)j; this->id=CUBE; this->core = core;
                       
-                      this->setMaterial(AMBIENT, 0.0f, 0.0f, 0.0f, 0.0f);
-                      this->setMaterial(DIFFUSE, 0.0f, 0.0f, 0.0f, 0.4f);
-                      this->setMaterial(SPECULAR, 0.0f, 0.0f,0.0f, 0.0f);
-                      this->setMaterialShininess(0.0f);
+                       this->setMaterial(AMBIENT, 1.0f, 1.0f, 1.0f, 1.0f);
+                      this->setMaterial(DIFFUSE, 1.0f, 1.0f, 1.0f, 1.0f);
+                      this->setMaterial(SPECULAR, 1.0f, 1.0f, 1.0f, 1.0f);
+                      this->setMaterialShininess(20.0f);
                       this->setMaterialSet();
                   }
                   void draw();
@@ -294,10 +302,10 @@ namespace PacGame
                   PCubeHolder(PCore *core)  {
                       this->id = 4; this->core = core;
                       
-                      this->setMaterial(AMBIENT, 0.9f, 0.9f, 0.9f, 0.8f);
-                      this->setMaterial(DIFFUSE, 0.9f, 0.9f, 0.9f, 0.0f);
-                      this->setMaterial(SPECULAR, 0.2f, 0.2f, 0.2f, 0.8f);
-                      this->setMaterialShininess(200.0f);
+                      this->setMaterial(AMBIENT, 1.0f, 1.0f, 1.0f, 1.0f);
+                      this->setMaterial(DIFFUSE, 1.0f, 1.0f, 1.0f, 1.0f);
+                      this->setMaterial(SPECULAR, 1.0f, 1.0f, 1.0f, 1.0f);
+                      this->setMaterialShininess(20.0f);
                       this->setMaterialSet();
                   }
                   void draw();
@@ -317,7 +325,15 @@ namespace PacGame
               private:
                   Aliases::PDirection dir; // tells in wich way os cube orientated
               public:
-                  POnewayFloor(PCore *core, unsigned short id) { this->id = 1; this->core = core; this->id = id; }
+                  POnewayFloor(PCore *core, unsigned short id) {
+                      this->id = 1; this->core = core; this->id = id;
+                      
+                      this->setMaterial(AMBIENT, 1.0f, 1.0f, 1.0f, 1.0f);
+                      this->setMaterial(DIFFUSE, 1.0f, 1.0f, 1.0f, 1.0f);
+                      this->setMaterial(SPECULAR, 1.0f, 1.0f, 1.0f, 1.0f);
+                      this->setMaterialShininess(20.0f);
+                      this->setMaterialSet();
+                  }
                   void draw();
                   void print();             
                   short isPlayerMovePossible(int direction) ;
@@ -344,7 +360,15 @@ namespace PacGame
                   Aliases::PDirection dir; // tells in wich way os cube orientated
 
               public:            
-                  POnewayCube(Aliases::PDirection dir, int i, int j, unsigned short id, PCore *core) : dir(dir) { this->i=i; this->j = j; realI = (float)i; realJ = (float)j; this->core = core; this->id=id; }
+                  POnewayCube(Aliases::PDirection dir, int i, int j, unsigned short id, PCore *core) : dir(dir) {
+                      this->i=i; this->j = j; realI = (float)i; realJ = (float)j; this->core = core; this->id=id;
+                      
+                      this->setMaterial(AMBIENT, 1.0f, 1.0f, 1.0f, 1.0f);
+                      this->setMaterial(DIFFUSE, 1.0f, 1.0f, 1.0f, 1.0f);
+                      this->setMaterial(SPECULAR, 1.0f, 1.0f, 1.0f, 1.0f);
+                      this->setMaterialShininess(20.0f);
+                      this->setMaterialSet();
+                  }
                   void draw();
                   bool animate(double time);
                   void print();        
@@ -365,7 +389,15 @@ namespace PacGame
               {
               private:
               public:
-                  PBomb(int i, int j, PCore *core){ this->i=i; this->j = j; realI = (float)i; realJ = (float)j; this->id = BOMB; this->core = core; }
+                  PBomb(int i, int j, PCore *core){
+                      this->i=i; this->j = j; realI = (float)i; realJ = (float)j; this->id = BOMB; this->core = core;
+                      
+                      this->setMaterial(AMBIENT, 1.0f, 1.0f, 1.0f, 1.0f);
+                      this->setMaterial(DIFFUSE, 1.0f, 1.0f, 1.0f, 1.0f);
+                      this->setMaterial(SPECULAR, 1.0f, 1.0f, 1.0f, 1.0f);
+                      this->setMaterialShininess(20.0f);
+                      this->setMaterialSet();
+                  }
                   void draw();
                   void print();
                   short isPlayerMovePossible(int direction) ;

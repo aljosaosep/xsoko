@@ -122,11 +122,11 @@ namespace PacGame
               lightSpecular[0] = 1.0f, lightSpecular[1] = 1.0f, lightSpecular[2] = 1.0f, lightSpecular[3] = 1.0f;
  */
 
-                            lightAmbient[0] = 1.0f, lightAmbient[1] = 1.0f, lightAmbient[2] = 1.0f, lightAmbient[3] = 1.0f;
+              lightAmbient[0] = 1.0f, lightAmbient[1] = 1.0f, lightAmbient[2] = 1.0f, lightAmbient[3] = 1.0f;
               lightDiffuse[0] =1.0f, lightDiffuse[1] =1.0f, lightDiffuse[2] = 1.0f, lightDiffuse[3] = 1.0f;
               lightSpecular[0] = 1.0f, lightSpecular[1] = 1.0f, lightSpecular[2] = 1.0f, lightSpecular[3] = 1.0f;
 
-              lightPosition[0] = 50.0f, lightPosition[1] = 50.0f, lightPosition[2] = -30.0f, lightPosition[3] = 0.0f;
+              lightPosition[0] = 20.0f, lightPosition[1] = 80.0f, lightPosition[2] = 20.0f, lightPosition[3] = 0.0f;
 
 
               g_materialDiffuse[0] = 1.0f, g_materialDiffuse[1] = 1.0f, g_materialDiffuse[2] = 1.0f, g_materialDiffuse[3] = 1.0f;
@@ -222,6 +222,8 @@ namespace PacGame
 
              glEnable(GL_CULL_FACE);
 
+         //    glDisable(GL_TEXTURE_2D); // REMOVE
+
              glCullFace(GL_BACK);
               glVertexPointer(3, GL_FLOAT, 0, box);
               glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
@@ -263,6 +265,7 @@ namespace PacGame
 
            //  glCullFace(GL_BACK);
 
+        //      glDisable(GL_TEXTURE_2D); // REMOVE
 
               glVertexPointer(3, GL_FLOAT, 0, box);
               glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
@@ -315,6 +318,8 @@ namespace PacGame
 
             //  glEnable(GL_COLOR_MATERIAL);
 
+          //    glDisable(GL_TEXTURE_2D); // REMOVE
+
               glEnable(GL_CULL_FACE);
               glCullFace(GL_FRONT);
                  glVertexPointer(3, GL_FLOAT, 0, box);
@@ -331,26 +336,28 @@ namespace PacGame
                 VECTOR* pt;
                 POLYGON* ply = lwo->plys;
 
-             /*   glEnable(GL_LIGHTING);
-                glEnable(GL_LIGHT0);
-                glDisable(GL_BLEND);
+                glDisable(GL_TEXTURE_2D);
+
+           //     glEnable(GL_LIGHTING);
+             //   glEnable(GL_LIGHT0);
+           //     glDisable(GL_BLEND);
            //     glDisable(GL_TEXTURE_2D);
 
-                glEnable(GL_COLOR_MATERIAL);
+          //      glEnable(GL_COLOR_MATERIAL);
          //     glColorMaterial ( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE ) ;*/
 
-              //  glVertexPointer(3, GL_FLOAT, 28, &(lwo->pts[0]));
-
+/*
                 glMateriali(GL_FRONT_AND_BACK, GL_SHININESS, 10.0);
 
                 glMaterialfv(GL_FRONT, GL_AMBIENT, g_materialAmbient);
                 glMaterialfv(GL_FRONT, GL_DIFFUSE, g_materialDiffuse);
                 glMaterialfv(GL_FRONT, GL_SPECULAR, g_materialSpecular);
+ */
 
                 glPushMatrix();
                 glTranslatef(x, y, z);
 
- 
+
 
                 for(int i=0; i<lwo->numpolygons; i++)
                 {
@@ -361,6 +368,16 @@ namespace PacGame
                         glColor3ub((GLubyte)lwo->srfs[ply->srfID].red,
                         (GLubyte)lwo->srfs[ply->srfID].green,
                         (GLubyte)lwo->srfs[ply->srfID].blue);
+
+                   // glColor4f(0.0f, 0.0f ,0.0f, 1.0);
+
+
+                    // material setup
+                 //   glMaterialfv( GL_FRONT, GL_AMBIENT, lwo->srfs[ply->srfID].material.m_ambient );
+                //    glMaterialfv( GL_FRONT, GL_DIFFUSE, lwo->srfs[ply->srfID].material.m_diffuse );
+                //    glMaterialfv( GL_FRONT, GL_SPECULAR, lwo->srfs[ply->srfID].material.m_specular );
+                //    glMaterialfv( GL_FRONT, GL_EMISSION, m_pMaterials[materialIndex].m_emissive );
+                //    glMaterialf( GL_FRONT, GL_SHININESS, lwo->srfs[ply->srfID].material.m_shininess );
 
 
                     // izris posameznega oglišča
@@ -385,7 +402,20 @@ namespace PacGame
                         glVertex3f(lwo->pts[ply->p[3]].x,lwo->pts[ply->p[3]].y ,lwo->pts[ply->p[3]].z);
                     }
                 glEnd();
-                   // glVertexPointer(3, GL_FLOAT, 16, &(lwo->pts[ply->p[0]]));
+                ply++; // naslednje lice
+                }
+
+                glPopMatrix();
+
+              //  glEnable(GL_BLEND);
+               // glEnable(GL_TEXTURE_2D);
+                glEnable(GL_TEXTURE_2D);
+          }
+      }
+
+                    //  glVertexPointer(3, GL_FLOAT, 28, &(lwo->pts[0]));
+
+                         // glVertexPointer(3, GL_FLOAT, 16, &(lwo->pts[ply->p[0]]));
 
              /*       if (ply->numverts == 4) {
                         // draw quad
@@ -395,15 +425,4 @@ namespace PacGame
                         // draw triangle
                         glDrawArrays(GL_TRIANGLES, ply->p[0], 3);
                     }*/
-
-
-                ply++; // naslednje lice
-                }
-
-                glPopMatrix();
-
-               // glEnable(GL_BLEND);
-               // glEnable(GL_TEXTURE_2D);
-          }
-      }
 }

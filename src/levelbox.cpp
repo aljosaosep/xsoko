@@ -70,8 +70,10 @@ namespace PacGame
             void PTeleport::draw()
             {
                 PObject::draw();
-                float color[] = {0.0, 0.0, 1.0, 0.6};
-                this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, color, this->core->getResources()->getTextureTesourceId(TELEPORT_RES) );
+                float color[] = {1.0, 1.0, 1.0, 1.0};
+              //  this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, color, this->core->getResources()->getTextureTesourceId(TELEPORT_RES) );
+                this->core->getRenderer()->drawFloor(0.0, 0.0, 1.0, color, this->core->getResources()->getTextureTesourceId(TELEPORT_RES) );
+
             }
 
             void PTeleport::print()
@@ -97,7 +99,8 @@ namespace PacGame
             void PFloor::draw()
             {
                 PObject::draw();
-                float color[] = { 0.3f, 0.3f, 0.3f, 1.0f };
+                    float color[] = {0.5, 0.5, 0.5, 1.0};
+              //  float color[] = { 0.3f, 0.3f, 0.3f, 1.0f };
                 this->core->getRenderer()->drawFloor(0.0, 0.0, 1.0, color, this->core->getResources()->getTextureTesourceId(FLOOR_RES) );
             }
 
@@ -210,9 +213,9 @@ namespace PacGame
                 PObject::draw();
 
                 float color[] = { 0.7f, 0.6f, 0.6f, 1.0 };
-               // this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, color, this->core->getResources()->getTextureTesourceId(U_WALL_RES));
-                                glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                  this->core->getRenderer()->drawLightwaveModel(0.0f, 0.0f, 0.0f, this->core->getResources()->getModelResourceLW("data/barrel.lwo") );
+              //  this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, color, this->core->getResources()->getTextureTesourceId(U_WALL_RES));
+                glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                this->core->getRenderer()->drawLightwaveModel(0.0f, 0.0f, 0.0f, this->core->getResources()->getModelResourceLW("data/barrel.lwo") );
             }
 
             void PUnsolidWall::print()
