@@ -34,6 +34,7 @@ public class Table extends JComponent{
     private HashMap<Byte,Image> optImages = null;
     private ArrayList<TeleportTranslation> teleportsMapping = null;
     private ArrayList<Point> teleportList = null;
+    private String author = null;
     
     public Table(Elements el,Options opt,int width, int height){
         this.cols = width;
@@ -111,10 +112,6 @@ public class Table extends JComponent{
         Point newSel = new Point();
         newSel.x = p.x/fieldSize;
         newSel.y = p.y/fieldSize;
-        /*if(newSel.x < cols && newSel.y < rows)
-            return newSel;
-        else
-            return null;*/
         if(newSel.x > cols-1)
             newSel.x = cols-1;
         if(newSel.y > rows-1)
@@ -179,11 +176,17 @@ public class Table extends JComponent{
                     }
                 }
             }
+            author = input.readLine();
         } catch (Exception ex) {
             Logger.getLogger(Table.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
         }
         repaint();
+    }
+
+    public String getAuthor()
+    {
+        return author;
     }
     
     public void addSelectListener(ChangeListener listener){
@@ -333,7 +336,7 @@ public class Table extends JComponent{
         new TeleportManager(teleportsMapping, teleportList).setVisible(true);
     }
     
-    public void SaveToFile(File file) throws IOException{
+    public void SaveToFile(File file,String author) throws IOException{
         if(teleportList.size() == 1){
             JOptionPane.showMessageDialog(null, "Shranjevanje neuspešno!\nImate samo en teleport; dodajte še enega ali izbrišite obstoječega.");
             return;
@@ -381,6 +384,7 @@ public class Table extends JComponent{
             int dest = 9 + teleportList.indexOf(teleportsMapping.get(i).dest);
             writer.write(src+" "+dest+"\n");
         }
+        writer.write(author);
         writer.close();
     }
 

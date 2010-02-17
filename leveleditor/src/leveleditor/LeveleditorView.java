@@ -5,8 +5,6 @@
 package leveleditor;
 
 import java.awt.event.ItemEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -31,6 +29,7 @@ public class LeveleditorView extends FrameView {
     private Options opts = new Options();
     private String title;
     private File file = null;
+    private String author = "Unknown";
     private boolean isChanged = false;
     private JFileChooser fileDlg = null;
     
@@ -180,6 +179,7 @@ public class LeveleditorView extends FrameView {
         javax.swing.JMenuItem exitMenuItem = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
         typeGroup = new javax.swing.ButtonGroup();
         optionGroup = new javax.swing.ButtonGroup();
 
@@ -252,7 +252,7 @@ public class LeveleditorView extends FrameView {
         );
         optionPanelLayout.setVerticalGroup(
             optionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 148, Short.MAX_VALUE)
+            .addGap(0, 146, Short.MAX_VALUE)
         );
 
         jSplitPane1.setRightComponent(optionPanel);
@@ -265,7 +265,7 @@ public class LeveleditorView extends FrameView {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE)
+            .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE)
         );
 
         jScrollPane1.setName("jScrollPane1"); // NOI18N
@@ -286,7 +286,7 @@ public class LeveleditorView extends FrameView {
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
@@ -302,13 +302,11 @@ public class LeveleditorView extends FrameView {
         fileMenu.add(jMenuItem1);
 
         jMenuItem4.setAction(actionMap.get("MenuSave")); // NOI18N
-        jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem4.setText(resourceMap.getString("jMenuItem4.text")); // NOI18N
         jMenuItem4.setName("jMenuItem4"); // NOI18N
         fileMenu.add(jMenuItem4);
 
         jMenuItem3.setAction(actionMap.get("MenuSaveToFile")); // NOI18N
-        jMenuItem3.setAccelerator(null);
         jMenuItem3.setText(resourceMap.getString("jMenuItem3.text")); // NOI18N
         jMenuItem3.setName("jMenuItem3"); // NOI18N
         fileMenu.add(jMenuItem3);
@@ -325,6 +323,11 @@ public class LeveleditorView extends FrameView {
         jMenuItem2.setAction(actionMap.get("OpenTeleportMngr")); // NOI18N
         jMenuItem2.setName("jMenuItem2"); // NOI18N
         jMenu1.add(jMenuItem2);
+
+        jMenuItem5.setAction(actionMap.get("MenuAuthor")); // NOI18N
+        jMenuItem5.setLabel(resourceMap.getString("jMenuItem5.label")); // NOI18N
+        jMenuItem5.setName("jMenuItem5"); // NOI18N
+        jMenu1.add(jMenuItem5);
 
         menuBar.add(jMenu1);
 
@@ -358,6 +361,7 @@ private void mheightStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST
         }
         if(fileDlg.showOpenDialog(null)==JFileChooser.APPROVE_OPTION){
             map.LoadFromFile(fileDlg.getSelectedFile());
+            author = map.getAuthor();
             file = fileDlg.getSelectedFile();
             getFrame().setTitle(title+" - "+file.getName());
             isChanged = false;
@@ -369,38 +373,48 @@ private void mheightStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST
         map.ShowTeleportManager();
     }
 
+    private void saveFile(File file)
+    {
+       try{
+           if(author.equals("Unknown")) {
+               int result = JOptionPane.showConfirmDialog(null, "Pozabil si nastaviti avtorja stopnje. Želiš to storiti zdaj?",
+                                                          "Avtor", JOptionPane.YES_NO_OPTION);
+               if(result == JOptionPane.YES_OPTION) {
+                   author = JOptionPane.showInputDialog("Prosim, vpišite vaše ime in priimek", author);
+               }
+           }
+           map.SaveToFile(file,author);
+           if(this.file == null || !this.file.equals(file)){
+               this.file = file;
+               getFrame().setTitle(title+" - "+file.getName());
+           } else if(isChanged){
+               getFrame().setTitle(title+" - "+file.getName());
+           }
+           isChanged = false;
+       } catch (Exception ex) {
+           JOptionPane.showMessageDialog(null, "Napaka pri shranjevanju: "+ex.getLocalizedMessage(),
+                                         "Napaka", JOptionPane.ERROR_MESSAGE);
+       }
+    }
+
     @Action
     public void MenuSaveToFile() {
         if(fileDlg.showSaveDialog(null)==JFileChooser.APPROVE_OPTION){
-            try {
-                map.SaveToFile(fileDlg.getSelectedFile());
-                if(!file.equals(fileDlg.getSelectedFile())){
-                    file = fileDlg.getSelectedFile();
-                    getFrame().setTitle(title+" - "+file.getName());
-                } else if(isChanged){
-                    getFrame().setTitle(title+" - "+file.getName());
-                }
-                isChanged = false;
-            } catch (IOException ex) {
-                Logger.getLogger(LeveleditorView.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            saveFile(fileDlg.getSelectedFile());
         }
     }
 
     @Action
     public void MenuSave(){
         if(file != null){
-            try {
-                map.SaveToFile(file);
-                if(isChanged){
-                    getFrame().setTitle(title+" - "+file.getName());
-                }
-                isChanged = false;
-            } catch (IOException ex) {
-                Logger.getLogger(LeveleditorView.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            saveFile(file);
         } else
             MenuSaveToFile();
+    }
+
+    @Action
+    public void MenuAuthor() {
+        author = JOptionPane.showInputDialog("Prosim, vpišite vaše ime in priimek", author);
     }
 
     // <editor-fold defaultstate="collapsed" desc="Generated Variables">
@@ -412,6 +426,7 @@ private void mheightStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSplitPane jSplitPane1;
