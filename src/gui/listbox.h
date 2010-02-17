@@ -71,6 +71,9 @@ public:
     void onMouseDown(int mx, int my);
     void onMouseUp(int mx, int my);
     void onKeyUp(int key);
+
+    //event
+    signal<void (Component*, Item*)> onItemSelect;
 };
 
 #endif	/* _LISTBOX_H */

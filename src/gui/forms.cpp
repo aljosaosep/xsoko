@@ -23,6 +23,7 @@
 #include "gui.h"
 #include "../config.h"
 #include "../game.h"
+#include <fstream>
 
 #if defined(Windows_Release) || defined(Windows_Debug)
     #define BOOST_WINDOWS_API
@@ -203,17 +204,39 @@ FreeplayWnd::FreeplayWnd() : Window(235, 200, 330, 200, "Freeplay"), mainMenu(NU
             if ( !is_directory(*itr) && extension(*itr) == ".lvl" )
             {
                   string filename = itr->path().leaf();
-                  lstLevels->addItem(new LevelItem(filename.substr(0,filename.find_last_of('.'))));
+                  lstLevels->addItem(new LevelItem(filename.substr(0,filename.find_last_of('.')), getAuthor("data/"+filename)));
             }
         }
+        lstLevels->setSelectedItem(0);
     } else {
         Messages::infoMessage("WARNING - Cannot find data directory!");
     }
 }
 
+string FreeplayWnd::getAuthor(string filename) {
+    ifstream level(filename.c_str());
+    if(level.good()) {
+        int temp; string author;
+        level >> temp;
+        level >> temp;
+        for(int i=0;i<temp*2+3;i++)
+            getline(level,author);
+        level >> temp;
+        for(int i=0;i<temp+1;i++)
+            getline(level,author);
+        if(!level.eof()) {
+            getline(level,author);
+            if(!author.empty())
+                return author;
+        }
+    }
+    return "Unknown";
+}
+
 void FreeplayWnd::initializeComponents(){
     lstLevels = new ListBox(10,10,200,132);
     lstLevels->KeyUp.connect(bind(&FreeplayWnd::lstLevelsKeyUp, this, _1, _2));
+    lstLevels->onItemSelect.connect(bind(&FreeplayWnd::lstLevelsItemSelect, this, _1, _2));
     lstLevels->setFocusIndex(1);
     AddComponent(lstLevels);
 
@@ -226,6 +249,9 @@ void FreeplayWnd::initializeComponents(){
     btnBack->setFocusIndex(3);
     btnBack->onPressed.connect(bind(&FreeplayWnd::btnBackClick, this, _1));
     AddComponent(btnBack);
+
+    lblAuthor = new Text(10,152,"Author: -");
+    AddComponent(lblAuthor);
 }
 
 void FreeplayWnd::btnBackClick(Component* sender){
@@ -240,6 +266,10 @@ void FreeplayWnd::btnBackClick(Component* sender){
 void FreeplayWnd::btnPlayClick(Component* sender){
     setVisible(false);
     PGame::getInstance().loadLevel("data/"+lstLevels->getSelectedItem()->toString()+".lvl");
+}
+
+void FreeplayWnd::lstLevelsItemSelect(Component* sender, Item* item){
+    lblAuthor->setText("Author: " + ((LevelItem*)item)->getAuthor());
 }
 
 void FreeplayWnd::lstLevelsKeyUp(Component* sender, int key){

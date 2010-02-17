@@ -174,6 +174,7 @@ void ListBox::onMouseDown(int mx, int my){
         unsigned index = (my-2) / 16 + drawIndex;
         if(index < items.size()){
             selected = index;
+            onItemSelect(this,items.at(selected));
         }
     }
     if(mx >= width-18){
@@ -221,8 +222,10 @@ Item*  ListBox::getSelectedItem()
 
 void ListBox::setSelectedItem(int index)
 {
-    if(index >= 0 && index < items.size())
+    if(index >= 0 && index < items.size()) {
         selected = index;
+        onItemSelect(this,items.at(selected));
+    }
 }
 
 void ListBox::setSelectedItem(Item* item)
@@ -233,6 +236,7 @@ void ListBox::setSelectedItem(Item* item)
         if(item->equals(items[i]))
         {
             selected = i;
+            onItemSelect(this,item);
             return;
         }
 }
@@ -272,34 +276,36 @@ void ListBox::addItem(Item* item){
 void ListBox::onKeyUp(int key){
     unsigned size = items.size();
     switch(key){
-        case SDLK_DOWN://GLFW_KEY_DOWN:
+        case SDLK_DOWN:
             if(selected == -1 && size > 0){
                 selected = 0;
+                onItemSelect(this,items.at(selected));
                 drawIndex = 0;
                 recalculatePosition();
-            }
-            if(selected+1 < size){
+            } else if(selected+1 < size){
                 selected++;
+                onItemSelect(this,items.at(selected));
                 if(drawIndex + canShow <= selected){
                     drawIndex = selected - canShow + 1;
                     recalculatePosition();
                 }
             }
             break;
-        case SDLK_UP://GLFW_KEY_UP:
+        case SDLK_UP:
             if(selected == -1 && size > 0){
                 selected = size - 1;
                 if(size > canShow){
                     drawIndex = size - canShow;
                     recalculatePosition();
                 }
-            }
-            if(selected-1 >= 0){
+                onItemSelect(this,items.at(selected));
+            } else if(selected-1 >= 0){
                 selected--;
                 if(drawIndex > selected){
                     drawIndex = selected;
                     recalculatePosition();
                 }
+                onItemSelect(this,items.at(selected));
             }
             break;
         case SDLK_TAB://GLFW_KEY_TAB:

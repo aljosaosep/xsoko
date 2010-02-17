@@ -16,7 +16,7 @@ CC=gcc
 CCC=g++
 CXX=g++
 FC=
-AS=as
+AS=
 
 # Macros
 CND_PLATFORM=GNU-Linux-x86
@@ -89,11 +89,11 @@ LDLIBSOPTIONS=-lGL -lGLU -lm -lftgl -lz -lSDL -lSDL_image -lboost_signals-mt -lb
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	${MAKE}  -f nbproject/Makefile-Linux_Debug.mk dist/Linux_Debug/GNU-Linux-x86/xsoko
+	${MAKE}  -f nbproject/Makefile-Linux_Debug.mk dist/Linux_Debug/GNU-Linux-x86/xsoko_sdl
 
-dist/Linux_Debug/GNU-Linux-x86/xsoko: ${OBJECTFILES}
+dist/Linux_Debug/GNU-Linux-x86/xsoko_sdl: ${OBJECTFILES}
 	${MKDIR} -p dist/Linux_Debug/GNU-Linux-x86
-	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/xsoko ${OBJECTFILES} ${LDLIBSOPTIONS} 
+	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/xsoko_sdl ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
 ${OBJECTDIR}/src/md2loader/Anorms.h.gch: nbproject/Makefile-${CND_CONF}.mk src/md2loader/Anorms.h 
 	${MKDIR} -p ${OBJECTDIR}/src/md2loader
@@ -391,7 +391,7 @@ ${OBJECTDIR}/src/gui/panel.o: nbproject/Makefile-${CND_CONF}.mk src/gui/panel.cp
 # Clean Targets
 .clean-conf: ${CLEAN_SUBPROJECTS}
 	${RM} -r build/Linux_Debug
-	${RM} dist/Linux_Debug/GNU-Linux-x86/xsoko
+	${RM} dist/Linux_Debug/GNU-Linux-x86/xsoko_sdl
 
 # Subprojects
 .clean-subprojects:
