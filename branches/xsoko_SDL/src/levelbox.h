@@ -160,10 +160,10 @@ namespace PacGame
                   PUnsolidWall(int i, int j,PCore *core) {
                       this->i = i; this->j = j; realI = (float)i; realJ = (float)j; this->id = U_WALL; this->core = core;
                       
-                      this->setMaterial(AMBIENT, 0.5f, 0.7f, 0.5f, 0.8f);
-                      this->setMaterial(DIFFUSE, 0.2f, 0.7f, 0.2f, 0.8f);
-                      this->setMaterial(SPECULAR, 0.7f, 0.6f, 0.6f, 0.8f);
-                      this->setMaterialShininess(90.0f);
+                      this->setMaterial(AMBIENT,  0.8f, 0.8f, 0.8f, 1.0f);
+                      this->setMaterial(DIFFUSE, 0.6f, 0.6f, 0.6f, 1.0f);
+                      this->setMaterial(SPECULAR, 1.0f, 1.0f, 1.0f, 1.0f);
+                      this->setMaterialShininess(0.0f);
                       this->setMaterialSet();
                   }
                   void draw();

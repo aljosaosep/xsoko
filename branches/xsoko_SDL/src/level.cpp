@@ -51,6 +51,8 @@
 #include "renderer/particle.h"
 #include "CommonStructures.h"
 
+
+
 using namespace std;
 using namespace PacGame::GameClasses::GameObjects;
 
@@ -1001,12 +1003,17 @@ namespace PacGame
                        //   glColor3f(1.0, 0.0, 0.0);
                        //   glBindTexture(GL_TEXTURE_2D, this->resourceHandle->getTextureTesourceId(BOMB_RES));
                        //   this->gameCore->getRenderer()->drawCube(0.0, 0.0, 0.5, color,this->resourceHandle->getTextureTesourceId(BOMB_RES));
+
+                                                    PParticleExplosion xpl(PVector3D(0.0f, 0.0f, 0.0f));
+
+xpl.draw();
                           glRotatef(70.0f, 1.0f, 0.0f, 1.0f );
                           glMaterialfv(GL_FRONT, GL_AMBIENT, this->gameCore->getRenderer()->g_materialAmbient);
                           glMaterialfv(GL_FRONT, GL_DIFFUSE, this->gameCore->getRenderer()->g_materialDiffuse);
                           glMaterialfv(GL_FRONT, GL_SPECULAR, this->gameCore->getRenderer()->g_materialSpecular);
                           glMateriali(GL_FRONT_AND_BACK, GL_SHININESS, 16.0);
                           this->gameCore->getRenderer()->drawLightwaveModel(0.0f, 0.0f, 0.0f, this->gameCore->getResources()->getModelResourceLW("data/bomb.lwo"));
+
 
   
                           glPopMatrix();
