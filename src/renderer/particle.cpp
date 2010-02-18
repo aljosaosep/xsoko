@@ -34,146 +34,106 @@ namespace PacGame
 {
     namespace RenderMaschine
     {
-        
-        PParticleEngine::PParticleEngine()
-        {
-            this->init(0.0, 0.0, 0.0);
+        /*
+         *             float slowdown; // spawn ratio (?)
+            float xpseed, yspeed; // direction of the "tail"
+            float zoom;
+
+            unsigned int col;
+            unsigned int delay;
+            unsigned int loop;
+
+            Particle particles[MAX_PARTICLES];
+
+            PVector3D position;
+         */
+
+        /// Abstract particle class implementation
+        PParticleEffect::PParticleEffect(const PVector3D &pos) : slowdown(2.0f), zoom(-40.0f), position(pos), xspeed(0.0f), yspeed(0.0f)  {
+            
         }
 
-        PParticleEngine::PParticleEngine(float ox, float oy, float oz)
-        {
-            this->init(ox, oy, oz);
+        /// PParticleExplosion implementation
+        PParticleExplosion::PParticleExplosion(const PVector3D &pos) : PParticleEffect(pos) {
+            this->init();
         }
-        
-        
-        void PParticleEngine::init(float ox, float oy, float oz)
-        {
-            srand(time(NULL));
-            
-            this->origin.setCoordinates(ox, oy, oz);
-                        
-            this->PARTICLE_SIZE = 0.5;
-            this->INITIAL_SPREAD = 100;
-            this->SPEED_DECAY = 0.00005;
-            
-            // make all particles DEAD
-            for(int i=0; i<NUM_PARTICLES; i++)
-            {
-         //       this->particles[i].position.setCoordinates(ox, oy, oz); // add. by aljosa
-                this->particles[i].life = 0.0;
-                this->particles[i].r = 1.0;
-                this->particles[i].b = 0.0;
+
+        void PParticleExplosion::init() {
+            // init particles
+            for (int i=0; i<MAX_PARTICLES; i++ ) {
+                particles[i].active = true; // activate the bastard
+                particles[i].life = 1.0f;
+                particles[i].fade = float(rand()%100)/1000.0f+0.003f;
+
+                // fix
+                particles[i].r = (float)(rand()%255) / 255.0f;
+                particles[i].g = (float)(rand()%255) / 255.0f;
+                particles[i].b = (float)(rand()%255) / 255.0f;
+
+                particles[i].dir.x = float((rand()%50)-26.0f)*10.0f;	// *10 -> explosion
+		particles[i].dir.y = float((rand()%50)-25.0f)*10.0f;
+		particles[i].dir.z = float((rand()%50)-25.0f)*10.0f;
+
+                particles[i].grav.x =0.0f;						// Set Horizontal Pull To Zero
+		particles[i].grav.y =- 0.8f;					// Set Vertical Pull Downward
+		particles[i].grav.z = 0.0f;
             }
+
         }
-        
-        void PParticleEngine::setOrgin(float x, float y, float z)
-        {
-            for(int i=0; i<NUM_PARTICLES; this->particles[i++].position.setCoordinates(x, y, z));      
-        }
-        
-        void PParticleEngine::process(float ticks)
-        {
- /*           
-              int MaxSpread,MaxParticles,Index;
-  float Spread,Angle;  */
-  
-            int maxSpread, maxParticles;
-            float spread, angle;
-            
-            maxSpread = this->INITIAL_SPREAD;
-            maxParticles = NUM_PARTICLES/2;
 
-            for(int i=0; i<maxParticles; i++)
-            {
-                // if particle is alive and well
-                if(this->particles[i].life > 0.0)
-                {
-              //      this->particles[i].position = this->particles[i].position + (this->particles[i].vector * ticks);
-                    
-                    this->particles[i].position.x += (this->particles[i].vector.x * ticks);
-                    this->particles[i].position.y += (this->particles[i].vector.y * ticks);
-                     this->particles[i].position.z += (this->particles[i].vector.z * ticks);   
-                     
-                  //                       cout<<endl<<"position after pos update: ";
-               //     this->particles[i].position.printCoordinates();
-                    
-                    this->particles[i].vector.z -= (this->SPEED_DECAY * ticks);
-                    
-                  //  this->particles[i].vector.setCoordZ(this->particles[i].vector.getCoordZ() - this->decaySpeed);
-                    
-                    // bounce particle from floor
-                    if(this->particles[i].position.x > -10.0 && this->particles[i].position.x < 10.0 &&
-                        this->particles[i].position.z > -10.0 && this->particles[i].position.z < 10.0)
-                    {
-                        if(this->particles[i].position.y < this->PARTICLE_SIZE)
-                        {
-                            this->particles[i].position.y = this->PARTICLE_SIZE;
-                            this->particles[i].life -= 0.01;
-                            this->particles[i].vector.y *= (-0.06);
-                        }
-                    }
-                    
-                    this->particles[i].life -= (0.001 * ticks);
-                }
-                else  // spawn a new particle
-                {
-
-                    // reset position
-                    this->particles[i].position.setCoordinates(0.0, this->PARTICLE_SIZE, 0.0); 
-                    
-                    spread = (float)(rand()%maxSpread)/10000;
-                    angle = (float)(rand()%157)/100; // quarter of circle
-
-                    this->particles[i].vector.x = cos(angle)*spread;
-                    this->particles[i].vector.z = cos(angle)*spread;
-
-                    // randomly reverse x and z vec
-                    if(rand()%2)
-                        this->particles[i].vector.x = -this->particles[i].vector.x;
-
-                    if(rand()%2)
-                        this->particles[i].vector.z = -this->particles[i].vector.z;   
-
-                    // set initial speed
-                    this->particles[i].vector.y = (float)(rand()%500)/10000;
-
-             //       cout<<endl<<"vector initiated as: ";
-             //       this->particles[i].vector.printCoordinates();
-            //        cout<<endl;
-
-                    // get random life and color
-                    this->particles[i].life = (float)(rand()%100)/100.0;
-                    this->particles[i].g = 0.2 + ((float)(rand()%50)/100);
-
-               //     this->particles[i].position.setCoordY(this->particleSize);
-             //       this->particles[i].position.setCoord     
-                }
-            }
-            
+        void PParticleExplosion::draw() {
             glPushMatrix();
-            glDisable(GL_LIGHTING);
-            glTranslatef(this->origin.x, this->origin.y, this->origin.z );
-                    
-            // draw particles
-            for(int i=0; i<maxParticles; i++)
-            {
-             //   cout<<endl<<"particle pos:"<<this->particles[i].position.getCoordX()<<' '<<this->particles[i].position.getCoordY()<<' '<<this->particles[i].position.getCoordZ()<<endl;
-            //    cout<<endl<<"position at drawing: ";
-          //      this->particles[i].position.printCoordinates();
-         //       cout<<endl;
-                glPointSize(3.0);
-                glPushMatrix();
-                    glColor4f(this->particles[i].r, this->particles[i].g, this->particles[i].b, this->particles[i].life);
-                    glTranslatef(this->particles[i].position.getCoordX(), this->particles[i].position.getCoordY(), this->particles[i].position.getCoordZ());
-                    glBegin(GL_POINTS);
-                        glVertex3f(0.0,0.0,0.0);
+            glTranslatef(position.x, position.y, position.z);
+
+            // Particle stuff
+            for (int i=0; i<MAX_PARTICLES; i++ ) {
+                if (particles[i].active) {
+                    // Update
+                    float x=particles[i].pos.x;				// Grab Our Particle X Position
+                    float y=particles[i].pos.y;				// Grab Our Particle Y Position
+                    float z=particles[i].pos.z;
+
+                    glColor4f(particles[i].r,particles[i].g,particles[i].b,particles[i].life);
+
+                    glBegin(GL_TRIANGLE_STRIP);
+                    glTexCoord2d(1,1); glVertex3f(x+0.5f,y+0.5f,z); // Top Right
+                    glTexCoord2d(0,1); glVertex3f(x-0.5f,y+0.5f,z); // Top Left
+                    glTexCoord2d(1,0); glVertex3f(x+0.5f,y-0.5f,z); // Bottom Right
+                    glTexCoord2d(0,0); glVertex3f(x-0.5f,y-0.5f,z); // Bottom Left
                     glEnd();
 
-                glPopMatrix();
+                    particles[i].pos.x += particles[i].dir.x/(slowdown*1000);	// Move On The X Axis By X Speed
+                    particles[i].pos.y += particles[i].dir.y/(slowdown*1000);	// Move On The Y Axis By Y Speed
+                    particles[i].pos.z += particles[i].dir.z/(slowdown*1000);	// Move On The Z Axis By Z Speed
+
+                    particles[i].dir.z += particles[i].grav.x;			// Take Pull On X Axis Into Account
+                    particles[i].dir.y += particles[i].grav.y;			// Take Pull On Y Axis Into Account
+                    particles[i].dir.z += particles[i].grav.z;
+
+                    particles[i].life -= particles[i].fade;
+
+                    if (particles[i].life<0.0f) {
+
+                        particles[i].life = 1.0f;				// Give It New Life
+			particles[i].fade = float(rand()%100)/1000.0f+0.003f;
+
+                        particles[i].pos.x = 0.0f;					// Center On X Axis
+			particles[i].pos.y = 0.0f;					// Center On Y Axis
+			particles[i].pos.z = 0.0f;
+
+                        particles[i].dir.x = xspeed+float((rand()%60)-32.0f);	// X Axis Speed And Direction
+			particles[i].dir.y = yspeed+float((rand()%60)-30.0f);	// Y Axis Speed And Direction
+			particles[i].dir.z = float((rand()%60)-30.0f);		// Z Axis Speed And Direction
+
+                    }
+                }
             }
-            glEnable(GL_LIGHTING);
+
             glPopMatrix();
+
         }
+        
+ 
     }
 }
 

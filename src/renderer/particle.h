@@ -40,6 +40,8 @@
 #include <SDL/SDL_opengl.h>
 #include <cmath>
 
+#define MAX_PARTICLES 1000
+
 using namespace std;
 using namespace PacGame::GameClasses;
 
@@ -47,42 +49,48 @@ namespace PacGame
 {
     namespace RenderMaschine
     {
-        class PParticleEngine
-        {
-        protected:
-            // one-particle structure
-            struct particleSprite
-            {
-                PVector3D position;     // particle position
-                PVector3D vector;       // direction and speed vector
-                float r, g, b, life;          // color                
-            };
-            
-            float PARTICLE_SIZE;
-            int INITIAL_SPREAD;
-            float SPEED_DECAY;
-            
-            PVector3D origin;
-            
-     /*       float currentSpread;
-            float angle;*/
-            
-     /*       float slowdown;
-            float xspeed, yspeed;
-            float delay;
-            float zoom; */
-            
-            particleSprite particles[NUM_PARTICLES];      // particle list
-            
-        public:
-            PParticleEngine();          // constructor
-            PParticleEngine(float ox, float oy, float oz);          // constructor            
-            
-            void init(float ox, float oy, float oz);                // initialization
-            void setOrgin(float x, float y, float z);
-            
-            void process(float ticks);             // process - main particle function
+        typedef struct Particle {
+            bool active;
+            float life;
+            float fade;
+
+            float r, g, b;
+
+            PVector3D pos;
+            PVector3D dir;
+            PVector3D grav;
         };
+
+        class PParticleEffect {
+        protected:
+            float slowdown; // spawn ratio (?)
+            float xspeed, yspeed; // direction of the "tail"
+            float zoom;
+
+            unsigned int col;
+            unsigned int delay;
+            unsigned int loop;
+
+            Particle particles[MAX_PARTICLES];
+            
+            PVector3D position;
+
+        public:
+            PParticleEffect(const PVector3D &pos);
+            virtual void init() = 0;
+            virtual void draw() = 0;
+        };
+
+        class PParticleExplosion : PParticleEffect {
+
+        public:
+            PParticleExplosion(const PVector3D &pos);
+
+            void init();
+            void draw();
+
+        };
+  
         
     }
 }
