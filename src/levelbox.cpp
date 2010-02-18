@@ -212,10 +212,14 @@ namespace PacGame
             {
                 PObject::draw();
 
-                float color[] = { 0.7f, 0.6f, 0.6f, 1.0 };
+                //float color[] = { 0.7f, 0.6f, 0.6f, 1.0 };
+				float color[] = { 1.0f, 1.0f, 1.0f, 1.0 };
+
               //  this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, color, this->core->getResources()->getTextureTesourceId(U_WALL_RES));
-                glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-                this->core->getRenderer()->drawLightwaveModel(0.0f, 0.0f, 0.0f, this->core->getResources()->getModelResourceLW("data/barrel.lwo") );
+                //glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                glScalef(0.4f,0.4f,0.4f);
+                this->core->getResources()->getModelResource(10)->DrawFrame(0);
+                //this->core->getRenderer()->drawLightwaveModel(0.0f, 0.0f, 0.0f, this->core->getResources()->getModelResourceLW("data/barrel.lwo") );
             }
 
             void PUnsolidWall::print()

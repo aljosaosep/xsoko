@@ -735,8 +735,16 @@ namespace PacGame
                                       p = new PUnsolidWall(i,j,this->gameCore);
                                       data[i][j]->add(p);
                                       
-                                      if(resourceHandle->getTextureResource(U_WALL_RES)==NULL)
-                                          resourceHandle->loadTextureResource(U_WALL_RES, "unsolidwall.tga"); 
+                                      //if(resourceHandle->getTextureResource(U_WALL_RES)==NULL)
+                                      //    resourceHandle->loadTextureResource(U_WALL_RES, "unsolidwall.tga"); 
+                                          
+                                      if(resourceHandle->getTextureResource(U_WALL_RES)==NULL)  // texture isn't in memory yet?
+                                          resourceHandle->loadTextureResource(U_WALL_RES, "barrel_texture.tga");  // load it!
+                                      if(resourceHandle->getModelResource(U_WALL_RES) == NULL) // model isn't in memory yet?
+                                      {
+                                          resourceHandle->loadModelResource(U_WALL_RES, "data/barrel.md2"); // load it!
+                                          resourceHandle->getModelResource(U_WALL_RES)->SetTexture(resourceHandle->getTextureTesourceId(U_WALL_RES)); // set the texture
+                                       }
                                       
                                       second_matrix[i][j] = U_WALL;
                                       break; 
