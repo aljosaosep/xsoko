@@ -276,10 +276,10 @@ namespace PacGame
                   PCube(int i, int j, PCore *core) {
                       this->i=i; this->j = j; realI = (float)i; realJ = (float)j; this->id=CUBE; this->core = core;
                       
-                       this->setMaterial(AMBIENT, 1.0f, 1.0f, 1.0f, 1.0f);
-                      this->setMaterial(DIFFUSE, 1.0f, 1.0f, 1.0f, 1.0f);
+                       this->setMaterial(AMBIENT, 0.8f, 0.8f, 0.8f, 1.0f);
+                      this->setMaterial(DIFFUSE,  0.5f, 0.5f, 0.5f, 1.0f);
                       this->setMaterial(SPECULAR, 1.0f, 1.0f, 1.0f, 1.0f);
-                      this->setMaterialShininess(20.0f);
+                      this->setMaterialShininess(0.0f);
                       this->setMaterialSet();
                   }
                   void draw();
