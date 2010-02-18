@@ -321,7 +321,7 @@ namespace PacGame
             {
                 PObject::draw();
 
-                float color[] = { 0.3, 0.3, 0.3, 1.0f };
+                float color[] = { 0.7, 0.7, 0.7, 1.0f };
                 this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, color, this->core->getResources()->getTextureTesourceId(CUBE_RES));
             }
 
