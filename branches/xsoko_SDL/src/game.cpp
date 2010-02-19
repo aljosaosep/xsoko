@@ -33,7 +33,9 @@
 #include "gui/forms.h"
 #include <SDL/SDL.h>
 #include <SDL/SDL_opengl.h>
+#include <fstream>
 #include "config.h"
+#include "zip/zipfile.h"
 
 
 using namespace PacGame;
@@ -44,7 +46,7 @@ namespace PacGame
       {
           // constructors
           PGame::PGame() :
-            level(NULL), player(NULL), camera(NULL), input(new PInputSystem()),
+            gamepack(false), camera(NULL), input(new PInputSystem()),
             rotations_per_tick(0.1), levelLoaded(false), gameQuit(false)
           { }
 
@@ -114,6 +116,11 @@ namespace PacGame
               //sm.playMusic("guardian");
               sm.loadMusic("mortal","data/sound/mortal_kombat.mp3");
               sm.playMusic("mortal");
+
+              level = new PLevel();
+              level->initialize();
+              input->setLevel(level);
+              this->camera = level->getGameCoreHandle()->getCamera();
 
               Messages::initMessage("Game", true);
               return true;
@@ -198,17 +205,11 @@ namespace PacGame
 
 
                 if(levelLoaded || msgid){
-                    //Gui::getInstance().unregisterInput();
-                    // calculate time elapsed, and the amount by which stuff rotates
-                    //delta_rotate = (current_time - old_time) * rotations_per_tick * 360;
 
                     //if no win message is shown, check for input etc.
                     if(!msgid){
 
                         this->level->processBombs(current_time);
-
-                        // check for input every time
-                       // this->input->process();
 
                         if(this->input->toggleGameMenu() != menuVisible){
                             menuVisible = !menuVisible;
@@ -220,20 +221,19 @@ namespace PacGame
                         if(this->level->getEndgameFlag() || forceLevelQuit){
                             levelLoaded = false;
                             gameMenu->setVisible(false);
-                            if(level->getEndgameFlag())
-                            {
-                                                                msgid = Gui::getInstance().showMessage("xSoko", "Congratulations, you won!");
-                                                                // openGameMenu switches controls to GUI
-                                                                input->openGameMenu();
-                                                                Messages::infoMessage("You won!");
-                            }else
+                            if(level->getEndgameFlag()) {
+                                msgid = Gui::getInstance().showMessage("xSoko", "Congratulations, you won!");
+                                // openGameMenu switches controls to GUI
+                                input->openGameMenu();
+                                Messages::infoMessage("You won!");
+                            } else
                                mainMenu->setVisible(true);
                             Gui::getInstance().setMouseVisible(true);
                         }
 
                     }
 
-                   PResourceManager *rm =  this->level->getGameCoreHandle()->getResources();
+                    PResourceManager *rm =  this->level->getGameCoreHandle()->getResources();
                     // FRONT, BACK, LEFT, RIGHT, TOP, BOTTOM
                     int texIDs[] = { rm->getTextureTesourceId(SKY_RES_FRONT)/*,
                                 rm->getTextureTesourceId(SKY_RES_BACK),
@@ -293,49 +293,50 @@ namespace PacGame
           }
           
           void PGame::loadLevel(string levelPath){
-            if(level == NULL){
-                level = new PLevel(levelPath);
-                if(!level->initialize())
-                    return;
-                input->setLevel(level);
-                this->player = level->getPlayerHandle();
-                this->camera = level->getGameCoreHandle()->getCamera();
-            } else
-                if(!level->loadLevelFromFile(levelPath))
-                    return;
+            ifstream file(levelPath.c_str());
+            if(!level->loadLevel(file)) {
+                mainMenu->setVisible(true);
+                return;
+            }
+            file.close();
 
-            //this->camera->fitCameraToLevel(this->level->getWidth(), this->level->getHeight());        // moved to PLevel::reloadLevel()
 	    input->closeGameMenu();
             levelLoaded = true;
             forceLevelQuit = false;
             Gui::getInstance().setMouseVisible(false);
           }
+
+          void PGame::loadGamePack(string packPath) {
+              zifstream file(packPath,"1.lvl");
+              if(file.good()) {
+                  if(!level->loadLevel(file)) {
+                      mainMenu->setVisible(true);
+                      return;
+                  }
+                  //file.close();
+                  gamepack = true;
+                  input->closeGameMenu();
+                  levelLoaded = true;
+                  forceLevelQuit = false;
+                  Gui::getInstance().setMouseVisible(false);
+              }
+          }
           
           void PGame::resetLevel(){
-                  if(level != NULL)
-                  {
-                          level->reset();
-                          input->closeGameMenu();
-                  }
+              level->reset();
+              input->closeGameMenu();
           }
           
           void PGame::exitLevel(){
-                  if(level != NULL)
-                  {
-                        delete level;     
-                        level = NULL;
-                        levelLoaded = false;
-                        gameMenu->setVisible(false);
-                         mainMenu->setVisible(true);
-                  }
+              levelLoaded = false;
+              gameMenu->setVisible(false);
+              mainMenu->setVisible(true);
           }
 
           void PGame::prepareGui(){
             Messages::infoMessage("Initialiazing GUI...");
             const SDL_VideoInfo* vi = SDL_GetVideoInfo();
             Gui::getInstance().onResolutionChange(vi->current_w, vi->current_h);
-            //Gui::getInstance().registerInput();
-            //input->toggleGameMenu();
             #if defined(Linux_Release) || defined(Windows_Release) || defined(_RELEASE)
                 SDL_ShowCursor(SDL_DISABLE);
             #endif
@@ -347,6 +348,7 @@ namespace PacGame
             Gui::getInstance().addWindow(gameMenu);
             Gui::getInstance().addWindow(new CreditsWnd());
             Gui::getInstance().addWindow(new OptionsWnd());
+            Gui::getInstance().addWindow(new GamePackWnd());
           }
 
           PGame& PGame::getInstance(){
@@ -357,6 +359,11 @@ namespace PacGame
           SoundManager* PGame::getSoundManagerInstance()
           {
               return &sm;
+          }
+
+          PGame::~PGame() {
+              delete level;
+              delete input;
           }
       }
 }

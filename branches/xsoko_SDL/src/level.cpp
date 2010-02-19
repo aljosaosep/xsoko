@@ -65,55 +65,28 @@ namespace PacGame
            PLevel constructors
            *****************************************/
 
-          PLevel::PLevel(string filename) :
-            filename(filename),  width(0), height(0), player(NULL), gameCore(new PCore),
-            resourceHandle(gameCore->getResources()), endgameFlag(false), fnt(new Font("font")), introtime(SDL_GetTicks()), intro(true)
+          PLevel::PLevel() :
+            width(0), height(0), player(NULL), gameCore(new PCore), resourceHandle(gameCore->getResources()),
+            endgameFlag(false), fnt(new Font("font")), introtime(SDL_GetTicks()), intro(true)
           {
               fnt->setColor(255,255,0);
               fnt->setSize(15);
+              leveldata[0] = NULL;
+              leveldata[1] = NULL;
           }
  
            /*****************************************
            PLevel methods
            *****************************************/
-          
-          /*****************************************************************
-           * Function reads two-digit number from stream pointer current
-           * position and skips one character, it is suitable for our
-           * level format only.
-           *****************************************************************/
-          inline int PLevel::returnNumberFromFile(ifstream &file)
-          {
-              char buff[3]; // char buffer for our number, before it is being parsed into integer
-              char c;       // strage for single character
-              file.get(c);  // we read first digit
-              if(!(c >= '0' && c <= '9')) // if it isn't a digit, we return an error
-                  return -1;
-              else
-                  buff[0] = c; // otherwise, we store it into buffer
-                  
-              file.get(c); // we read next character
-              
-              if(c >= '0' && c <= '9') // if it is a digit ...
-              {
-                  buff[1] = c;  // we also store it into buffer
-                  buff[2] = '\0'; // and then we close string, because we need two-digit numbers only
-                  file.get();  // we skip one character(space)
-              }
-              else // if second character isn't digit
-                  buff[1] = '\0';  // terminate string
- 
-              return atoi(buff);  // return number read from file, integer
-          }
   
           /*****************************************************************
            * Function validates level format with checking + sign
            * position.
            *****************************************************************/
-          inline bool PLevel::checkPosition(ifstream &file)
+          inline bool PLevel::checkPosition(istream &file)
           {
               char c; // single character buffer
-              file.get(c); // read +  sign
+              file >> c; // read +  sign
 
               if(c!='+') // checks if our position is valid
               {
@@ -121,7 +94,6 @@ namespace PacGame
                   return false;                      
               }
 
-              file.get(); // skip newline
               return true; // position is ok
           }
 
@@ -202,16 +174,16 @@ namespace PacGame
                        switch(flag)
                        {
                             case KB_UP:
-                                    this->moveObject(Aliases::up, this->getPlayerHandle());
+                                    this->moveObject(Aliases::up, player);
                                     break;
                             case KB_LEFT:
-                                    this->moveObject(Aliases::left, this->getPlayerHandle());
+                                    this->moveObject(Aliases::left, player);
                                     break;
                             case KB_DOWN:
-                                    this->moveObject(Aliases::down, this->getPlayerHandle());
+                                    this->moveObject(Aliases::down, player);
                                     break;
                             case KB_RIGHT:
-                                    this->moveObject(Aliases::right, this->getPlayerHandle());
+                                    this->moveObject(Aliases::right, player);
                                     break;
                     }
                }
@@ -225,19 +197,19 @@ namespace PacGame
                {
                     if(button_flags & KB_UP)
                     {
-                            this->moveObject(Aliases::up, this->getPlayerHandle());
+                            this->moveObject(Aliases::up, player);
                     }else
                       if(button_flags & KB_LEFT)
                     {
-                                    this->moveObject(Aliases::left, this->getPlayerHandle());
+                                    this->moveObject(Aliases::left, player);
                     }else
                      if(button_flags & KB_DOWN)
                     {
-                                    this->moveObject(Aliases::down, this->getPlayerHandle());
+                                    this->moveObject(Aliases::down, player);
                     }else
                      if(button_flags & KB_RIGHT)
                     {
-                                    this->moveObject(Aliases::right, this->getPlayerHandle());
+                                    this->moveObject(Aliases::right, player);
                     }
                }
            }
@@ -488,332 +460,296 @@ namespace PacGame
            * variable into level class
            **************************************************************/
           // function is work in progress, started by Aljosa june 29, 2008
-          bool PLevel::reloadLevel()
+          bool PLevel::loadLevel(istream &level)
           {
+              releaseLevel();
+              if(leveldata[0] != NULL) {
+                  delete [] leveldata[0][0];
+                  delete [] leveldata[0];
+              }
+              if(leveldata[1] != NULL) {
+                  delete [] leveldata[1][0];
+                  delete [] leveldata[1];
+              }
+
               int tmsize; // teleport matrix size
               PObject *p = NULL; // our pobject pointer; for creating dynamic objects
-              ifstream level; // file handle
-              level.open(this->filename.c_str(), ios::in);  // opens level
-              
               
               if(!level.good())  // checks if file is properly open
               {
                   Messages::errorMessage("Level data is in invalid format ot there is not level data at all!");
                   return false;  // if it isn't, end routine
               }
-
-
               
               // everything went ok so far
               Messages::infoMessage("Loading level data... please wait.");
-              while(!level.eof()) // we read file 'till the end
-              {
-                  // first read dimension
-                  height = this->returnNumberFromFile(level); // dimensions are first two numbers
-                  width = this->returnNumberFromFile(level);
-                  
-                  int num = 0;  // number that we get from file
-                  
-                  // considering dimension, we read first matrix
-                  for(unsigned i=0; i<width; i++)  
-                  {
-                      for(unsigned j=0; j<height; j++)
-                      {
-                          num = returnNumberFromFile(level);  // we read number from file and store it into num
-                          
-                          if(num!=-1)  // we check if data is valid
-                          {
-                              // teleport case
-                              if(num >= 9) // if it is > 11, then it is an teleport id
-                              {
-                                  data[i][j] = new PTeleport(i, j, this->gameCore, num); // create object
-                                  
-                                  if(resourceHandle->getTextureResource(TELEPORT_RES)==NULL)  // texture isn't in memory yet?
-                                      resourceHandle->loadTextureResource(TELEPORT_RES, "test.tga");  // load it!
+              // first read dimension
+              level >> height; // dimensions are first two numbers
+              level >> width;
 
-                                  (static_cast<PTeleport*>(data[i][j]))->setId(num);                // set its id
-                            //      (static_cast<PTeleport*>(data[i][j]))->
-                              //    data[i][j] = teleport;               // attach it on level
-                                  this->teleports.push_back(static_cast<PTeleport*>(data[i][j])); // push teleport info on vector
-                              }
-                              
-                              switch(num)  // if it is, we create suitable object
-                              {
-                                  case FLOOR:
-                                      data[i][j] = new PFloor(this->gameCore);
-                                      
-                                      if((resourceHandle->getTextureResource(FLOOR_RES))==NULL)  // texture isn't in memory yet?
-                                            resourceHandle->loadTextureResource(FLOOR_RES, "floor.tga");  // load it!
-                                      
-                                      break;
-                                      
-                             /*     case OW_FLOOR:
-                                      data[i][j] = new POnewayFloor(this->gameCore);
-                                      break;*/
-                                      
-                                  case S_WALL:
-                                      data[i][j] = new PSolidWall(this->gameCore);   
-                                      if((resourceHandle->getTextureResource(S_WALL_RES))==NULL)
-                                          resourceHandle->loadTextureResource(S_WALL_RES, "wall.tga"); 
-
-                                      break;
-                                      
-                                  case BRIDGE:
-                                      data[i][j] = new PBridge(this->gameCore);
-                                      
-                                      if((resourceHandle->getTextureResource(BRIDGE_RES))==NULL)  // texture isn't in memory yet?
-                                            resourceHandle->loadTextureResource(BRIDGE_RES, "bridge.tga");  // load it!
-                                      
-                                      break;  
-                                      
-                                  case VOID:
-                                      data[i][j] = new PVoid;
-                                      break;
-                                      
-                                  case CUBE_PLACE:
-                                      data[i][j] = new PCubeHolder(this->gameCore);
-                                      this->holds.push_back(static_cast<PCubeHolder*>(data[i][j])); // adds cuneHolder to holds array
-                                      if((resourceHandle->getTextureResource(CUBE_RES))==NULL)  // texture isn't in memory yet?
-                                          resourceHandle->loadTextureResource(CUBE_RES, "crate.tga");  // load it!
-                                      break;    
-                                      
-                                  case OW_FLOOR_L:
-                                      data[i][j] = new POnewayFloor(this->gameCore, 5);
-                                      static_cast<POnewayFloor*>(data[i][j])->setDirection(Aliases::left);
-                                   //   data[i][j]->add(p);
-                                      
-                                      if(resourceHandle->getTextureResource(OW_FLOOR_RES)==NULL)  // texture isn't in memory yet?
-                                          resourceHandle->loadTextureResource(OW_FLOOR_RES, "onewayfloor.tga");  // load it!
-                                      
-                                  //    second_matrix[i][j] = 8;
-                                 //     data[i][j]->add(NULL);
-                                      break;
-                                      
-                                  case OW_FLOOR_R:
-                                      data[i][j] = new POnewayFloor(this->gameCore, 6);
-                                      static_cast<POnewayFloor*>(data[i][j])->setDirection(Aliases::right);
-                                  //    data[i][j]->add(p);
-                                      
-                                      if(resourceHandle->getTextureResource(OW_FLOOR_RES)==NULL)  // texture isn't in memory yet?
-                                          resourceHandle->loadTextureResource(OW_FLOOR_RES, "onewayfloor.tga");  // load it!
-                                      
-                                  //    second_matrix[i][j] = 9;
-                                 //     data[i][j]->add(NULL);
-                                      break;
-                                      
-                                      
-                                  case OW_FLOOR_U:
-                                      data[i][j] = new POnewayFloor(this->gameCore, 7);
-                                      static_cast<POnewayFloor*>(data[i][j])->setDirection(Aliases::up);
-                                  //    data[i][j]->add(p);
-                                      
-                                      if(resourceHandle->getTextureResource(OW_FLOOR_RES)==NULL)  // texture isn't in memory yet?
-                                          resourceHandle->loadTextureResource(OW_FLOOR_RES, "onewayfloor.tga");  // load it!
-                                      
-                                 //     second_matrix[i][j] = 10;
-                                 //     data[i][j]->add(NULL);
-                                      break;
-                                      
-                                  case OW_FLOOR_D:
-                                      data[i][j] = new POnewayFloor(this->gameCore, 8);
-                                      static_cast<POnewayFloor*>(data[i][j])->setDirection(Aliases::down);
-                                 //     data[i][j]->add(p);
-                                      
-                                      if(resourceHandle->getTextureResource(OW_FLOOR_RES)==NULL)  // texture isn't in memory yet?
-                                          resourceHandle->loadTextureResource(OW_FLOOR_RES, "onewayfloor.tga");  // load it!
-                                      
-                                //      second_matrix[i][j] = 11;
-                                //      data[i][j]->add(NULL);
-                                      break;
-                                      
-                              }
-                          }
-                          else  // if it isn't, we return error
-                          {
-                              Messages::errorMessage("Invalid level data.");
-                              return false;
-                          }
-                      }
-                  }
-                  
-                  // first matrix shoud be in memory by now.
-                  if(!checkPosition(level))
-                      return false;
-
-                  // we continue with second matrix
-                  for(unsigned i=0; i<width; i++)
-                  {
-                      for(unsigned j=0; j<height; j++)
-                      {
-                          num = returnNumberFromFile(level);
-                          if(num!=-1)
-                          {
-
-                              
-                              switch(num)
-                              {                                              
-                                  case PLAYER:
-                                      p = new PPlayer(i, j, this->gameCore);
-                                      
-                                      if(resourceHandle->getTextureResource(PLAYER_RES)==NULL)  // texture isn't in memory yet?
-                                          resourceHandle->loadTextureResource(PLAYER_RES, "player.tga");  // load it!
-                                      if(resourceHandle->getModelResource(PLAYER_RES) == NULL) // model isn't in memory yet?
-                                      {
-                                          resourceHandle->loadModelResource(PLAYER_RES, "data/player.md2"); // load it!
-                                          resourceHandle->getModelResource(PLAYER_RES)->SetTexture(resourceHandle->getTextureTesourceId(PLAYER_RES)); // set the texture
-                                       }
-                                      
-                                      this->player = static_cast<PPlayer*>(p); // set class player pointer to player element
-                                      data[i][j]->add(p);
-                                      second_matrix[i][j] = PLAYER;
-                                      
-                                      break;
-                                      
-                                  case CUBE:
-                                      p = new PCube(i, j, this->gameCore);
-                                      
-                                      if(resourceHandle->getTextureResource(CUBE_RES)==NULL)  // texture isn't in memory yet?
-                                          resourceHandle->loadTextureResource(CUBE_RES, "crate.tga");  // load it!
-
-                                      data[i][j]->add(p);
-                                      second_matrix[i][j] = CUBE;
-                                      break;
-                                      
-                                  case 3://OW_CUBE_L:
-                                      p = new POnewayCube(Aliases::left, i, j, OW_CUBE_L, this->gameCore);
-                                      data[i][j]->add(p);
-                                      
-                                      if(resourceHandle->getTextureResource(OW_CUBE_RES)==NULL)  // texture isn't in memory yet?
-                                          resourceHandle->loadTextureResource(OW_CUBE_RES, "onewaycube.tga");  // load it!
-                                      
-                                      second_matrix[i][j] = OW_CUBE_L;
-                                      break; 
-                                      
-                                  case 4://OW_CUBE_R:
-                                      p = new POnewayCube(Aliases::right, i, j, OW_CUBE_R, this->gameCore);
-                                      data[i][j]->add(p);
-                                      
-                                      if(resourceHandle->getTextureResource(OW_CUBE_RES)==NULL)  // texture isn't in memory yet?
-                                          resourceHandle->loadTextureResource(OW_CUBE_RES, "onewaycube.tga");  // load it!
-                                      
-                                      second_matrix[i][j] = OW_CUBE_R;
-                                      break; 
-                                      
-                                  case 5://OW_CUBE_U:
-                                      p = new POnewayCube(Aliases::up, i, j, OW_CUBE_U, this->gameCore);
-                                      data[i][j]->add(p);
-                                      
-                                      if(resourceHandle->getTextureResource(OW_CUBE_RES)==NULL)  // texture isn't in memory yet?
-                                          resourceHandle->loadTextureResource(OW_CUBE_RES, "onewaycube.tga");  // load it!
-                                      
-                                      second_matrix[i][j] = OW_CUBE_U;
-                                      break;  
-                                      
-                                  case 6://OW_CUBE_D:
-                                      p = new POnewayCube(Aliases::down, i, j, OW_CUBE_D, this->gameCore);
-                                      data[i][j]->add(p);
-                                      
-                                      if(resourceHandle->getTextureResource(OW_CUBE_RES)==NULL)  // texture isn't in memory yet?
-                                          resourceHandle->loadTextureResource(OW_CUBE_RES, "onewaycube.tga");  // load it!
-                                      
-                                      second_matrix[i][j] = OW_CUBE_D;
-                                      break;
-                                      
-                                  case 7://BOMB:
-                                      p = new PBomb(i, j, this->gameCore);
-                                      data[i][j]->add(p);
-                                      
-                                      if(resourceHandle->getTextureResource(BOMB_RES)==NULL)  // texture isn't in memory yet?
-                                               resourceHandle->loadTextureResource(BOMB_RES, "bomb.tga");  // load it!
-
-                                      // load also bomb lwo obj
-                                    //  resourceHandle->getModelResourceLW("data/bomb.lwo");
-                                  //    resourceHandle->loadLWOResource(0, "data/bomb.lwo");
-                                      
-                                      second_matrix[i][j] = BOMB;
-                                      break; 
-                                      
-                                  case U_WALL:
-                                      p = new PUnsolidWall(i,j,this->gameCore);
-                                      data[i][j]->add(p);
-                                      
-                                      //if(resourceHandle->getTextureResource(U_WALL_RES)==NULL)
-                                      //    resourceHandle->loadTextureResource(U_WALL_RES, "unsolidwall.tga"); 
-                                          
-                                      if(resourceHandle->getTextureResource(U_WALL_RES)==NULL)  // texture isn't in memory yet?
-                                          resourceHandle->loadTextureResource(U_WALL_RES, "barrel_texture.tga");  // load it!
-                                      if(resourceHandle->getModelResource(U_WALL_RES) == NULL) // model isn't in memory yet?
-                                      {
-                                          resourceHandle->loadModelResource(U_WALL_RES, "data/barrel.md2"); // load it!
-                                          resourceHandle->getModelResource(U_WALL_RES)->SetTexture(resourceHandle->getTextureTesourceId(U_WALL_RES)); // set the texture
-                                       }
-                                      
-                                      second_matrix[i][j] = U_WALL;
-                                      break; 
-
-                                      
-                                  default:   // in
-                                      data[i][j]->add(NULL);
-                                      second_matrix[i][j] = 0;
-                              }
-                          }
-                          else
-                          {
-                              Messages::errorMessage("Invalid level data.");
-                              return false;
-                          }
-                      }
-                  }   
-
-                  // second matrix should be in memory by now
-                  // now validate
-                  if(!checkPosition(level))
-                      return false;
-
-                  // validation went ok; now we read teleport relationship matrix
-                  tmsize = returnNumberFromFile(level);
-                  
-                  for(int i=0; i<tmsize; i++)
-                  {
-                      PTeleport *childTeleport;  // teleprot we're attaching
-                      PTeleport *parentTeleport; // parent teleport
-
-                      parentTeleport = returnTeleport(returnNumberFromFile(level)); // get parent teleport
-                      int tmp_i = parentTeleport->getI();
-                      int tmp_j = parentTeleport->getJ();
-                      second_matrix[tmp_i][tmp_j] = parentTeleport->getId();
-                      
-                      
-                      childTeleport = returnTeleport(returnNumberFromFile(level));  // get child teleport
-
-                      if(parentTeleport!=NULL && childTeleport!=NULL)  // if teleports has been found
-                      {
-                    //      parentTeleport->add(childTeleport);  // attach them
-                          parentTeleport->setChildTeleport(childTeleport);                      
-                          cout<<"Teleport "<<childTeleport->getId()<<" attached to teleport "<<parentTeleport->getId()<<endl;
-                      }
-                      else
-                      {
-                          Messages::errorMessage("Invalid level data.");
-                          return false;
-                      }
-                                        
-                  }
-                  
-                  // camera setup
-                  
-                  // set the camera position
-                 gameCore->getCamera()->fitCameraToLevel(width, height);
-                  // rotate the camera above the player
-                  gameCore->getCamera()->rotateViewX( 0.5f * (player->getJ() - ((int)width-1)/2));
-                  gameCore->getCamera()->rotateViewY( 0.5f * (player->getI() - ((int)height-1)/2));
-                  
-                  // teleports.clear(); // clear teleport vector, since they are by now in memory and no longer needed
-                  break;   
+              leveldata[0] = new char*[width];
+              leveldata[0][0] = new char[width*height];
+              leveldata[1] = new char*[width];
+              leveldata[1][0] = new char[width*height];
+              for (unsigned i = 1; i < width; ++i) {
+                  leveldata[0][i] = leveldata[0][i-1] + height;
+                  leveldata[1][i] = leveldata[1][i-1] + height;
               }
+
+              int num;  // number that we get from file
+
+              // considering dimension, we read first matrix
+              for(unsigned i=0; i<width; i++)
+              {
+                  for(unsigned j=0; j<height; j++)
+                  {
+                      level >> num;  // we read number from file and store it into num
+                      leveldata[0][i][j] = num;
+
+                      // teleport case
+                      if(num >= 9) // if it is > 9, then it is an teleport id
+                      {
+                          data[i][j] = new PTeleport(i, j, this->gameCore, num); // create object
+
+                          if(resourceHandle->getTextureResource(TELEPORT_RES)==NULL)  // texture isn't in memory yet?
+                              resourceHandle->loadTextureResource(TELEPORT_RES, "test.tga");  // load it!
+
+                          (static_cast<PTeleport*>(data[i][j]))->setId(num);                // set its id
+                          this->teleports.push_back(static_cast<PTeleport*>(data[i][j])); // push teleport info on vector
+                      } else {
+                          switch(num)  // if it is, we create suitable object
+                          {
+                              case FLOOR:
+                                  data[i][j] = new PFloor(this->gameCore);
+                                  if((resourceHandle->getTextureResource(FLOOR_RES))==NULL)  // texture isn't in memory yet?
+                                        resourceHandle->loadTextureResource(FLOOR_RES, "floor.tga");  // load it!
+                                  break;
+
+                              case S_WALL:
+                                  data[i][j] = new PSolidWall(this->gameCore);
+                                  if((resourceHandle->getTextureResource(S_WALL_RES))==NULL)
+                                      resourceHandle->loadTextureResource(S_WALL_RES, "wall.tga");
+                                  break;
+
+                              case BRIDGE:
+                                  data[i][j] = new PBridge(this->gameCore);
+                                  if((resourceHandle->getTextureResource(BRIDGE_RES))==NULL)  // texture isn't in memory yet?
+                                        resourceHandle->loadTextureResource(BRIDGE_RES, "bridge.tga");  // load it!
+                                  break;
+
+                              case VOID:
+                                  data[i][j] = new PVoid;
+                                  break;
+
+                              case CUBE_PLACE:
+                                  data[i][j] = new PCubeHolder(this->gameCore);
+                                  this->holds.push_back(static_cast<PCubeHolder*>(data[i][j])); // adds cuneHolder to holds array
+                                  if((resourceHandle->getTextureResource(CUBE_RES))==NULL)  // texture isn't in memory yet?
+                                      resourceHandle->loadTextureResource(CUBE_RES, "crate.tga");  // load it!
+                                  break;
+
+                              case OW_FLOOR_L:
+                                  data[i][j] = new POnewayFloor(this->gameCore, 5);
+                                  static_cast<POnewayFloor*>(data[i][j])->setDirection(Aliases::left);
+                                  if(resourceHandle->getTextureResource(OW_FLOOR_RES)==NULL)  // texture isn't in memory yet?
+                                      resourceHandle->loadTextureResource(OW_FLOOR_RES, "onewayfloor.tga");  // load it!
+                                  break;
+
+                              case OW_FLOOR_R:
+                                  data[i][j] = new POnewayFloor(this->gameCore, 6);
+                                  static_cast<POnewayFloor*>(data[i][j])->setDirection(Aliases::right);
+                                  if(resourceHandle->getTextureResource(OW_FLOOR_RES)==NULL)  // texture isn't in memory yet?
+                                      resourceHandle->loadTextureResource(OW_FLOOR_RES, "onewayfloor.tga");  // load it!
+                                  break;
+
+                              case OW_FLOOR_U:
+                                  data[i][j] = new POnewayFloor(this->gameCore, 7);
+                                  static_cast<POnewayFloor*>(data[i][j])->setDirection(Aliases::up);
+                                  if(resourceHandle->getTextureResource(OW_FLOOR_RES)==NULL)  // texture isn't in memory yet?
+                                      resourceHandle->loadTextureResource(OW_FLOOR_RES, "onewayfloor.tga");  // load it!
+                                  break;
+
+                              case OW_FLOOR_D:
+                                  data[i][j] = new POnewayFloor(this->gameCore, 8);
+                                  static_cast<POnewayFloor*>(data[i][j])->setDirection(Aliases::down);
+                                  if(resourceHandle->getTextureResource(OW_FLOOR_RES)==NULL)  // texture isn't in memory yet?
+                                      resourceHandle->loadTextureResource(OW_FLOOR_RES, "onewayfloor.tga");  // load it!
+                                  break;
+                              default:
+                                  Messages::errorMessage("Invalid level data.");
+                                  return false;
+                          }
+                      }
+                  }
+              }
+
+              // first matrix shoud be in memory by now.
+              if(!checkPosition(level))
+                  return false;
+
+              // we continue with second matrix
+              for(unsigned i=0; i<width; i++)
+              {
+                  for(unsigned j=0; j<height; j++)
+                  {
+                      level >> num;
+                      leveldata[1][i][j] = num;
+
+                      switch(num)
+                      {
+                          case NO_CHILD:
+                              data[i][j]->add(NULL);
+                              second_matrix[i][j] = 0;
+                              break;
+
+                          case PLAYER:
+                              player = new PPlayer(i, j, this->gameCore);
+
+                              if(resourceHandle->getTextureResource(PLAYER_RES)==NULL)  // texture isn't in memory yet?
+                                  resourceHandle->loadTextureResource(PLAYER_RES, "player.tga");  // load it!
+                              if(resourceHandle->getModelResource(PLAYER_RES) == NULL) { // model isn't in memory yet?
+                                  resourceHandle->loadModelResource(PLAYER_RES, "data/player.md2"); // load it!
+                                  resourceHandle->getModelResource(PLAYER_RES)->SetTexture(resourceHandle->getTextureTesourceId(PLAYER_RES)); // set the texture
+                              }
+
+                              data[i][j]->add(player);
+                              second_matrix[i][j] = PLAYER;
+
+                              break;
+
+                          case CUBE:
+                              p = new PCube(i, j, this->gameCore);
+
+                              if(resourceHandle->getTextureResource(CUBE_RES)==NULL)  // texture isn't in memory yet?
+                                  resourceHandle->loadTextureResource(CUBE_RES, "crate.tga");  // load it!
+
+                              data[i][j]->add(p);
+                              second_matrix[i][j] = CUBE;
+                              break;
+
+                          case 3://OW_CUBE_L:
+                              p = new POnewayCube(Aliases::left, i, j, OW_CUBE_L, this->gameCore);
+                              data[i][j]->add(p);
+
+                              if(resourceHandle->getTextureResource(OW_CUBE_RES)==NULL)  // texture isn't in memory yet?
+                                  resourceHandle->loadTextureResource(OW_CUBE_RES, "onewaycube.tga");  // load it!
+
+                              second_matrix[i][j] = OW_CUBE_L;
+                              break;
+
+                          case 4://OW_CUBE_R:
+                              p = new POnewayCube(Aliases::right, i, j, OW_CUBE_R, this->gameCore);
+                              data[i][j]->add(p);
+
+                              if(resourceHandle->getTextureResource(OW_CUBE_RES)==NULL)  // texture isn't in memory yet?
+                                  resourceHandle->loadTextureResource(OW_CUBE_RES, "onewaycube.tga");  // load it!
+
+                              second_matrix[i][j] = OW_CUBE_R;
+                              break;
+
+                          case 5://OW_CUBE_U:
+                              p = new POnewayCube(Aliases::up, i, j, OW_CUBE_U, this->gameCore);
+                              data[i][j]->add(p);
+
+                              if(resourceHandle->getTextureResource(OW_CUBE_RES)==NULL)  // texture isn't in memory yet?
+                                  resourceHandle->loadTextureResource(OW_CUBE_RES, "onewaycube.tga");  // load it!
+
+                              second_matrix[i][j] = OW_CUBE_U;
+                              break;
+
+                          case 6://OW_CUBE_D:
+                              p = new POnewayCube(Aliases::down, i, j, OW_CUBE_D, this->gameCore);
+                              data[i][j]->add(p);
+
+                              if(resourceHandle->getTextureResource(OW_CUBE_RES)==NULL)  // texture isn't in memory yet?
+                                  resourceHandle->loadTextureResource(OW_CUBE_RES, "onewaycube.tga");  // load it!
+
+                              second_matrix[i][j] = OW_CUBE_D;
+                              break;
+
+                          case 7://BOMB:
+                              p = new PBomb(i, j, this->gameCore);
+                              data[i][j]->add(p);
+
+                              if(resourceHandle->getTextureResource(BOMB_RES)==NULL)  // texture isn't in memory yet?
+                                  resourceHandle->loadTextureResource(BOMB_RES, "bomb.tga");  // load it!
+
+                              // load also bomb lwo obj
+                              //resourceHandle->getModelResourceLW("data/bomb.lwo");
+                              //resourceHandle->loadLWOResource(0, "data/bomb.lwo");
+
+                              second_matrix[i][j] = BOMB;
+                              break;
+
+                          case U_WALL:
+                              p = new PUnsolidWall(i,j,this->gameCore);
+                              data[i][j]->add(p);
+
+                              if(resourceHandle->getTextureResource(U_WALL_RES)==NULL)  // texture isn't in memory yet?
+                                  resourceHandle->loadTextureResource(U_WALL_RES, "barrel_texture.tga");  // load it!
+                              if(resourceHandle->getModelResource(U_WALL_RES) == NULL) { // model isn't in memory yet?
+                                  resourceHandle->loadModelResource(U_WALL_RES, "data/barrel.md2"); // load it!
+                                  resourceHandle->getModelResource(U_WALL_RES)->SetTexture(resourceHandle->getTextureTesourceId(U_WALL_RES)); // set the texture
+                              }
+
+                              second_matrix[i][j] = U_WALL;
+                              break;
+
+                          default:
+                              Messages::errorMessage("Invalid level data.");
+                              return false;
+                      }
+                  }
+              }
+
+              // second matrix should be in memory by now
+              // now validate
+              if(!checkPosition(level))
+                  return false;
+
+              // validation went ok; now we read teleport relationship matrix
+              level >> tmsize;
+
+              for(int i=0; i<tmsize; i++)
+              {
+                  PTeleport *childTeleport;  // teleprot we're attaching
+                  PTeleport *parentTeleport; // parent teleport
+                  int id1, id2;
+
+                  level >> id1;
+                  parentTeleport = returnTeleport(id1); // get parent teleport
+                  int tmp_i = parentTeleport->getI();
+                  int tmp_j = parentTeleport->getJ();
+                  second_matrix[tmp_i][tmp_j] = parentTeleport->getId();
+
+                  level >> id2;
+                  childTeleport = returnTeleport(id2);  // get child teleport
+                  teleportConn.push_back(make_pair(id1,id2));
+
+                  if(parentTeleport!=NULL && childTeleport!=NULL)  // if teleports has been found
+                  {
+                      parentTeleport->setChildTeleport(childTeleport);
+                      cout<<"Teleport "<<childTeleport->getId()<<" attached to teleport "<<parentTeleport->getId()<<endl;
+                  }
+                  else
+                  {
+                      Messages::errorMessage("Invalid level data.");
+                      return false;
+                  }
+
+              }
+
+              // camera setup
+
+              // set the camera position
+              gameCore->getCamera()->fitCameraToLevel(width, height);
+              // rotate the camera above the player
+              gameCore->getCamera()->rotateViewX( 0.5f * (player->getJ() - ((int)width-1)/2));
+              gameCore->getCamera()->rotateViewY( 0.5f * (player->getI() - ((int)height-1)/2));
+
+              // teleports.clear(); // clear teleport vector, since they are by now in memory and no longer needed
               
               Messages::infoMessage("Level data successfully loaded from file.");
-              level.close();
               return true; // everything went ok
           }
           
@@ -873,21 +809,140 @@ namespace PacGame
           bool PLevel::reset()
           {
               releaseLevel();
-              teleports.clear();
-              holds.clear();
-              endgameFlag = false;
+              
               moves = 0;
-              starttime = ((double)SDL_GetTicks())/1000.0;//glfwGetTime();
-              return reloadLevel();
+              starttime = ((double)SDL_GetTicks())/1000.0;
+              
+              PObject *p;
+              for(unsigned i=0; i<width; i++) {
+                  for(unsigned j=0; j<height; j++) {
+                      // teleport case
+                      if(leveldata[0][i][j] >= 9) // if it is > 9, then it is an teleport id
+                      {
+                          data[i][j] = new PTeleport(i, j, this->gameCore, leveldata[0][i][j]); // create object
+                          (static_cast<PTeleport*>(data[i][j]))->setId(leveldata[0][i][j]);                // set its id
+                          this->teleports.push_back(static_cast<PTeleport*>(data[i][j])); // push teleport info on vector
+                      } else {
+                          switch(leveldata[0][i][j]) {
+                              case FLOOR:
+                                  data[i][j] = new PFloor(this->gameCore);
+                                  break;
+                              case S_WALL:
+                                  data[i][j] = new PSolidWall(this->gameCore);
+                                  break;
+                              case BRIDGE:
+                                  data[i][j] = new PBridge(this->gameCore);
+                                  break;
+                              case VOID:
+                                  data[i][j] = new PVoid;
+                                  break;
+                              case CUBE_PLACE:
+                                  data[i][j] = new PCubeHolder(this->gameCore);
+                                  this->holds.push_back(static_cast<PCubeHolder*>(data[i][j])); // adds cuneHolder to holds array
+                                  break;
+                              case OW_FLOOR_L:
+                                  data[i][j] = new POnewayFloor(this->gameCore, 5);
+                                  static_cast<POnewayFloor*>(data[i][j])->setDirection(Aliases::left);
+                                  break;
+                              case OW_FLOOR_R:
+                                  data[i][j] = new POnewayFloor(this->gameCore, 6);
+                                  static_cast<POnewayFloor*>(data[i][j])->setDirection(Aliases::right);
+                                  break;
+                              case OW_FLOOR_U:
+                                  data[i][j] = new POnewayFloor(this->gameCore, 7);
+                                  static_cast<POnewayFloor*>(data[i][j])->setDirection(Aliases::up);
+                                  break;
+                              case OW_FLOOR_D:
+                                  data[i][j] = new POnewayFloor(this->gameCore, 8);
+                                  static_cast<POnewayFloor*>(data[i][j])->setDirection(Aliases::down);
+                                  break;
+                          }
+                      }
+                  }
+              }
+
+              // we continue with second matrix
+              for(unsigned i=0; i<width; i++) {
+                  for(unsigned j=0; j<height; j++) {
+                      switch(leveldata[1][i][j]) {
+                          case NO_CHILD:
+                              data[i][j]->add(NULL);
+                              second_matrix[i][j] = 0;
+                              break;
+                          case PLAYER:
+                              p = new PPlayer(i, j, this->gameCore);
+                              this->player = static_cast<PPlayer*>(p); // set class player pointer to player element
+                              data[i][j]->add(p);
+                              second_matrix[i][j] = PLAYER;
+                              break;
+                          case CUBE:
+                              p = new PCube(i, j, this->gameCore);
+                              data[i][j]->add(p);
+                              second_matrix[i][j] = CUBE;
+                              break;
+                          case 3://OW_CUBE_L:
+                              p = new POnewayCube(Aliases::left, i, j, OW_CUBE_L, this->gameCore);
+                              data[i][j]->add(p);
+                              second_matrix[i][j] = OW_CUBE_L;
+                              break;
+                          case 4://OW_CUBE_R:
+                              p = new POnewayCube(Aliases::right, i, j, OW_CUBE_R, this->gameCore);
+                              data[i][j]->add(p);
+                              second_matrix[i][j] = OW_CUBE_R;
+                              break;
+                          case 5://OW_CUBE_U:
+                              p = new POnewayCube(Aliases::up, i, j, OW_CUBE_U, this->gameCore);
+                              data[i][j]->add(p);
+                              second_matrix[i][j] = OW_CUBE_U;
+                              break;
+                          case 6://OW_CUBE_D:
+                              p = new POnewayCube(Aliases::down, i, j, OW_CUBE_D, this->gameCore);
+                              data[i][j]->add(p);
+                              second_matrix[i][j] = OW_CUBE_D;
+                              break;
+                          case 7://BOMB:
+                              p = new PBomb(i, j, this->gameCore);
+                              data[i][j]->add(p);
+                              second_matrix[i][j] = BOMB;
+                              break;
+
+                          case U_WALL:
+                              p = new PUnsolidWall(i,j,this->gameCore);
+                              data[i][j]->add(p);
+                              second_matrix[i][j] = U_WALL;
+                              break;
+                      }
+                  }
+              }
+
+              for(unsigned i=0; i<teleportConn.size(); i++)
+              {
+                  PTeleport *childTeleport;  // teleprot we're attaching
+                  PTeleport *parentTeleport; // parent teleport
+                  pair<int,int> conn = teleportConn[i];
+
+                  parentTeleport = returnTeleport(conn.first); // get parent teleport
+                  int tmp_i = parentTeleport->getI();
+                  int tmp_j = parentTeleport->getJ();
+                  second_matrix[tmp_i][tmp_j] = parentTeleport->getId();
+
+                  childTeleport = returnTeleport(conn.second);  // get child teleport
+
+                  if(parentTeleport!=NULL && childTeleport!=NULL)  // if teleports has been found
+                      parentTeleport->setChildTeleport(childTeleport);
+                  else
+                      return false;
+              }
+              return true;
           }
           
            /**************************************************************
            * Function returns pointer to player in level
            **************************************************************/
-          PPlayer* PLevel::getPlayerHandle()
+          /*PPlayer* PLevel::getPlayerHandle()
           {
               return this->player;
-          }
+          }*/
   
           /**************************************************************
            * Function returns pointer to renderer object
@@ -904,14 +959,6 @@ namespace PacGame
            **************************************************************/
           bool PLevel::initialize()
           {
-              //data = new
-              if(!this->reloadLevel())
-              {
-                  Messages::errorMessage("Level loading from file failed.");
-                  return 0;
-              }
-              // by now, matrix should be initialized with proper classes, if it went ok this far
-
               // load skybox textures
 
             /*  if(resourceHandle->getTextureResource(SKY_RES_TOP)==NULL)
@@ -941,9 +988,6 @@ namespace PacGame
               }
               else
                   Messages::initMessage("Game core", true);
-              
-              // temporary, dump state
-              this->print();
 
               moves = 0;
               button_flags = 0;
@@ -1048,11 +1092,9 @@ xpl.draw();
            * **************************************/
           void PLevel::animate(double time)
           {
-              if(intro)
-              {
+              if(intro) {
                   int ticks = SDL_GetTicks();
-                  if(introtime + height*300 < ticks)
-                  {
+                  if(introtime + height*300 < ticks) {
                       intro = false;
                       starttime = ((double)SDL_GetTicks())/1000.0;
                   }
@@ -1102,82 +1144,7 @@ xpl.draw();
                 }
           }
           
-          bool PLevel::loadLevelFromFile(string filename){
-              this->filename = filename;
-              this->endgameFlag = false;
-              starttime = ((double)SDL_GetTicks())/1000.0;
-              return reset();
-          }
-          
           /**************************************************************
-           * Function dumps level data into console
-           * consider it as an alternative render function :D
-           **************************************************************/
-          void PLevel::print()
-          {
-              cout<<endl;
-              for(unsigned i=0; i<this->width; i++)
-              {
-                  cout<<setfill('-')<<setw(73)<<"-"<<endl;  // prints line
-
-                  for(unsigned j=0; j<this->height; j++)
-                  {
-                      PObject *obj = data[i][j]->returnFirstChild(); 
-                      if(obj!=NULL) // if there is boject binded
-                      {
-                          obj->print(); // prints it
-                     //     cout<<"ACTIVE BOMB: "<<obj->isActiveBomb()<<false;
-                      }
-                      else
-                          if(data[i][j]!=NULL)
-                              data[i][j]->print();  // otherwise, print object
-                  }
-                  cout<<'|'<<endl;
-              }
-              cout<<setfill('-')<<setw(73)<<"-"<<endl;  // prints line
-              cout<<endl;  
-          }
-          
-     
-          /**************************************************************
-           * Function dumps level data into console
-           * prints type of level(wall, void, teleport, ...) 
-           **************************************************************/        
-          void PLevel::printLevelByType() const
-          {
-              cout<<endl;
-              for(unsigned i=0; i<this->width; i++)
-              {
-                  for(unsigned j=0; j<this->height; j++)
-                      data[i][j]->print(); // prints objects info
-                  cout<<'|'<<endl;
-              }
-              cout<<endl;
-          }
-          
-          /**************************************************************
-           * Function dumps level data into console
-           * prints meta data(what is on level block)
-           **************************************************************/  
-          void PLevel::printLevelByMeta() const
-          {
-              cout<<endl;
-              for(unsigned i=0; i<this->width; i++)
-              {
-                  for(unsigned j=0; j<this->height; j++)
-                  {
-                      PObject *obj = data[i][j]->returnFirstChild(); 
-                      if(obj!=NULL) // if there is boject binded
-                          obj->print(); // prints it
-                      else
-                          cout<<"|     "; // otherwise, print empty
-                  }
-                  cout<<'|'<<endl;
-              }
-              cout<<endl;            
-          }
-          
-           /**************************************************************
            * releaseLevel()
            * clear all level data from memory
            **************************************************************/          
@@ -1192,19 +1159,12 @@ xpl.draw();
                   }
               }
               delete player;
+              teleports.clear();
+              holds.clear();
+              teleportConn.clear();
+              endgameFlag = false;
               Messages::infoMessage("Level data successfully released from memory.");              
           }
-          
-          
-          /*unsigned PLevel::getWidth()
-          {
-              return this->width;
-          }
-          
-          unsigned PLevel::getHeight()
-          {
-              return this->height;
-          }*/
           
            /**************************************************************
            * Dropped Bombs
@@ -1226,22 +1186,26 @@ xpl.draw();
                         this->checkAndApplyBombBlast(firstDroppedBomb->i, firstDroppedBomb->j+1);
                         
                         // remove first dropped bomb
-						data[firstDroppedBomb->i][firstDroppedBomb->j]->toogleBombActivity();
+			data[firstDroppedBomb->i][firstDroppedBomb->j]->toogleBombActivity();
                         delete bombs[0];
                         this->bombs.erase(this->bombs.begin());
                     }
                 }              
           }
           
-          bool PLevel::addDroppedBomb(int i, int j)
+          bool PLevel::addDroppedBomb()
           {
-              if(!data[i][j]->isActiveBomb())
-              {
-                  cout<<"I can attach bomb here ;)"<<endl;
-            //      data[i][j]->attachToRoot(new PacGame::GameClasses::GameObjects::PDetonatedBomb());
-                  data[i][j]->toogleBombActivity();
-                  this->bombs.push_back(new PDroppedBomb(i, j));
-                  return true;
+              if(player->getBombs() > 0) {
+                  int i = player->getI();
+                  int j = player->getJ();
+                  if(!data[i][j]->isActiveBomb())
+                  {
+                      cout<<"I can attach bomb here ;)"<<endl;
+                      data[i][j]->toogleBombActivity();
+                      bombs.push_back(new PDroppedBomb(i, j));
+                      player->decBombs();
+                      return true;
+                  }
               }
               return false;
           }
@@ -1307,11 +1271,18 @@ xpl.draw();
            **************************************************************/ 
           PLevel::~PLevel()
           {
-              this->gameCore->deinit();
-              this->releaseLevel();
+              gameCore->deinit();
+              releaseLevel();
+              if(leveldata[0] != NULL) {
+                  delete [] leveldata[0][0];
+                  delete [] leveldata[0];
+              }
+              if(leveldata[1] != NULL) {
+                  delete [] leveldata[1][0];
+                  delete [] leveldata[1];
+              }
               delete fnt;
           }
-          
-          
+            
     }
 }

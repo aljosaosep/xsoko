@@ -48,6 +48,7 @@ private:
     Window* freeplay;
     Window* options;
     Window* credits;
+    Window* gamepack;
 private:
     void initializeComponents();
     void btnCampaignClick(Component* sender);
@@ -59,25 +60,45 @@ public:
     MainMenu();
 };
 
-class FreeplayWnd: public Window {
+class LevelItem : public Item {
 private:
-    class LevelItem : public Item {
-    private:
-        string _name;
-        string _author;
-    public:
-        LevelItem(string name, string author) : _name(name), _author(author) {}
-        string toString() {
-            return _name;
-        }
-        string getAuthor() {
-            return _author;
-        }
-        bool equals(Item* item){
-            LevelItem* x = (LevelItem*) item;
-            return (x->_name == _name);
-        }
-    };
+    string _name;
+    string _author;
+public:
+    LevelItem(string name, string author) : _name(name), _author(author) {}
+    string toString() {
+        return _name;
+    }
+    string getAuthor() {
+        return _author;
+    }
+    bool equals(Item* item){
+        LevelItem* x = (LevelItem*) item;
+        return (x->_name == _name);
+    }
+};
+
+class GamePackWnd: public Window {
+private:
+    ListBox* lstLevels;
+    Button* btnBack;
+    Button* btnPlay;
+    Text* lblAuthor;
+
+    //main menu
+    Window* mainMenu;
+private:
+    void initializeComponents();
+    void lstLevelsKeyUp(Component* sender, int key);
+    void lstLevelsItemSelect(Component* sender, Item* item);
+    void btnBackClick(Component* sender);
+    void btnPlayClick(Component* sender);
+    string getAuthor(string filename);
+public:
+    GamePackWnd();
+};
+
+class FreeplayWnd: public Window {
 private:
     ListBox* lstLevels;
     Button* btnBack;

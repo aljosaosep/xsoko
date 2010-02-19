@@ -30,6 +30,11 @@
 #define _zipfile_H
 
 #include "unzip.h"
+#include <string>
+#include <streambuf>
+#include <iostream>
+
+using namespace std;
 
 #define UNZ_OK                          (0)
 #define UNZ_END_OF_LIST_OF_FILE         (-100)
@@ -67,6 +72,33 @@ public:
         int readFile(void*,unsigned);
         bool isFileOpened();
         int getFileSize();
+};
+
+class zipstreambuf : public streambuf {
+private:
+    unzFile zipf;
+    char* base;
+    streamsize length;
+protected:
+    virtual int underflow();
+    virtual streambuf* setbuf(char* b, streamsize len);
+public:
+    zipstreambuf(unzFile file);
+    virtual ~zipstreambuf() {}
+};
+
+class zifstream : public istream {
+private:
+    zipstreambuf* zsb;
+    unzFile zipf;
+    bool opened_ok;
+public:
+    zifstream();
+    zifstream(string zipfile, string file);
+    void open(string zipfile, string file);
+    void close();
+    bool is_open();
+    virtual ~zifstream();
 };
 
 #endif

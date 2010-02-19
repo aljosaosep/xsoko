@@ -113,20 +113,17 @@ namespace PacGame
                * --------------------------------------------------------
                * Aljosa 2007 - 2008
                * ********************************************************/
-              class PLevel //: public PObject
-              {
+              class PLevel {
               private:
-                  string filename;                   // level filename
-                  PObject* data[30][30];        // actual level data
-                  int second_matrix[30][30];         // presentation of second matrix with id
-                  vector<PTeleport*> teleports;      // vector of teleport pointers
-                  unsigned width, height;            // level dimensions
-                  PPlayer *player;                   // player instance 
-                  vector<PCubeHolder*> holds;        // vector contains all cube holders in level; it helps to determine when level is finished
-                  PCore *gameCore;                   // game core object
-                  PResourceManager *resourceHandle;  // shortcut to resources
+                  PObject* data[30][30];            // actual level data
+                  int second_matrix[30][30];        // presentation of second matrix with id
+                  vector<PTeleport*> teleports;     // vector of teleport pointers
+                  unsigned width, height;           // level dimensions
+                  PPlayer *player;                  // player instance 
+                  vector<PCubeHolder*> holds;       // vector contains all cube holders in level; it helps to determine when level is finished
+                  PCore *gameCore;                  // game core object
+                  PResourceManager *resourceHandle; // shortcut to resources
                   bool endgameFlag;
-                  //bool timestopped;
                   Font *fnt;
                   double starttime;
                   double time;
@@ -134,18 +131,13 @@ namespace PacGame
                   int button_flags;
                   unsigned introtime;
                   bool intro;
-                  
-           //       PDirection lastDirection;  // direction player is facing according to last move
-                  
                   vector<PDroppedBomb*> bombs;   // list of currently dropped bombs
+                  char** leveldata[2];
+                  vector<pair<int,int> > teleportConn;
                  
               public:
-                  PLevel(string filename);
+                  PLevel();
                   virtual ~PLevel();
-                  
-                  // print
-                  void printLevelByType() const; // dumps level data insto console; prints type of level(wall, void, teleport, ...)
-                  void printLevelByMeta() const; // same, but it prints meta data(what is on level block)
                   
                   // gameplay related
                   bool moveObject(PDirection dir, PObject *obj);
@@ -157,26 +149,22 @@ namespace PacGame
                   void resetButtonFlag(int flag);
                   
                   // level data manipulation
-                  bool reloadLevel();
-                  bool loadLevelFromFile(string Filename); // loads level from txt file into structure, stores level widthm height into class properties
+                  bool loadLevel(istream &level); // loads level from txt file into structure, stores level widthm height into class properties
                   bool saveStateToFile(string filename);   // exports level state to file
                   void releaseLevel(); // released level from memory
                   bool reset();
                   
                   // level toolkit functions
-                  inline int returnNumberFromFile(ifstream &file); // returns number from file and moves file pointer
-                  inline bool checkPosition(ifstream &file); // checks if position is valid and moves file pointer
+                  inline bool checkPosition(istream &file); // checks if position is valid and moves file pointer
                   inline PTeleport* returnTeleport(int id); // returns teleports addres, that contains given id
-                  PPlayer* getPlayerHandle();
                   PCore* getGameCoreHandle();
+                  //PPlayer* getPlayerHandle();
                   
                   // getters
                   bool getEndgameFlag();
-                  //unsigned getWidth();
-                  //unsigned getHeight();
                   
                   // bomb related
-                  bool addDroppedBomb(int i, int j);
+                  bool addDroppedBomb(); // public
                   void checkAndApplyBombBlast(int i, int j);
                   void processBombs(double current_time);
 
@@ -186,7 +174,6 @@ namespace PacGame
                   void draw();  // draws whole level
                   void animate(double time); // animates moving objects
                   bool initialize(); // initiates level
-                  void print(); // dumps level data into console
               };
       }
 }

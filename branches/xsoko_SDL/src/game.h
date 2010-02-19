@@ -39,6 +39,7 @@
 #include "gui/gui.h"
 #include "gui/window.h"
 #include "SoundManager.h"
+#include "zip/zipfile.h"
 
 using namespace PacGame::RenderMaschine;
 
@@ -53,16 +54,17 @@ namespace PacGame
            * --------------------------------------------------------
            * Aljosa 2007
            * ********************************************************/
-          class PGame
-          {
+          class PGame {
           private:
               int windowWidth;
               int windowHeight;
               bool fullscreen;
               string windowTitle;
+              int numLevels;
+              bool gamepack;
+              string pack;
 
               PLevel *level;
-              PPlayer *player;
               PCamera *camera;
 
               PInputSystem *input;
@@ -70,7 +72,6 @@ namespace PacGame
               bool levelLoaded;
               bool gameQuit;
               bool forceLevelQuit;
-              //bool toggleMenu;
 
               //gui components
               //Gui &gui;
@@ -82,7 +83,7 @@ namespace PacGame
               // constructor
               PGame();
               // destructor
-              ~PGame(){}
+              ~PGame();
 
               //methods
               void prepareGui();
@@ -94,6 +95,7 @@ namespace PacGame
               void terminate();
 
               void loadLevel(string levelPath);
+              void loadGamePack(string packPath);
               void exitLevel();
               void resetLevel();
 
