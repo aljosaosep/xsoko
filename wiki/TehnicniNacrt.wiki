@@ -1,4 +1,5 @@
 #summary Tehnični načrt xpaca
+#labels Phase-Implementation,Phase-Design
 
 ----
 = Vsebina =
@@ -8,6 +9,7 @@
  # Level format
  # Gameplay
  # Resource Managment
+ # Sound Manager
 ----
 
 = 1. Uvod =
@@ -518,10 +520,33 @@ Dostop do texture:
 
 Podobno bi rad naložil prek ResourceManagerja tudi zvok in enostavno dostopal do njega.
 
+= 7. Sound Manager =
+
+Glavni namen Sound Managerja je seveda upravljanje z zvokom. Na začetku igre se ustvari objekt tipa _*SoundManager*_ znotraj objekta _*PGame*_. V _SoundManager_-ju imamo dva dinamična seznama _*effects*_ (zvočni efekti) in _*musics*_ (background glasba) v katerih so shranjeni vsi zvočni podatki. Najprej je potrebno naložit efekt ali glasbo v enega izmed teh seznamov in šele nato jih lahko uporabljamo (logično). Podrobnosti o tem kasneje, potrebno še je omenit, da so vsi zvočni podatki *singeltone* (glede na pot do datoteke). To pomeni, da če programer dvakrat naloži isto glasbo (ali zvočni efekt) znotraj projekta (ista pot do datoteke) Sound Manager ne porabi dvakrat toliko pomnilnika. Problem pa nastane, če je pot različna vsebina glasbe pa ista. Potem pač uporabi malo več pomnilnika, ampak če bomo vso glasbo shranjevali znotraj mape "data/sounds" se ne bodo dogajala take bedarije. Programer nato na poljubnem mestu v kodi, kjer pač želi uporabiti zvok, pridobi istanco objkta _SoundManager_ na naslednji način (seveda, če ni znotraj objekta _PGame_):
+{{{
+SoundManager *sm = PGame::getInstance().getSoundManagerInstance();
+}}}
+Sedaj lahko normalno uporablja vse metode _SoundManager_-ja, ki so podrobno opisane spodaj:
+||*Metoda*||*Opis*||
+||`SoundManager()`||navadni konstruktor - inicializacija začetnih podatkov||
+||`SoundManager(const SoundManager& orig)`||kopirni konstruktor||
+||`virtual ~SoundManager()`||destruktor - avtomatično zbriše še vse zvočne podatke, ki jih programer ni ||
+||`void loadEffect(string name, string path)`||naloži zvočni efekt v seznam; vsak zvočni efekt seveda rabi enolični identifikator (ime) in pot do datoteke ||
+||`void unloadEffect(string name)`||zbriše zvočni efekt iz pomnilnika - glede na ime efekta||
+||`void playEffect(string name)`||predvaja efekt - glede na ime efekta||
+||`void loadMusic(string name, string path)`||naloži glasbo - ista finta kot pri zvočnih efektih - podati je potrebno neko ime in pot ||
+||`void unloadMusic(string name)`||zbriše glasbo iz pomnilnika - glede na ime||
+||`void playMusic(string name)`||predvaja glasbo - glede na ime||
+||`void playMusic()`||če ni bila predvajana še nobene glasba začne na začetku seznama, drugače pa predvaja zadnje predvajano glasbo||
+||`void stopMusic()`||neha z predvajanjem glasbe||
+||`bool getMusicStatus()`||vrne status predvajanja glasbe - true: trenutno se nekaj predvaja, false: ni glasbe||
+||`void playNextMusic()`||predvaja naslednjo glasbo v seznamu||
+||`void playPreviousMusic()`||predvaja prejšnjo glasbo v seznamu||
+
+
+----
 
 p.s pisanje dokumentacije sux!
-
-
 
 
 
