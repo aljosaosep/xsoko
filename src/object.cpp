@@ -159,18 +159,18 @@ namespace PacGame
                           i=i->next;
                           delete[] j;  // delete element
                   }
-                  Messages::infoMessage("List released");  // print out status
+                  //Messages::infoMessage("List released");  // print out status
               }
           }
 
           // prints list into console
-          void PObject::dumpList() const
+          /*void PObject::dumpList() const
           {
               for(node *i=root; i!=NULL; i=i->next)
               {
                       i->object->print();
               }
-          }
+          }*/
           
           // functions returns first element in list, in soko, that is object appened to parent object
           PObject* PObject::returnFirstChild() const

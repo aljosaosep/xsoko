@@ -86,23 +86,10 @@ namespace PacGame
                                                 {
                                                         this->level->resetButtonFlag(KB_RIGHT);
                                                 }else
-                                                if(event.key.keysym.sym == SDLK_SPACE)
-                                                {
-                                                        Messages::infoMessage("Key space pressed, dumping...");                
-                                                        this->level->print(); 
-                                                }else
                                                 if(event.key.keysym.sym == SDLK_d)
                                                 {
-                                                    if(this->level->getPlayerHandle()->getBombs() > 0)
-                                                    {
-                                                        if(this->level->addDroppedBomb(this->getLevel()->getPlayerHandle()->getI(), this->getLevel()->getPlayerHandle()->getJ()))
-                                                        {
-                                                            this->level->getPlayerHandle()->decBombs();
-
-                                                            PGame::getInstance().getSoundManagerInstance()->playEffect("bomb");
-                                                        }
-
-                                                    }
+                                                    if(this->level->addDroppedBomb())
+                                                        PGame::getInstance().getSoundManagerInstance()->playEffect("bomb");
                                                 }else
                                                 if(event.key.keysym.sym == SDLK_ESCAPE)
                                                 { 

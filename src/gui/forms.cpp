@@ -24,6 +24,7 @@
 #include "../config.h"
 #include "../game.h"
 #include <fstream>
+#include "../zip/zipfile.h"
 
 #if defined(Windows_Release) || defined(Windows_Debug)
     #define BOOST_WINDOWS_API
@@ -34,7 +35,8 @@ using namespace PacGame;
 using namespace PacGame::GameClasses;
 using namespace boost::filesystem;
 
-MainMenu::MainMenu():Window(333, 183, 135, 235, "Main Menu"), freeplay(NULL), options(NULL), credits(NULL)
+MainMenu::MainMenu():Window(333, 183, 135, 235, "Main Menu"), freeplay(NULL),
+        options(NULL), credits(NULL), gamepack(NULL)
 {
     initializeComponents();
     setInCenter(true);
@@ -70,8 +72,12 @@ void MainMenu::initializeComponents(){
 }
 
 void MainMenu::btnCampaignClick(Component* sender){
+    if(gamepack == NULL){
+        gamepack = Gui::getInstance().findWindowByName("gamepack");
+        if(gamepack == NULL) return;
+    }
     setVisible(false);
-    PGame::getInstance().loadLevel("data/testlevel.lvl");
+    gamepack->setVisible(true);
 }
 
 void MainMenu::btnFreeplayClick(Component* sender){
@@ -189,6 +195,90 @@ void CreditsWnd::btnOKClick(Component* sender){
     }
     setVisible(false);
     mainMenu->setVisible(true);
+}
+
+GamePackWnd::GamePackWnd() : Window(235, 200, 330, 200, "Campaign"), mainMenu(NULL)
+{
+    initializeComponents();
+    setName("gamepack");
+    setInCenter(true);
+
+    path dir_path("data");
+    if(exists(dir_path)){
+        for (directory_iterator itr(dir_path), end;itr != end; ++itr )
+        {
+            if ( !is_directory(*itr) && extension(*itr) == ".pak" )
+            {
+                  string filename = itr->path().leaf();
+                  lstLevels->addItem(new LevelItem(filename.substr(0,filename.find_last_of('.')), getAuthor("data/"+filename)));
+            }
+        }
+        lstLevels->setSelectedItem(0);
+    } else {
+        Messages::infoMessage("WARNING - Cannot find data directory!");
+    }
+}
+
+string GamePackWnd::getAuthor(string filename) {
+    zifstream file(filename,"info.txt");
+    if(file.good()) {
+        string author;
+        getline(file,author);
+        getline(file,author);
+        if(!author.empty())
+            return author;
+    }
+    return "Unknown";
+}
+
+void GamePackWnd::initializeComponents() {
+    lstLevels = new ListBox(10,10,200,132);
+    lstLevels->KeyUp.connect(bind(&GamePackWnd::lstLevelsKeyUp, this, _1, _2));
+    lstLevels->onItemSelect.connect(bind(&GamePackWnd::lstLevelsItemSelect, this, _1, _2));
+    lstLevels->setFocusIndex(1);
+    AddComponent(lstLevels);
+
+    btnPlay = new Button(230,15,75,25,"Play");
+    btnPlay->setFocusIndex(2);
+    btnPlay->onPressed.connect(bind(&GamePackWnd::btnPlayClick, this, _1));
+    AddComponent(btnPlay);
+
+    btnBack = new Button(230,45,75,25,"Back");
+    btnBack->setFocusIndex(3);
+    btnBack->onPressed.connect(bind(&GamePackWnd::btnBackClick, this, _1));
+    AddComponent(btnBack);
+
+    lblAuthor = new Text(10,152,"Author: -");
+    AddComponent(lblAuthor);
+}
+
+void GamePackWnd::btnBackClick(Component* sender){
+    if(mainMenu == NULL){
+        mainMenu = Gui::getInstance().findWindowByName("mainMenu");
+        if(mainMenu == NULL) return;
+    }
+    setVisible(false);
+    mainMenu->setVisible(true);
+}
+
+void GamePackWnd::btnPlayClick(Component* sender){
+    setVisible(false);
+    PGame::getInstance().loadGamePack("data/"+lstLevels->getSelectedItem()->toString()+".pak");
+}
+
+void GamePackWnd::lstLevelsItemSelect(Component* sender, Item* item){
+    lblAuthor->setText("Author: " + ((LevelItem*)item)->getAuthor());
+}
+
+void GamePackWnd::lstLevelsKeyUp(Component* sender, int key){
+    switch(key){
+        case SDLK_RETURN:
+            btnPlayClick(sender);
+            break;
+        case SDLK_ESCAPE:
+            btnBackClick(sender);
+            break;
+    }
 }
 
 FreeplayWnd::FreeplayWnd() : Window(235, 200, 330, 200, "Freeplay"), mainMenu(NULL)
