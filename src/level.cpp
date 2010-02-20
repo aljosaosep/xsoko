@@ -67,12 +67,10 @@ namespace PacGame
 
           PLevel::PLevel() :
             width(0), height(0), player(NULL), gameCore(new PCore), resourceHandle(gameCore->getResources()),
-            endgameFlag(false), fnt(new Font("font")), introtime(SDL_GetTicks()), intro(true)
+            endgameFlag(false), fnt(new Font("font"))
           {
               fnt->setColor(255,255,0);
               fnt->setSize(15);
-              leveldata[0] = NULL;
-              leveldata[1] = NULL;
           }
  
            /*****************************************
@@ -463,14 +461,8 @@ namespace PacGame
           bool PLevel::loadLevel(istream &level)
           {
               releaseLevel();
-              if(leveldata[0] != NULL) {
-                  delete [] leveldata[0][0];
-                  delete [] leveldata[0];
-              }
-              if(leveldata[1] != NULL) {
-                  delete [] leveldata[1][0];
-                  delete [] leveldata[1];
-              }
+              intro = true;
+              moves = 0;
 
               int tmsize; // teleport matrix size
               PObject *p = NULL; // our pobject pointer; for creating dynamic objects
@@ -486,15 +478,6 @@ namespace PacGame
               // first read dimension
               level >> height; // dimensions are first two numbers
               level >> width;
-
-              leveldata[0] = new char*[width];
-              leveldata[0][0] = new char[width*height];
-              leveldata[1] = new char*[width];
-              leveldata[1][0] = new char[width*height];
-              for (unsigned i = 1; i < width; ++i) {
-                  leveldata[0][i] = leveldata[0][i-1] + height;
-                  leveldata[1][i] = leveldata[1][i-1] + height;
-              }
 
               int num;  // number that we get from file
 
@@ -748,6 +731,7 @@ namespace PacGame
               gameCore->getCamera()->rotateViewY( 0.5f * (player->getI() - ((int)height-1)/2));
 
               // teleports.clear(); // clear teleport vector, since they are by now in memory and no longer needed
+              introtime = SDL_GetTicks();
               
               Messages::infoMessage("Level data successfully loaded from file.");
               return true; // everything went ok
@@ -989,7 +973,6 @@ namespace PacGame
               else
                   Messages::initMessage("Game core", true);
 
-              moves = 0;
               button_flags = 0;
               return true; // everything went ok
           }
@@ -1094,11 +1077,11 @@ xpl.draw();
           {
               if(intro) {
                   int ticks = SDL_GetTicks();
-                  if(introtime + height*300 < ticks) {
+                  if(introtime + height*150 < ticks) {
                       intro = false;
                       starttime = ((double)SDL_GetTicks())/1000.0;
                   }
-                  double move = (ticks - introtime) / 300.0;
+                  double move = (ticks - introtime) / 150.0;
                   glTranslatef(height-move,0,0);
                   glRotatef(90*(1-(move/height)),0,1,0);
                   return;
@@ -1273,14 +1256,6 @@ xpl.draw();
           {
               gameCore->deinit();
               releaseLevel();
-              if(leveldata[0] != NULL) {
-                  delete [] leveldata[0][0];
-                  delete [] leveldata[0];
-              }
-              if(leveldata[1] != NULL) {
-                  delete [] leveldata[1][0];
-                  delete [] leveldata[1];
-              }
               delete fnt;
           }
             

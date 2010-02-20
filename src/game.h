@@ -61,6 +61,7 @@ namespace PacGame
               bool fullscreen;
               string windowTitle;
               int numLevels;
+              int curLevel;
               bool gamepack;
               string pack;
 
