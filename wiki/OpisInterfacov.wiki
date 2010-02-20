@@ -1,6 +1,6 @@
 = OPISI INTERFACOV =
 
-== ZipFile ==
+== ZipFile == *OBSOLETE*
 
 public metode:
 
@@ -38,3 +38,13 @@ Najprej odpremo zip datoteko preko konstruktorja ali metode openZip(). Nato odpr
 
 *OPOMBA:*
 Z enim objektom lahko imamo naenkrat samo eno odprto zip datoteko in samo eno odprto datoteko znotraj odprte zip datoteke. Če želimo odpreti drugo datoteko oz. drugo zip datoteko, moramo najprej trenutno odprto datoteko/zip datoteko zapreti (v pravem vrstnem redu). Če bi kdo potreboval več odprtih datotek naenkrat, naj se mi pritoži.
+
+==zifstream==
+
+zifstream(string zipfile, string file)
+odpre najprej zip datoteko, nato pa še datoteko v zipu
+
+uporablja se popolnoma isto kot ifstream objekt, edina razlika je v konstruktorju.
+
+*OPOMBA:*
+verjetno ne delajo vse funkcije, saj je vezni objekt med zlib in istream le skelet, v katerem so implementirane le funkcije, ki so potrebne za osnovno delovanje.
