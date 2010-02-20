@@ -156,6 +156,8 @@ namespace PacGame
 		  #ifdef _WINDOWS
                     GuiRender::getInstance().reloadSkin();
 		    FontManager::getInstance().reload();
+                    delete level;
+                    level = new PLevel();
 		  #endif
                   Config::SetValueInt("xres",width);
                   Config::SetValueInt("yres",height);
@@ -222,6 +224,8 @@ namespace PacGame
                             if(gamepack && curLevel < numLevels) {
                                 zifstream file(pack,Functions::toString(++curLevel)+".lvl");
                                 forceLevelQuit = file.good() ? !level->loadLevel(file) : true;
+                                if(forceLevelQuit)
+                                    Messages::errorMessage("Level loading failed!");
                             } else {
                                 gamepack = false;
                                 levelLoaded = false;
@@ -237,6 +241,7 @@ namespace PacGame
                             levelLoaded = false;
                             gameMenu->setVisible(false);
                             mainMenu->setVisible(true);
+                            input->openGameMenu();
                             Gui::getInstance().setMouseVisible(true);
                         }
 
@@ -303,6 +308,7 @@ namespace PacGame
           void PGame::loadLevel(string levelPath){
             ifstream file(levelPath.c_str());
             if(!level->loadLevel(file)) {
+                Messages::errorMessage("Level loading failed!");
                 mainMenu->setVisible(true);
                 return;
             }
@@ -335,7 +341,8 @@ namespace PacGame
                       return;
                   }
               }
-              gameMenu->setVisible(true);
+              Messages::errorMessage("Level loading failed!");
+              mainMenu->setVisible(true);
           }
           
           void PGame::resetLevel(){

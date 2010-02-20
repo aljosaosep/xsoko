@@ -928,6 +928,13 @@ namespace PacGame
                   else
                       return false;
               }
+
+              // set the camera position
+              gameCore->getCamera()->fitCameraToLevel(width, height);
+              // rotate the camera above the player
+              gameCore->getCamera()->rotateViewX( 0.5f * (player->getJ() - ((int)width-1)/2));
+              gameCore->getCamera()->rotateViewY( 0.5f * (player->getI() - ((int)height-1)/2));
+              
               return true;
           }
           
