@@ -363,7 +363,7 @@ namespace PacGame
                         
                         // we get the destination coordinates
                         int it = (static_cast<PTeleport*>(data[toI][toJ]))->getChildTeleport()->getI(), 
-                                jt = (static_cast<PTeleport*>(data[toI][toJ]))->getChildTeleport()->getJ();
+                            jt = (static_cast<PTeleport*>(data[toI][toJ]))->getChildTeleport()->getJ();
                         
                         
                         
@@ -463,6 +463,7 @@ namespace PacGame
               releaseLevel();
               intro = true;
               moves = 0;
+              button_flags = 0;
 
               int tmsize; // teleport matrix size
               PObject *p = NULL; // our pobject pointer; for creating dynamic objects
@@ -586,6 +587,11 @@ namespace PacGame
                               break;
 
                           case PLAYER:
+                              if(player != NULL) {
+                                  Messages::errorMessage("Multiple players defined in level!");
+                                  return false;
+                              }
+
                               player = new PPlayer(i, j, this->gameCore);
 
                               if(resourceHandle->getTextureResource(PLAYER_RES)==NULL)  // texture isn't in memory yet?
@@ -683,6 +689,11 @@ namespace PacGame
                               return false;
                       }
                   }
+              }
+
+              if(player == NULL) {
+                  Messages::errorMessage("Cannot find player position!");
+                  return false;
               }
 
               // second matrix should be in memory by now
@@ -973,7 +984,6 @@ namespace PacGame
               else
                   Messages::initMessage("Game core", true);
 
-              button_flags = 0;
               return true; // everything went ok
           }
           
@@ -1142,9 +1152,11 @@ xpl.draw();
                   }
               }
               delete player;
+              player = NULL;
+
               teleports.clear();
               holds.clear();
-              teleportConn.clear();
+              bombs.clear();
               endgameFlag = false;
               Messages::infoMessage("Level data successfully released from memory.");              
           }

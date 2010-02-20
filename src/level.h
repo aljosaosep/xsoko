@@ -117,10 +117,13 @@ namespace PacGame
               private:
                   PObject* data[30][30];            // actual level data
                   int second_matrix[30][30];        // presentation of second matrix with id
+                  char leveldata[2][30][30];        // game data for reset
                   vector<PTeleport*> teleports;     // vector of teleport pointers
+                  vector<PCubeHolder*> holds;       // vector contains all cube holders in level; it helps to determine when level is finished
+                  vector<PDroppedBomb*> bombs;      // list of currently dropped bombs
+                  vector<pair<int,int> > teleportConn;  // teleport data for reset
                   unsigned width, height;           // level dimensions
                   PPlayer *player;                  // player instance 
-                  vector<PCubeHolder*> holds;       // vector contains all cube holders in level; it helps to determine when level is finished
                   PCore *gameCore;                  // game core object
                   PResourceManager *resourceHandle; // shortcut to resources
                   bool endgameFlag;
@@ -131,32 +134,30 @@ namespace PacGame
                   int button_flags;
                   unsigned introtime;
                   bool intro;
-                  vector<PDroppedBomb*> bombs;   // list of currently dropped bombs
-                  char leveldata[2][30][30];
-                  vector<pair<int,int> > teleportConn;
-                 
-              public:
-                  PLevel();
-                  virtual ~PLevel();
-                  
-                  // gameplay related
+              private:
+                  void releaseLevel(); // released level from memory
                   bool moveObject(PDirection dir, PObject *obj);
                   void activateFloor(int i, int j);
                   bool checkMoveTo(int toI, int toJ, PObject *obj, PDirection dir);
                   inline void reattachNode(int i, int j, int i2, int j2, PObject *obj);
                   inline bool isLevelDone(); // checks if all cubes are in places
+                  inline bool checkPosition(istream &file); // checks if position is valid and moves file pointer
+                  inline PTeleport* returnTeleport(int id); // returns teleports addres, that contains given id
+                  void checkAndApplyBombBlast(int i, int j);
+              public:
+                  PLevel();
+                  virtual ~PLevel();
+                  
+                  // gameplay related
                   void setButtonFlag(int flag);
                   void resetButtonFlag(int flag);
                   
                   // level data manipulation
                   bool loadLevel(istream &level); // loads level from txt file into structure, stores level widthm height into class properties
                   bool saveStateToFile(string filename);   // exports level state to file
-                  void releaseLevel(); // released level from memory
                   bool reset();
                   
                   // level toolkit functions
-                  inline bool checkPosition(istream &file); // checks if position is valid and moves file pointer
-                  inline PTeleport* returnTeleport(int id); // returns teleports addres, that contains given id
                   PCore* getGameCoreHandle();
                   //PPlayer* getPlayerHandle();
                   
@@ -164,8 +165,7 @@ namespace PacGame
                   bool getEndgameFlag();
                   
                   // bomb related
-                  bool addDroppedBomb(); // public
-                  void checkAndApplyBombBlast(int i, int j);
+                  bool addDroppedBomb();
                   void processBombs(double current_time);
 
                   void adjustCameraAtTeleport(int it, int jt, PObject *obj, PDirection dir);
