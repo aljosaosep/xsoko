@@ -218,7 +218,7 @@ namespace PacGame
                         }
 
                         // is game over? or level done?
-                        if(this->level->getEndgameFlag() || forceLevelQuit){
+                        /*if(this->level->getEndgameFlag() || forceLevelQuit){
                             levelLoaded = false;
                             gameMenu->setVisible(false);
                             if(level->getEndgameFlag()) {
@@ -228,6 +228,27 @@ namespace PacGame
                                 Messages::infoMessage("You won!");
                             } else
                                mainMenu->setVisible(true);
+                            Gui::getInstance().setMouseVisible(true);
+                        }*/
+                        if(level->getEndgameFlag()) {
+                            if(gamepack && curLevel < numLevels) {
+                                zifstream file(pack,Functions::toString(++curLevel)+".lvl");
+                                forceLevelQuit = file.good() ? !level->loadLevel(file) : true;
+                            } else {
+                                gamepack = false;
+                                levelLoaded = false;
+                                msgid = Gui::getInstance().showMessage("xSoko", "Congratulations, you won!");
+                                // openGameMenu switches controls to GUI
+                                input->openGameMenu();
+                                Messages::infoMessage("You won!");
+                                Gui::getInstance().setMouseVisible(true);
+                            }
+                        }
+                        if(forceLevelQuit) {
+                            gamepack = false;
+                            levelLoaded = false;
+                            gameMenu->setVisible(false);
+                            mainMenu->setVisible(true);
                             Gui::getInstance().setMouseVisible(true);
                         }
 
@@ -307,18 +328,24 @@ namespace PacGame
           }
 
           void PGame::loadGamePack(string packPath) {
-              zifstream file(packPath,"1.lvl");
-              if(file.good()) {
-                  if(!level->loadLevel(file)) {
-                      mainMenu->setVisible(true);
-                      return;
+              zifstream info(packPath,"info.txt");
+              info >> numLevels;
+              if(numLevels > 0) {
+                  zifstream file(packPath,"1.lvl");
+                  if(file.good()) {
+                      pack = packPath;
+                      if(!level->loadLevel(file)) {
+                          mainMenu->setVisible(true);
+                          return;
+                      }
+                      //file.close();
+                      curLevel = 1;
+                      gamepack = true;
+                      input->closeGameMenu();
+                      levelLoaded = true;
+                      forceLevelQuit = false;
+                      Gui::getInstance().setMouseVisible(false);
                   }
-                  //file.close();
-                  gamepack = true;
-                  input->closeGameMenu();
-                  levelLoaded = true;
-                  forceLevelQuit = false;
-                  Gui::getInstance().setMouseVisible(false);
               }
           }
           

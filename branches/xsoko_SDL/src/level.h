@@ -132,7 +132,7 @@ namespace PacGame
                   unsigned introtime;
                   bool intro;
                   vector<PDroppedBomb*> bombs;   // list of currently dropped bombs
-                  char** leveldata[2];
+                  char leveldata[2][30][30];
                   vector<pair<int,int> > teleportConn;
                  
               public:
