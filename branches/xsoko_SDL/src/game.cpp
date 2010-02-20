@@ -98,11 +98,11 @@ namespace PacGame
 
 					// default mode did not work either, exit
                   if (screen == NULL)
-				  {
-					Messages::errorMessage("OpenGL window creation failed.");  // failed
-					terminate();
-					return false;
-				  }
+                  {
+                        Messages::errorMessage("OpenGL window creation failed.");  // failed
+                        terminate();
+                        return false;
+                  }
               }
 
               Messages::initMessage("OpenGL window", true);  // prints out success
@@ -218,18 +218,6 @@ namespace PacGame
                         }
 
                         // is game over? or level done?
-                        /*if(this->level->getEndgameFlag() || forceLevelQuit){
-                            levelLoaded = false;
-                            gameMenu->setVisible(false);
-                            if(level->getEndgameFlag()) {
-                                msgid = Gui::getInstance().showMessage("xSoko", "Congratulations, you won!");
-                                // openGameMenu switches controls to GUI
-                                input->openGameMenu();
-                                Messages::infoMessage("You won!");
-                            } else
-                               mainMenu->setVisible(true);
-                            Gui::getInstance().setMouseVisible(true);
-                        }*/
                         if(level->getEndgameFlag()) {
                             if(gamepack && curLevel < numLevels) {
                                 zifstream file(pack,Functions::toString(++curLevel)+".lvl");
@@ -309,7 +297,6 @@ namespace PacGame
                #if defined(Linux_Release) || defined(Windows_Release) || defined(_RELEASE)
                   SDL_ShowCursor(SDL_ENABLE);
                #endif
-               //alutExit ();
                SDL_Quit();
           }
           
@@ -345,8 +332,10 @@ namespace PacGame
                       levelLoaded = true;
                       forceLevelQuit = false;
                       Gui::getInstance().setMouseVisible(false);
+                      return;
                   }
               }
+              gameMenu->setVisible(true);
           }
           
           void PGame::resetLevel(){
