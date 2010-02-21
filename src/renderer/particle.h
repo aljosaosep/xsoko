@@ -72,6 +72,8 @@ namespace PacGame
             unsigned int loop;
 
             Particle particles[MAX_PARTICLES];
+
+            int numParticles;
             
             PVector3D position;
 
@@ -79,6 +81,8 @@ namespace PacGame
             PParticleEffect(const PVector3D &pos);
             virtual void init() = 0;
             virtual void draw() = 0;
+
+            
         };
 
         class PParticleExplosion : PParticleEffect {
@@ -88,6 +92,8 @@ namespace PacGame
 
             void init();
             void draw();
+
+            int getNumParticles();
 
         };
   

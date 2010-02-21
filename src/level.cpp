@@ -71,6 +71,8 @@ namespace PacGame
           {
               fnt->setColor(255,255,0);
               fnt->setSize(15);
+
+//              xpl = new PParticleExplosion(PVector3D(0.0f, 0.0f, 0.0f));
           }
  
            /*****************************************
@@ -1048,9 +1050,9 @@ namespace PacGame
                        //   glBindTexture(GL_TEXTURE_2D, this->resourceHandle->getTextureTesourceId(BOMB_RES));
                        //   this->gameCore->getRenderer()->drawCube(0.0, 0.0, 0.5, color,this->resourceHandle->getTextureTesourceId(BOMB_RES));
 
-                                                    PParticleExplosion xpl(PVector3D(0.0f, 0.0f, 0.0f));
+                                                    
 
-xpl.draw();
+                        //    xpl->draw();
                           glRotatef(70.0f, 1.0f, 0.0f, 1.0f );
                           glMaterialfv(GL_FRONT, GL_AMBIENT, this->gameCore->getRenderer()->g_materialAmbient);
                           glMaterialfv(GL_FRONT, GL_DIFFUSE, this->gameCore->getRenderer()->g_materialDiffuse);
@@ -1063,6 +1065,21 @@ xpl.draw();
                           glPopMatrix();
                       }
                   }
+
+              if (this->explosionQuee.size() > 0) {
+                  // we have some explosions to draw there
+                 
+                  for (int i=0; i<explosionQuee.size(); i++) {
+                    /*  if (explosionQuee[i]->getNumParticles() <= 0) {
+                          this->explosionQuee.erase(explosionQuee.begin()+i);
+
+                      }
+                      else*/
+                        explosionQuee[i]->draw();
+                  }
+
+
+              }
               glPopMatrix();
               glDisable(GL_LIGHTING);
 
@@ -1227,6 +1244,7 @@ xpl.draw();
                   
                   if(this->data[i][j]->returnFirstChild()->getId()==U_WALL)  // is there unsolidWall ?
                   {
+                      this->explosionQuee.push_back(new PParticleExplosion(PVector3D((float)i, (float)j, 0.0f)));
                       data[i][j]->releaseFirstChildObject();
                   } 
               }
