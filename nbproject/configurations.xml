@@ -349,18 +349,16 @@
         <linkerTool>
           <output>${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/xsoko</output>
           <linkerLibItems>
-            <linkerLibLibItem>glfw</linkerLibLibItem>
             <linkerLibLibItem>GL</linkerLibLibItem>
             <linkerLibLibItem>GLU</linkerLibLibItem>
-            <linkerLibLibItem>Xxf86vm</linkerLibLibItem>
             <linkerLibLibItem>m</linkerLibLibItem>
-            <linkerLibLibItem>Xrandr</linkerLibLibItem>
-            <linkerLibLibItem>openal</linkerLibLibItem>
-            <linkerLibLibItem>boost_filesystem</linkerLibLibItem>
             <linkerLibLibItem>z</linkerLibLibItem>
-            <linkerLibLibItem>alut</linkerLibLibItem>
             <linkerLibLibItem>ftgl</linkerLibLibItem>
-            <linkerLibLibItem>boost_signals</linkerLibLibItem>
+            <linkerLibLibItem>SDL</linkerLibLibItem>
+            <linkerLibLibItem>SDL_image</linkerLibLibItem>
+            <linkerLibLibItem>boost_signals-mt</linkerLibLibItem>
+            <linkerLibLibItem>boost_filesystem-mt</linkerLibLibItem>
+            <linkerLibLibItem>SDL_mixer</linkerLibLibItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>

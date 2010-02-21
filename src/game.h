@@ -40,7 +40,9 @@
 #include "gui/window.h"
 #include "SoundManager.h"
 #include "zip/zipfile.h"
+#include <boost/filesystem.hpp>
 
+using namespace boost::filesystem;
 using namespace PacGame::RenderMaschine;
 
 namespace PacGame
@@ -64,6 +66,7 @@ namespace PacGame
               int curLevel;
               bool gamepack;
               string pack;
+              string homepath;
 
               PLevel *level;
               PCamera *camera;

@@ -27,7 +27,6 @@
  */
 
 #include "game.h"
-//#include "renderer/particle.h"
 #include <cstdio>
 #include <cmath>
 #include "gui/forms.h"
@@ -36,9 +35,11 @@
 #include <fstream>
 #include "config.h"
 #include "zip/zipfile.h"
+#include <boost/filesystem.hpp>
 
 
 using namespace PacGame;
+using namespace boost::filesystem;
 
 namespace PacGame
 {
@@ -55,6 +56,17 @@ namespace PacGame
               Messages::mainTitleMessage();
               windowTitle = _title;
 
+              #ifdef _WINDOWS
+                  homepath = string(getenv("HOMEDRIVE")) + "\\ + string(getenv("HOMEPATH")) + "\.xsoko";
+              #else
+                  homepath = string(getenv("HOME")) + "/.xsoko";
+              #endif
+              path dir_path(homepath);
+              if(!exists(dir_path) && !create_directory(dir_path)) {
+                  Messages::errorMessage("Could not find home directory!");
+                  return false;
+              }
+
               if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0)  // was SDL initialization successful?
               {
                   Messages::initMessage("SDL", false); // in case, it is not
@@ -66,7 +78,7 @@ namespace PacGame
               Messages::initMessage("SDL", true); // prints out that initialization was success
               Messages::initMessage("SDL audio", true);
 
-              if(!Config::ReadConfig("xsoko.conf"))
+              if(!Config::ReadConfig(homepath + "/xsoko.conf"))
               {
                   Messages::errorMessage("Reading configuration file failed! (NOTE: this is ok at first run)");
                   Config::SetValueInt("xres",_width);
@@ -85,18 +97,18 @@ namespace PacGame
               // 800 x 600, 16 bit color, no depth, alpha or stencil buffers, windowed
               if (screen == NULL)
               {
-				  Messages::infoMessage("OpenGL window creation failed. Reverting to default mode.");
-				  // could not create OpenGL screen, try default mode
-				  Config::SetValueInt("xres",_width);
+                  Messages::infoMessage("OpenGL window creation failed. Reverting to default mode.");
+                  // could not create OpenGL screen, try default mode
+                  Config::SetValueInt("xres",_width);
                   Config::SetValueInt("yres",_height);
                   Config::SetValueBool("fullscreen",false);
-				  windowWidth = _width;
-				  windowHeight = _height;
-				  fullscreen = false;
-				  flag = fullscreen ? SDL_FULLSCREEN : 0;
-				  screen = SDL_SetVideoMode( windowWidth, windowHeight, 32, SDL_OPENGL | flag );
+                  windowWidth = _width;
+                  windowHeight = _height;
+                  fullscreen = false;
+                  flag = fullscreen ? SDL_FULLSCREEN : 0;
+                  screen = SDL_SetVideoMode( windowWidth, windowHeight, 32, SDL_OPENGL | flag );
 
-					// default mode did not work either, exit
+		  // default mode did not work either, exit
                   if (screen == NULL)
                   {
                         Messages::errorMessage("OpenGL window creation failed.");  // failed
@@ -295,7 +307,7 @@ namespace PacGame
           void PGame::terminate()
           {
                Messages::infoMessage("Termination...");
-               if(!Config::SaveConfig("xsoko.conf"))
+               if(!Config::SaveConfig(homepath + "/xsoko.conf"))
                {
                    Messages::errorMessage("Writing configuration file failed! Changes will NOT be saved!");
                }
