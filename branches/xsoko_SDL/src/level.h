@@ -137,16 +137,6 @@ namespace PacGame
                   unsigned introtime;
                   bool intro;
                   vector<PParticleExplosion*> explosionQuee;
-/*<<<<<<< .mine
-                  vector<PDroppedBomb*> bombs;   // list of currently dropped bombs
-                  char leveldata[2][30][30];
-                  vector<pair<int,int> > teleportConn;
-
-                  PParticleExplosion *xpl; //(PVector3D(0.0f, 0.0f, 0.0f));
-
-                  vector<PParticleExplosion*> explosionQuee;
-                 
-=======*/
               private:
                   void releaseLevel(); // released level from memory
                   bool moveObject(PDirection dir, PObject *obj);
@@ -157,7 +147,6 @@ namespace PacGame
                   inline bool checkPosition(istream &file); // checks if position is valid and moves file pointer
                   inline PTeleport* returnTeleport(int id); // returns teleports addres, that contains given id
                   void checkAndApplyBombBlast(int i, int j);
-//>>>>>>> .r367
               public:
                   PLevel();
                   virtual ~PLevel();
