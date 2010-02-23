@@ -42,6 +42,11 @@ MainMenu::MainMenu():Window(333, 183, 135, 235, "Main Menu"), freeplay(NULL),
     setInCenter(true);
     setVisible(true);
     setName("mainMenu");
+
+    options = new OptionsWnd(this);
+    freeplay = new FreeplayWnd(this);
+    gamepack = new GamePackWnd(this);
+    credits = new CreditsWnd(this);
 }
 
 void MainMenu::initializeComponents(){
@@ -72,37 +77,21 @@ void MainMenu::initializeComponents(){
 }
 
 void MainMenu::btnCampaignClick(Component* sender){
-    if(gamepack == NULL){
-        gamepack = Gui::getInstance().findWindowByName("gamepack");
-        if(gamepack == NULL) return;
-    }
     setVisible(false);
     gamepack->setVisible(true);
 }
 
 void MainMenu::btnFreeplayClick(Component* sender){
-    if(freeplay == NULL){
-        freeplay = Gui::getInstance().findWindowByName("freeplay");
-        if(freeplay == NULL) return;
-    }
     setVisible(false);
     freeplay->setVisible(true);
 }
 
 void MainMenu::btnOptionsClick(Component* sender){
-    if(options == NULL){
-        options = Gui::getInstance().findWindowByName("options");
-        if(options == NULL) return;
-    }
     setVisible(false);
     options->setVisible(true);
 }
 
 void MainMenu::btnCreditsClick(Component* sender){
-    if(credits == NULL){
-        credits = Gui::getInstance().findWindowByName("credits");
-        if(credits == NULL) return;
-    }
     setVisible(false);
     credits->setVisible(true);
 }
@@ -111,7 +100,7 @@ void MainMenu::btnExitClick(Component* sender){
     PGame::getInstance().quit();
 }
 
-OptionsWnd::OptionsWnd() : Window(300,175,200,250,"Options"), mainMenu(NULL)
+OptionsWnd::OptionsWnd(Window* main) : Window(300,175,200,250,"Options"), mainMenu(main)
 {
     initializeComponents();
     setName("options");
@@ -151,21 +140,17 @@ void OptionsWnd::wndVisible(Component* sender)
     chkFullscreen->setChecked(Config::GetValueBool("fullscreen"));
 }
 
-void OptionsWnd::btnApplyClick(Component* sender){
+void OptionsWnd::btnApplyClick(Component* sender) {
     ResItem* newRes = (ResItem*) lstModes->getSelectedItem();
     PGame::getInstance().setResolution(newRes->resx,newRes->resy,chkFullscreen->isChecked());
 }
 
-void OptionsWnd::btnBackClick(Component* sender){
-    if(mainMenu == NULL){
-        mainMenu = Gui::getInstance().findWindowByName("mainMenu");
-        if(mainMenu == NULL) return;
-    }
+void OptionsWnd::btnBackClick(Component* sender) {
     setVisible(false);
     mainMenu->setVisible(true);
 }
 
-CreditsWnd::CreditsWnd():Window(0,0,1,1,"Credits"), mainMenu(NULL)
+CreditsWnd::CreditsWnd(Window* main) : Window(0,0,1,1,"Credits"), mainMenu(main)
 {
     intializeComponents();
     setName("credits");
@@ -189,15 +174,11 @@ void CreditsWnd::intializeComponents(){
 }
 
 void CreditsWnd::btnOKClick(Component* sender){
-    if(mainMenu == NULL){
-        mainMenu = Gui::getInstance().findWindowByName("mainMenu");
-        if(mainMenu == NULL) return;
-    }
     setVisible(false);
     mainMenu->setVisible(true);
 }
 
-GamePackWnd::GamePackWnd() : Window(235, 200, 330, 200, "Campaign"), mainMenu(NULL)
+GamePackWnd::GamePackWnd(Window* main) : Window(235, 200, 330, 200, "Campaign"), mainMenu(main)
 {
     initializeComponents();
     setName("gamepack");
@@ -253,10 +234,6 @@ void GamePackWnd::initializeComponents() {
 }
 
 void GamePackWnd::btnBackClick(Component* sender){
-    if(mainMenu == NULL){
-        mainMenu = Gui::getInstance().findWindowByName("mainMenu");
-        if(mainMenu == NULL) return;
-    }
     setVisible(false);
     mainMenu->setVisible(true);
 }
@@ -281,7 +258,7 @@ void GamePackWnd::lstLevelsKeyUp(Component* sender, int key){
     }
 }
 
-FreeplayWnd::FreeplayWnd() : Window(235, 200, 330, 200, "Freeplay"), mainMenu(NULL)
+FreeplayWnd::FreeplayWnd(Window* main) : Window(235, 200, 330, 200, "Freeplay"), mainMenu(main)
 {
     initializeComponents();
     setName("freeplay");
@@ -345,10 +322,6 @@ void FreeplayWnd::initializeComponents(){
 }
 
 void FreeplayWnd::btnBackClick(Component* sender){
-    if(mainMenu == NULL){
-        mainMenu = Gui::getInstance().findWindowByName("mainMenu");
-        if(mainMenu == NULL) return;
-    }
     setVisible(false);
     mainMenu->setVisible(true);
 }

@@ -31,10 +31,12 @@ Window::Window(int x, int y, int width, int height,string wCaption) : Container(
   mouseDrag.y = 0;
   visible = false;
   invalidate();
-  Gui::getInstance().ResolutionChange.connect(bind(&Window::onResolutionChange, this, _1, _2));
+  Gui::getInst().ResolutionChange.connect(bind(&Window::onResolutionChange, this, _1, _2));
+  Gui::getInst().addWindow(this);
 };
 
 Window::~Window(){
+    Gui::getInst().removeWindow(this);
     delete fnt;
 }
 
@@ -56,8 +58,8 @@ void Window::setInCenter(bool center)
     this->center = center;
     if(center)
     {
-        x = Gui::getInstance().getXResolution()/2 - width/2;
-        y = Gui::getInstance().getYResolution()/2 - height/2;
+        x = Gui::getInst().getXResolution()/2 - width/2;
+        y = Gui::getInst().getYResolution()/2 - height/2;
     }
 }
 

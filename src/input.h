@@ -47,7 +47,7 @@ namespace PacGame
             bool toggleMenu;
         public:
             // constructors
-            PInputSystem(PLevel *level) : level(level), toggleMenu(true){ }
+            //PInputSystem(PLevel *level) : level(level), toggleMenu(true){ }
             PInputSystem() : level(NULL), toggleMenu(true) { }
             
             // process function
@@ -56,8 +56,8 @@ namespace PacGame
             // setters
             void setLevel(PLevel *level);
             bool toggleGameMenu();
-			void closeGameMenu();
-			void openGameMenu();
+            void closeGameMenu();
+            void openGameMenu();
             
             // getters
             PLevel* getLevel() const;

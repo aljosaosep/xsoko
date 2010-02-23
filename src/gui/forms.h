@@ -95,7 +95,7 @@ private:
     void btnPlayClick(Component* sender);
     string getAuthor(string filename);
 public:
-    GamePackWnd();
+    GamePackWnd(Window* main);
 };
 
 class FreeplayWnd: public Window {
@@ -115,7 +115,7 @@ private:
     void lstLevelsItemSelect(Component* sender, Item* item);
     string getAuthor(string filename);
 public:
-    FreeplayWnd();
+    FreeplayWnd(Window* main);
 };
 
 class OptionsWnd : public Window {
@@ -150,7 +150,7 @@ private:
     void btnBackClick(Component* sender);
     void wndVisible(Component* sender);
 public:
-    OptionsWnd();
+    OptionsWnd(Window* main);
 };
 
 class CreditsWnd : public Window {
@@ -164,7 +164,7 @@ private:
     void intializeComponents();
     void btnOKClick(Component* sender);
 public:
-    CreditsWnd();
+    CreditsWnd(Window* main);
 };
 
 class GameMenu : public Window {
