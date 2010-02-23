@@ -31,11 +31,6 @@
 #include "button.h"
 #include "text.h"
 
-struct msgHandle {
-    unsigned id;
-    Window* ptr;
-};
-
 /**
  *singleton class
  */
@@ -47,40 +42,37 @@ private:
     vector<Window*> windows;
     vector<Component*> focusQueue;
     vector<Window*> modals;
-    vector<msgHandle*> msgnum;
+    vector<pair<unsigned,Window*> > msgnum;
 
     bool mVisible;
-    Font* fnt;
     unsigned num;
     Component* focusedWin;
     Rect mouseVer;
-
+private:
     Gui();
     ~Gui();
     void onMouseDown();
+    void onAction(Component* button);
+    void focusGain(Component* sender);
+    void focusLost(Component* sender);
 public:
     void onMouseClick(int button, int action);
     void onMouseMove(int x, int y);
     void onResolutionChange(int Width, int Height);
     void onKeyClick(int kkey, int action);
     void onCharacterSend(int c, int action);
-    static Gui& getInstance();
+    static Gui& getInst();
 
     void Render();
     void setMouseVisible(bool visible);
     void addWindow(Window* win);
-    Window* findWindowByName(string name);
+    void removeWindow(Window* win);
+    //Window* findWindowByName(string name);
     unsigned showMessage(string title, string msg);
     bool isMessageActive(unsigned id);
-    void onAction(Component* button);
-    void focusGain(Component* sender);
-    void focusLost(Component* sender);
-    //void registerInput();
-    //void unregisterInput();
     //void addModal(Window* win);
-    Font* getFont();
-    int getXResolution();
-    int getYResolution();
+    int getXResolution() const;
+    int getYResolution() const;
 
     //events
     signal<void(int,int) > ResolutionChange;

@@ -18,39 +18,21 @@
  */
 
 #include <vector>
-
-
+#include <algorithm>
 #include "gui.h"
 #include "guirender.h"
 
-Gui::~Gui(){
-    delete fnt;
-	for(unsigned i=0;i<windows.size();i++)
-		delete windows[i];
-    for(unsigned i=0;i<msgnum.size();i++)
-        delete msgnum[i];
-}
-
 Gui::Gui() : mVisible(true), num(0), focusedWin(NULL) {
-    //glClearColor(0.0, 0.0, 0.0, 0.0); 	   // Black Background
-    //glShadeModel(GL_SMOOTH);                 // Enables Smooth Color Shading
-    //glClearDepth(1.0);                       // Depth Buffer Setup
-    //glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);   //Realy Nice perspective calculations
-    
     GuiRender::getInstance().loadSkin("data/GUI.tga", "data/skin.position");
     
-	fnt = new Font("font");
-    SDL_GetMouseState(&mouseX, &mouseY);//glfwGetMousePos(&mouseX,&mouseY);
+    SDL_GetMouseState(&mouseX, &mouseY);
     mouseVer.x1 = mouseX;
     mouseVer.y1 = mouseY;
     mouseVer.x2 = mouseX + 32;
     mouseVer.y2 = mouseY + 32;
 
-        const SDL_VideoInfo* window_info = SDL_GetVideoInfo();
-        
-        //glfwGetWindowSize(&wndWidth,&wndHeight);
-        GuiRender::getInstance().setWindowSize(window_info->current_w, window_info->current_h);
-        
+    const SDL_VideoInfo* window_info = SDL_GetVideoInfo();
+    GuiRender::getInstance().setWindowSize(window_info->current_w, window_info->current_h);
 }
 
 /*------------------------------------------------------------------*
@@ -59,17 +41,18 @@ Gui::Gui() : mVisible(true), num(0), focusedWin(NULL) {
 void Gui::Render()
 {
   GuiRender::getInstance().initRendering();
-  for(unsigned i=0;i<windows.size();i++)
-          windows[i]->Render();
-  if(mVisible){	//draw the mouse
+
+  vector<Window*>::const_iterator it;
+  for(it = windows.begin(); it != windows.end(); ++it)
+      (*it)->Render();
+
+  // draw the mouse
+  if(mVisible) {
       GuiRender::getInstance().setColor(1,1,1,1);
       GuiRender::getInstance().drawImage(GUI_TEX_MOUSE,mouseVer);
   }
-  GuiRender::getInstance().deinitRendering();
-}
 
-Font* Gui::getFont(){
-    return fnt;
+  GuiRender::getInstance().deinitRendering();
 }
 
 /*------------------------------------------------------------------*
@@ -86,17 +69,18 @@ void Gui::onMouseDown()
                 modals.back()->onMouseDown(mouseX-winPos.x, mouseY-winPos.y);
         return;
     }
-  for(unsigned i=0;i<windows.size();i++){
-      if(windows[i]->isVisible()){
-          Position winPos = windows[i]->getPosition();
-          Size winSize = windows[i]->getSize();
-          if ((mouseX > winPos.x) && (mouseX < winPos.x + winSize.width))
-              if ((mouseY > winPos.y) && (mouseY < winPos.y + winSize.height)){
-                  if(focusedWin != windows[i])
+  vector<Window*>::const_iterator it;
+  for(it = windows.begin(); it != windows.end(); ++it) {
+      if((*it)->isVisible()){
+          Position winPos = (*it)->getPosition();
+          Size winSize = (*it)->getSize();
+          if ((mouseX > winPos.x) && (mouseX < winPos.x + winSize.width) &&
+              (mouseY > winPos.y) && (mouseY < winPos.y + winSize.height)) {
+                  if(focusedWin != (*it))
                   {
                       if(focusedWin != NULL)
                           focusedWin->focusLost();
-                      focusedWin = windows[i];
+                      focusedWin = (*it);
                       focusedWin->focusGain();
                   }
                   focusedWin->onMouseDown(mouseX-winPos.x, mouseY-winPos.y);
@@ -118,9 +102,12 @@ void Gui::onMouseMove(int x, int y){
     mouseY = y > 0 ? y : 0;
     if(y>wndHeight)
         mouseY = wndHeight;
-    for(unsigned i=0;i<windows.size();i++){
-        Position pos = windows[i]->getPosition();
-        windows[i]->onMouseMove(mouseX-pos.x,mouseY-pos.y);
+
+    vector<Window*>::const_iterator it;
+    for(it = windows.begin(); it != windows.end(); ++it)
+    {
+        Position pos = (*it)->getPosition();
+        (*it)->onMouseMove(mouseX-pos.x,mouseY-pos.y);
     }
     mouseVer.x1 = mouseX;
     mouseVer.y1 = mouseY;
@@ -135,8 +122,9 @@ void Gui::onMouseClick(int button, int action){
             onMouseDown();
             break;
         case SDL_MOUSEBUTTONUP:
-            for(unsigned i=0;i<windows.size();i++)
-                windows[i]->onMouseUp(mouseX,mouseY);
+            vector<Window*>::const_iterator it;
+            for(it = windows.begin(); it != windows.end(); ++it)
+                (*it)->onMouseUp(mouseX,mouseY);
             break;
     }
 }
@@ -155,21 +143,15 @@ void Gui::onKeyClick(int kkey, int action){
 }
 
 void Gui::onCharacterSend(int c, int action){
-    if(action == SDL_KEYUP){
-        if(focusedWin != NULL){
-            focusedWin->onCharClick(c);
-        }
-    }
+    if(action == SDL_KEYUP && focusedWin != NULL)
+        focusedWin->onCharClick(c);
 }
 
-Gui& Gui::getInstance(){
+Gui& Gui::getInst(){
     static Gui gui;
     return gui;
 }
 
-/*{------------------------------------------------------------------}
-{  Handle window resize                                            }
-{------------------------------------------------------------------}*/
 void Gui::onResolutionChange(int Width, int Height){
   wndWidth = Width;
   wndHeight = Height;
@@ -177,20 +159,20 @@ void Gui::onResolutionChange(int Width, int Height){
   ResolutionChange(Width,Height);
 }
 
-int Gui::getXResolution()
+int Gui::getXResolution() const
 {
     return wndWidth;
 }
 
-int Gui::getYResolution()
+int Gui::getYResolution() const
 {
     return wndHeight;
 }
 
 unsigned Gui::showMessage(string title, string msg){
-	Text* label = new Text(25,15,msg);
-	int width = label->getSize().width;
-	int height = label->getSize().height;
+    Text* label = new Text(25,15,msg);
+    int width = label->getSize().width;
+    int height = label->getSize().height;
     Window* dlg = new Window(wndWidth/2-width/2,wndHeight/2-64,width+50,height+90,title);
     dlg->AddComponent(label);
     Button* btn = new Button(width/2,height + 30,50,25,"OK");
@@ -200,29 +182,27 @@ unsigned Gui::showMessage(string title, string msg){
 
     //FIX: this...
     modals.push_back(dlg);
-	if(focusedWin != NULL){
-		focusQueue.push_back(focusedWin);
-		focusedWin->focusLost();
-		focusedWin = NULL;
-	}
-	addWindow(dlg);
-	dlg->setVisible(true);
+    if(focusedWin != NULL) {
+        focusQueue.push_back(focusedWin);
+        focusedWin->focusLost();
+        focusedWin = NULL;
+    }
+
+    addWindow(dlg);
+    dlg->setVisible(true);
     if(!++num)  //ok, it could be if(num+1 == 0) num += 2 else ++num;
         ++num;
-    msgHandle* hnd = new msgHandle;
-    hnd->id = num;
-    hnd->ptr = dlg;
-    msgnum.push_back(hnd);
+    msgnum.push_back(make_pair(num,dlg));
     return num;
 }
 
 void Gui::onAction(Component* button){
     Container* wnd = button->getParent();
     wnd->setVisible(false);
-	//we cannot delete window and then continue to handle events...
-    for(unsigned i=0;i<modals.size();i++)
-        if(modals[i] == wnd)
-            modals.erase (modals.begin()+i);
+
+    // we cannot delete window and then continue to handle events...
+    modals.erase(remove(modals.begin(), modals.end(), wnd), modals.end());
+
     /*for(unsigned i=0;i<windows.size();i++)
         if(windows[i] == wnd){
             delete windows[i];
@@ -233,17 +213,17 @@ void Gui::onAction(Component* button){
             delete msgnum[i];
             msgnum.erase(msgnum.begin()+i);
         }*/
-	for(unsigned i=0;i<msgnum.size();i++)
-        if(msgnum[i]->ptr == wnd){
-            msgnum[i]->id = 0;
+    for(unsigned i=0;i<msgnum.size();i++)
+        if(msgnum[i].second == wnd) {
+            msgnum[i].first = 0;
+            break;
         }
 }
 
 bool Gui::isMessageActive(unsigned id){
-    for(unsigned i=0;i<msgnum.size();i++){
-        if(msgnum[i]->id == id)
+    for(unsigned i=0;i<msgnum.size();i++)
+        if(msgnum[i].first == id)
             return true;
-    }
     return false;
 }
 
@@ -256,26 +236,29 @@ void Gui::addWindow(Window* win){
         win->focusGain();
     }
 }
+
+void Gui::removeWindow(Window* win) {
+    windows.erase(remove(windows.begin(), windows.end(), win), windows.end());
+    if(focusedWin == win && windows.size())
+        if(focusQueue.size()) {
+            focusedWin = focusQueue.back();
+            focusQueue.pop_back();
+        } else {
+            vector<Window*>::const_iterator it;
+            for(it = windows.begin(); it != windows.end(); ++it)
+                if((*it)->isVisible()) {
+                    focusedWin = *it;
+                    focusedWin->focusGain();
+                    break;
+                }
+        }
+    else
+        focusedWin = NULL;
+}
     
-/*void Gui::registerInput(){
-    glfwSetMouseButtonCallback(Gui::onMouseClick);
-    glfwSetMousePosCallback(Gui::onMouseMove);
-    glfwSetKeyCallback(Gui::onKeyClick);
-    glfwSetCharCallback(Gui::onCharacterSend);
-}*/
-
-/*void Gui::unregisterInput(){
-    glfwSetMouseButtonCallback(NULL);
-    glfwSetMousePosCallback(NULL);
-    glfwSetKeyCallback(NULL);
-    glfwSetCharCallback(NULL);
-}*/
-
 void Gui::focusGain(Component* sender){
-    if(focusedWin == NULL){
+    if(focusedWin == NULL)
         focusedWin = sender;
-    }
-
     if(focusedWin != sender){
         focusQueue.push_back(focusedWin);
         focusedWin->focusLost();
@@ -283,8 +266,8 @@ void Gui::focusGain(Component* sender){
     }
 }
 
-void Gui::focusLost(Component* sender){
-	focusedWin = NULL;
+void Gui::focusLost(Component* sender) {
+    focusedWin = NULL;
     if(!focusQueue.empty()){
         focusedWin = focusQueue.back();
         focusQueue.pop_back();
@@ -292,9 +275,16 @@ void Gui::focusLost(Component* sender){
     }
 }
 
-Window* Gui::findWindowByName(string name) {
-    for(int i=0;i<windows.size();i++)
-        if(windows[i]->getName() == name)
-            return windows[i];
+/*Window* Gui::findWindowByName(string name) {
+    vector<Window*>::const_iterator it;
+    for(it = windows.begin(); it != windows.end(); ++it)
+        if((*it)->getName() == name)
+            return *it;
     return NULL;
+}*/
+
+Gui::~Gui() {
+    for(unsigned i=0;i<msgnum.size();i++) {
+        delete msgnum[i].second;
+    }
 }

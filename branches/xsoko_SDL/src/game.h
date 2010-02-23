@@ -68,17 +68,15 @@ namespace PacGame
               string pack;
               string homepath;
 
-              PLevel *level;
+              auto_ptr<PLevel> level;
               PCamera *camera;
 
-              PInputSystem *input;
-              double rotations_per_tick;
+              PInputSystem input;
               bool levelLoaded;
               bool gameQuit;
               bool forceLevelQuit;
 
               //gui components
-              //Gui &gui;
               Window* mainMenu;
               Window* gameMenu;
 
@@ -86,11 +84,6 @@ namespace PacGame
           
               // constructor
               PGame();
-              // destructor
-              ~PGame();
-
-              //methods
-              void prepareGui();
           public:
               bool initialize(int _width, int _height, string _title);
               void mainLoop();

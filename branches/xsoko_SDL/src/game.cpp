@@ -47,8 +47,7 @@ namespace PacGame
       {
           // constructors
           PGame::PGame() :
-            gamepack(false), camera(NULL), input(new PInputSystem()),
-            rotations_per_tick(0.1), levelLoaded(false), gameQuit(false)
+            gamepack(false), camera(NULL), levelLoaded(false), gameQuit(false)
           { }
 
           bool PGame::initialize(int _width, int _height, string _title)
@@ -57,7 +56,7 @@ namespace PacGame
               windowTitle = _title;
 
               #ifdef _WINDOWS
-                  homepath = string(getenv("HOMEDRIVE")) + "\\ + string(getenv("HOMEPATH")) + "\.xsoko";
+                  homepath = string(getenv("HOMEDRIVE")) + "\\" + string(getenv("HOMEPATH")) + "\.xsoko";
               #else
                   homepath = string(getenv("HOME")) + "/.xsoko";
               #endif
@@ -120,7 +119,15 @@ namespace PacGame
               Messages::initMessage("OpenGL window", true);  // prints out success
               SDL_WM_SetCaption(this->windowTitle.c_str(),this->windowTitle.c_str());
 
-              prepareGui();
+              Messages::infoMessage("Initialiazing GUI...");
+              const SDL_VideoInfo* vi = SDL_GetVideoInfo();
+              Gui::getInst().onResolutionChange(vi->current_w, vi->current_h);
+              #if defined(Linux_Release) || defined(Windows_Release) || defined(_RELEASE)
+                  SDL_ShowCursor(SDL_DISABLE);
+              #endif
+
+              mainMenu = new MainMenu();
+              gameMenu = new GameMenu();
 
               sm = SoundManager();
               sm.loadEffect("bomb","data/sound/bombtiq.wav"); //TODO: nalaganje soudna bombe se naj izvede samo, če so kake bombe v levelu
@@ -129,10 +136,10 @@ namespace PacGame
               sm.loadMusic("mortal","data/sound/mortal_kombat.mp3");
               sm.playMusic("mortal");
 
-              level = new PLevel();
+              level.reset(new PLevel());
               level->initialize();
-              input->setLevel(level);
-              this->camera = level->getGameCoreHandle()->getCamera();
+              input.setLevel(level.get());
+              camera = level->getGameCoreHandle()->getCamera();
 
               Messages::initMessage("Game", true);
               return true;
@@ -140,7 +147,6 @@ namespace PacGame
 
           void PGame::quit(){
               gameQuit = true;
-              cout<<"set gameQuit flag"<<endl;
           }
 
           void PGame::setResolution(int width, int height, bool fullscreen)
@@ -164,12 +170,12 @@ namespace PacGame
               if(isChange)
               {
                   if(SDL_SetVideoMode( width, height, 32, SDL_OPENGL | flag ))
-                      Gui::getInstance().onResolutionChange(width,height);
+                      Gui::getInst().onResolutionChange(width,height);
 		  #ifdef _WINDOWS
                     GuiRender::getInstance().reloadSkin();
 		    FontManager::getInstance().reload();
-                    delete level;
-                    level = new PLevel();
+                    level.reset(new PLevel());
+                    input.setLevel(level.get());
 		  #endif
                   Config::SetValueInt("xres",width);
                   Config::SetValueInt("yres",height);
@@ -182,7 +188,7 @@ namespace PacGame
             Messages::infoMessage("Entering main loop...");
 
             // the time of the previous frame
-            double old_time = ((double)SDL_GetTicks())/1000.0;//glfwGetTime();
+            double old_time = ((double)SDL_GetTicks())/1000.0;
             double old_time_FPS = old_time;
 
             #if defined(Linux_Debug) || defined(Windows_Debug) || defined(_DEBUG)
@@ -215,7 +221,7 @@ namespace PacGame
                         frames ++;
                 #endif
 
-                 this->input->process();
+                 input.process();
 
 
                 if(levelLoaded || msgid){
@@ -223,12 +229,12 @@ namespace PacGame
                     //if no win message is shown, check for input etc.
                     if(!msgid){
 
-                        this->level->processBombs(current_time);
+                        level->processBombs(current_time);
 
-                        if(this->input->toggleGameMenu() != menuVisible){
+                        if(input.toggleGameMenu() != menuVisible){
                             menuVisible = !menuVisible;
                             gameMenu->setVisible(menuVisible);
-                            Gui::getInstance().setMouseVisible(menuVisible);
+                            Gui::getInst().setMouseVisible(menuVisible);
                         }
 
                         // is game over? or level done?
@@ -241,11 +247,11 @@ namespace PacGame
                             } else {
                                 gamepack = false;
                                 levelLoaded = false;
-                                msgid = Gui::getInstance().showMessage("xSoko", "Congratulations, you won!");
+                                msgid = Gui::getInst().showMessage("xSoko", "Congratulations, you won!");
                                 // openGameMenu switches controls to GUI
-                                input->openGameMenu();
+                                input.openGameMenu();
                                 Messages::infoMessage("You won!");
-                                Gui::getInstance().setMouseVisible(true);
+                                Gui::getInst().setMouseVisible(true);
                             }
                         }
                         if(forceLevelQuit) {
@@ -253,13 +259,13 @@ namespace PacGame
                             levelLoaded = false;
                             gameMenu->setVisible(false);
                             mainMenu->setVisible(true);
-                            input->openGameMenu();
-                            Gui::getInstance().setMouseVisible(true);
+                            input.openGameMenu();
+                            Gui::getInst().setMouseVisible(true);
                         }
 
                     }
 
-                    PResourceManager *rm =  this->level->getGameCoreHandle()->getResources();
+                    PResourceManager *rm = level->getGameCoreHandle()->getResources();
                     // FRONT, BACK, LEFT, RIGHT, TOP, BOTTOM
                     int texIDs[] = { rm->getTextureTesourceId(SKY_RES_FRONT)/*,
                                 rm->getTextureTesourceId(SKY_RES_BACK),
@@ -267,7 +273,7 @@ namespace PacGame
                                 rm->getTextureTesourceId(SKY_RES_RIGHT),
                                 rm->getTextureTesourceId(SKY_RES_TOP),
                                 rm->getTextureTesourceId(SKY_RES_BOTTOM) */};
-                    this->level->getGameCoreHandle()->getRenderer()->drawSkyCube(0.0f, 0.0f, -55.0f, 40.0f, texIDs);
+                    level->getGameCoreHandle()->getRenderer()->drawSkyCube(0.0f, 0.0f, -55.0f, 40.0f, texIDs);
 
                     gluLookAt(this->camera->view.getCoordX(), this->camera->view.getCoordY(), this->camera->view.getCoordZ(),
                             this->camera->position.getCoordX(), this->camera->position.getCoordY(), this->camera->position.getCoordZ(),
@@ -283,13 +289,12 @@ namespace PacGame
                     //particles.process(delta_rotate*10);
                 }
 
-                if(msgid && !Gui::getInstance().isMessageActive(msgid)){
+                if(msgid && !Gui::getInst().isMessageActive(msgid)){
                         msgid = 0;
                         mainMenu->setVisible(true);
                 }
 
-                //Gui::getInstance().registerInput();
-                Gui::getInstance().Render();
+                Gui::getInst().Render();
 
                 if(levelLoaded || msgid){
                     glMatrixMode(GL_PROJECTION);						// Select The Projection Matrix
@@ -308,9 +313,8 @@ namespace PacGame
           {
                Messages::infoMessage("Termination...");
                if(!Config::SaveConfig(homepath + "/xsoko.conf"))
-               {
                    Messages::errorMessage("Writing configuration file failed! Changes will NOT be saved!");
-               }
+
                #if defined(Linux_Release) || defined(Windows_Release) || defined(_RELEASE)
                   SDL_ShowCursor(SDL_ENABLE);
                #endif
@@ -326,10 +330,10 @@ namespace PacGame
             }
             file.close();
 
-	    input->closeGameMenu();
+	    input.closeGameMenu();
             levelLoaded = true;
             forceLevelQuit = false;
-            Gui::getInstance().setMouseVisible(false);
+            Gui::getInst().setMouseVisible(false);
           }
 
           void PGame::loadGamePack(string packPath) {
@@ -343,13 +347,12 @@ namespace PacGame
                           mainMenu->setVisible(true);
                           return;
                       }
-                      //file.close();
                       curLevel = 1;
                       gamepack = true;
-                      input->closeGameMenu();
+                      input.closeGameMenu();
                       levelLoaded = true;
                       forceLevelQuit = false;
-                      Gui::getInstance().setMouseVisible(false);
+                      Gui::getInst().setMouseVisible(false);
                       return;
                   }
               }
@@ -359,31 +362,13 @@ namespace PacGame
           
           void PGame::resetLevel(){
               level->reset();
-              input->closeGameMenu();
+              input.closeGameMenu();
           }
           
           void PGame::exitLevel(){
               levelLoaded = false;
               gameMenu->setVisible(false);
               mainMenu->setVisible(true);
-          }
-
-          void PGame::prepareGui(){
-            Messages::infoMessage("Initialiazing GUI...");
-            const SDL_VideoInfo* vi = SDL_GetVideoInfo();
-            Gui::getInstance().onResolutionChange(vi->current_w, vi->current_h);
-            #if defined(Linux_Release) || defined(Windows_Release) || defined(_RELEASE)
-                SDL_ShowCursor(SDL_DISABLE);
-            #endif
-
-            mainMenu = new MainMenu();
-            gameMenu = new GameMenu();
-            Gui::getInstance().addWindow(mainMenu);
-            Gui::getInstance().addWindow(new FreeplayWnd());
-            Gui::getInstance().addWindow(gameMenu);
-            Gui::getInstance().addWindow(new CreditsWnd());
-            Gui::getInstance().addWindow(new OptionsWnd());
-            Gui::getInstance().addWindow(new GamePackWnd());
           }
 
           PGame& PGame::getInstance(){
@@ -394,11 +379,6 @@ namespace PacGame
           SoundManager* PGame::getSoundManagerInstance()
           {
               return &sm;
-          }
-
-          PGame::~PGame() {
-              delete level;
-              delete input;
           }
       }
 }
