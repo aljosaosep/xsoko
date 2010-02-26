@@ -31,7 +31,6 @@
 
 class EditBox : public Component{
 private:
-    Font *fnt;
     string text;
     unsigned carrotPos;
     double time;
@@ -42,11 +41,9 @@ protected:
 public:
     //constructors and destructor
     EditBox(int x, int y, int width, int height);
-    virtual ~EditBox();
 
     //getters
     string getText();
-    Font* getFont();
 
     //setters
     void setText(string text);
@@ -59,8 +56,6 @@ public:
     void invalidate();
     void onKeyUp(int key);
     void onCharClick(int c);
-private:
-
 };
 
 #endif	/* _EDITBOX_H */

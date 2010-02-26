@@ -24,13 +24,9 @@
  *  initialise a button                                             *
  *------------------------------------------------------------------*/
 Button::Button(int x, int y, int width, int height, string bCaption) : Component(x,y,width,height), pressed(false),
-        caption(bCaption), fnt(new Font("font"))
+        caption(bCaption)
 {
   invalidate();
-}
-
-Button::~Button(){
-    delete fnt;
 }
 
 void Button::invalidate(){
@@ -67,24 +63,24 @@ void Button::onRender()
 {
   if (pressed)
   {
-	  GuiRender::getInstance().drawImage(GUI_TEX_BTN_PRESSED_LEFT,  vertex[0]);
-      GuiRender::getInstance().drawImage(GUI_TEX_BTN_PRESSED_MIDDLE,vertex[1]);
-      GuiRender::getInstance().drawImage(GUI_TEX_BTN_PRESSED_RIGHT, vertex[2]);
-      GuiRender::getInstance().move(0,-1);
+      renderer.drawImage(GUI_TEX_BTN_PRESSED_LEFT,  vertex[0]);
+      renderer.drawImage(GUI_TEX_BTN_PRESSED_MIDDLE,vertex[1]);
+      renderer.drawImage(GUI_TEX_BTN_PRESSED_RIGHT, vertex[2]);
+      renderer.move(0,-1);
   }
   else
   {
-	  GuiRender::getInstance().drawImage(GUI_TEX_BTN_UNPRESSED_LEFT,  vertex[0]);
-      GuiRender::getInstance().drawImage(GUI_TEX_BTN_UNPRESSED_MIDDLE,vertex[1]);
-      GuiRender::getInstance().drawImage(GUI_TEX_BTN_UNPRESSED_RIGHT, vertex[2]);
+      renderer.drawImage(GUI_TEX_BTN_UNPRESSED_LEFT,  vertex[0]);
+      renderer.drawImage(GUI_TEX_BTN_UNPRESSED_MIDDLE,vertex[1]);
+      renderer.drawImage(GUI_TEX_BTN_UNPRESSED_RIGHT, vertex[2]);
   }
   
   int deltay = (height - fnt->getSize())/2 + fnt->getSize();
   fnt->writeText((int)(width-fnt->stringWidth(caption))/2, deltay, caption);
 
   if(focused){
-    GuiRender::getInstance().setColor(0,0,0,1);
-    GuiRender::getInstance().drawRect(vertex[3], 1);
+      renderer.setColor(0,0,0,1);
+      renderer.drawRect(vertex[3], 1);
   }
 }
 
@@ -93,8 +89,15 @@ void Button::onMouseDown(int mx, int my){
 }
 
 void Button::onMouseUp(int mx, int my){
+    if(pressed) {
+        pressed = false;
+        onPressed(this);
+    }
+}
+
+void Button::onMouseExit(){
+    Component::onMouseExit();
     pressed = false;
-    onPressed(this);
 }
 
 string Button::getCaption(){
@@ -105,21 +108,17 @@ void Button::setCaption(const string& caption){
     this->caption = caption;
 }
 
-Font* Button::getFont(){
-    return fnt;
-}
-
 void Button::onKeyUp(int key){
     switch(key){
-        case SDLK_RETURN://GLFW_KEY_ENTER:
+        case SDLK_RETURN:
             pressed = false;
             onPressed(this);
             break;
-        case SDLK_UP://GLFW_KEY_UP:
+        case SDLK_UP:
             parent->focusPrevious();
             break;
-        case SDLK_DOWN://GLFW_KEY_DOWN:
-        case SDLK_TAB://GLFW_KEY_TAB:
+        case SDLK_DOWN:
+        case SDLK_TAB:
             parent->focusNext();
             break;
     }
@@ -127,7 +126,7 @@ void Button::onKeyUp(int key){
 
 void Button::onKeyDown(int key){
     switch(key){
-        case SDLK_RETURN://GLFW_KEY_ENTER:
+        case SDLK_RETURN:
             pressed = true;
             break;
     }

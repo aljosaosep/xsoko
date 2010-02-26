@@ -17,23 +17,15 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "fonts.h"
-
-
 #include "text.h"
 
 /*------------------------------------------------------------------*
  *  initialise the Text                                             *
  *------------------------------------------------------------------*/
-Text::Text(int x,int y,string text) : Component(x,y,100,12),
-        fnt(new Font("font")), autoResize(true)
+Text::Text(int x,int y,string text) : Component(x,y,100,12), autoResize(true)
 {
-    focusIndex = -1;
-	setText(text);
-}
-
-Text::~Text(){
-    delete fnt;
+    focusable = false;
+    setText(text);
 }
 
 bool Text::isAutoResize(){
@@ -47,10 +39,10 @@ void Text::setAutoResize(bool autoResize){
 void Text::onRender()
 {
 	int startofline = 0, lines = 0;
-	for(int i=0;i<caption.size();i++){
+	for(unsigned i=0;i<caption.size();i++){
             if(caption[i] == '\n'){
-                    fnt->writeText(0, (++lines)*fnt->getSize(), caption.substr(startofline,i-startofline));
-                    startofline = i+1;
+                fnt->writeText(0, (++lines)*fnt->getSize(), caption.substr(startofline,i-startofline));
+                startofline = i+1;
             }
 	}
 	fnt->writeText(0, (lines+1)*fnt->getSize(), caption.substr(startofline));
@@ -65,26 +57,22 @@ void Text::setText(const string& text){
     if(autoResize){
         string test;
         int startofline = 0, maxlength = 0, lines = 0, len;
-        for(int i=0;i<text.size();i++){
-                if(text[i] == '\n'){
-                        test = text.substr(startofline,i-startofline);
-                        len = fnt->stringWidth(test);
-                        if(len > maxlength)
-                                maxlength = len;
-                        lines ++;
-                        startofline = i+1;
-                }
+        for(unsigned i=0;i<text.size();i++){
+            if(text[i] == '\n'){
+                test = text.substr(startofline,i-startofline);
+                len = fnt->stringWidth(test);
+                if(len > maxlength)
+                    maxlength = len;
+                lines ++;
+                startofline = i+1;
+            }
         }
         test = text.substr(startofline);
         len = fnt->stringWidth(test);
         if(len > maxlength)
-                maxlength = len;
+            maxlength = len;
         width = maxlength;
         height = lines*fnt->getSize();
     }
-}
-
-Font* Text::getFont(){
-    return fnt;
 }
 

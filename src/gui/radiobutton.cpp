@@ -44,9 +44,9 @@ void RadioButton::invalidate(){
 void RadioButton::onRender()
 {
   if (checked)
-	  GuiRender::getInstance().drawImage(GUI_TEX_RADIOBTN_CHECKED,ver);
+      renderer.drawImage(GUI_TEX_RADIOBTN_CHECKED,ver);
   else
-	  GuiRender::getInstance().drawImage(GUI_TEX_RADIOBTN_UNCHECKED,ver);
+      renderer.drawImage(GUI_TEX_RADIOBTN_UNCHECKED,ver);
 }
 
 void RadioButton::onMouseDown(int mx, int my){
@@ -59,11 +59,10 @@ bool RadioButton::isChecked(){
 }
 
 void RadioButton::setChecked(bool checked){
-    if(checked && group != NULL){
+    if(checked && group != NULL) {
         vector<RadioButton*>* radioButtons = group->getRadioButtons();
-        for(unsigned i=0;i<radioButtons->size();i++) {
+        for(unsigned i=0;i<radioButtons->size();i++)
             radioButtons->at(i)->checked = false;
-        }
     }
     this->checked = checked;
     onAction(this,checked);
@@ -74,10 +73,8 @@ RadioButtonGroup* RadioButton::getRadioButtonGroup(){
 }
 
 void RadioButton::setRadioButtonGroup(RadioButtonGroup* group){
-    if(this->group != NULL){
+    if(this->group != NULL)
         this->group->removeFromGroup(this);
-    }
     this->group = group;
     group->addToGroup(this);
 }
-

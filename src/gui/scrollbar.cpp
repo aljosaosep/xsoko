@@ -32,21 +32,16 @@ Scrollbar::Scrollbar(int x, int y, int width, int height) : Component(x,y,width,
     invalidate();
 }
 
-Scrollbar::~Scrollbar() {
-}
-
 void Scrollbar::setLimits(int min, int max){
-    if(min < max){
+    if(min <= max){
         this->min = min;
         this->max = max;
-    } else {
-        this->min = max;
-        this->max = min;
+        if(position < min)
+            position = min;
+        if(position > max)
+            position = max;
+        recalculatePosition();
     }
-    if(position < min)
-        position = min;
-    if(position > max)
-        position = max;
 }
 
 void Scrollbar::setStep(int step){
@@ -54,9 +49,19 @@ void Scrollbar::setStep(int step){
         this->step = step;
 }
 
-void Scrollbar::setPosition(int position){
-    if(position < max)
-        this->position = position;
+void Scrollbar::setValue(int value){
+    int oldval = position;
+
+    position = value;
+    if(position > max)
+        position = max;
+    if(position < min)
+        position = min;
+
+    if(position != oldval) {
+        recalculatePosition();
+        PositionChanged(this,position);
+    }
 }
 
 void Scrollbar::setOrientation(Orientation orientation){
@@ -75,7 +80,7 @@ int Scrollbar::getStep(){
     return step;
 }
 
-int Scrollbar::getPosition(){
+int Scrollbar::getValue(){
     return position;
 }
 
@@ -155,30 +160,30 @@ void Scrollbar::recalculatePosition(){
 void Scrollbar::onRender(){
     drawButton(0,upPressed,true);
     drawButton(4,downPressed,false);
-	GuiRender::getInstance().drawImage(GUI_TEX_SCROLL_BODY,vertex[8]);
-	GuiRender::getInstance().drawImage(GUI_TEX_SCROLL_POSITION,vertex[9]);
+    renderer.drawImage(GUI_TEX_SCROLL_BODY,vertex[8]);
+    renderer.drawImage(GUI_TEX_SCROLL_POSITION,vertex[9]);
 }
 
 void Scrollbar::drawButton(int verIndex, bool pressed,bool upArrow)
 {
-  if (pressed)
-  {
-	  GuiRender::getInstance().drawImage(GUI_TEX_BTN_PRESSED_LEFT,  vertex[verIndex]);
-	  GuiRender::getInstance().drawImage(GUI_TEX_BTN_PRESSED_MIDDLE,vertex[verIndex+1]);
-	  GuiRender::getInstance().drawImage(GUI_TEX_BTN_PRESSED_RIGHT, vertex[verIndex+2]);
-      GuiRender::getInstance().move(0,-1);
-  }
-  else
-  {
-	  GuiRender::getInstance().drawImage(GUI_TEX_BTN_UNPRESSED_LEFT,  vertex[verIndex]);
-	  GuiRender::getInstance().drawImage(GUI_TEX_BTN_UNPRESSED_MIDDLE,vertex[verIndex+1]);
-	  GuiRender::getInstance().drawImage(GUI_TEX_BTN_UNPRESSED_RIGHT,vertex[verIndex+2]);
+  if (pressed) {
+      renderer.drawImage(GUI_TEX_BTN_PRESSED_LEFT,  vertex[verIndex]);
+      renderer.drawImage(GUI_TEX_BTN_PRESSED_MIDDLE,vertex[verIndex+1]);
+      renderer.drawImage(GUI_TEX_BTN_PRESSED_RIGHT, vertex[verIndex+2]);
+      renderer.move(0,-1);
+  } else {
+      renderer.drawImage(GUI_TEX_BTN_UNPRESSED_LEFT,  vertex[verIndex]);
+      renderer.drawImage(GUI_TEX_BTN_UNPRESSED_MIDDLE,vertex[verIndex+1]);
+      renderer.drawImage(GUI_TEX_BTN_UNPRESSED_RIGHT,vertex[verIndex+2]);
   }
 
   if(upArrow)
-	  GuiRender::getInstance().drawImage(GUI_TEX_SCROLL_UP_ARROW,vertex[verIndex+3]);
+      renderer.drawImage(GUI_TEX_SCROLL_UP_ARROW,vertex[verIndex+3]);
   else
-	  GuiRender::getInstance().drawImage(GUI_TEX_SCROLL_DOWN_ARROW,vertex[verIndex+3]);
+      renderer.drawImage(GUI_TEX_SCROLL_DOWN_ARROW,vertex[verIndex+3]);
+
+  if(pressed)
+      renderer.move(0,1);
 }
 
 void Scrollbar::onMouseDown(int mx, int my){
@@ -206,10 +211,10 @@ void Scrollbar::onMouseDown(int mx, int my){
 
 void Scrollbar::onKeyDown(int key){
     switch(key){
-        case SDLK_DOWN://GLFW_KEY_DOWN:
+        case SDLK_DOWN:
             downPressed = true;
             break;
-        case SDLK_UP://GLFW_KEY_UP:
+        case SDLK_UP:
             upPressed = true;
             break;
     }
@@ -217,10 +222,10 @@ void Scrollbar::onKeyDown(int key){
 
 void Scrollbar::onKeyUp(int key){
     switch(key){
-        case SDLK_TAB://GLFW_KEY_TAB:
+        case SDLK_TAB:
             parent->focusNext();
             break;
-        case SDLK_DOWN://GLFW_KEY_DOWN:
+        case SDLK_DOWN:
             if(position + step <= max){
                 position += step;
                 recalculatePosition();
@@ -228,13 +233,13 @@ void Scrollbar::onKeyUp(int key){
             }
             downPressed= false;
             break;
-        case SDLK_UP://GLFW_KEY_UP:
+        case SDLK_UP:
             if(position - step >= min){
                 position -= step;
                 recalculatePosition();
                 PositionChanged(this, position);
             }
-            upPressed= false;
+            upPressed = false;
             break;
     }
 }
@@ -256,6 +261,6 @@ void Scrollbar::onMouseUp(int mx, int my){
             recalculatePosition();
             PositionChanged(this, position);
         }
-        downPressed= false;
+        downPressed = false;
     }
 }

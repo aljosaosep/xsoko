@@ -38,32 +38,43 @@ protected:
     bool visible;
     Container* parent;
     string name;
-    int focusIndex;
+    bool focusable;
     bool focused;
+    GuiRender &renderer;
+    auto_ptr<Font> fnt;
 
     virtual void onRender() = 0;
 public:
     Component(int xx, int yy, int width, int height);
-    virtual ~Component() {};
-    Position getPosition();
-    Size getSize();
-    bool isVisible();
-    Container* getParent();
+
+    //getters
+    Position    getPosition();
+    Size        getSize();
+    Container*  getParent();
+    string      getName();
+    bool        isVisible();
+    bool        isFocusable();
+    Font*       getFont();
+
+    //setters
     void setPosition(int x, int y);
-    virtual void setSize(int width, int height);
-    virtual void setVisible(bool visible);
     void setParent(Container* parent);
     void setName(const string& name);
-    string getName();
-    void setFocusIndex(int index);
-    int getFocusIndex();
+    void setFocusable(bool focus);
+    void setFont(Font* font);
+    virtual void setSize(int width, int height);
+    virtual void setVisible(bool visible);
+
     void Render();
+
     virtual void focusGain();
     virtual void focusLost();
-    virtual bool isContainer() { return false; }
     virtual void invalidate() {}
     virtual void onMouseDown(int mx, int my);
     virtual void onMouseUp(int mx, int my);
+    virtual void onMouseMove(int mx, int my);
+    virtual void onMouseEnter(int mx, int my);
+    virtual void onMouseExit();
     virtual void onKeyDown(int key);
     virtual void onKeyUp(int key);
     virtual void onCharClick(int c) {}
@@ -75,6 +86,9 @@ public:
     //Mouse events
     signal<void(Component*,int,int) > MouseDown;
     signal<void(Component*,int,int) > MouseUp;
+    signal<void(Component*,int,int) > MouseMove;
+    signal<void(Component*,int,int) > MouseEnter;
+    signal<void(Component*) >         MouseExit;
     //Keyboard events
     signal<void(Component*,int) > KeyDown;
     signal<void(Component*,int) > KeyUp;

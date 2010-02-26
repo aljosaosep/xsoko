@@ -33,7 +33,6 @@ class Button : public Component{
 private:
     bool pressed;
     string caption;
-    Font* fnt;
 
     //for rendering
     Rect vertex[4];
@@ -42,11 +41,9 @@ protected:
 public:
     //constructors and destructor
     Button(int x, int y, int width, int height, string bCaption);
-    ~Button();
 
     //getters
     string getCaption();
-    Font* getFont();
 
     //setters
     void setCaption(const string& caption);
@@ -55,6 +52,7 @@ public:
     void invalidate();
     void onMouseDown(int mx, int my);
     void onMouseUp(int mx, int my);
+    void onMouseExit();
     void onKeyUp(int key);
     void onKeyDown(int key);
 

@@ -134,7 +134,7 @@ namespace PacGame
               sm.loadMusic("guardian","data/sound/mirror.mp3");
               //sm.playMusic("guardian");
               sm.loadMusic("mortal","data/sound/mortal_kombat.mp3");
-              sm.playMusic("mortal");
+              //sm.playMusic("mortal");
 
               level.reset(new PLevel());
               level->initialize();

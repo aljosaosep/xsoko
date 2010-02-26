@@ -28,14 +28,10 @@
 #include "container.h"
 #include "gui.h"
 
-EditBox::EditBox(int x, int y, int width, int height) : Component(x,y,width,height), fnt(new Font("font")),
+EditBox::EditBox(int x, int y, int width, int height) : Component(x,y,width,height),
         text(""), carrotPos(0)
 {
     invalidate();
-}
-
-EditBox::~EditBox() {
-    delete fnt;
 }
 
 void EditBox::setText(string text){
@@ -48,10 +44,6 @@ void EditBox::setText(string text){
 
 string EditBox::getText(){
     return text;
-}
-
-Font* EditBox::getFont(){
-    return fnt;
 }
 
 void EditBox::invalidate(){
@@ -87,11 +79,11 @@ void EditBox::invalidate(){
 }
 
 void EditBox::onRender(){
-	GuiRender::getInstance().drawImage(GUI_TEX_PANEL_TOP,   vertex[0]);
-    GuiRender::getInstance().drawImage(GUI_TEX_PANEL_LEFT,  vertex[1]);
-    GuiRender::getInstance().drawImage(GUI_TEX_PANEL_MIDLLE,vertex[2]);
-    GuiRender::getInstance().drawImage(GUI_TEX_PANEL_RIGHT, vertex[3]);
-    GuiRender::getInstance().drawImage(GUI_TEX_PANEL_BOTTOM,vertex[4]);
+    renderer.drawImage(GUI_TEX_PANEL_TOP,   vertex[0]);
+    renderer.drawImage(GUI_TEX_PANEL_LEFT,  vertex[1]);
+    renderer.drawImage(GUI_TEX_PANEL_MIDLLE,vertex[2]);
+    renderer.drawImage(GUI_TEX_PANEL_RIGHT, vertex[3]);
+    renderer.drawImage(GUI_TEX_PANEL_BOTTOM,vertex[4]);
 
     int deltay = (height - fnt->getSize())/2 + fnt->getSize();
     fnt->writeText(3,deltay,text);
@@ -102,8 +94,8 @@ void EditBox::onRender(){
         string first = text.substr(0,carrotPos);
         int offset = fnt->stringWidth(first) + 4;
 
-        GuiRender::getInstance().setColor(0,0,0,1);
-        GuiRender::getInstance().drawFilledRect(offset,deltay,offset+2,deltay-fnt->getSize());
+        renderer.setColor(0,0,0,1);
+        renderer.drawFilledRect(offset,deltay,offset+2,deltay-fnt->getSize());
     }
 }
 

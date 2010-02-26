@@ -17,28 +17,22 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <vector>
-
-
 #include "listbox.h"
 #include "container.h"
 
-ListBox::ListBox(int x, int y, int width, int height) : Component(x,y,width,height), selected(-1), drawIndex(0),
-        upPressed(false), downPressed(false), fnt(new Font("font"))
+const unsigned ListBox::unselected = -1;
+
+ListBox::ListBox(int x, int y, int width, int height) : 
+    Component(x,y,width,height), selected(unselected),
+    drawIndex(0), scroll(new Scrollbar(width-18,2,16,height-4))
 {
+    scroll->setLimits(0,0);
+    scroll->PositionChanged.connect(bind(&ListBox::onScrollChange, this, _1, _2));
     canShow = (height-4) / 16;
     invalidate();
 }
 
-ListBox::~ListBox(){
-    delete fnt;
-}
-
-Font* ListBox::getFont(){
-    return fnt;
-}
-
-void ListBox::invalidate(){
+void ListBox::invalidate() {
     // top of panel.
     vertex[0].x1 = 2;
     vertex[0].y1 = 0;
@@ -69,250 +63,130 @@ void ListBox::invalidate(){
     vertex[4].x2 = width;
     vertex[4].y2 = height;
 
-    //scrollbar body
-    vertex[5].x1 = width-10;
-    vertex[5].y1 = 18;
-    vertex[5].x2 = width-9;
-    vertex[5].y2 = height-18;
-
-    //upper button
-    //left
-    vertex[6].x1 = width-18;
-    vertex[6].y1 = 2;
-    vertex[6].x2 = width-12;
-    vertex[6].y2 = 18;
-
-    //middle
-    vertex[7].x1 = width-12;
-    vertex[7].y1 = 2;
-    vertex[7].x2 = width-8;
-    vertex[7].y2 = 18;
-
-    //right
-    vertex[8].x1 = width-8;
-    vertex[8].y1 = 2;
-    vertex[8].x2 = width-2;
-    vertex[8].y2 = 18;
-
-    //arrow
-    vertex[9].x1 = width-18;
-    vertex[9].y1 = 2;
-    vertex[9].x2 = width-2;
-    vertex[9].y2 = 18;
-
-    //lover button
-    //left
-    vertex[10].x1 = width-18;
-    vertex[10].y1 = height-18;
-    vertex[10].x2 = width-12;
-    vertex[10].y2 = height-2;
-
-    //middle
-    vertex[11].x1 = width-12;
-    vertex[11].y1 = height-18;
-    vertex[11].x2 = width-8;
-    vertex[11].y2 = height-2;
-
-    //right
-    vertex[12].x1 = width-8;
-    vertex[12].y1 = height-18;
-    vertex[12].x2 = width-2;
-    vertex[12].y2 = height-2;
-
-    //arrow
-    vertex[13].x1 = width-18;
-    vertex[13].y1 = height-18;
-    vertex[13].x2 = width-2;
-    vertex[13].y2 = height-2;
-
-    recalculatePosition();
+    scroll->invalidate();
 }
 
-void ListBox::recalculatePosition(){
-    //position
-    float dy = ((float)(height - 46) / (items.size() - canShow))*drawIndex;
-    vertex[14].x1 = width-14;
-    vertex[14].y1 = dy+18;
-    vertex[14].x2 = width-4;
-    vertex[14].y2 = dy+28;
-}
-
-void ListBox::onRender()
-{
-    GuiRender::getInstance().drawImage(GUI_TEX_PANEL_TOP,   vertex[0]);
-    GuiRender::getInstance().drawImage(GUI_TEX_PANEL_LEFT,  vertex[1]);
-    GuiRender::getInstance().drawImage(GUI_TEX_PANEL_MIDLLE,vertex[2]);
-    GuiRender::getInstance().drawImage(GUI_TEX_PANEL_RIGHT, vertex[3]);
-    GuiRender::getInstance().drawImage(GUI_TEX_PANEL_BOTTOM,vertex[4]);
+void ListBox::onRender() {
+    renderer.drawImage(GUI_TEX_PANEL_TOP,   vertex[0]);
+    renderer.drawImage(GUI_TEX_PANEL_LEFT,  vertex[1]);
+    renderer.drawImage(GUI_TEX_PANEL_MIDLLE,vertex[2]);
+    renderer.drawImage(GUI_TEX_PANEL_RIGHT, vertex[3]);
+    renderer.drawImage(GUI_TEX_PANEL_BOTTOM,vertex[4]);
 
     unsigned limit = (canShow<items.size()) ? canShow : items.size();
-    for(unsigned i=0;i<limit;i++){
-		GuiRender::getInstance().setClipping(2,2+(i*16),width-19,18+(i*16));
-        if(selected == i+drawIndex){
-            GuiRender::getInstance().setColor((float)89/255,(float)97/255,(float)102/255,1);
-            GuiRender::getInstance().drawFilledRect(2,2+(i*16),width-19,18+(i*16));
+    for(unsigned i=0;i<limit;i++) {
+	renderer.setClipping(2,2+(i*16),width-19,18+(i*16));
+        if(selected == i+drawIndex) {
+            renderer.setColor((float)89/255,(float)97/255,(float)102/255,1);
+            renderer.drawFilledRect(2,2+(i*16),width-19,18+(i*16));
             fnt->writeText(6,18+(i*16),items.at(i+drawIndex)->toString());
-        } else {
+        } else 
             fnt->writeText(5,17+(i*16),items.at(i+drawIndex)->toString());
-        }
-		GuiRender::getInstance().restoreClipping();
+	renderer.restoreClipping();
     }
 
-    drawButton(6,upPressed,true);
-    drawButton(10,downPressed,false);
-
-	GuiRender::getInstance().drawImage(GUI_TEX_SCROLL_BODY,vertex[5]);
-    if(items.size() > canShow){
-		GuiRender::getInstance().drawImage(GUI_TEX_SCROLL_POSITION,vertex[14]);
-    }
+    scroll->Render();
 }
 
-void ListBox::onMouseDown(int mx, int my){
+void ListBox::onMouseDown(int mx, int my) {
     if(!visible) return;
 
-    if(mx >= 2 && mx <= width-18){
+    if(mx >= 2 && mx <= width-18 && my > 2 && my <= height-2) {
         unsigned index = (my-2) / 16 + drawIndex;
-        if(index < items.size()){
+        if(index < items.size()) {
             selected = index;
             onItemSelect(this,items.at(selected));
         }
-    }
-    if(mx >= width-18){
-        if(my >= 2 && my <= 18){
-            upPressed = true;
-        }
-        if(my >= height-18){
-            downPressed = true;
-        }
-        if(my > 18 && my < height-18 && items.size() > canShow){
-            int max = items.size() - canShow;
-            drawIndex = (float)(max * (my - 23)) / (height - 46) + 0.5;
-            if(drawIndex < 0)
-                drawIndex = 0;
-            if(drawIndex > max)
-                drawIndex = max;
-            recalculatePosition();
-        }
-    }
+    } else
+        if((mx >= width - 18) && (mx <= width  - 2) &&
+           (my >= 2)          && (my <= height - 2))
+            scroll->onMouseDown(mx-width+18, my-2);
+    MouseDown(this,mx,my);
 }
 
-void ListBox::onMouseUp(int mx, int my){
+void ListBox::onMouseUp(int mx, int my) {
     if(!visible) return;
 
-    if(upPressed){
-        if(drawIndex > 0){
-            drawIndex--;
-            recalculatePosition();
-        }
-        upPressed= false;
-    }
-    if(downPressed){
-        if(drawIndex+canShow < items.size()){
-            drawIndex++;
-            recalculatePosition();
-        }
-        downPressed= false;
-    }
+    if((mx >= width - 18) && (mx <= width  - 2) &&
+       (my >= 2)          && (my <= height - 2))
+        scroll->onMouseUp(mx-width+18, my-2);
+    MouseDown(this,mx,my);
 }
 
-Item*  ListBox::getSelectedItem()
-{
+void ListBox::onScrollChange(Component*, int position) {
+    drawIndex = position;
+}
+
+Item* ListBox::getSelectedItem() {
     return items.at(selected);
 }
 
-void ListBox::setSelectedItem(int index)
-{
-    if(index >= 0 && index < items.size()) {
-        selected = index;
-        onItemSelect(this,items.at(selected));
+void ListBox::setSelectedItem(unsigned index) {
+    if(index != selected) {
+        if(index != unselected) {
+            if(index < items.size()) {
+                selected = index;
+                if(selected < drawIndex)
+                    scroll->setValue(selected);
+                else if (selected >= drawIndex + canShow)
+                    scroll->setValue(selected - canShow + 1);
+                onItemSelect(this,items[selected]);
+            }
+        } else {
+            selected = unselected;
+            onItemSelect(this,NULL);
+        }
     }
 }
 
-void ListBox::setSelectedItem(Item* item)
-{
-    if(!item) return;
-
+void ListBox::setSelectedItem(Item* item) {
+    if(!item) {
+        setSelectedItem(unselected);
+        return;
+    }
     for(unsigned i=0;i<items.size();i++)
-        if(item->equals(items[i]))
-        {
-            selected = i;
-            onItemSelect(this,item);
+        if(item->equals(items[i])) {
+            setSelectedItem(i);
             return;
         }
 }
 
-void ListBox::drawButton(int verIndex, bool pressed,bool upArrow)
-{
-  if (pressed)
-  {
-	  GuiRender::getInstance().drawImage(GUI_TEX_BTN_PRESSED_LEFT,  vertex[verIndex]);
-	  GuiRender::getInstance().drawImage(GUI_TEX_BTN_PRESSED_MIDDLE,vertex[verIndex+1]);
-	  GuiRender::getInstance().drawImage(GUI_TEX_BTN_PRESSED_RIGHT, vertex[verIndex+2]);
-          GuiRender::getInstance().move(0,-1);
-  }
-  else
-  {
-	  GuiRender::getInstance().drawImage(GUI_TEX_BTN_UNPRESSED_LEFT,  vertex[verIndex]);
-	  GuiRender::getInstance().drawImage(GUI_TEX_BTN_UNPRESSED_MIDDLE,vertex[verIndex+1]);
-	  GuiRender::getInstance().drawImage(GUI_TEX_BTN_UNPRESSED_RIGHT,vertex[verIndex+2]);
-  }
-
-  if(upArrow)
-	  GuiRender::getInstance().drawImage(GUI_TEX_SCROLL_UP_ARROW,vertex[verIndex+3]);
-  else
-	  GuiRender::getInstance().drawImage(GUI_TEX_SCROLL_DOWN_ARROW,vertex[verIndex+3]);
-}
-
-
-
-void ListBox::addItem(Item* item){
+void ListBox::addItem(Item* item) {
     items.push_back(item);
-    if(items.size() == 1){
-        selected = 0;
-    }
-    recalculatePosition();
+    scroll->setLimits(0, items.size()-canShow);
 }
 
-void ListBox::onKeyUp(int key){
+void ListBox::onKeyUp(int key) {
     unsigned size = items.size();
+    if(size == 0) return;
+    bool change = true;
     switch(key){
         case SDLK_DOWN:
-            if(selected == -1 && size > 0){
+            if(selected == unselected && size > 0)
                 selected = 0;
-                onItemSelect(this,items.at(selected));
-                drawIndex = 0;
-                recalculatePosition();
-            } else if(selected+1 < size){
+            else if(selected+1 < size)
                 selected++;
-                onItemSelect(this,items.at(selected));
-                if(drawIndex + canShow <= selected){
-                    drawIndex = selected - canShow + 1;
-                    recalculatePosition();
-                }
-            }
+            else
+                change = false;
             break;
         case SDLK_UP:
-            if(selected == -1 && size > 0){
+            if(selected == unselected && size > 0)
                 selected = size - 1;
-                if(size > canShow){
-                    drawIndex = size - canShow;
-                    recalculatePosition();
-                }
-                onItemSelect(this,items.at(selected));
-            } else if(selected-1 >= 0){
+            else if(selected > 0 && selected != unselected)
                 selected--;
-                if(drawIndex > selected){
-                    drawIndex = selected;
-                    recalculatePosition();
-                }
-                onItemSelect(this,items.at(selected));
-            }
+            else
+                change = false;
             break;
-        case SDLK_TAB://GLFW_KEY_TAB:
+        case SDLK_TAB:
             parent->focusNext();
-            break;
+            return;
     }
-    if(key != SDLK_TAB)//GLFW_KEY_TAB)
-        KeyUp(this,key);
+    if(change) {
+        if(drawIndex > selected)
+            scroll->setValue(selected);
+        else if(drawIndex + canShow <= selected)
+            scroll->setValue(selected - canShow + 1);
+        onItemSelect(this,items.at(selected));
+    }
+    KeyUp(this,key);
 }
-

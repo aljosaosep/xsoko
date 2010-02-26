@@ -27,7 +27,8 @@
 #include "container.h"
 
 Component::Component(int xx, int yy, int width, int height)  : x(xx), y(yy),
-        visible(true), parent(NULL), focused(false)
+        visible(true), parent(NULL), focusable(true), focused(false),
+        renderer(GuiRender::getInstance()), fnt(new Font("font"))
 { 
     setSize(width,height);
 }
@@ -40,23 +41,23 @@ Position Component::getPosition(){
 }
 
 void Component::focusGain(){
-    if(focused) return;
+    if(!focusable || focused) return;
     focused = true;
     FocusGain(this);
 }
 
 void Component::focusLost(){
-    if(!focused) return;
+    if(!focusable || !focused) return;
     focused = false;
     FocusLost(this);
 }
 
-void Component::setFocusIndex(int index){
-    focusIndex = index;
+void Component::setFocusable(bool focus){
+    focusable = focus;
 }
 
-int Component::getFocusIndex(){
-    return focusIndex;
+bool Component::isFocusable() {
+    return focusable;
 }
 
 Size Component::getSize(){
@@ -105,6 +106,14 @@ string Component::getName(){
     return name;
 }
 
+Font* Component::getFont() {
+    return fnt.get();
+}
+
+void Component::setFont(Font* font) {
+    fnt.reset(font);
+}
+
 void Component::Render(){
     if(!visible) return;
     GuiRender::getInstance().saveState();
@@ -116,7 +125,7 @@ void Component::Render(){
 }
 
 void Component::onKeyUp(int key){
-    if(key == SDLK_TAB)//GLFW_KEY_TAB)
+    if(key == SDLK_TAB)
         parent->focusNext();
     else
         KeyUp(this,key);
@@ -128,6 +137,18 @@ void Component::onMouseDown(int mx, int my){
 
 void Component::onMouseUp(int mx, int my){
     MouseUp(this,mx,my);
+}
+
+void Component::onMouseMove(int mx, int my){
+    MouseMove(this,mx,my);
+}
+
+void Component::onMouseEnter(int mx, int my) {
+    MouseEnter(this,mx,my);
+}
+
+void Component::onMouseExit() {
+    MouseExit(this);
 }
 
 void Component::onKeyDown(int key){

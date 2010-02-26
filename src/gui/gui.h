@@ -46,15 +46,21 @@ private:
 
     bool mVisible;
     unsigned num;
-    Component* focusedWin;
+    Component* mainFocusWin;
+    Component* mouseFocusWin;
     Rect mouseVer;
 private:
     Gui();
+    Gui(const Gui&);
     ~Gui();
-    void onMouseDown();
+    Gui& operator= (const Gui&);
+
+
     void onAction(Component* button);
     void focusGain(Component* sender);
     void focusLost(Component* sender);
+    bool pointOnComponent(int px, int py, Component* component);
+    void refreshMouseFocus();
 public:
     void onMouseClick(int button, int action);
     void onMouseMove(int x, int y);

@@ -26,7 +26,7 @@
 #ifndef _LISTBOX_H
 #define	_LISTBOX_H
 
-#include "component.h"
+#include "scrollbar.h"
 
 class Item{
 public:
@@ -37,34 +37,31 @@ public:
 class ListBox: public Component{
 private:
     vector<Item*> items;
-    int selected;
-    int drawIndex;
+    unsigned selected;
+    unsigned drawIndex;
     unsigned canShow;
-    bool upPressed;
-    bool downPressed;
-    Font* fnt;
+    auto_ptr<Scrollbar> scroll;
 
-    void drawButton(int verIndex,bool pressed,bool upArrow);
-    void recalculatePosition();
-
-    Rect vertex[15];
+    Rect vertex[5];
+private:
+    void onScrollChange(Component*, int position);
 protected:
     void onRender();
 public:
+    static const unsigned unselected;
+public:
     //constructors and destructor
     ListBox(int x, int y, int width, int height);
-    ~ListBox();
 
     //methods
     void addItem(Item* item);
 
     //setters
-    void setSelectedItem(int index);
+    void setSelectedItem(unsigned index);
     void setSelectedItem(Item* item);
 
     //getters
     Item* getSelectedItem();
-    Font* getFont();
 
     //events support
     void invalidate();

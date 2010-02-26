@@ -64,30 +64,30 @@ struct State {
 
 class GuiRender {
 private:
-    GLuint skinID;
+    unsigned skinID;
     float r,g,b,alpha;
     int x,y;
     vector<State> savedStates;
-	vector<Rect> clippingPlace;
-	float textures[29][8];
-	int width, height;
-	string skimg, skfile;
+    vector<Rect> clippingPlace;
+    float textures[29][8];
+    int width, height;
+    string skimg, skfile;
 
-	GuiRender();
+    GuiRender();
     ~GuiRender();
 public:
     void loadSkin(string skinImage, string skinFile);
-	void reloadSkin();
+    void reloadSkin();
     void drawImage(int index, Rect drawRect);
     void drawRect(Rect rectangle, int width);
     void drawFilledRect(int x1, int y1, int x2, int y2);
     void setColor(float r, float g, float b, float alpha);
-	void setClipping(int x1, int y1, int x2, int y2);
-	void restoreClipping();
+    void setClipping(int x1, int y1, int x2, int y2);
+    void restoreClipping();
     void move(int x, int y);
     void saveState();
     void restoreState();
-	void setWindowSize(int width, int height);
+    void setWindowSize(int width, int height);
     void initRendering();
     void deinitRendering();
     State getCurrentState();

@@ -31,19 +31,16 @@
 class Text : public Component{
 private:
     string caption;
-    Font* fnt;
-	bool autoResize;
+    bool autoResize;
 protected:
     void onRender();
 public:
     //constructors and destructor
     Text(int x,int y,string text);
-    ~Text();
 
     //getters
-    string getText();
-    Font* getFont();
-    bool isAutoResize();
+    string  getText();
+    bool    isAutoResize();
 
     //setters
     void setText(const string& text);

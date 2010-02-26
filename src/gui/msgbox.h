@@ -31,7 +31,6 @@
 class MsgBox : public Window{
 public:
     MsgBox(string title, string msg, int buttons);
-    ~MsgBox(){}
 };
 
 #endif	/* _MSGBOX_H */
