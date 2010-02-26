@@ -66,11 +66,11 @@ void Panel::invalidate(){
 //TODO: do we really need a panel?
 void Panel::onRender()
 {
-    GuiRender::getInstance().drawImage(GUI_TEX_PANEL_TOP,   vertex[0]);
-    GuiRender::getInstance().drawImage(GUI_TEX_PANEL_LEFT,  vertex[1]);
-    GuiRender::getInstance().drawImage(GUI_TEX_PANEL_MIDLLE,vertex[2]);
-    GuiRender::getInstance().drawImage(GUI_TEX_PANEL_RIGHT, vertex[3]);
-    GuiRender::getInstance().drawImage(GUI_TEX_PANEL_BOTTOM,vertex[4]);
+    renderer.drawImage(GUI_TEX_PANEL_TOP,   vertex[0]);
+    renderer.drawImage(GUI_TEX_PANEL_LEFT,  vertex[1]);
+    renderer.drawImage(GUI_TEX_PANEL_MIDLLE,vertex[2]);
+    renderer.drawImage(GUI_TEX_PANEL_RIGHT, vertex[3]);
+    renderer.drawImage(GUI_TEX_PANEL_BOTTOM,vertex[4]);
     /*glBegin(GL_QUADS);
       // top left corner of panel.
       glTexCoord2f((float) 8/128, (float)64/128); glVertex2i(x, -y);

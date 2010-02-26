@@ -22,7 +22,7 @@
 #include "gui.h"
 #include "guirender.h"
 
-Gui::Gui() : mVisible(true), num(0), focusedWin(NULL) {
+Gui::Gui() : mVisible(true), num(0), mainFocusWin(NULL), mouseFocusWin(NULL) {
     GuiRender::getInstance().loadSkin("data/GUI.tga", "data/skin.position");
     
     SDL_GetMouseState(&mouseX, &mouseY);
@@ -55,43 +55,33 @@ void Gui::Render()
   GuiRender::getInstance().deinitRendering();
 }
 
-/*------------------------------------------------------------------*
- *  Procedure to check if the user clicked in a window or object    *
- *------------------------------------------------------------------*/
-void Gui::onMouseDown()
-{
-  // test to see if user clicked in a window
-    if(!modals.empty()){
-        Position winPos = modals.back()->getPosition();
-        Size winSize = modals.back()->getSize();
-        if ((mouseX > winPos.x) && (mouseX < winPos.x + winSize.width))
-            if ((mouseY > winPos.y) && (mouseY < winPos.y + winSize.height))
-                modals.back()->onMouseDown(mouseX-winPos.x, mouseY-winPos.y);
-        return;
-    }
-  vector<Window*>::const_iterator it;
-  for(it = windows.begin(); it != windows.end(); ++it) {
-      if((*it)->isVisible()){
-          Position winPos = (*it)->getPosition();
-          Size winSize = (*it)->getSize();
-          if ((mouseX > winPos.x) && (mouseX < winPos.x + winSize.width) &&
-              (mouseY > winPos.y) && (mouseY < winPos.y + winSize.height)) {
-                  if(focusedWin != (*it))
-                  {
-                      if(focusedWin != NULL)
-                          focusedWin->focusLost();
-                      focusedWin = (*it);
-                      focusedWin->focusGain();
-                  }
-                  focusedWin->onMouseDown(mouseX-winPos.x, mouseY-winPos.y);
-                  break;
-              }
-      }
-  }
+inline bool Gui::pointOnComponent(int px, int py, Component* component) {
+    Position winPos = component->getPosition();
+    Size winSize = component->getSize();
+    return ((px >= winPos.x) && (px <= winPos.x + winSize.width) &&
+            (py >= winPos.y) && (py <= winPos.y + winSize.height) &&
+            component->isVisible());
 }
 
 void Gui::setMouseVisible(bool visible){
     mVisible = visible;
+}
+
+void Gui::refreshMouseFocus() {
+    if(!mouseFocusWin || !pointOnComponent(mouseX, mouseY, mouseFocusWin)) {
+        if(mouseFocusWin) {
+            mouseFocusWin->onMouseExit();
+            mouseFocusWin = NULL;
+        }
+        vector<Window*>::const_iterator it;
+        for(it = windows.begin(); it != windows.end(); ++it)
+            if(pointOnComponent(mouseX, mouseY, *it)) {
+                mouseFocusWin = *it;
+                Position pos = (*it)->getPosition();
+                mouseFocusWin->onMouseEnter(mouseX-pos.x,mouseY-pos.y);
+                break;
+            }
+    }
 }
 
 void Gui::onMouseMove(int x, int y){
@@ -103,48 +93,61 @@ void Gui::onMouseMove(int x, int y){
     if(y>wndHeight)
         mouseY = wndHeight;
 
-    vector<Window*>::const_iterator it;
-    for(it = windows.begin(); it != windows.end(); ++it)
-    {
-        Position pos = (*it)->getPosition();
-        (*it)->onMouseMove(mouseX-pos.x,mouseY-pos.y);
-    }
     mouseVer.x1 = mouseX;
     mouseVer.y1 = mouseY;
     mouseVer.x2 = mouseX + 32;
     mouseVer.y2 = mouseY + 32;
+
+    refreshMouseFocus();
+    if(mouseFocusWin) {
+        Position pos = mouseFocusWin->getPosition();
+        mouseFocusWin->onMouseMove(mouseX-pos.x,mouseY-pos.y);
+    }
 }
 
 void Gui::onMouseClick(int button, int action){
-    if(!mVisible) return;
-    switch(action){
-        case SDL_MOUSEBUTTONDOWN:
-            onMouseDown();
-            break;
-        case SDL_MOUSEBUTTONUP:
-            vector<Window*>::const_iterator it;
-            for(it = windows.begin(); it != windows.end(); ++it)
-                (*it)->onMouseUp(mouseX,mouseY);
-            break;
+    if(mouseFocusWin && mVisible) {
+        Position winPos = mouseFocusWin->getPosition();
+        switch(action){
+            case SDL_MOUSEBUTTONDOWN:
+                if(!modals.empty()){
+                    if(modals.back() == mouseFocusWin) {
+                        Position winPos = modals.back()->getPosition();
+                        modals.back()->onMouseDown(mouseX-winPos.x, mouseY-winPos.y);
+                    }
+                    return;
+                }
+                if(mainFocusWin != mouseFocusWin) {
+                    if(mainFocusWin != NULL)
+                        mainFocusWin->focusLost();
+                    mainFocusWin = mouseFocusWin;
+                    mainFocusWin->focusGain();
+                }
+                mainFocusWin->onMouseDown(mouseX-winPos.x, mouseY-winPos.y);
+                break;
+            case SDL_MOUSEBUTTONUP:
+                mouseFocusWin->onMouseUp(mouseX-winPos.x, mouseY-winPos.y);
+                break;
+        }
     }
 }
 
 void Gui::onKeyClick(int kkey, int action){
-    if(focusedWin != NULL && focusedWin->isVisible()){
+    if(mainFocusWin != NULL && mainFocusWin->isVisible()){
         switch(action){
           case SDL_KEYDOWN:
-              focusedWin->onKeyDown(kkey);
+              mainFocusWin->onKeyDown(kkey);
               break;
           case SDL_KEYUP:
-              focusedWin->onKeyUp(kkey);
+              mainFocusWin->onKeyUp(kkey);
               break;
         }
     }
 }
 
 void Gui::onCharacterSend(int c, int action){
-    if(action == SDL_KEYUP && focusedWin != NULL)
-        focusedWin->onCharClick(c);
+    if(action == SDL_KEYUP && mainFocusWin != NULL)
+        mainFocusWin->onCharClick(c);
 }
 
 Gui& Gui::getInst(){
@@ -174,18 +177,18 @@ unsigned Gui::showMessage(string title, string msg){
     int width = label->getSize().width;
     int height = label->getSize().height;
     Window* dlg = new Window(wndWidth/2-width/2,wndHeight/2-64,width+50,height+90,title);
-    dlg->AddComponent(label);
+    dlg->addComponent(label);
     Button* btn = new Button(width/2,height + 30,50,25,"OK");
     btn->onPressed.connect(bind(&Gui::onAction, this, _1));
-    dlg->AddComponent(btn);
+    dlg->addComponent(btn);
 
 
     //FIX: this...
     modals.push_back(dlg);
-    if(focusedWin != NULL) {
-        focusQueue.push_back(focusedWin);
-        focusedWin->focusLost();
-        focusedWin = NULL;
+    if(mainFocusWin != NULL) {
+        focusQueue.push_back(mainFocusWin);
+        mainFocusWin->focusLost();
+        mainFocusWin = NULL;
     }
 
     addWindow(dlg);
@@ -203,16 +206,6 @@ void Gui::onAction(Component* button){
     // we cannot delete window and then continue to handle events...
     modals.erase(remove(modals.begin(), modals.end(), wnd), modals.end());
 
-    /*for(unsigned i=0;i<windows.size();i++)
-        if(windows[i] == wnd){
-            delete windows[i];
-            windows.erase (windows.begin()+i);
-        }
-    for(unsigned i=0;i<msgnum.size();i++)
-        if(msgnum[i]->ptr == wnd){
-            delete msgnum[i];
-            msgnum.erase(msgnum.begin()+i);
-        }*/
     for(unsigned i=0;i<msgnum.size();i++)
         if(msgnum[i].second == wnd) {
             msgnum[i].first = 0;
@@ -231,48 +224,50 @@ void Gui::addWindow(Window* win){
     win->FocusGain.connect(bind(&Gui::focusGain,this,_1));
     win->FocusLost.connect(bind(&Gui::focusLost,this,_1));
     windows.push_back(win);
-    if(focusedWin == NULL){
-        focusedWin = win;
+    if(mainFocusWin == NULL){
+        mainFocusWin = win;
         win->focusGain();
     }
 }
 
 void Gui::removeWindow(Window* win) {
     windows.erase(remove(windows.begin(), windows.end(), win), windows.end());
-    if(focusedWin == win && windows.size())
+    if(mainFocusWin == win && windows.size())
         if(focusQueue.size()) {
-            focusedWin = focusQueue.back();
+            mainFocusWin = focusQueue.back();
             focusQueue.pop_back();
         } else {
             vector<Window*>::const_iterator it;
             for(it = windows.begin(); it != windows.end(); ++it)
                 if((*it)->isVisible()) {
-                    focusedWin = *it;
-                    focusedWin->focusGain();
+                    mainFocusWin = *it;
+                    mainFocusWin->focusGain();
                     break;
                 }
         }
     else
-        focusedWin = NULL;
+        mainFocusWin = NULL;
 }
     
 void Gui::focusGain(Component* sender){
-    if(focusedWin == NULL)
-        focusedWin = sender;
-    if(focusedWin != sender){
-        focusQueue.push_back(focusedWin);
-        focusedWin->focusLost();
-        focusedWin = sender;
+    if(mainFocusWin == NULL)
+        mainFocusWin = sender;
+    if(mainFocusWin != sender){
+        focusQueue.push_back(mainFocusWin);
+        mainFocusWin->focusLost();
+        mainFocusWin = sender;
     }
+    refreshMouseFocus();
 }
 
 void Gui::focusLost(Component* sender) {
-    focusedWin = NULL;
+    mainFocusWin = NULL;
     if(!focusQueue.empty()){
-        focusedWin = focusQueue.back();
+        mainFocusWin = focusQueue.back();
         focusQueue.pop_back();
-        focusedWin->focusGain();
+        mainFocusWin->focusGain();
     }
+    refreshMouseFocus();
 }
 
 /*Window* Gui::findWindowByName(string name) {

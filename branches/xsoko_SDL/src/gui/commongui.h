@@ -27,22 +27,9 @@
 #define	_COMMONGUI_H
 
 //common includes for gui
-#ifdef _WINDOWS
-    #define WIN32_LEAN_AND_MEAN
-    #include <windows.h>
-	#undef min
-	#undef max
-	#define GL_ALL_CLIENT_ATTRIB_BITS GL_CLIENT_ALL_ATTRIB_BITS
-    #define BOOST_WINDOWS_API
-#endif
-
+#include <SDL/SDL.h>
 #include <boost/bind.hpp>
 #include <boost/signals.hpp>
-
-#include <GL/gl.h>
-//#include <GL/glfw.h>
-#include <SDL/SDL.h>
-#include <SDL/SDL_opengl.h>
 #include <stdlib.h>
 #include <iostream>
 #include <vector>

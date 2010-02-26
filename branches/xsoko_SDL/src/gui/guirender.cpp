@@ -16,6 +16,17 @@
  * You should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+#ifdef _WINDOWS
+    #define WIN32_LEAN_AND_MEAN
+    #include <windows.h>
+	#undef min
+	#undef max
+	#define GL_ALL_CLIENT_ATTRIB_BITS GL_CLIENT_ALL_ATTRIB_BITS
+    #define BOOST_WINDOWS_API
+#endif
+
+#include <GL/gl.h>
 #include <fstream>
 #include <sstream>
 #include <SDL/SDL.h>
@@ -31,46 +42,40 @@ GuiRender& GuiRender::getInstance(){
 
 void GuiRender::loadSkin(string skinImage, string skinFile){
     
-	skimg.assign(skinImage); skfile.assign(skinFile);
-	//if(skinID != 0)
-	//	glDeleteTextures(1,&skinID);
+    skimg.assign(skinImage); skfile.assign(skinFile);
+    //if(skinID != 0)
+    //	glDeleteTextures(1,&skinID);
 
     // temp loading procedure, doesn't do enough checks to safely load a texture
     SDL_Surface* skin = IMG_Load(skinImage.c_str());
-	char* test = IMG_GetError();
     GLenum skinFormat;
     GLint nOfColors = skin->format->BytesPerPixel;
     
     
-	if (nOfColors == 4)     // contains an alpha channel
-        {
-                if (skin->format->Rmask == 0x000000ff)
-                        skinFormat = GL_RGBA;
-                else
-                        skinFormat = GL_BGRA;
-        } else if (nOfColors == 3)     // no alpha channel
-        {
-                if (skin->format->Rmask == 0x000000ff)
-                        skinFormat = GL_RGB;
-                else
-                        skinFormat = GL_BGR;
-        }
+    if (nOfColors == 4)     // contains an alpha channel
+    {
+            if (skin->format->Rmask == 0x000000ff)
+                    skinFormat = GL_RGBA;
+            else
+                    skinFormat = GL_BGRA;
+    } else if (nOfColors == 3)     // no alpha channel
+    {
+            if (skin->format->Rmask == 0x000000ff)
+                    skinFormat = GL_RGB;
+            else
+                    skinFormat = GL_BGR;
+    }
         
-	glGenTextures(1,&skinID);
+    glGenTextures(1,&skinID);
     glBindTexture(GL_TEXTURE_2D,skinID);
     
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-       glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
     
     glTexImage2D( GL_TEXTURE_2D, 0, nOfColors, skin->w, skin->h, 0,
                       skinFormat, GL_UNSIGNED_BYTE, skin->pixels );
 	
-	SDL_FreeSurface(skin);
-	
-	/*if(glfwLoadTexture2D(skinImage.c_str(), GLFW_ORIGIN_UL_BIT)){
-       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-       glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-    }*/
+    SDL_FreeSurface(skin);
 
     ifstream file;
     file.open(skinFile.c_str(),ios::in);
@@ -79,19 +84,19 @@ void GuiRender::loadSkin(string skinImage, string skinFile){
         for(int count=0;!file.eof();count++){
             getline(file,vrstica);
             stringstream stream(vrstica);
-			stream >> name >> textures[count][0] >> textures[count][1] >>
-                    textures[count][4] >> textures[count][5];
-			textures[count][6] = textures[count][0] /= 128;
-			textures[count][3] = textures[count][1] /= 128;
-			textures[count][2] = textures[count][4] /= 128;
-			textures[count][7] = textures[count][5] /= 128;
+            stream >> name >> textures[count][0] >> textures[count][1] >>
+            textures[count][4] >> textures[count][5];
+            textures[count][6] = textures[count][0] /= 128;
+            textures[count][3] = textures[count][1] /= 128;
+            textures[count][2] = textures[count][4] /= 128;
+            textures[count][7] = textures[count][5] /= 128;
         }
     }
 }
 
 void GuiRender::reloadSkin()
 {
-	loadSkin(skimg, skfile);
+    loadSkin(skimg, skfile);
 }
 
 void GuiRender::drawImage(int index, Rect drawRect){
@@ -109,50 +114,46 @@ void GuiRender::drawImage(int index, Rect drawRect){
 }
 
 void GuiRender::setClipping(int x1, int y1, int x2, int y2){
-	Rect clip = {x+x1,y-y1,x+x2,y-y2};
-	if(!clippingPlace.empty()){
-		Rect oldClip = clippingPlace.back();
-		if(!(clip.x1 > oldClip.x2 || clip.x2 < oldClip.x1 ||
-			 clip.y1 < oldClip.y2 || clip.y2 > oldClip.y1))
-		{
-			clip.x1 = max(clip.x1, oldClip.x1);
-			clip.y1 = max(clip.y1, oldClip.y1);
-			clip.x2 = min(clip.x2, oldClip.x2);
-			clip.y2 = min(clip.y2, oldClip.y2);
-		} else {
-			clip.x1 = clip.x2 = clip.y1 = clip.y2 = 0;
-		}
-	} else {
-		glEnable(GL_SCISSOR_TEST);
-	}
-	glScissor(clip.x1,clip.y2,clip.x2-clip.x1,clip.y1-clip.y2);
-	clippingPlace.push_back(clip);
+    Rect clip = {x+x1,y-y1,x+x2,y-y2};
+    if(!clippingPlace.empty()){
+        Rect oldClip = clippingPlace.back();
+        if(!(clip.x1 > oldClip.x2 || clip.x2 < oldClip.x1 ||
+             clip.y1 < oldClip.y2 || clip.y2 > oldClip.y1)) {
+                clip.x1 = max(clip.x1, oldClip.x1);
+                clip.y1 = max(clip.y1, oldClip.y1);
+                clip.x2 = min(clip.x2, oldClip.x2);
+                clip.y2 = min(clip.y2, oldClip.y2);
+        } else
+                clip.x1 = clip.x2 = clip.y1 = clip.y2 = 0;
+    } else
+        glEnable(GL_SCISSOR_TEST);
+    glScissor(clip.x1,clip.y2,clip.x2-clip.x1,clip.y1-clip.y2);
+    clippingPlace.push_back(clip);
 }
 	
 void GuiRender::restoreClipping(){
-	if(!clippingPlace.empty()){
-		clippingPlace.pop_back();
-		if(!clippingPlace.empty()){
-			Rect restore = clippingPlace.back();
-			glScissor(restore.x1,restore.y2,restore.x2-restore.x1,restore.y1-restore.y2);
-		} else {
-			glDisable(GL_SCISSOR_TEST);
-		}
-	}
+    if(!clippingPlace.empty()){
+        clippingPlace.pop_back();
+        if(!clippingPlace.empty()){
+            Rect restore = clippingPlace.back();
+            glScissor(restore.x1,restore.y2,restore.x2-restore.x1,restore.y1-restore.y2);
+        } else
+            glDisable(GL_SCISSOR_TEST);
+    }
 }
 
 void GuiRender::drawFilledRect(int x1, int y1, int x2, int y2){
-	glDisable(GL_TEXTURE_2D);
-	int vertex[] = {x+x1, y-y1, x+x2, y-y1,
-					x+x2, y-y2, x+x1, y-y2};
+    glDisable(GL_TEXTURE_2D);
+    int vertex[] = {x+x1, y-y1, x+x2, y-y1,
+                    x+x2, y-y2, x+x1, y-y2};
     glVertexPointer(2,GL_INT,0,vertex);
     glDrawArrays(GL_QUADS,0,4);
-	glEnable(GL_TEXTURE_2D);
+    glEnable(GL_TEXTURE_2D);
 }
 
 void GuiRender::drawRect(Rect rectangle, int width){
     glLineWidth(width);
-	glDisable(GL_TEXTURE_2D);
+    glDisable(GL_TEXTURE_2D);
     glBegin(GL_LINE_STRIP);
         glVertex2i(x+rectangle.x1, y-rectangle.y1);
         glVertex2i(x+rectangle.x2, y-rectangle.y1);
@@ -160,7 +161,7 @@ void GuiRender::drawRect(Rect rectangle, int width){
         glVertex2i(x+rectangle.x1, y-rectangle.y2);
         glVertex2i(x+rectangle.x1, y-rectangle.y1);
     glEnd();
-	glEnable(GL_TEXTURE_2D);
+    glEnable(GL_TEXTURE_2D);
     /*int vertex[] = {rectangle.x1, -rectangle.y1,
                     rectangle.x2, -rectangle.y1,
                     rectangle.x2, -rectangle.y2,
@@ -234,22 +235,22 @@ void GuiRender::deinitRendering(){
 }
 
 void GuiRender::setWindowSize(int width, int height){
-	if (height == 0)               // prevent divide by zero exception
-		height = 1;
-	glViewport(0, 0, width, height);    // Set the viewport for the OpenGL window
-	glMatrixMode(GL_PROJECTION);        // Change Matrix Mode to Projection
-	glLoadIdentity();                   // Reset View
-	gluPerspective(45.0, width/height, 1.0, 100.0);  // Do the perspective calculations. Last value = max clipping depth
-	glMatrixMode(GL_MODELVIEW);         // Return to the modelview matrix
-	glLoadIdentity();                   // Reset View
+    if(height == 0)               // prevent divide by zero exception
+        height = 1;
+    glViewport(0, 0, width, height);    // Set the viewport for the OpenGL window
+    glMatrixMode(GL_PROJECTION);        // Change Matrix Mode to Projection
+    glLoadIdentity();                   // Reset View
+    gluPerspective(45.0, width/height, 1.0, 100.0);  // Do the perspective calculations. Last value = max clipping depth
+    glMatrixMode(GL_MODELVIEW);         // Return to the modelview matrix
+    glLoadIdentity();                   // Reset View
 
-	this->width = width;
-	this->height = height;
+    this->width = width;
+    this->height = height;
 }
 
-GuiRender::GuiRender() : r(0),g(0),b(0),alpha(1),skinID(0)
+GuiRender::GuiRender() : skinID(0),r(0),g(0),b(0),alpha(1)
 { }
 
 GuiRender::~GuiRender(){
-	glDeleteTextures(1,&skinID);
+    glDeleteTextures(1,&skinID);
 }

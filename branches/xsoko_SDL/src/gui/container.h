@@ -29,35 +29,37 @@
 #include "component.h"
 
 class Container : public Component{
+private:
+    Component* mainFocusComp;
+    Component* mouseFocusComp;
+    int mousex, mousey;
+private:
+    void refreshMouseFocus();
+    void focusGainEvent(Component* sender);
+    void focusLostEvent(Component* sender);
 protected:
-    struct myclass {
-        bool operator() (Component* i,Component* j) { return (i->getFocusIndex() < j->getFocusIndex());}
-    } sortObj;
-
     vector<Component*> components;
-    vector<Component*> focusComponents;
-    bool isInArea(Position p, Size s, int x, int y);
-    Component* compPressed;
-    Component* focusedComp;
+protected:
+    bool pointOnComponent(int px, int py, Component* component);
 public:
     //constructors and destructor
     Container(int x, int y, int width, int height);
     ~Container();
 
     //methods
-    void AddComponent(Component* component);
+    void addComponent(Component* component);
     void focusNext();
     void focusPrevious();
     virtual void focusGain();
     virtual void focusLost();
-    bool isContainer() { return true; }
 
     //event support
-    void onMouseDown(int mx, int my);
+    virtual void onMouseDown(int mx, int my);
     virtual void onMouseUp(int mx, int my);
-    void onKeyDown(int key);
-    void onKeyUp(int key);
-    void onCharClick(int c);
+    virtual void onMouseMove(int mx, int my);
+    virtual void onKeyDown(int key);
+    virtual void onKeyUp(int key);
+    virtual void onCharClick(int c);
 };
 
 #endif	/* _CONTAINER_H */

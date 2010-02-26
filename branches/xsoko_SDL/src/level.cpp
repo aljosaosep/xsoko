@@ -706,6 +706,7 @@ namespace PacGame
               // validation went ok; now we read teleport relationship matrix
               level >> tmsize;
 
+              teleportConn.clear();
               for(int i=0; i<tmsize; i++)
               {
                   PTeleport *childTeleport;  // teleprot we're attaching

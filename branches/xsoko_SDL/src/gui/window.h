@@ -39,7 +39,6 @@ protected:
     bool modal;
     bool center;
     string caption;
-    Font* fnt;
 
     //for rendering
     Rect vertex[9];
@@ -52,11 +51,10 @@ public:
     ~Window();
     
     //setters
-    bool isCloseButtonEnabled();
-    bool isModal();
-    float getAlpha();
-    Font* getFont();
-    string getCaption();
+    bool    isCloseButtonEnabled();
+    bool    isModal();
+    float   getAlpha();
+    string  getCaption();
 
     //getters
     void setAlpha(float alpha);
@@ -70,8 +68,7 @@ public:
     void onMouseDown(int mx, int my);
     void onMouseMove(int mx, int my);
     void onMouseUp(int mx, int my);
-    void focusGain();
-    void focusLost();
+    void onMouseExit();
 };
 
 #endif	/* _WINDOW_H */

@@ -24,7 +24,7 @@
  *  initialise window and setup defaults                            *
  *------------------------------------------------------------------*/
 Window::Window(int x, int y, int width, int height,string wCaption) : Container(x,y,width,height), alpha(0.9f),
-        enableCloseButton(true), modal(false), center(false), caption(wCaption), fnt(new Font("font"))
+        enableCloseButton(true), modal(false), center(false), caption(wCaption)
 {
   mouseDrag.drag = false;
   mouseDrag.x = 0;
@@ -37,7 +37,6 @@ Window::Window(int x, int y, int width, int height,string wCaption) : Container(
 
 Window::~Window(){
     Gui::getInst().removeWindow(this);
-    delete fnt;
 }
 
 void Window::onResolutionChange(int swidth, int sheight)
@@ -65,10 +64,6 @@ void Window::setInCenter(bool center)
 
 bool Window::isModal(){
     return modal;
-}
-
-Font* Window::getFont(){
-    return fnt;
 }
 
 void Window::setCaption(string caption){
@@ -140,17 +135,17 @@ void Window::invalidate(){
  *------------------------------------------------------------------*/
 void Window::onRender()
 {
-    GuiRender::getInstance().setColor(1,1,1,alpha);
+    renderer.setColor(1,1,1,alpha);
 
-    GuiRender::getInstance().drawImage(GUI_TEX_WINDOW_TOP_LEFT,  vertex[0]);
-    GuiRender::getInstance().drawImage(GUI_TEX_WINDOW_TOP_MIDLLE,vertex[1]);
-    GuiRender::getInstance().drawImage(GUI_TEX_WINDOW_TOP_RIGHT, vertex[2]);
-    GuiRender::getInstance().drawImage(GUI_TEX_WINDOW_LEFT,  vertex[3]);
-    GuiRender::getInstance().drawImage(GUI_TEX_WINDOW_MIDLLE,vertex[4]);
-    GuiRender::getInstance().drawImage(GUI_TEX_WINDOW_RIGHT, vertex[5]);
-    GuiRender::getInstance().drawImage(GUI_TEX_WINDOW_BOTTOM_LEFT,  vertex[6]);
-    GuiRender::getInstance().drawImage(GUI_TEX_WINDOW_BOTTOM_MIDLLE,vertex[7]);
-    GuiRender::getInstance().drawImage(GUI_TEX_WINDOW_BOTTOM_RIGHT, vertex[8]);
+    renderer.drawImage(GUI_TEX_WINDOW_TOP_LEFT,  vertex[0]);
+    renderer.drawImage(GUI_TEX_WINDOW_TOP_MIDLLE,vertex[1]);
+    renderer.drawImage(GUI_TEX_WINDOW_TOP_RIGHT, vertex[2]);
+    renderer.drawImage(GUI_TEX_WINDOW_LEFT,  vertex[3]);
+    renderer.drawImage(GUI_TEX_WINDOW_MIDLLE,vertex[4]);
+    renderer.drawImage(GUI_TEX_WINDOW_RIGHT, vertex[5]);
+    renderer.drawImage(GUI_TEX_WINDOW_BOTTOM_LEFT,  vertex[6]);
+    renderer.drawImage(GUI_TEX_WINDOW_BOTTOM_MIDLLE,vertex[7]);
+    renderer.drawImage(GUI_TEX_WINDOW_BOTTOM_RIGHT, vertex[8]);
 
       //glBegin(GL_QUADS);
         /*if(enableCloseButton){
@@ -164,7 +159,7 @@ void Window::onRender()
 
     fnt->writeText((int)(width-fnt->stringWidth(caption))/2,24,caption);
 
-    GuiRender::getInstance().move(0,27);
+    renderer.move(0,27);
     for(unsigned i=0;i<components.size();i++){
         components[i]->Render();
     }
@@ -179,11 +174,11 @@ void Window::onMouseUp(int mx, int my){
 }
 
 void Window::onMouseMove(int mx, int my){
-  if (mouseDrag.drag)
-  {
+  if (mouseDrag.drag) {
     x += mx - mouseDrag.x;
     y += my - mouseDrag.y;
-  }
+  } else
+      Container::onMouseMove(mx,my-27);
 }
 
 void Window::onMouseDown(int mx, int my){
@@ -210,6 +205,10 @@ void Window::onMouseDown(int mx, int my){
     Container::onMouseDown(mx,my-27);
 }
 
+void Window::onMouseExit() {
+    mouseDrag.drag = false;
+}
+
 float Window::getAlpha(){
     return alpha;
 }
@@ -226,18 +225,4 @@ void Window::setEnableCloseButton(bool enabled){
 
 bool Window::isCloseButtonEnabled(){
     return enableCloseButton;
-}
-
-void Window::focusGain(){
-    if(focusedComp != NULL)
-        focusedComp->focusGain();
-    Component::focusGain();
-}
-
-void Window::focusLost(){
-    if(!focused) return;
-    
-    if(focusedComp != NULL)
-        focusedComp->focusLost();
-    Component::focusLost();
 }

@@ -52,28 +52,28 @@ MainMenu::MainMenu():Window(333, 183, 135, 235, "Main Menu"), freeplay(NULL),
 void MainMenu::initializeComponents(){
     btnCampaign = new Button(30, 10, 75, 25, "Campaing");
     btnCampaign->onPressed.connect(bind(&MainMenu::btnCampaignClick, this, _1));
-    btnCampaign->setFocusIndex(1);
-    AddComponent(btnCampaign);
+    btnCampaign->setFocusable(1);
+    addComponent(btnCampaign);
 
     btnFreeplay = new Button(30, 45, 75, 25, "Freeplay");
     btnFreeplay->onPressed.connect(bind(&MainMenu::btnFreeplayClick, this, _1));
-    btnFreeplay->setFocusIndex(2);
-    AddComponent(btnFreeplay);
+    btnFreeplay->setFocusable(2);
+    addComponent(btnFreeplay);
 
     btnOptions = new Button(30, 80, 75, 25, "Options");
     btnOptions->onPressed.connect(bind(&MainMenu::btnOptionsClick, this, _1));
-    btnOptions->setFocusIndex(3);
-    AddComponent(btnOptions);
+    btnOptions->setFocusable(3);
+    addComponent(btnOptions);
 
     btnCredits = new Button(30, 115, 75, 25, "Credits");
     btnCredits->onPressed.connect(bind(&MainMenu::btnCreditsClick, this, _1));
-    btnCredits->setFocusIndex(4);
-    AddComponent(btnCredits);
+    btnCredits->setFocusable(4);
+    addComponent(btnCredits);
 
     btnExit = new Button(30, 150, 75, 25, "Exit");
     btnExit->onPressed.connect(bind(&MainMenu::btnExitClick, this, _1));
-    btnExit->setFocusIndex(5);
-    AddComponent(btnExit);
+    btnExit->setFocusable(5);
+    addComponent(btnExit);
 }
 
 void MainMenu::btnCampaignClick(Component* sender){
@@ -112,24 +112,24 @@ OptionsWnd::OptionsWnd(Window* main) : Window(300,175,200,250,"Options"), mainMe
 
 void OptionsWnd::initializeComponents(){
     chkFullscreen = new CheckBox(10,15,false);
-    AddComponent(chkFullscreen);
+    addComponent(chkFullscreen);
 
     label1 = new Text(27,17,"Fullscreen");
-    AddComponent(label1);
+    addComponent(label1);
 
     label2 = new Text(10,45,"Video modes:");
-    AddComponent(label2);
+    addComponent(label2);
 
     lstModes = new ListBox(10,60,180,100);
-    AddComponent(lstModes);
+    addComponent(lstModes);
 
     btnBack = new Button(25,170,50,25,"Back");
     btnBack->onPressed.connect(bind(&OptionsWnd::btnBackClick, this, _1));
-    AddComponent(btnBack);
+    addComponent(btnBack);
 
     btnApply = new Button(100,170,50,25,"Apply");
     btnApply->onPressed.connect(bind(&OptionsWnd::btnApplyClick, this, _1));
-    AddComponent(btnApply);
+    addComponent(btnApply);
 
     FocusGain.connect(bind(&OptionsWnd::wndVisible, this, _1));
 }
@@ -164,13 +164,13 @@ CreditsWnd::CreditsWnd(Window* main) : Window(0,0,1,1,"Credits"), mainMenu(main)
 
 void CreditsWnd::intializeComponents(){
     label = new Text(25,10,"Programmers:\nAljosa Osep\nJernej Skrabec\nJernej Halozan\nMartin Savc\n\nLevel designers:\nCrtomir Osep\nNevena Sreckovic");
-    AddComponent(label);
+    addComponent(label);
 
     int width = label->getSize().width;
     int height = label->getSize().height;
     btnOK = new Button(width/2,height+20,50,25,"OK");
     btnOK->onPressed.connect(bind(&CreditsWnd::btnOKClick, this, _1));
-    AddComponent(btnOK);
+    addComponent(btnOK);
 }
 
 void CreditsWnd::btnOKClick(Component* sender){
@@ -194,7 +194,7 @@ GamePackWnd::GamePackWnd(Window* main) : Window(235, 200, 330, 200, "Campaign"),
                   lstLevels->addItem(new LevelItem(filename.substr(0,filename.find_last_of('.')), getAuthor("data/"+filename)));
             }
         }
-        lstLevels->setSelectedItem(0);
+        lstLevels->setSelectedItem((unsigned)0);
     } else {
         Messages::infoMessage("WARNING - Cannot find data directory!");
     }
@@ -216,21 +216,21 @@ void GamePackWnd::initializeComponents() {
     lstLevels = new ListBox(10,10,200,132);
     lstLevels->KeyUp.connect(bind(&GamePackWnd::lstLevelsKeyUp, this, _1, _2));
     lstLevels->onItemSelect.connect(bind(&GamePackWnd::lstLevelsItemSelect, this, _1, _2));
-    lstLevels->setFocusIndex(1);
-    AddComponent(lstLevels);
+    lstLevels->setFocusable(1);
+    addComponent(lstLevels);
 
     btnPlay = new Button(230,15,75,25,"Play");
-    btnPlay->setFocusIndex(2);
+    btnPlay->setFocusable(2);
     btnPlay->onPressed.connect(bind(&GamePackWnd::btnPlayClick, this, _1));
-    AddComponent(btnPlay);
+    addComponent(btnPlay);
 
     btnBack = new Button(230,45,75,25,"Back");
-    btnBack->setFocusIndex(3);
+    btnBack->setFocusable(3);
     btnBack->onPressed.connect(bind(&GamePackWnd::btnBackClick, this, _1));
-    AddComponent(btnBack);
+    addComponent(btnBack);
 
     lblAuthor = new Text(10,152,"Author: -");
-    AddComponent(lblAuthor);
+    addComponent(lblAuthor);
 }
 
 void GamePackWnd::btnBackClick(Component* sender){
@@ -274,7 +274,7 @@ FreeplayWnd::FreeplayWnd(Window* main) : Window(235, 200, 330, 200, "Freeplay"),
                   lstLevels->addItem(new LevelItem(filename.substr(0,filename.find_last_of('.')), getAuthor("data/"+filename)));
             }
         }
-        lstLevels->setSelectedItem(0);
+        lstLevels->setSelectedItem((unsigned)0);
     } else {
         Messages::infoMessage("WARNING - Cannot find data directory!");
     }
@@ -304,21 +304,21 @@ void FreeplayWnd::initializeComponents(){
     lstLevels = new ListBox(10,10,200,132);
     lstLevels->KeyUp.connect(bind(&FreeplayWnd::lstLevelsKeyUp, this, _1, _2));
     lstLevels->onItemSelect.connect(bind(&FreeplayWnd::lstLevelsItemSelect, this, _1, _2));
-    lstLevels->setFocusIndex(1);
-    AddComponent(lstLevels);
+    lstLevels->setFocusable(1);
+    addComponent(lstLevels);
 
     btnPlay = new Button(230,15,75,25,"Play");
-    btnPlay->setFocusIndex(2);
+    btnPlay->setFocusable(2);
     btnPlay->onPressed.connect(bind(&FreeplayWnd::btnPlayClick, this, _1));
-    AddComponent(btnPlay);
+    addComponent(btnPlay);
 
     btnBack = new Button(230,45,75,25,"Back");
-    btnBack->setFocusIndex(3);
+    btnBack->setFocusable(3);
     btnBack->onPressed.connect(bind(&FreeplayWnd::btnBackClick, this, _1));
-    AddComponent(btnBack);
+    addComponent(btnBack);
 
     lblAuthor = new Text(10,152,"Author: -");
-    AddComponent(lblAuthor);
+    addComponent(lblAuthor);
 }
 
 void FreeplayWnd::btnBackClick(Component* sender){
@@ -355,19 +355,19 @@ GameMenu::GameMenu() : Window(253, 158, 135, 165, "Menu")
 
 void GameMenu::initializeComponents(){
     btnSave = new Button(30, 10, 75, 25, "Save");
-    btnSave->setFocusIndex(1);
+    btnSave->setFocusable(1);
     //btnSave->onPressed.connect(bind(&PGameSession::onAction, this, _1));
-    AddComponent(btnSave);
+    addComponent(btnSave);
 
     btnReset = new Button(30, 45, 75, 25, "Reset");
-    btnReset->setFocusIndex(2);
+    btnReset->setFocusable(2);
     btnReset->onPressed.connect(bind(&GameMenu::btnResetClick, this, _1));
-    AddComponent(btnReset);
+    addComponent(btnReset);
 
     btnExit = new Button(30, 80, 75, 25, "Exit");
-    btnExit->setFocusIndex(3);
+    btnExit->setFocusable(3);
     btnExit->onPressed.connect(bind(&GameMenu::btnExitClick, this, _1));
-    AddComponent(btnExit);
+    addComponent(btnExit);
 }
 
 void GameMenu::btnExitClick(Component* sender){

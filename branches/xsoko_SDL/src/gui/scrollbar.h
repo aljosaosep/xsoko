@@ -52,19 +52,18 @@ protected:
 public:
     //constructors and destructors
     Scrollbar(int x, int y, int width, int height);
-    ~Scrollbar();
 
     //setters
     void setLimits(int min, int max);
     void setStep(int step);
-    void setPosition(int position);
+    void setValue(int value);
     void setOrientation(Orientation orientation);
 
     //getters
     int getMinLimit();
     int getMaxLimit();
     int getStep();
-    int getPosition();
+    int getValue();
     Orientation getOrientation();
 
     //events support
