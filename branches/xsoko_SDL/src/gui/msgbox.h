@@ -28,9 +28,18 @@
 
 #include "window.h"
 
-class MsgBox : public Window{
+class MsgBox {
+private:
+    MsgBox();
+    MsgBox(const MsgBox&);
+    MsgBox& operator=(const MsgBox&);
 public:
-    MsgBox(string title, string msg, int buttons);
+    static const int MSG_BTN_OK = 1;
+    static const int MSG_BTN_OK_CANCEL = 2;
+
+    static Window* showMessage(Window* parent, string title, string message, int buttons);
+    static Window* showMessage(Window* parent, string title, string message);
+    static Window* showMessage(Window* parent, string message);
 };
 
 #endif	/* _MSGBOX_H */

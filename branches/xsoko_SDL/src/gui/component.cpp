@@ -43,13 +43,13 @@ Position Component::getPosition(){
 void Component::focusGain(){
     if(!focusable || focused) return;
     focused = true;
-    FocusGain(this);
+    FocusChange(this,focused);
 }
 
 void Component::focusLost(){
     if(!focusable || !focused) return;
     focused = false;
-    FocusLost(this);
+    FocusChange(this,focused);
 }
 
 void Component::setFocusable(bool focus){
@@ -116,12 +116,12 @@ void Component::setFont(Font* font) {
 
 void Component::Render(){
     if(!visible) return;
-    GuiRender::getInstance().saveState();
-    GuiRender::getInstance().move(x,y);
-	GuiRender::getInstance().setClipping(0,0,width,height);
+    renderer.saveState();
+    renderer.move(x,y);
+    renderer.setClipping(0,0,width,height);
     onRender();
-	GuiRender::getInstance().restoreClipping();
-    GuiRender::getInstance().restoreState();
+    renderer.restoreClipping();
+    renderer.restoreState();
 }
 
 void Component::onKeyUp(int key){

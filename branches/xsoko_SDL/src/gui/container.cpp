@@ -25,8 +25,8 @@ Container::Container(int x, int y, int width, int height) :
 
 void Container::addComponent(Component* component){
     component->setParent(this);
-    component->FocusGain.connect(bind(&Container::focusGainEvent,this,_1));
-    component->FocusLost.connect(bind(&Container::focusLostEvent,this,_1));
+    //component->FocusGain.connect(bind(&Container::focusGainEvent,this,_1));
+    //component->FocusLost.connect(bind(&Container::focusLostEvent,this,_1));
     components.push_back(component);
     if(mainFocusComp == NULL && component->isFocusable()) {
         mainFocusComp = component;
