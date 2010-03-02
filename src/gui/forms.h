@@ -148,7 +148,7 @@ private:
     void initializeComponents();
     void btnApplyClick(Component* sender);
     void btnBackClick(Component* sender);
-    void wndVisible(Component* sender);
+    void wndVisible(Component* sender, bool inFocus);
 public:
     OptionsWnd(Window* main);
 };

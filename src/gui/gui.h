@@ -40,13 +40,11 @@ private:
     int wndWidth, wndHeight;
     
     vector<Window*> windows;
-    vector<Component*> focusQueue;
-    vector<Window*> modals;
+    //vector<Window*> modals;
     vector<pair<unsigned,Window*> > msgnum;
 
     bool mVisible;
     unsigned num;
-    Component* mainFocusWin;
     Component* mouseFocusWin;
     Rect mouseVer;
 private:
@@ -57,8 +55,7 @@ private:
 
 
     void onAction(Component* button);
-    void focusGain(Component* sender);
-    void focusLost(Component* sender);
+    void focusChanged(Component* sender, bool focused);
     bool pointOnComponent(int px, int py, Component* component);
     void refreshMouseFocus();
 public:
@@ -73,10 +70,8 @@ public:
     void setMouseVisible(bool visible);
     void addWindow(Window* win);
     void removeWindow(Window* win);
-    //Window* findWindowByName(string name);
     unsigned showMessage(string title, string msg);
     bool isMessageActive(unsigned id);
-    //void addModal(Window* win);
     int getXResolution() const;
     int getYResolution() const;
 

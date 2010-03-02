@@ -120,7 +120,7 @@ namespace PacGame
                                 switch(event.type)
                                 {
                                         case SDL_QUIT:
-                                                 //toggleMenu = !toggleMenu;
+                                            PGame::getInstance().quit();
                                         break;
                                         case SDL_KEYUP:
                                         case SDL_KEYDOWN:

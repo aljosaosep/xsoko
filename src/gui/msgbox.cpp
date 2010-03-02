@@ -18,13 +18,51 @@
  */
 
 #include "msgbox.h"
+#include "button.h"
+#include "text.h"
+#include "gui.h"
+#include "../messages.h"
 
-MsgBox::MsgBox(string title, string msg, int buttons) : Window(1,1,1,100,title)
-{
-    /*int width = (int)fnt->stringWidth(msg)+50;
-    width =wndWidth/2-width/2,wndHeight/2-64,width,100,title);
-    dlg->AddComponent(new Text(25,35,msg));
-    Button* btn = new Button(width/2-25,60,50,25,"OK");
-    btn->onPressed.connect(bind(&Gui::onAction, this, _1));
-    dlg->AddComponent(btn);*/
+Window* MsgBox::showMessage(Window* parent, string title, string message, int buttons) {
+    Text* label = new Text(25,15,message);
+    int width = label->getSize().width;
+    int height = label->getSize().height;
+    int wndWidth = Gui::getInst().getXResolution();
+    int wndHeight = Gui::getInst().getYResolution();
+
+    Window* dlg = new Window(wndWidth/2-width/2,wndHeight/2-64,width+50,height+90,title);
+    dlg->addComponent(label);
+    Button* btn;
+    switch(buttons) {
+        case MSG_BTN_OK:
+            btn = new Button(width/2,height + 30,50,25,"Ok");
+            //btn->onPressed.connect(bind(&Gui::onAction, this, _1));
+            dlg->addComponent(btn);
+            break;
+        case MSG_BTN_OK_CANCEL:
+            btn = new Button(width/2-30,height + 30,50,25,"Ok");
+            //btn->onPressed.connect(bind(&Gui::onAction, this, _1));
+            dlg->addComponent(btn);
+            btn = new Button(width/2+30,height + 30,50,25,"Cancel");
+            //btn->onPressed.connect(bind(&Gui::onAction, this, _1));
+            dlg->addComponent(btn);
+            break;
+        default:
+            return NULL;
+    }
+
+    if(parent) {
+       dlg->setModal(true);
+       dlg->setParent(parent);
+    }
+
+    return dlg;
+}
+
+Window* MsgBox::showMessage(Window* parent, string title, string message) {
+    showMessage(parent, title, message, MSG_BTN_OK);
+}
+
+Window* MsgBox::showMessage(Window* parent, string message) {
+    showMessage(parent,"xSoko", message, MSG_BTN_OK);
 }

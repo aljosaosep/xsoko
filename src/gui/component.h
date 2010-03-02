@@ -81,8 +81,9 @@ public:
 
     //events
     //Focus events
-    signal<void(Component*) > FocusGain;
-    signal<void(Component*) > FocusLost;
+    signal<void(Component*,bool) > FocusChange;
+    //signal<void(Component*) > FocusLost;
+    signal<void(Component*,bool) > VisibilityChange;
     //Mouse events
     signal<void(Component*,int,int) > MouseDown;
     signal<void(Component*,int,int) > MouseUp;

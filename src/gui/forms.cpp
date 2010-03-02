@@ -77,22 +77,22 @@ void MainMenu::initializeComponents(){
 }
 
 void MainMenu::btnCampaignClick(Component* sender){
-    setVisible(false);
+    //setVisible(false);
     gamepack->setVisible(true);
 }
 
 void MainMenu::btnFreeplayClick(Component* sender){
-    setVisible(false);
+    //setVisible(false);
     freeplay->setVisible(true);
 }
 
 void MainMenu::btnOptionsClick(Component* sender){
-    setVisible(false);
+    //setVisible(false);
     options->setVisible(true);
 }
 
 void MainMenu::btnCreditsClick(Component* sender){
-    setVisible(false);
+    //setVisible(false);
     credits->setVisible(true);
 }
 
@@ -131,13 +131,15 @@ void OptionsWnd::initializeComponents(){
     btnApply->onPressed.connect(bind(&OptionsWnd::btnApplyClick, this, _1));
     addComponent(btnApply);
 
-    FocusGain.connect(bind(&OptionsWnd::wndVisible, this, _1));
+    FocusChange.connect(bind(&OptionsWnd::wndVisible, this, _1, _2));
 }
 
-void OptionsWnd::wndVisible(Component* sender)
+void OptionsWnd::wndVisible(Component* sender, bool inFocus)
 {
-    lstModes->setSelectedItem(new ResItem(Config::GetValueInt("xres"),Config::GetValueInt("yres")));
-    chkFullscreen->setChecked(Config::GetValueBool("fullscreen"));
+    if(inFocus) {
+        lstModes->setSelectedItem(new ResItem(Config::GetValueInt("xres"),Config::GetValueInt("yres")));
+        chkFullscreen->setChecked(Config::GetValueBool("fullscreen"));
+    }
 }
 
 void OptionsWnd::btnApplyClick(Component* sender) {
@@ -240,6 +242,7 @@ void GamePackWnd::btnBackClick(Component* sender){
 
 void GamePackWnd::btnPlayClick(Component* sender){
     setVisible(false);
+    mainMenu->setVisible(false);
     PGame::getInstance().loadGamePack("data/"+lstLevels->getSelectedItem()->toString()+".pak");
 }
 
@@ -328,6 +331,7 @@ void FreeplayWnd::btnBackClick(Component* sender){
 
 void FreeplayWnd::btnPlayClick(Component* sender){
     setVisible(false);
+    mainMenu->setVisible(false);
     PGame::getInstance().loadLevel("data/"+lstLevels->getSelectedItem()->toString()+".lvl");
 }
 
