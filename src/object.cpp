@@ -225,7 +225,7 @@ namespace PacGame
               this->materialsSet = true;
           }
 
-          void PObject::draw() {
+          void PObject::draw(float x, float y) {
               if (this->materialsSet) {
                   glMaterialfv(GL_FRONT, GL_AMBIENT, this->materialDiffuse);
                   glMaterialfv(GL_FRONT, GL_DIFFUSE, this->materialAmbient);

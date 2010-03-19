@@ -1011,34 +1011,19 @@ namespace PacGame
                           PObject *obj = data[i][j]->returnFirstChild(); 
                           if(obj!=NULL) // if there is object binded
                           {
-                              glPushMatrix();
-                              glTranslatef(obj->getRealI(), obj->getRealJ(), 0.0);
-                              obj->draw(); // prints it
+                              obj->draw(obj->getRealI(), obj->getRealJ()); // prints it
                               
-                              glPopMatrix();
                               // if child is player or movable cube bomb, draw also parent
                               if (obj->getId() & (PLAYER | CUBE | BOMB | D_BOMB)) 
-                              {
-                                   glPushMatrix();
-                                   glTranslatef(float(i),float(j),0.0);
-                                  data[i][j]->draw();
-                                  glPopMatrix();
-                              }
+                                  data[i][j]->draw(float(i),float(j));
                           }
                           else
                               if(data[i][j]!=NULL)
-                              {
-                                  glPushMatrix();
-                                  glTranslatef((float)i, (float)j, 0.0);
-                                  data[i][j]->draw();  // otherwise, print object
-                                  glPopMatrix();
-                              }
-                          
- 
+                                  data[i][j]->draw((float)i, (float)j);  // otherwise, print object
                       }
                   }
 
-                               // draw activated bombs, if there are any
+                  // draw activated bombs, if there are any
                   if(this->bombs.size()>0)
                   {
                       for(unsigned i=0; i<bombs.size(); i++)
@@ -1061,8 +1046,6 @@ namespace PacGame
                           glMateriali(GL_FRONT_AND_BACK, GL_SHININESS, 16.0);
                           this->gameCore->getRenderer()->drawLightwaveModel(0.0f, 0.0f, 0.0f, this->gameCore->getResources()->getModelResourceLW("data/bomb.lwo"));
 
-
-  
                           glPopMatrix();
                       }
                   }

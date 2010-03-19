@@ -76,7 +76,7 @@ namespace PacGame
                   void decBombs(); 
 
                   // to override
-                  void draw();
+                  void draw(float x, float y);
                   void print();
                   
                   // movement and animation
