@@ -67,12 +67,12 @@ namespace PacGame
                 return this->childTeleport;
             }
 
-            void PTeleport::draw()
+            void PTeleport::draw(float x, float y)
             {
-                PObject::draw();
+                PObject::draw(x, y);
                 float color[] = {1.0, 1.0, 1.0, 1.0};
               //  this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, color, this->core->getResources()->getTextureTesourceId(TELEPORT_RES) );
-                this->core->getRenderer()->drawFloor(0.0, 0.0, 1.0, color, this->core->getResources()->getTextureTesourceId(TELEPORT_RES) );
+                this->core->getRenderer()->drawFloor(x, y, 1.0, color, this->core->getResources()->getTextureTesourceId(TELEPORT_RES) );
 
             }
 
@@ -96,12 +96,12 @@ namespace PacGame
             /*****************************************
              PFloor methods
              *****************************************/	
-            void PFloor::draw()
+            void PFloor::draw(float x, float y)
             {
-                PObject::draw();
+                PObject::draw(x, y);
                     float color[] = {0.5, 0.5, 0.5, 1.0};
               //  float color[] = { 0.3f, 0.3f, 0.3f, 1.0f };
-                this->core->getRenderer()->drawFloor(0.0, 0.0, 1.0, color, this->core->getResources()->getTextureTesourceId(FLOOR_RES) );
+                this->core->getRenderer()->drawFloor(x, y, 1.0, color, this->core->getResources()->getTextureTesourceId(FLOOR_RES) );
             }
 
             void PFloor::print()
@@ -125,9 +125,9 @@ namespace PacGame
             /*****************************************
              POnewayFloor methods
              *****************************************/	       
-            void POnewayFloor::draw()
+            void POnewayFloor::draw(float x, float y)
             {
-                PObject::draw();
+                PObject::draw(x, y);
 
                 float color[] = { 1.0, 1.0, 1.0, 1.0 };
 
@@ -148,7 +148,7 @@ namespace PacGame
                         default:
                         break;
                 }
-                this->core->getRenderer()->drawFloor(0.0, 0.0, 1.0, color, this->core->getResources()->getTextureTesourceId(OW_FLOOR_RES) );
+                this->core->getRenderer()->drawFloor(x, y, 1.0, color, this->core->getResources()->getTextureTesourceId(OW_FLOOR_RES) );
             }
 
             void POnewayFloor::print()
@@ -186,12 +186,12 @@ namespace PacGame
             /*****************************************
              PSolidWall methods
              *****************************************/	    
-            void PSolidWall::draw()
+            void PSolidWall::draw(float x, float y)
             {
-                PObject::draw();
+                PObject::draw(x, y);
 
                 float color[] = { 0.55f, 0.5f, 0.5f, 1.0 };
-                this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, color, this->core->getResources()->getTextureTesourceId(S_WALL_RES));
+                this->core->getRenderer()->drawCube(x, y, 1.0, color, this->core->getResources()->getTextureTesourceId(S_WALL_RES));
             }
 
             void PSolidWall::print()
@@ -208,17 +208,20 @@ namespace PacGame
             /*****************************************
              PUnsolidWall methods
              *****************************************/	
-            void PUnsolidWall::draw()
+            void PUnsolidWall::draw(float x, float y)
             {
-                PObject::draw();
+                PObject::draw(x, y);
 
                 //float color[] = { 0.7f, 0.6f, 0.6f, 1.0 };
-				float color[] = { 1.0f, 1.0f, 1.0f, 1.0 };
+		float color[] = { 1.0f, 1.0f, 1.0f, 1.0 };
 
               //  this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, color, this->core->getResources()->getTextureTesourceId(U_WALL_RES));
                 //glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                glPushMatrix();
+                glTranslatef(x,y,0);
                 glScalef(0.4f,0.4f,0.4f);
                 this->core->getResources()->getModelResource(10)->DrawFrame(0);
+                glPopMatrix();
                 //this->core->getRenderer()->drawLightwaveModel(0.0f, 0.0f, 0.0f, this->core->getResources()->getModelResourceLW("data/barrel.lwo") );
             }
 
@@ -236,12 +239,12 @@ namespace PacGame
             /*****************************************
              PBridge methods
              *****************************************/	 
-            void PBridge::draw()
+            void PBridge::draw(float x, float y)
             {
-                PObject::draw();
+                PObject::draw(x, y);
 
                 float color[] = { 1.0, 1.0, 1.0, 0.8f };
-                this->core->getRenderer()->drawFloor(0.0, 0.0, 1.0, color, this->core->getResources()->getTextureTesourceId(BRIDGE_RES));
+                this->core->getRenderer()->drawFloor(x, y, 1.0, color, this->core->getResources()->getTextureTesourceId(BRIDGE_RES));
 
             }
 
@@ -267,7 +270,7 @@ namespace PacGame
             /*****************************************
              PVoid methods
              *****************************************/	
-            void PVoid::draw() { }
+            void PVoid::draw(float x, float y) { }
 
             void PVoid::print()
             {
@@ -283,12 +286,12 @@ namespace PacGame
             /*****************************************
              PCubeHolder methods
              *****************************************/	   
-            void PCubeHolder::draw()
+            void PCubeHolder::draw(float x, float y)
             {
-                PObject::draw();
+                PObject::draw(x, y);
 
                 float color[] = { 1.0, 0.4, 0.4, 1.0f };
-                this->core->getRenderer()->drawFloor(0.0, 0.0, 1.0, color, this->core->getResources()->getTextureTesourceId(CUBE_RES));
+                this->core->getRenderer()->drawFloor(x, y, 1.0, color, this->core->getResources()->getTextureTesourceId(CUBE_RES));
             }
 
             void PCubeHolder::print()
@@ -317,12 +320,12 @@ namespace PacGame
             /*****************************************
              PCube methods
              *****************************************/	  
-            void PCube::draw()
+            void PCube::draw(float x, float y)
             {
-                PObject::draw();
+                PObject::draw(x, y);
 
                 float color[] = { 0.7, 0.7, 0.7, 1.0f };
-                this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, color, this->core->getResources()->getTextureTesourceId(CUBE_RES));
+                this->core->getRenderer()->drawCube(x, y, 1.0, color, this->core->getResources()->getTextureTesourceId(CUBE_RES));
             }
 
 
@@ -392,9 +395,9 @@ namespace PacGame
             /*****************************************
              POnewayCube methods
              *****************************************/	 
-            void POnewayCube::draw()
+            void POnewayCube::draw(float x, float y)
             {
-                PObject::draw();
+                PObject::draw(x, y);
 
                 float color[] = { 1.0, 0.6, 0.7, 0.9f };
                 switch(this->dir)
@@ -413,7 +416,7 @@ namespace PacGame
                         default:
                         break;
                 }
-                this->core->getRenderer()->drawCube(0.0, 0.0, 1.0, color, this->core->getResources()->getTextureTesourceId(OW_CUBE_RES));
+                this->core->getRenderer()->drawCube(x, y, 1.0, color, this->core->getResources()->getTextureTesourceId(OW_CUBE_RES));
             }
             
             
@@ -493,13 +496,13 @@ namespace PacGame
             /*****************************************
              PBomb methods
              *****************************************/	 
-            void PBomb::draw()
+            void PBomb::draw(float x, float y)
             {
-                PObject::draw();
+                PObject::draw(x, y);
                 
                 float color[] = { 1.0, 1.0, 1.0, 1.0f };
        
-                this->core->getRenderer()->drawCube(0.0, 0.0, 0.8, color, this->core->getResources()->getTextureTesourceId(BOMB_RES));
+                this->core->getRenderer()->drawCube(x, y, 0.8, color, this->core->getResources()->getTextureTesourceId(BOMB_RES));
 
             }
 
@@ -517,7 +520,7 @@ namespace PacGame
             /*****************************************
              PDetonatedBomb methods
              *****************************************/
-            void PDetonatedBomb::draw() { /* override */ }
+            void PDetonatedBomb::draw(float x, float y) { /* override */ }
             
             void PDetonatedBomb::print()
             {

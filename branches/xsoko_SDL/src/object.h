@@ -101,7 +101,7 @@ namespace PacGame
                virtual bool animate(double time){return false;};
 
                // virtual functions to override
-               virtual void draw()=0;        // code that draws object
+               virtual void draw(float x, float y)=0;        // code that draws object
                bool initialize() { return true; }  // override
                virtual void print()=0;       // object's console dump
 

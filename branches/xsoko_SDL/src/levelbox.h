@@ -116,7 +116,7 @@ namespace PacGame
                       this->setMaterialShininess(50.0f);
                       this->setMaterialSet();
                   }
-                  void draw();
+                  void draw(float x, float y);
                   void print();             
                   short isPlayerMovePossible(int direction) ;
               };
@@ -141,7 +141,7 @@ namespace PacGame
                       this->setMaterialShininess(10.0f);
                       this->setMaterialSet();
                   }
-                  void draw();
+                  void draw(float x, float y);
                   void print();             
                   short isPlayerMovePossible(int direction) ;
               };
@@ -166,7 +166,7 @@ namespace PacGame
                       this->setMaterialShininess(0.0f);
                       this->setMaterialSet();
                   }
-                  void draw();
+                  void draw(float x, float y);
                   void print();             
                   short isPlayerMovePossible(int direction) ;
               };
@@ -215,7 +215,7 @@ namespace PacGame
                   int getId();
                   PTeleport* getChildTeleport() const;
 
-                  void draw();
+                  void draw(float x, float y);
                   void print();             
                   short isPlayerMovePossible(int direction) ;
               };
@@ -240,7 +240,7 @@ namespace PacGame
 
                       this->id = BRIDGE; this->core = core;
                   }
-                  void draw();
+                  void draw(float x, float y);
                   void print();             
                   short isPlayerMovePossible(int direction) ;
               };
@@ -257,7 +257,7 @@ namespace PacGame
               private:
               public:
                   PVoid() { this->id = VOID; }
-                  void draw();
+                  void draw(float x, float y);
                   void print();             
                   short isPlayerMovePossible(int direction) ;
               };
@@ -282,7 +282,7 @@ namespace PacGame
                       this->setMaterialShininess(0.0f);
                       this->setMaterialSet();
                   }
-                  void draw();
+                  void draw(float x, float y);
                   bool animate(double time);
                   void print();             
                   short isPlayerMovePossible(int direction); 
@@ -308,7 +308,7 @@ namespace PacGame
                       this->setMaterialShininess(20.0f);
                       this->setMaterialSet();
                   }
-                  void draw();
+                  void draw(float x, float y);
                   void print();             
                   short isPlayerMovePossible(int direction) ;
               };
@@ -334,7 +334,7 @@ namespace PacGame
                       this->setMaterialShininess(20.0f);
                       this->setMaterialSet();
                   }
-                  void draw();
+                  void draw(float x, float y);
                   void print();             
                   short isPlayerMovePossible(int direction) ;
 
@@ -369,7 +369,7 @@ namespace PacGame
                       this->setMaterialShininess(20.0f);
                       this->setMaterialSet();
                   }
-                  void draw();
+                  void draw(float x, float y);
                   bool animate(double time);
                   void print();        
                   short isPlayerMovePossible(int direction) ;
@@ -398,7 +398,7 @@ namespace PacGame
                       this->setMaterialShininess(20.0f);
                       this->setMaterialSet();
                   }
-                  void draw();
+                  void draw(float x, float y);
                   void print();
                   short isPlayerMovePossible(int direction) ;
               }; 
@@ -415,7 +415,7 @@ namespace PacGame
               private:
               public:
                   PDetonatedBomb(){ this->id = D_BOMB;  }
-                  void draw();
+                  void draw(float x, float y);
                   void print();
                   short isPlayerMovePossible(int direction) ;
               }; 
